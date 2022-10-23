@@ -6,9 +6,10 @@ public abstract class LuckyCard extends Card {
         super(name);
     }
 
-    public void use() {
-        effect();
-    }
+    public abstract int effect();
 
-    public abstract void effect();
+    @Override
+    public String toString() {
+        return "|" + getName() + "|";
+    }
 }

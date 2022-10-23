@@ -8,4 +8,13 @@ public class NumberCard extends Card {
         super(name);
         this.color = color;
     }
+
+    public CardColor getColor() {
+        return this.color;
+    }
+
+    @Override
+    public String toString() {
+        return "|" + getName() + " " + getColor() + "|";
+    }
 }
