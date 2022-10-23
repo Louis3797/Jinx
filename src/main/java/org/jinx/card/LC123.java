@@ -6,7 +6,8 @@ public class LC123 extends LuckyCard{
     }
 
     @Override
-    public void effect() {
+    public int effect() {
 
+        return 0;
     }
 }

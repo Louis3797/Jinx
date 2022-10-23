@@ -6,8 +6,13 @@
   <component name="ChangeListManager">
     <list default="true" id="c2f48a1e-3d3a-44d2-82a0-57d9e6b79efa" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/jinx/card/LCMinusOne.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jinx/card/LCMinus1.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/jinx/card/NumberCard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jinx/card/NumberCard.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jinx/card/LC123.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jinx/card/LC123.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jinx/card/LC456.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jinx/card/LC456.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jinx/card/LCMinus1.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jinx/card/LCMinus1.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jinx/card/LCPlus1.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jinx/card/LCPlus1.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jinx/card/LCPlusDicethrow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jinx/card/LCPlusDicethrow.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jinx/card/LCSum.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jinx/card/LCSum.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jinx/card/LuckyCard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jinx/card/LuckyCard.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/jinx/game/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jinx/game/Game.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/jinx/game/GameController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jinx/game/GameController.java" afterDir="false" />
     </list>
@@ -144,7 +149,7 @@
       <workItem from="1666103833934" duration="1321000" />
       <workItem from="1666266894169" duration="11279000" />
       <workItem from="1666445968996" duration="19073000" />
-      <workItem from="1666530850752" duration="5326000" />
+      <workItem from="1666530850752" duration="8145000" />
     </task>
     <servers />
   </component>

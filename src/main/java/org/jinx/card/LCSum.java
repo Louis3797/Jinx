@@ -6,7 +6,8 @@ public class LCSum extends LuckyCard{
     }
 
     @Override
-    public void effect() {
+    public int effect() {
 
+        return 0;
     }
 }

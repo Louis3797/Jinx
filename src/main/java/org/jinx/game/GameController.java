@@ -37,8 +37,7 @@ public class GameController {
 
         // i is the current round
         for (int i = 1; i < 4; i++) {
-
-            if (i == 2) g1.fillLuckyDeck();
+            if (i == 1) g1.fillLuckyDeck();
             g1.play(i);
         }
 

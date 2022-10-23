@@ -4,6 +4,7 @@ import org.jinx.card.*;
 import org.jinx.player.Player;
 
 
+import java.awt.font.NumericShaper;
 import java.util.*;
 
 
@@ -40,13 +41,51 @@ public class Game {
      * fills luckyDeck at second round
      */
     public void fillLuckyDeck() {
+
         for (int i = 1; i < 13; i++) {
-            if (i % 6 == 0) luckyDeck.add(new LCSum(String.valueOf(i)));
-            if (i % 6 == 1) luckyDeck.add(new LC123(String.valueOf(i)));
-            if (i % 6 == 2) luckyDeck.add(new LC456(String.valueOf(i)));
-            if (i % 6 == 3) luckyDeck.add(new LCMinus1(String.valueOf(i)));
-            if (i % 6 == 4) luckyDeck.add(new LCPlus1(String.valueOf(i)));
-            if (i % 6 == 5) luckyDeck.add(new LCPlusDicethrow(String.valueOf(i)));
+            if (i % 6 == 0) luckyDeck.add(new LCSum("LCSum"));
+            if (i % 6 == 1) luckyDeck.add(new LC123("LC123"));
+            if (i % 6 == 2) luckyDeck.add(new LC456("LC456"));
+            if (i % 6 == 3) luckyDeck.add(new LCMinus1("LCMinus1"));
+            if (i % 6 == 4) luckyDeck.add(new LCPlus1("LCPlus1"));
+            if (i % 6 == 5) luckyDeck.add(new LCPlusDicethrow("LCPlusDicethrow"));
+        }
+
+
+        Collections.shuffle(luckyDeck);
+    }
+
+
+    private void tradeForLucky(){
+        if(!pc.getCurrentPlayer().getCards().isEmpty()){
+
+            Scanner scanner = new Scanner(System.in);
+
+            System.out.println("Welche Karte eintauschen?");
+
+            for(NumberCard card : pc.getCurrentPlayer().getCards()){
+                System.out.println(card.toString());
+            }
+
+            int index = scanner.nextInt();
+
+            if(index <= 0 || index > pc.getCurrentPlayer().getCards().size()){
+                System.out.println("Falsche Eingabe!");
+                tradeForLucky();
+            }
+
+            pc.getCurrentPlayer().getCards().remove(index - 1);
+            pc.getCurrentPlayer().getLuckyCards().add(luckyDeck.pop());
+
+        }
+        else{
+            System.out.println("Keine Karten in der Hand");
+        }
+    }
+
+    public void printLuckyHand(){
+        for(LuckyCard card : pc.getCurrentPlayer().getLuckyCards()){
+            System.out.println(card.getName());
         }
     }
 
@@ -303,5 +342,4 @@ public class Game {
             System.out.print(card.toString() + " ");
         }
     }
-
 }
