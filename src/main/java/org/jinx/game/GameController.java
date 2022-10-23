@@ -3,23 +3,22 @@ package org.jinx.game;
 import org.jinx.card.NumberCard;
 import org.jinx.player.Player;
 
-import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.logging.Logger;
 
 public class GameController {
 
-    private PlayerController pc;
-    /**
-     * Stores current players
-     */
-    private List<Player> players;
+    private final Logger LOGGER = Logger.getLogger(GameController.class.getName());
+
+    private final PlayerController pc;
 
     /**
      * Basic Constructor of the GameController class
      */
     public GameController() {
-        players = new ArrayList<>();
         pc = PlayerController.getPlayerControllerInstance();
 
     }
@@ -57,13 +56,11 @@ public class GameController {
                 for (NumberCard card : player.getCards()) {
                     total += Integer.parseInt(card.getName());
                 }
-                myWriter.append(String.valueOf(total)).append("\t\t" + player.getName());
-                myWriter.append("\n");
+                myWriter.append(String.valueOf(total)).append(";").append(player.getName()).append("\n");
             }
             myWriter.close();
         } catch (IOException e) {
-            System.out.println("An error occurred.");
-            e.printStackTrace();
+            LOGGER.warning(e.getMessage());
         }
     }
 
@@ -78,7 +75,8 @@ public class GameController {
             while ((line = br.readLine()) != null) {
                 System.out.println(line);
             }
-        } catch (IOException ignored) {
+        } catch (IOException e) {
+            LOGGER.warning(e.getMessage());
         }
 
     }
