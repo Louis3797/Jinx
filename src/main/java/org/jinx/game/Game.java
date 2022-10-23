@@ -43,12 +43,12 @@ public class Game {
     public void fillLuckyDeck() {
 
         for (int i = 1; i < 13; i++) {
-            if (i % 6 == 0) luckyDeck.add(new LCSum("LCSum"));
-            if (i % 6 == 1) luckyDeck.add(new LC123("LC123"));
+            if (i % 6 == 0) luckyDeck.add(new LC456("LC456"));
+            if (i % 6 == 1) luckyDeck.add(new LC456("LC456"));
             if (i % 6 == 2) luckyDeck.add(new LC456("LC456"));
-            if (i % 6 == 3) luckyDeck.add(new LCMinus1("LCMinus1"));
-            if (i % 6 == 4) luckyDeck.add(new LCPlus1("LCPlus1"));
-            if (i % 6 == 5) luckyDeck.add(new LCPlusDicethrow("LCPlusDicethrow"));
+            if (i % 6 == 3) luckyDeck.add(new LC456("LC456"));
+            if (i % 6 == 4) luckyDeck.add(new LC456("LC456"));
+            if (i % 6 == 5) luckyDeck.add(new LC456("LC456"));
         }
 
 
@@ -165,10 +165,10 @@ public class Game {
         setField();
         System.out.println("Runde " + currentRound);
 
-        for(int i = 0; i < pc.getPlayers().size(); i++){
-            if(currentRound >= 2){
-                System.out.println("Spieler: " + pc.getCurrentPlayer().getName() +"\nKarte gegen Glückskarte eintauschen?");
-                if(scanner.next().equals("yes")){
+        for (int i = 0; i < pc.getPlayers().size(); i++) {
+            if (currentRound >= 2) {
+                System.out.println("Spieler: " + pc.getCurrentPlayer().getName() + "\nKarte gegen Glückskarte eintauschen?");
+                if (scanner.next().equals("yes")) {
                     tradeForLucky();
                     printLuckyHand();
                 }
@@ -176,17 +176,18 @@ public class Game {
             }
         }
 
-        pc.getCurrentPlayer().getLuckyCards().get(0).effect();
-
         while (true) {
+
             printField();
             pc.next(); // Player ändern
 
             System.out.println("\nAktiver Spieler: " + pc.getCurrentPlayer().getName());
+
+
             System.out.println("Drücken sie eine Taste um zu Würfeln");
             scanner.next();
 
-            List<NumberCard> availableCards = addAvailableCards(throwDice());
+            List<NumberCard> availableCards = addAvailableCards(use123or456orDice());
 
             // if true, then the round is over
             if (availableCards.isEmpty()) {
@@ -220,6 +221,35 @@ public class Game {
                 }
             }
         }
+    }
+
+    private int use123or456orDice() {
+        Scanner scanner = new Scanner(System.in);
+        int diceValue;
+
+        printLuckyHand();
+        if(!pc.getCurrentPlayer().getLuckyCards().isEmpty()){
+            System.out.println("Eine benutzen?");
+            if(scanner.next().equals("yes")){
+
+                System.out.println("index eingeben: ");
+                int index = scanner.nextInt();
+
+                if(pc.getCurrentPlayer().getLuckyCards().get(index - 1).getName().equals("LC456")){
+                    diceValue = pc.getCurrentPlayer().getLuckyCards().get(index - 1).effect();
+                    System.out.println("DICEVALUE: " + diceValue);
+                    return diceValue;
+                }
+
+            }
+            else {
+                diceValue = throwDice();
+                return diceValue;
+            }
+        }
+
+        diceValue = throwDice();
+        return diceValue;
     }
 
     /**

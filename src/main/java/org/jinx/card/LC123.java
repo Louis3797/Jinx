@@ -11,11 +11,11 @@ public class LC123 extends LuckyCard{
     @Override
     public int effect() {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Zahl von 4-6 eingeben");
+        System.out.println("Zahl von 1-3 eingeben");
         int number = scanner.nextInt();
         try{
-            if (number < 4 || number > 6) {
-                System.out.println("Nur zwischen 4-6");
+            if (number < 1 || number > 3) {
+                System.out.println("Nur zwischen 1-3");
                 effect();
             }
         }
