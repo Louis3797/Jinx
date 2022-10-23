@@ -69,6 +69,18 @@ public class Field {
     }
 
     /**
+     * prints all cards to choose from
+     *
+     * @param availableCards List of available Cards
+     */
+    public void printAvailableCards(List<NumberCard> availableCards) {
+        System.out.println("AVAILABLE CARDS");
+        for (NumberCard card : availableCards) {
+            System.out.print(card.toString() + " ");
+        }
+    }
+
+    /**
      * Prints the field on the Terminal
      */
     public void printField() {
