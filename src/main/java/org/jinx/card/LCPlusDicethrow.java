@@ -8,6 +8,6 @@ public class LCPlusDicethrow extends LuckyCard{
     @Override
     public int effect() {
 
-        return 0;
+        return 1;
     }
 }

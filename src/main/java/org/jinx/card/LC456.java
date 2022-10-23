@@ -1,13 +1,27 @@
 package org.jinx.card;
 
-public class LC456 extends LuckyCard{
+import java.util.InputMismatchException;
+import java.util.Scanner;
+
+public class LC456 extends LuckyCard {
     public LC456(String name) {
         super(name);
     }
 
     @Override
     public int effect() {
-
-        return 0;
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Zahl von 1-3 eingeben");
+        int number = scanner.nextInt();
+        try{
+            if (number < 1 || number > 3) {
+                System.out.println("Nur zwischen 1-3");
+                effect();
+            }
+        }
+        catch (InputMismatchException e){
+            effect();
+        }
+        return number;
     }
 }

@@ -176,6 +176,7 @@ public class Game {
             }
         }
 
+        pc.getCurrentPlayer().getLuckyCards().get(0).effect();
 
         while (true) {
             printField();
