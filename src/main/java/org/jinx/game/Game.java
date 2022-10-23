@@ -1,8 +1,6 @@
 package org.jinx.game;
 
-import org.jinx.card.CardColor;
-import org.jinx.card.LuckyCard;
-import org.jinx.card.NumberCard;
+import org.jinx.card.*;
 import org.jinx.player.Player;
 
 
@@ -13,15 +11,15 @@ public class Game {
 
     private final PlayerController pc = PlayerController.getPlayerControllerInstance();
 
-    private final int numberOfLuckyCards = 12;
     private final Stack<NumberCard> deck;
-    private final LuckyCard[] luckyDeck = new LuckyCard[numberOfLuckyCards];
+    private final Stack<LuckyCard> luckyDeck;
 
     private final int FIELDSIZE = 16;
     NumberCard[] field = new NumberCard[FIELDSIZE];
 
     public Game() {
         deck = new Stack<>();
+        luckyDeck = new Stack<>();
     }
 
     /**
@@ -36,6 +34,20 @@ public class Game {
         }
 
         Collections.shuffle(deck);
+    }
+
+    /**
+     * fills luckyDeck at second round
+     */
+    public void fillLuckyDeck() {
+        for (int i = 1; i < 13; i++) {
+            if (i % 6 == 0) luckyDeck.add(new LCSum(String.valueOf(i)));
+            if (i % 6 == 1) luckyDeck.add(new LC123(String.valueOf(i)));
+            if (i % 6 == 2) luckyDeck.add(new LC456(String.valueOf(i)));
+            if (i % 6 == 3) luckyDeck.add(new LCMinus1(String.valueOf(i)));
+            if (i % 6 == 4) luckyDeck.add(new LCPlus1(String.valueOf(i)));
+            if (i % 6 == 5) luckyDeck.add(new LCPlusDicethrow(String.valueOf(i)));
+        }
     }
 
     /**
@@ -150,6 +162,7 @@ public class Game {
 
     /**
      * removes player chosen card from field
+     *
      * @param card card to be removed
      */
     private void removeCardFromField(NumberCard card) {

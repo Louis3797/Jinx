@@ -29,12 +29,16 @@ public class GameController {
      */
     public void start() {
         printHighscore();
+
         Game g1 = new Game();
+
         pc.addPlayers();
         g1.fillDeck();
 
         // i is the current round
-        for(int i = 1; i < 4; i++){
+        for (int i = 1; i < 4; i++) {
+
+            if (i == 2) g1.fillLuckyDeck();
             g1.play(i);
         }
 
@@ -49,9 +53,9 @@ public class GameController {
         try {
             FileWriter myWriter = new FileWriter("Highscore.txt", true);
 
-            for(Player player : pc.getPlayers()){
+            for (Player player : pc.getPlayers()) {
                 int total = 0;
-                for(NumberCard card : player.getCards()){
+                for (NumberCard card : player.getCards()) {
                     total += Integer.parseInt(card.getName());
                 }
                 myWriter.append(String.valueOf(total)).append("\t\t" + player.getName());
@@ -62,21 +66,21 @@ public class GameController {
             System.out.println("An error occurred.");
             e.printStackTrace();
         }
-        }
+    }
 
     /**
      * Method prints highscore at start of game
      */
-    private void printHighscore(){
-        try{
+    private void printHighscore() {
+        try {
             System.out.println("HIGHSCORES:\nSCORE   PLAYER");
             BufferedReader br = new BufferedReader(new FileReader("Highscore.txt"));
             String line;
             while ((line = br.readLine()) != null) {
                 System.out.println(line);
             }
+        } catch (IOException ignored) {
         }
-        catch (IOException ignored){}
 
     }
 }
