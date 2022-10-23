@@ -34,10 +34,10 @@ public class GameController {
 
         pc.addPlayers();
         g1.fillDeck();
+        g1.fillLuckyDeck();
 
         // i is the current round
         for (int i = 1; i < 4; i++) {
-            if (i == 1) g1.fillLuckyDeck();
             g1.play(i);
         }
 

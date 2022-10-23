@@ -56,35 +56,44 @@ public class Game {
     }
 
 
-    private void tradeForLucky(){
-        if(!pc.getCurrentPlayer().getCards().isEmpty()){
+    /**
+     * trade Numbercards for luckycards
+     * after beginning of 2nd round
+     */
+    private void tradeForLucky() {
 
-            Scanner scanner = new Scanner(System.in);
+        if (!pc.getCurrentPlayer().getCards().isEmpty()) {
+            try {
+                Scanner scanner = new Scanner(System.in);
 
-            System.out.println("Welche Karte eintauschen?");
+                System.out.println("Welche Karte eintauschen?");
 
-            for(NumberCard card : pc.getCurrentPlayer().getCards()){
-                System.out.println(card.toString());
-            }
+                for (NumberCard card : pc.getCurrentPlayer().getCards()) {
+                    System.out.println(card.toString());
+                }
 
-            int index = scanner.nextInt();
+                int index = scanner.nextInt();
 
-            if(index <= 0 || index > pc.getCurrentPlayer().getCards().size()){
-                System.out.println("Falsche Eingabe!");
+                pc.getCurrentPlayer().getCards().remove(index - 1);
+                pc.getCurrentPlayer().getLuckyCards().add(luckyDeck.pop());
+
+                System.out.println("Noch eine eintauschen?");
+                if (scanner.next().equals("yes")) {
+                    tradeForLucky();
+                }
+            } catch (IndexOutOfBoundsException e) {
                 tradeForLucky();
             }
-
-            pc.getCurrentPlayer().getCards().remove(index - 1);
-            pc.getCurrentPlayer().getLuckyCards().add(luckyDeck.pop());
-
-        }
-        else{
-            System.out.println("Keine Karten in der Hand");
+        } else {
+            System.out.println("Keine Karten mehr!");
         }
     }
 
-    public void printLuckyHand(){
-        for(LuckyCard card : pc.getCurrentPlayer().getLuckyCards()){
+    /**
+     * prints Luckycards of current player
+     */
+    public void printLuckyHand() {
+        for (LuckyCard card : pc.getCurrentPlayer().getLuckyCards()) {
             System.out.println(card.getName());
         }
     }
@@ -155,6 +164,19 @@ public class Game {
         Scanner scanner = new Scanner(System.in);
         setField();
         System.out.println("Runde " + currentRound);
+
+        for(int i = 0; i < pc.getPlayers().size(); i++){
+            if(currentRound >= 2){
+                System.out.println("Spieler: " + pc.getCurrentPlayer().getName() +"\nKarte gegen Glückskarte eintauschen?");
+                if(scanner.next().equals("yes")){
+                    tradeForLucky();
+                    printLuckyHand();
+                }
+                pc.next();
+            }
+        }
+
+
         while (true) {
             printField();
             pc.next(); // Player ändern

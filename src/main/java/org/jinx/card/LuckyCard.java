@@ -7,4 +7,9 @@ public abstract class LuckyCard extends Card {
     }
 
     public abstract int effect();
+
+    @Override
+    public String toString() {
+        return "|" + getName() + "|";
+    }
 }
