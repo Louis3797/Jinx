@@ -1,5 +1,8 @@
 package org.jinx.dice;
 
+/**
+ * This Class is used to simulate a dice
+ */
 public class Dice {
 
     /**
