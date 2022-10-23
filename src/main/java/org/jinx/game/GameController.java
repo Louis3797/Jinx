@@ -32,7 +32,7 @@ public class GameController {
         Game g1 = new Game();
 
         pc.addPlayers();
-        g1.fillDeck();
+
         g1.fillLuckyDeck();
 
         // i is the current round
