@@ -6,7 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="c2f48a1e-3d3a-44d2-82a0-57d9e6b79efa" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/Highscore.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Highscore.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/jinx/game/GameController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jinx/game/GameController.java" afterDir="false" />
     </list>
     <list id="724caafb-73ed-4e9d-8fb3-c3c7ab2bc0d6" name="Changes by louis der motherfucker" comment="" />
     <list id="3e951ab4-bf93-4233-827f-8d62b05310ac" name="Changes by Yahiatene" comment="" />
@@ -141,7 +140,7 @@
       <workItem from="1666103833934" duration="1321000" />
       <workItem from="1666266894169" duration="11279000" />
       <workItem from="1666445968996" duration="19073000" />
-      <workItem from="1666530850752" duration="2884000" />
+      <workItem from="1666530850752" duration="3800000" />
     </task>
     <servers />
   </component>

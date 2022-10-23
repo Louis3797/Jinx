@@ -1,4 +1,2 @@
-4       A
-8       B
-25		Kerim
-7		Jan
+0		B
+0		A
