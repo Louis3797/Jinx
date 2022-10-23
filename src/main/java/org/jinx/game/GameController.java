@@ -3,9 +3,7 @@ package org.jinx.game;
 import org.jinx.card.NumberCard;
 import org.jinx.player.Player;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,6 +28,7 @@ public class GameController {
      * Method starts the game
      */
     public void start() {
+        printHighscore();
         Game g1 = new Game();
         pc.addPlayers();
         g1.fillDeck();
@@ -55,7 +54,7 @@ public class GameController {
                 for(NumberCard card : player.getCards()){
                     total += Integer.parseInt(card.getName());
                 }
-                myWriter.append(String.valueOf(total)).append("\t" + player.getName());
+                myWriter.append(String.valueOf(total)).append("\t\t" + player.getName());
                 myWriter.append("\n");
             }
             myWriter.close();
@@ -69,6 +68,15 @@ public class GameController {
      * Method prints highscore at start of game
      */
     private void printHighscore(){
+        try{
+            System.out.println("HIGHSCORES:\nSCORE   PLAYER");
+            BufferedReader br = new BufferedReader(new FileReader("Highscore.txt"));
+            String line;
+            while ((line = br.readLine()) != null) {
+                System.out.println(line);
+            }
+        }
+        catch (IOException ignored){}
 
     }
 }
