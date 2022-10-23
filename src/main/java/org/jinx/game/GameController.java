@@ -48,6 +48,22 @@ public class GameController {
      * Method writes Highscore of Player to highscore.txt file
      */
     private void writeHighScoreToFile() {
+        // What if the player makes new Highscore ?
+        // We need to rewrite the file everytime
+
+        // Example
+
+        // Player one makes new Highscore of 100 points
+
+        // old list is
+
+        // Player 2,30
+        // Player 1,29
+
+        // new list should be
+        // Player 1,100
+        // Player 2,30
+        // Player 1,29
         try {
             FileWriter myWriter = new FileWriter("Highscore.txt", true);
 
@@ -56,7 +72,7 @@ public class GameController {
                 for (NumberCard card : player.getCards()) {
                     total += Integer.parseInt(card.getName());
                 }
-                myWriter.append(String.valueOf(total)).append(";").append(player.getName()).append("\n");
+                myWriter.append(String.valueOf(total)).append(",").append(player.getName()).append("\n");
             }
             myWriter.close();
         } catch (IOException e) {
