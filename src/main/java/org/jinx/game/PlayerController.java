@@ -49,14 +49,12 @@ public class PlayerController {
             if (players.size() >= 2) {
                 System.out.println("Wollen sie noch ein weiteren Spieler hinzufügen?\n[yes, no]:");
 
-                while (!input.hasNext("^yes|no$")) {
-
-                    input.nextLine();
-                    System.out.println("Bitte geben sie yes oder no ein um weiter zu machen:");
-                }
-
                 // no case
-                if (input.next().equals("no")) {
+                if (!input.next().equals("yes")) {
+                    System.out.println("Wollen sie die Spieler durchmischen?");
+                    if (input.next().equals("yes")) {
+                        shufflePlayerOrder();
+                    }
                     return;
                 }
             }
@@ -64,7 +62,11 @@ public class PlayerController {
             addOnePlayer();
         }
 
-        System.out.println(players);
+        System.out.println("Wollen sie die Spieler durchmischen?");
+
+        if (input.next().equals("yes")) {
+            shufflePlayerOrder();
+        }
     }
 
     /**
@@ -77,7 +79,7 @@ public class PlayerController {
         Scanner input = new Scanner(System.in);
 
         String playerName;
-        boolean temp = false;
+        boolean temp;
 
         do {
             playerName = input.nextLine();
@@ -142,6 +144,7 @@ public class PlayerController {
 
         // temps array to shuffle the players because we cant shuffle a queue
         List<Player> tempPlayers = new ArrayList<>(players);
+        players.clear();
 
         // shuffle players
         Collections.shuffle(tempPlayers);
