@@ -27,7 +27,7 @@ public class Player {
     private final List<LuckyCard> luckyCards;
 
     /**
-     * Standard COnstructor for the Player
+     * Standard Constructor for the Player
      *
      * @param name Name of the player
      */
@@ -42,9 +42,24 @@ public class Player {
      */
     public void printHand() {
 
-        for (NumberCard card : getCards()) {
-            System.out.println(card.toString());
+        System.out.print("----------\t".repeat(cards.size()) + "\n");
+
+        System.out.println("|        |\t".repeat(cards.size()));
+
+        // print card number
+        for (NumberCard card : cards) {
+            System.out.print("| " + card.getName() + " ".repeat(6) + "|\t");
         }
+
+        System.out.println();
+        System.out.println("|        |\t".repeat(cards.size()));
+
+        for (NumberCard card : cards) {
+            System.out.print("| " + card.getColor() + (card.getColor().name().length() < 6 ? (" ".repeat(6 - card.getColor().name().length())) : "") + " |\t");
+        }
+        System.out.println();
+        System.out.println("|        |\t".repeat(cards.size()));
+        System.out.print("----------\t".repeat(cards.size()) + "\n");
 
     }
 
