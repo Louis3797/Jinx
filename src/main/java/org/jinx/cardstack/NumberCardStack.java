@@ -68,7 +68,7 @@ public class NumberCardStack extends Stack<NumberCard> {
                 if (doesColorExists && checkNumber) {
                     NumberCard newCard = new NumberCard(data[0], CardColor.valueOf(cardColor));
                     if(checkIfCardExists(newCard)) {
-                        LOGGER.info("NumberCard.csv contains multiple instances of one NumberCard");
+                        LOGGER.info("NumberCard.csv contains multiple instances of the same NumberCard");
                         generateStandardDeck();
                         return;
                     }
