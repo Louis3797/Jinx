@@ -102,9 +102,9 @@ public class Game {
         Scanner scanner = new Scanner(System.in);
         int result;
 
-        if (luckyQuestion()){
+        if (luckyQuestion()) {
             System.out.println("Luckycard benutzen?");
-            if(scanner.next().equals("yes")){
+            if (scanner.next().equals("yes")) {
                 return use123or456();
             }
         }
@@ -117,12 +117,11 @@ public class Game {
             result = dice.use();
             System.out.println("Wuerfel: " + result);
 
-
         }
 
-        if (luckyQuestion()){
+        if (luckyQuestion()) {
             System.out.println("Luckycard benutzen?");
-            if(scanner.next().equals("yes")){
+            if (scanner.next().equals("yes")) {
                 return use123or456();
             }
         }
@@ -131,8 +130,7 @@ public class Game {
 
     }
 
-    private boolean luckyQuestion(){
-
+    private boolean luckyQuestion() {
         for (LuckyCard card : pc.getCurrentPlayer().getLuckyCards()) {
             if (card.getName().equals("LC123") || card.getName().equals("LC456")) {
                 return true;
@@ -226,10 +224,12 @@ public class Game {
         if (pc.getCurrentPlayer().getLuckyCards().get(index - 1).getName().equals("LC123")
                 || pc.getCurrentPlayer().getLuckyCards().get(index - 1).getName().equals("LC456")) {
             int diceValue = pc.getCurrentPlayer().getLuckyCards().get(index - 1).effect();
+
+            pc.getCurrentPlayer().getLuckyCards().remove(index-1);
+
             System.out.println("DICEVALUE: " + diceValue);
             return diceValue;
-        }
-        else {
+        } else {
             return use123or456();
         }
     }
