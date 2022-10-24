@@ -8,7 +8,9 @@ import org.jinx.dice.Dice;
 import org.jinx.field.Field;
 import org.jinx.player.Player;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
 
 
 public class Game {
@@ -183,8 +185,9 @@ public class Game {
         field.setField(numberCardsDeck);
         System.out.println("Runde " + currentRound);
 
-        for (int i = 0; i < pc.getPlayers().size(); i++) {
-            if (currentRound >= 2) {
+        if (currentRound >= 2) {
+            for (int i = 0; i < pc.getPlayers().size(); i++) {
+
                 System.out.println("Spieler: " + pc.getCurrentPlayer().getName() + "\nKarte gegen Glückskarte eintauschen?");
                 if (scanner.next().equals("yes")) {
                     tradeForLucky();
