@@ -91,7 +91,7 @@ public class Game {
         pickAvailable(currentRound);
         discardSameColor();
         printPlayerHands();
-        findHighest();
+        discard();
     }
 
     /**
@@ -238,36 +238,44 @@ public class Game {
     /**
      * finds highest NumberCard in playerhand
      */
-    private void findHighest() {
-        if (!pc.getCurrentPlayer().getCards().isEmpty()) {
+    private List<NumberCard> findHighest() {
+        List<NumberCard> highestCards = new ArrayList<>();
 
-            NumberCard max = pc.getCurrentPlayer().getCards().get(0);
-            //finds highest number in hand
-            for (int i = 0; i < pc.getCurrentPlayer().getCards().size(); i++) {
-                if (Integer.parseInt(pc.getCurrentPlayer().getCards().get(i).getName()) > Integer.parseInt(max.getName())) {
-                    max = pc.getCurrentPlayer().getCards().get(i);
+        Player currentPlayer = pc.getCurrentPlayer();
 
-                }
-            }
-
-            //check for multiples and add to temp list
-            List<NumberCard> temp = new ArrayList<>();
-            for (int i = 0; i < pc.getCurrentPlayer().getCards().size(); i++) {
-
-                if (max.getName().equals(pc.getCurrentPlayer().getCards().get(i).getName())) {
-                    temp.add(pc.getCurrentPlayer().getCards().get(i));
-                }
-            }
-            discard(temp);
+        // check if player has no number cards
+        if (currentPlayer.getCards().isEmpty()) {
+            return highestCards;
         }
+
+        // find the highest number card
+        NumberCard max = currentPlayer.getCards().get(0);
+
+        for (NumberCard card : currentPlayer.getCards()) {
+
+            if (Integer.parseInt(card.getName()) > Integer.parseInt(max.getName())) {
+                max = card;
+            }
+        }
+
+
+        highestCards.add(max);
+
+        for (NumberCard card : currentPlayer.getCards()) {
+            if (card.getName().equals(max.getName())) {
+                highestCards.add(card);
+            }
+        }
+
+        return highestCards;
     }
 
     /**
      * discards highest NumberCard from playerhand
-     *
-     * @param highest highest # to be discarded
      */
-    private void discard(List<NumberCard> highest) {
+    private void discard() {
+
+        List<NumberCard> highest = findHighest();
         // scanner for index input
         Scanner scanner = new Scanner(System.in);
         System.out.println(highest);
@@ -278,7 +286,7 @@ public class Game {
         // check for index exception
         if (index <= 0 || index > highest.size()) {
             System.out.println("Falsche Eingabe");
-            discard(highest);
+            discard();
 
         } else {
 
