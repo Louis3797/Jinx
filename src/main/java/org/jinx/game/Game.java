@@ -98,17 +98,45 @@ public class Game {
             result = dice.use();
             System.out.println("Wuerfel: " + result);
 
+            if (luckyQuestionReroll()) {
+
+                System.out.println("Nochmal rollen?");
+                if (scanner.next().equals("yes")) {
+
+                    result = reroll();
+
+                    int count = 0;
+
+                    for (int i = 0; i < pc.getCurrentPlayer().getLuckyCards().size(); i++) {
+
+                        if (pc.getCurrentPlayer().getLuckyCards().get(i).getName().equals("LCPlusDicethrow")) {
+                            count++;
+                        }
+                    }
+
+                    if (count == 2) {
+
+                        System.out.println("Nochmal wuerfeln?");
+
+                        if (scanner.next().equals("yes")) {
+                            return reroll();
+                        }
+                    }
+                    return result;
+                }
+            }
+
         }
 
         if (luckyQuestion()) {
-            System.out.println("Luckycard benutzen?");
+            System.out.println("123 oder 456 benutzen?");
             if (scanner.next().equals("yes")) {
                 return use123or456();
             }
         }
 
-        if(luckyQuestionPM()){
-            System.out.println("Luckycard benutzen?");
+        if (luckyQuestionPM()) {
+            System.out.println("Plus oder Minus 1 benutzen?");
             if (scanner.next().equals("yes")) {
                 return usePlusOrMinus1(result);
             }
@@ -130,6 +158,15 @@ public class Game {
     private boolean luckyQuestionPM() {
         for (LuckyCard card : pc.getCurrentPlayer().getLuckyCards()) {
             if (card.getName().equals("LCPlus1") || card.getName().equals("LCMinus1")) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean luckyQuestionReroll() {
+        for (LuckyCard card : pc.getCurrentPlayer().getLuckyCards()) {
+            if (card.getName().equals("LCPlusDicethrow")) {
                 return true;
             }
         }
@@ -240,7 +277,7 @@ public class Game {
         System.out.println("index eingeben: ");
         int index = scanner.nextInt();
 
-        if(index <=0 || index > pc.getCurrentPlayer().getLuckyCards().size()){
+        if (index <= 0 || index > pc.getCurrentPlayer().getLuckyCards().size()) {
             return usePlusOrMinus1(dice);
         }
 
@@ -248,18 +285,16 @@ public class Game {
                 pc.getCurrentPlayer().getLuckyCards().get(index - 1).getName().equals("LCMinus1")) {
             value = pc.getCurrentPlayer().getLuckyCards().get(index - 1).effect() + dice;
 
-            if(value >= 6){
+            if (value >= 6) {
                 value = 6;
             }
 
-            if(value <= 1){
+            if (value <= 1) {
                 value = 1;
             }
 
             return value;
-        }
-
-        else {
+        } else {
             return usePlusOrMinus1(dice);
         }
     }
@@ -269,19 +304,19 @@ public class Game {
         Scanner scanner = new Scanner(System.in);
         int diceValue;
         pc.getCurrentPlayer().printLuckyHand();
-        if (!pc.getCurrentPlayer().getLuckyCards().isEmpty()) {
-            System.out.println("Eine benutzen?");
-            if (scanner.next().equals("yes")) {
-                System.out.println("index eingeben: ");
-                int index = scanner.nextInt();
-                if (pc.getCurrentPlayer().getLuckyCards().get(index - 1).getName().equals("LCPlusDicetrhrow")) {
-                    diceValue = pc.getCurrentPlayer().getLuckyCards().get(index - 1).effect();
-                    return diceValue;
-                }
-            }
+
+        System.out.println("index eingeben: ");
+        int index = scanner.nextInt();
+
+        if (index < 0 || index > pc.getCurrentPlayer().getLuckyCards().size()) {
+            return reroll();
         }
-        diceValue = dice.use();
-        return diceValue;
+
+        if (pc.getCurrentPlayer().getLuckyCards().get(index - 1).getName().equals("LCPlusDicethrow")) {
+            diceValue = pc.getCurrentPlayer().getLuckyCards().get(index - 1).effect();
+            return diceValue;
+        }
+        return reroll();
     }
 
 
