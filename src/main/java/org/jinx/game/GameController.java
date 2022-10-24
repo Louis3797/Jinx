@@ -3,23 +3,22 @@ package org.jinx.game;
 import org.jinx.card.NumberCard;
 import org.jinx.player.Player;
 
-import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.logging.Logger;
 
 public class GameController {
 
-    private PlayerController pc;
-    /**
-     * Stores current players
-     */
-    private List<Player> players;
+    private final Logger LOGGER = Logger.getLogger(GameController.class.getName());
+
+    private final PlayerController pc;
 
     /**
      * Basic Constructor of the GameController class
      */
     public GameController() {
-        players = new ArrayList<>();
         pc = PlayerController.getPlayerControllerInstance();
 
     }
@@ -33,7 +32,7 @@ public class GameController {
         Game g1 = new Game();
 
         pc.addPlayers();
-        g1.fillDeck();
+
         g1.fillLuckyDeck();
 
         // i is the current round
@@ -49,6 +48,22 @@ public class GameController {
      * Method writes Highscore of Player to highscore.txt file
      */
     private void writeHighScoreToFile() {
+        // What if the player makes new Highscore ?
+        // We need to rewrite the file everytime
+
+        // Example
+
+        // Player one makes new Highscore of 100 points
+
+        // old list is
+
+        // Player 2,30
+        // Player 1,29
+
+        // new list should be
+        // Player 1,100
+        // Player 2,30
+        // Player 1,29
         try {
             FileWriter myWriter = new FileWriter("Highscore.txt", true);
 
@@ -57,13 +72,11 @@ public class GameController {
                 for (NumberCard card : player.getCards()) {
                     total += Integer.parseInt(card.getName());
                 }
-                myWriter.append(String.valueOf(total)).append("\t\t" + player.getName());
-                myWriter.append("\n");
+                myWriter.append(String.valueOf(total)).append(",").append(player.getName()).append("\n");
             }
             myWriter.close();
         } catch (IOException e) {
-            System.out.println("An error occurred.");
-            e.printStackTrace();
+            LOGGER.warning(e.getMessage());
         }
     }
 
@@ -78,7 +91,8 @@ public class GameController {
             while ((line = br.readLine()) != null) {
                 System.out.println(line);
             }
-        } catch (IOException ignored) {
+        } catch (IOException e) {
+            LOGGER.warning(e.getMessage());
         }
 
     }

@@ -1,10 +1,13 @@
 package org.jinx.game;
 
-import org.jinx.card.*;
+import org.jinx.card.LC456;
+import org.jinx.card.LuckyCard;
+import org.jinx.card.NumberCard;
+import org.jinx.cardstack.NumberCardStack;
+import org.jinx.dice.Dice;
+import org.jinx.field.Field;
 import org.jinx.player.Player;
 
-
-import java.awt.font.NumericShaper;
 import java.util.*;
 
 
@@ -12,30 +15,21 @@ public class Game {
 
     private final PlayerController pc = PlayerController.getPlayerControllerInstance();
 
-    private final Stack<NumberCard> deck;
+    private final Dice dice;
+    private final NumberCardStack numberCardsDeck;
     private final Stack<LuckyCard> luckyDeck;
 
-    private final int FIELDSIZE = 16;
-    NumberCard[] field = new NumberCard[FIELDSIZE];
+    private final Field field;
 
     public Game() {
-        deck = new Stack<>();
+        dice = new Dice();
+
+        numberCardsDeck = new NumberCardStack();
+
         luckyDeck = new Stack<>();
+        field = new Field();
     }
 
-    /**
-     * randomly fills the deck with cards
-     */
-    public void fillDeck() {
-
-        for (CardColor color : CardColor.values()) {
-            for (int i = 1; i < 7; i++) {
-                deck.add(new NumberCard(Integer.toString(i), color));
-            }
-        }
-
-        Collections.shuffle(deck);
-    }
 
     /**
      * fills luckyDeck at second round
@@ -89,39 +83,6 @@ public class Game {
         }
     }
 
-    /**
-     * prints Luckycards of current player
-     */
-    public void printLuckyHand() {
-        for (LuckyCard card : pc.getCurrentPlayer().getLuckyCards()) {
-            System.out.println(card.getName());
-        }
-    }
-
-    /**
-     * takes cards from deck onto field
-     */
-    private void setField() {
-
-        for (int i = 0; i < field.length; i++) {
-            field[i] = deck.pop();
-        }
-    }
-
-    /**
-     * prints a 4x4 cardfield
-     */
-    private void printField() {
-
-        for (int i = 0; i < 4; i++) {
-            for (int j = 0; j < 4; j++) {
-                System.out.print(field[i * 4 + j] == null ? "\t\t\t" : field[i * 4 + j].toString() + " \t");
-            }
-
-            System.out.println();
-        }
-
-    }
 
     /**
      * This method controls the gameflow for each round
@@ -129,7 +90,7 @@ public class Game {
     public void play(int currentRound) {
         pickAvailable(currentRound);
         discardSameColor();
-        printHands();
+        printPlayerHands();
         findHighest();
     }
 
@@ -142,16 +103,16 @@ public class Game {
 
         Scanner scanner = new Scanner(System.in);
 
-        int wuerfelergebnis = dice();
-        System.out.println("Wuerfel: " + wuerfelergebnis +
+        int result = dice.use();
+        System.out.println("Wuerfel: " + result +
                 "\nNochmal wuerfeln? [yes|no]");
 
         if (scanner.next().equals("yes")) {
-            wuerfelergebnis = dice();
-            System.out.println("Wuerfel: " + wuerfelergebnis);
+            result = dice.use();
+            System.out.println("Wuerfel: " + result);
         }
 
-        return wuerfelergebnis;
+        return result;
 
     }
 
@@ -162,7 +123,7 @@ public class Game {
      */
     private void pickAvailable(int currentRound) {
         Scanner scanner = new Scanner(System.in);
-        setField();
+        field.setField(numberCardsDeck);
         System.out.println("Runde " + currentRound);
 
         for (int i = 0; i < pc.getPlayers().size(); i++) {
@@ -170,7 +131,7 @@ public class Game {
                 System.out.println("Spieler: " + pc.getCurrentPlayer().getName() + "\nKarte gegen Glückskarte eintauschen?");
                 if (scanner.next().equals("yes")) {
                     tradeForLucky();
-                    printLuckyHand();
+                    pc.getCurrentPlayer().printLuckyHand();
                 }
                 pc.next();
             }
@@ -178,7 +139,7 @@ public class Game {
 
         while (true) {
 
-            printField();
+            field.printField();
             pc.next(); // Player ändern
 
             System.out.println("\nAktiver Spieler: " + pc.getCurrentPlayer().getName());
@@ -187,7 +148,7 @@ public class Game {
             System.out.println("Drücken sie eine Taste um zu Würfeln");
             scanner.next();
 
-            List<NumberCard> availableCards = addAvailableCards(use123or456orDice());
+            List<NumberCard> availableCards = field.getAvailableNumberCards(use123or456orDice());
 
             // if true, then the round is over
             if (availableCards.isEmpty()) {
@@ -195,7 +156,7 @@ public class Game {
                 break;
             }
             // show player available cards
-            printAvailableCards(availableCards);
+            field.printAvailableCards(availableCards);
 
             System.out.println("\n---------------\n");
 
@@ -217,7 +178,7 @@ public class Game {
 
                     System.out.println("Spieler: " + pc.getCurrentPlayer().getName() + "\n" + pc.getCurrentPlayer().getCards().toString() + "\n");
 
-                    removeCardFromField(card);
+                    field.removeChosenCard(card);
                 }
             }
         }
@@ -227,22 +188,22 @@ public class Game {
         Scanner scanner = new Scanner(System.in);
         int diceValue;
 
-        printLuckyHand();
-        if(!pc.getCurrentPlayer().getLuckyCards().isEmpty()){
+        pc.getCurrentPlayer().printLuckyHand();
+
+        if (!pc.getCurrentPlayer().getLuckyCards().isEmpty()) {
             System.out.println("Eine benutzen?");
-            if(scanner.next().equals("yes")){
+            if (scanner.next().equals("yes")) {
 
                 System.out.println("index eingeben: ");
                 int index = scanner.nextInt();
 
-                if(pc.getCurrentPlayer().getLuckyCards().get(index - 1).getName().equals("LC456")){
+                if (pc.getCurrentPlayer().getLuckyCards().get(index - 1).getName().equals("LC456")) {
                     diceValue = pc.getCurrentPlayer().getLuckyCards().get(index - 1).effect();
                     System.out.println("DICEVALUE: " + diceValue);
                     return diceValue;
                 }
 
-            }
-            else {
+            } else {
                 diceValue = throwDice();
                 return diceValue;
             }
@@ -252,19 +213,6 @@ public class Game {
         return diceValue;
     }
 
-    /**
-     * removes player chosen card from field
-     *
-     * @param card card to be removed
-     */
-    private void removeCardFromField(NumberCard card) {
-        for (int i = 0; i < field.length; i++) {
-            if (field[i] != null && field[i].equals(card)) {
-                field[i] = null;
-                break;
-            }
-        }
-    }
 
     /**
      * discards cards of same color at end of round
@@ -276,7 +224,7 @@ public class Game {
 
             for (NumberCard cardsOfPlayer : player.getCards()) {
 
-                for (NumberCard cardInField : field) {
+                for (NumberCard cardInField : field.getField()) {
                     if (cardInField != null && cardsOfPlayer.getColor().equals(cardInField.getColor())) {
                         tempCards.add(cardsOfPlayer);
                         break;
@@ -338,61 +286,21 @@ public class Game {
             pc.getCurrentPlayer().getCards().remove(highest.get(index - 1));
 
             System.out.println("NACH WEGWURF ----------------");
-            printHands();
+            printPlayerHands();
         }
     }
 
     /**
      * Prints hands of all players
      */
-    private void printHands() {
+    private void printPlayerHands() {
         // print player hands
         for (Player player : pc.getPlayers()) {
             System.out.println("Spieler: " + player.getName());
-            for (NumberCard card : player.getCards()) {
-                System.out.println(card.toString());
-            }
+            player.printHand();
             System.out.println();
         }
     }
 
-    /**
-     * This methods simulates a dice
-     *
-     * @return Returns an int value from 1-6
-     */
-    private int dice() {
-        return (int) (Math.random() * 6) + 1;
-    }
 
-    /**
-     * shows all available cards to choose from
-     *
-     * @param diceNumber number the player rolled
-     * @return returns list of available cards
-     */
-    private List<NumberCard> addAvailableCards(int diceNumber) {
-
-        List<NumberCard> cards = new ArrayList<>();
-
-        for (NumberCard c : field) {
-            if (c != null && c.getName().equals(Integer.toString(diceNumber))) {
-                cards.add(c);
-            }
-        }
-
-        return cards;
-    }
-
-    /**
-     * prints all cards to choose from
-     *
-     * @param availableCards List of available Cards
-     */
-    private void printAvailableCards(List<NumberCard> availableCards) {
-        System.out.println("AVAILABLE CARDS");
-        for (NumberCard card : availableCards) {
-            System.out.print(card.toString() + " ");
-        }
-    }
 }
