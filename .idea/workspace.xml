@@ -4,12 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c2f48a1e-3d3a-44d2-82a0-57d9e6b79efa" name="Changes" comment="">
+    <list default="true" id="c2f48a1e-3d3a-44d2-82a0-57d9e6b79efa" name="Changes" comment="highscores are now in right order after player gets new highscore">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Highscore.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Highscore.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/jinx/card/LC123.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jinx/card/LC123.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/jinx/card/LC456.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jinx/card/LC456.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/jinx/game/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jinx/game/Game.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jinx/cardstack/NumberCardStack.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jinx/cardstack/NumberCardStack.java" afterDir="false" />
     </list>
     <list id="724caafb-73ed-4e9d-8fb3-c3c7ab2bc0d6" name="Changes by louis der motherfucker" comment="" />
     <list id="3e951ab4-bf93-4233-827f-8d62b05310ac" name="Changes by Yahiatene" comment="" />
@@ -51,9 +48,9 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Record" />
         <option value="Enum" />
         <option value="Class" />
+        <option value="Record" />
       </list>
     </option>
   </component>
@@ -146,6 +143,42 @@
       <workItem from="1666445968996" duration="19073000" />
       <workItem from="1666530850752" duration="17937000" />
     </task>
+    <task id="LOCAL-00001" summary="removed logging in main">
+      <created>1666604809562</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1666604809562</updated>
+    </task>
+    <task id="LOCAL-00002" summary="added highscore record">
+      <created>1666605048891</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1666605048891</updated>
+    </task>
+    <task id="LOCAL-00003" summary="added startsequenz">
+      <created>1666605073013</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1666605073013</updated>
+    </task>
+    <task id="LOCAL-00004" summary="highscores are now stored in a list before game start">
+      <created>1666606054461</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1666606054461</updated>
+    </task>
+    <task id="LOCAL-00005" summary="highscores are now in right order after player gets new highscore">
+      <created>1666607459919</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1666607459919</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -161,5 +194,13 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="removed logging in main" />
+    <MESSAGE value="added highscore record" />
+    <MESSAGE value="added startsequenz" />
+    <MESSAGE value="highscores are now stored in a list before game start" />
+    <MESSAGE value="highscores are now in right order after player gets new highscore" />
+    <option name="LAST_COMMIT_MESSAGE" value="highscores are now in right order after player gets new highscore" />
   </component>
 </project>
