@@ -64,7 +64,6 @@ public class Game {
         }
     }
 
-
     /**
      * This method controls the gameflow for each round
      */
@@ -191,6 +190,10 @@ public class Game {
 
     }
 
+    /**
+     * checks if 123 or 456 card is available
+     * @return true, if available, false if not
+     */
     private boolean luckyQuestion() {
         for (LuckyCard card : pc.getCurrentPlayer().getLuckyCards()) {
             if (card.getName().equals("LC123") || card.getName().equals("LC456")) {
@@ -200,6 +203,10 @@ public class Game {
         return false;
     }
 
+    /**
+     * checks if plus 1 card is available
+     * @return true if available, false if not
+     */
     private boolean luckyQuestionPlus() {
         for (LuckyCard card : pc.getCurrentPlayer().getLuckyCards()) {
             if (card.getName().equals("LCPlus1")) {
@@ -209,6 +216,10 @@ public class Game {
         return false;
     }
 
+    /**
+     * checks if minus 1 card is available
+     * @return true if available, false if not
+     */
     private boolean luckyQuestionMinus() {
         for (LuckyCard card : pc.getCurrentPlayer().getLuckyCards()) {
             if (card.getName().equals("LCMinus1")) {
@@ -218,6 +229,10 @@ public class Game {
         return false;
     }
 
+    /**
+     * checks if reroll luckycard is available
+     * @return true if available, false if not
+     */
     private boolean luckyQuestionReroll() {
         for (LuckyCard card : pc.getCurrentPlayer().getLuckyCards()) {
             if (card.getName().equals("LCPlusDicethrow")) {
@@ -296,6 +311,11 @@ public class Game {
         }
     }
 
+    /**
+     * choose a card with number 123 or 456
+     * from field if use is available
+     * @return player chosen number
+     */
     private int use123or456() {
         Scanner scanner = new Scanner(System.in);
 
@@ -322,6 +342,11 @@ public class Game {
         }
     }
 
+    /**
+     * adds 1 to dicevalue
+     * @param dice rolled dice
+     * @return dicevalue + 1
+     */
     public int usePlus(int dice) {
         Scanner scanner = new Scanner(System.in);
         int value;
@@ -348,6 +373,11 @@ public class Game {
         }
     }
 
+    /**
+     * subtracts 1 from dicevalue
+     * @param dice rolled dice
+     * @return dicevalue - 1
+     */
     public int useMinus(int dice) {
         Scanner scanner = new Scanner(System.in);
         int value;
@@ -374,7 +404,10 @@ public class Game {
         }
     }
 
-
+    /**
+     * allows player to reroll with luckycard
+     * @return new rolled dice value
+     */
     public int reroll() {
         Scanner scanner = new Scanner(System.in);
         int diceValue;
@@ -393,7 +426,6 @@ public class Game {
         }
         return reroll();
     }
-
 
     /**
      * discards cards of same color at end of round
