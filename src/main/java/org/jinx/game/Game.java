@@ -1,15 +1,14 @@
 package org.jinx.game;
 
+import org.jinx.card.LC456;
+import org.jinx.card.LuckyCard;
 import org.jinx.card.NumberCard;
-import org.jinx.cardstack.LuckyCardStack;
 import org.jinx.cardstack.NumberCardStack;
 import org.jinx.dice.Dice;
 import org.jinx.field.Field;
 import org.jinx.player.Player;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 
 public class Game {
@@ -18,8 +17,8 @@ public class Game {
 
     private final Dice dice;
     private final NumberCardStack numberCardsDeck;
+    private final Stack<LuckyCard> luckyDeck;
 
-    private final LuckyCardStack luckyCardsDeck;
     private final Field field;
 
     public Game() {
@@ -27,10 +26,29 @@ public class Game {
 
         numberCardsDeck = new NumberCardStack();
 
-        luckyCardsDeck = new LuckyCardStack();
-
+        luckyDeck = new Stack<>();
         field = new Field();
     }
+
+
+    /**
+     * fills luckyDeck at second round
+     */
+    public void fillLuckyDeck() {
+
+        for (int i = 1; i < 13; i++) {
+            if (i % 6 == 0) luckyDeck.add(new LC456("LC456"));
+            if (i % 6 == 1) luckyDeck.add(new LC456("LC456"));
+            if (i % 6 == 2) luckyDeck.add(new LC456("LC456"));
+            if (i % 6 == 3) luckyDeck.add(new LC456("LC456"));
+            if (i % 6 == 4) luckyDeck.add(new LC456("LC456"));
+            if (i % 6 == 5) luckyDeck.add(new LC456("LC456"));
+        }
+
+
+        Collections.shuffle(luckyDeck);
+    }
+
 
     /**
      * trade Numbercards for luckycards
@@ -51,7 +69,7 @@ public class Game {
                 int index = scanner.nextInt();
 
                 pc.getCurrentPlayer().getCards().remove(index - 1);
-                pc.getCurrentPlayer().getLuckyCards().add(luckyCardsDeck.pop());
+                pc.getCurrentPlayer().getLuckyCards().add(luckyDeck.pop());
 
                 System.out.println("Noch eine eintauschen?");
                 if (scanner.next().equals("yes")) {
@@ -244,7 +262,7 @@ public class Game {
         highestCards.add(max);
 
         for (NumberCard card : currentPlayer.getCards()) {
-            if (card.getName().equals(max.getName()) && !card.equals(max)) {
+            if (card.getName().equals(max.getName())) {
                 highestCards.add(card);
             }
         }

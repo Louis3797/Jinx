@@ -13,15 +13,12 @@ public class LC123 extends LuckyCard{
         Scanner scanner = new Scanner(System.in);
         System.out.println("Zahl von 1-3 eingeben");
         int number = scanner.nextInt();
-        try{
-            if (number < 1 || number > 3) {
-                System.out.println("Nur zwischen 1-3");
-                effect();
-            }
+
+        if (number < 1 || number > 3) {
+            System.out.println("Nur zwischen 1-3");
+            return effect();
         }
-        catch (InputMismatchException e){
-            effect();
-        }
+
         return number;
     }
 }
