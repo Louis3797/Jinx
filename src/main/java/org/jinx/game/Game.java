@@ -1,5 +1,6 @@
 package org.jinx.game;
 
+import org.jinx.card.LC123;
 import org.jinx.card.LC456;
 import org.jinx.card.LuckyCard;
 import org.jinx.card.NumberCard;
@@ -62,9 +63,7 @@ public class Game {
 
                 System.out.println("Welche Karte eintauschen?");
 
-                for (NumberCard card : pc.getCurrentPlayer().getCards()) {
-                    System.out.println(card.toString());
-                }
+                pc.getCurrentPlayer().printHand();
 
                 int index = scanner.nextInt();
 
@@ -100,20 +99,46 @@ public class Game {
      * @return user chosen dice value
      */
     private int throwDice() {
-
         Scanner scanner = new Scanner(System.in);
+        int result;
 
-        int result = dice.use();
+        if (luckyQuestion()){
+            System.out.println("Luckycard benutzen?");
+            if(scanner.next().equals("yes")){
+                return use123or456();
+            }
+        }
+
+        result = dice.use();
         System.out.println("Wuerfel: " + result +
                 "\nNochmal wuerfeln? [yes|no]");
 
         if (scanner.next().equals("yes")) {
             result = dice.use();
             System.out.println("Wuerfel: " + result);
+
+
+        }
+
+        if (luckyQuestion()){
+            System.out.println("Luckycard benutzen?");
+            if(scanner.next().equals("yes")){
+                return use123or456();
+            }
         }
 
         return result;
 
+    }
+
+    private boolean luckyQuestion(){
+
+        for (LuckyCard card : pc.getCurrentPlayer().getLuckyCards()) {
+            if (card.getName().equals("LC123") || card.getName().equals("LC456")) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
@@ -148,7 +173,7 @@ public class Game {
             System.out.println("Drücken sie eine Taste um zu Würfeln");
             scanner.next();
 
-            List<NumberCard> availableCards = field.getAvailableNumberCards(use123or456orDice());
+            List<NumberCard> availableCards = field.getAvailableNumberCards(throwDice());
 
             // if true, then the round is over
             if (availableCards.isEmpty()) {
@@ -176,7 +201,8 @@ public class Game {
                     pc.getCurrentPlayer().getCards().add(card);
                     chosen = true;
 
-                    System.out.println("Spieler: " + pc.getCurrentPlayer().getName() + "\n" + pc.getCurrentPlayer().getCards().toString() + "\n");
+                    System.out.println("Spieler: " + pc.getCurrentPlayer().getName() + "\n");
+                    pc.getCurrentPlayer().printHand();
 
                     field.removeChosenCard(card);
                 }
@@ -184,33 +210,28 @@ public class Game {
         }
     }
 
-    private int use123or456orDice() {
+    private int use123or456() {
         Scanner scanner = new Scanner(System.in);
-        int diceValue;
 
         pc.getCurrentPlayer().printLuckyHand();
 
-        if (!pc.getCurrentPlayer().getLuckyCards().isEmpty()) {
-            System.out.println("Eine benutzen?");
-            if (scanner.next().equals("yes")) {
 
-                System.out.println("index eingeben: ");
-                int index = scanner.nextInt();
+        System.out.println("index eingeben: ");
+        int index = scanner.nextInt();
 
-                if (pc.getCurrentPlayer().getLuckyCards().get(index - 1).getName().equals("LC456")) {
-                    diceValue = pc.getCurrentPlayer().getLuckyCards().get(index - 1).effect();
-                    System.out.println("DICEVALUE: " + diceValue);
-                    return diceValue;
-                }
-
-            } else {
-                diceValue = throwDice();
-                return diceValue;
-            }
+        if (index <= 0 || index > pc.getCurrentPlayer().getLuckyCards().size()) {
+            return use123or456();
         }
 
-        diceValue = throwDice();
-        return diceValue;
+        if (pc.getCurrentPlayer().getLuckyCards().get(index - 1).getName().equals("LC123")
+                || pc.getCurrentPlayer().getLuckyCards().get(index - 1).getName().equals("LC456")) {
+            int diceValue = pc.getCurrentPlayer().getLuckyCards().get(index - 1).effect();
+            System.out.println("DICEVALUE: " + diceValue);
+            return diceValue;
+        }
+        else {
+            return use123or456();
+        }
     }
 
 
@@ -262,7 +283,7 @@ public class Game {
         highestCards.add(max);
 
         for (NumberCard card : currentPlayer.getCards()) {
-            if (card.getName().equals(max.getName())) {
+            if (card.getName().equals(max.getName()) && !card.equals(max)) {
                 highestCards.add(card);
             }
         }
@@ -274,11 +295,31 @@ public class Game {
      * discards highest NumberCard from playerhand
      */
     private void discard() {
-
+        if (pc.getCurrentPlayer().getCards().isEmpty()) {
+            return;
+        }
         List<NumberCard> highest = findHighest();
         // scanner for index input
         Scanner scanner = new Scanner(System.in);
-        System.out.println(highest);
+
+        System.out.print("----------\t".repeat(highest.size()) + "\n");
+
+        System.out.println("|        |\t".repeat(highest.size()));
+
+        // print card number
+        for (NumberCard card : highest) {
+            System.out.print("| " + card.getName() + " ".repeat(6) + "|\t");
+        }
+
+        System.out.println();
+        System.out.println("|        |\t".repeat(highest.size()));
+
+        for (NumberCard card : highest) {
+            System.out.print("| " + card.getColor() + (card.getColor().name().length() < 6 ? (" ".repeat(6 - card.getColor().name().length())) : "") + " |\t");
+        }
+        System.out.println();
+        System.out.println("|        |\t".repeat(highest.size()));
+        System.out.print("----------\t".repeat(highest.size()) + "\n");
 
         System.out.println("Welche Karte möchtest du wegwerfen?");
         int index = scanner.nextInt();
