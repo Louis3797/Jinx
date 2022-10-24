@@ -135,10 +135,55 @@ public class Game {
             }
         }
 
-        if (luckyQuestionPM()) {
-            System.out.println("Plus oder Minus 1 benutzen?");
+        if (luckyQuestionPlus()) {
+            System.out.println("Plus 1 benutzen?");
             if (scanner.next().equals("yes")) {
-                return usePlusOrMinus1(result);
+
+                result = usePlus(result);
+
+                int count = 0;
+
+                for (int i = 0; i < pc.getCurrentPlayer().getLuckyCards().size(); i++) {
+                    if (pc.getCurrentPlayer().getLuckyCards().get(i).getName().equals("LCPlus1")) {
+                        count++;
+                    }
+                }
+
+                if (count == 2) ;
+                {
+
+                    System.out.println("Noch einmal Plus 1?");
+
+                    if (scanner.next().equals("yes")) {
+                        return usePlus(result);
+                    }
+                }
+            }
+        }
+
+        if (luckyQuestionMinus()) {
+            System.out.println("Minus 1 benutzen?");
+            if (scanner.next().equals("yes")) {
+
+                result = usePlus(useMinus(result));
+
+                int count = 0;
+
+                for (int i = 0; i < pc.getCurrentPlayer().getLuckyCards().size(); i++) {
+                    if (pc.getCurrentPlayer().getLuckyCards().get(i).getName().equals("LCMinus1")) {
+                        count++;
+                    }
+                }
+
+                if (count == 2) ;
+                {
+
+                    System.out.println("Noch einmal Minus 1?");
+
+                    if (scanner.next().equals("yes")) {
+                        return useMinus(result);
+                    }
+                }
             }
         }
 
@@ -155,9 +200,18 @@ public class Game {
         return false;
     }
 
-    private boolean luckyQuestionPM() {
+    private boolean luckyQuestionPlus() {
         for (LuckyCard card : pc.getCurrentPlayer().getLuckyCards()) {
-            if (card.getName().equals("LCPlus1") || card.getName().equals("LCMinus1")) {
+            if (card.getName().equals("LCPlus1")) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean luckyQuestionMinus() {
+        for (LuckyCard card : pc.getCurrentPlayer().getLuckyCards()) {
+            if (card.getName().equals("LCMinus1")) {
                 return true;
             }
         }
@@ -268,9 +322,9 @@ public class Game {
         }
     }
 
-    public int usePlusOrMinus1(int dice) {
+    public int usePlus(int dice) {
         Scanner scanner = new Scanner(System.in);
-        int value = 0;
+        int value;
 
         pc.getCurrentPlayer().printLuckyHand();
 
@@ -278,16 +332,37 @@ public class Game {
         int index = scanner.nextInt();
 
         if (index <= 0 || index > pc.getCurrentPlayer().getLuckyCards().size()) {
-            return usePlusOrMinus1(dice);
+            return usePlus(dice);
         }
 
-        if (pc.getCurrentPlayer().getLuckyCards().get(index - 1).getName().equals("LCPlus1") ||
-                pc.getCurrentPlayer().getLuckyCards().get(index - 1).getName().equals("LCMinus1")) {
+        if (pc.getCurrentPlayer().getLuckyCards().get(index - 1).getName().equals("LCPlus1")) {
             value = pc.getCurrentPlayer().getLuckyCards().get(index - 1).effect() + dice;
 
             if (value >= 6) {
                 value = 6;
             }
+
+            return value;
+        } else {
+            return usePlus(dice);
+        }
+    }
+
+    public int useMinus(int dice) {
+        Scanner scanner = new Scanner(System.in);
+        int value;
+
+        pc.getCurrentPlayer().printLuckyHand();
+
+        System.out.println("index eingeben: ");
+        int index = scanner.nextInt();
+
+        if (index <= 0 || index > pc.getCurrentPlayer().getLuckyCards().size()) {
+            return useMinus(dice);
+        }
+
+        if (pc.getCurrentPlayer().getLuckyCards().get(index - 1).getName().equals("LCMinus1")) {
+            value = pc.getCurrentPlayer().getLuckyCards().get(index - 1).effect() + dice;
 
             if (value <= 1) {
                 value = 1;
@@ -295,7 +370,7 @@ public class Game {
 
             return value;
         } else {
-            return usePlusOrMinus1(dice);
+            return useMinus(dice);
         }
     }
 
