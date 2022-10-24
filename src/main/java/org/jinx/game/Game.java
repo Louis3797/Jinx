@@ -1,8 +1,7 @@
 package org.jinx.game;
 
-import org.jinx.card.LC456;
-import org.jinx.card.LuckyCard;
 import org.jinx.card.NumberCard;
+import org.jinx.cardstack.LuckyCardStack;
 import org.jinx.cardstack.NumberCardStack;
 import org.jinx.dice.Dice;
 import org.jinx.field.Field;
@@ -17,7 +16,7 @@ public class Game {
 
     private final Dice dice;
     private final NumberCardStack numberCardsDeck;
-    private final Stack<LuckyCard> luckyDeck;
+    private final LuckyCardStack luckyCardStack;
 
     private final Field field;
 
@@ -26,28 +25,13 @@ public class Game {
 
         numberCardsDeck = new NumberCardStack();
 
-        luckyDeck = new Stack<>();
+       luckyCardStack = new LuckyCardStack();
+
         field = new Field();
     }
 
 
-    /**
-     * fills luckyDeck at second round
-     */
-    public void fillLuckyDeck() {
 
-        for (int i = 1; i < 13; i++) {
-            if (i % 6 == 0) luckyDeck.add(new LC456("LC456"));
-            if (i % 6 == 1) luckyDeck.add(new LC456("LC456"));
-            if (i % 6 == 2) luckyDeck.add(new LC456("LC456"));
-            if (i % 6 == 3) luckyDeck.add(new LC456("LC456"));
-            if (i % 6 == 4) luckyDeck.add(new LC456("LC456"));
-            if (i % 6 == 5) luckyDeck.add(new LC456("LC456"));
-        }
-
-
-        Collections.shuffle(luckyDeck);
-    }
 
 
     /**
@@ -69,7 +53,7 @@ public class Game {
                 int index = scanner.nextInt();
 
                 pc.getCurrentPlayer().getCards().remove(index - 1);
-                pc.getCurrentPlayer().getLuckyCards().add(luckyDeck.pop());
+                pc.getCurrentPlayer().getLuckyCards().add(luckyCardStack.pop());
 
                 System.out.println("Noch eine eintauschen?");
                 if (scanner.next().equals("yes")) {
