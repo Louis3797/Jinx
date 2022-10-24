@@ -75,9 +75,26 @@ public class Field {
      */
     public void printAvailableCards(List<NumberCard> availableCards) {
         System.out.println("AVAILABLE CARDS");
+
+        //top of the cards
+        System.out.print("----------\t".repeat(availableCards.size()) + "\n");
+
+        System.out.println("|        |\t".repeat(availableCards.size()));
+
+        // print card number
         for (NumberCard card : availableCards) {
-            System.out.print(card.toString() + " ");
+            System.out.print("| " + card.getName() + " ".repeat(6) + "|\t");
         }
+
+        System.out.println();
+        System.out.println("|        |\t".repeat(availableCards.size()));
+
+        for (NumberCard card : availableCards) {
+            System.out.print("| " + card.getColor() + (card.getColor().name().length() < 6 ? (" ".repeat(6 - card.getColor().name().length())) : "") + " |\t");
+        }
+        System.out.println();
+        System.out.println("|        |\t".repeat(availableCards.size()));
+        System.out.print("----------\t".repeat(availableCards.size()) + "\n");
     }
 
     /**
@@ -85,11 +102,26 @@ public class Field {
      */
     public void printField() {
         for (int i = 0; i < 4; i++) {
+
+            System.out.print("----------\t".repeat(4) + "\n");
+
+            System.out.println("|        |\t".repeat(4));
+
             for (int j = 0; j < 4; j++) {
-                System.out.print(field[i * 4 + j] == null ? "\t\t\t" : field[i * 4 + j].toString() + " \t");
+                System.out.print(field[i * 4 + j] == null ? "|      |\t" : "| " + field[i * 4 + j].getName() + " ".repeat(6) + "|\t");
             }
 
             System.out.println();
+            System.out.println("|        |\t".repeat(4));
+
+            for (int j = 0; j < 4; j++) {
+                System.out.print(field[i * 4 + j] == null ? "|      |\t" : "| " + field[i * 4 + j].getColor() + (field[i * 4 +j].getColor().name().length() < 6 ? (" ".repeat(6 - field[i * 4 +j].getColor().name().length())) : "") + " |\t");
+            }
+
+            System.out.println();
+            System.out.println("|        |\t".repeat(4));
+            System.out.print("----------\t".repeat(4) + "\n");
+
         }
     }
 
