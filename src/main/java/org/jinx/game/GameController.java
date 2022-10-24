@@ -100,11 +100,13 @@ public class GameController {
 
         // Calculate new Scores of after game and add them to highscore list
         for (Player player : pc.getPlayers()) {
-            int score = 0;
-            for (NumberCard card : player.getCards()) {
-                score += Integer.parseInt(card.getName());
+            if (!player.isUsedRedo()) {
+                int score = 0;
+                for (NumberCard card : player.getCards()) {
+                    score += Integer.parseInt(card.getName());
+                }
+                highScoreList.add(new HighScore(player.getName(), score));
             }
-            highScoreList.add(new HighScore(player.getName(), score));
         }
 
         // sort highscore list
