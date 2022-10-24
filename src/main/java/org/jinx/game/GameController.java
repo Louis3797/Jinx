@@ -1,12 +1,15 @@
 package org.jinx.game;
 
 import org.jinx.card.NumberCard;
+import org.jinx.highscore.HighScore;
 import org.jinx.player.Player;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 import java.util.logging.Logger;
 
@@ -16,11 +19,14 @@ public class GameController {
 
     private final PlayerController pc;
 
+    private List<HighScore> highScoreList;
+
     /**
      * Basic Constructor of the GameController class
      */
     public GameController() {
         pc = PlayerController.getPlayerControllerInstance();
+        highScoreList = new ArrayList<>();
     }
 
     public void startSequenz() {
@@ -30,6 +36,7 @@ public class GameController {
         System.out.println("  _  | |  | |  |  \\| |  \\  / ");
         System.out.println(" | |_| |  | |  | |\\  |  /  \\ ");
         System.out.println("  \\___/  |___| |_| \\_| /_/\\_\\");
+        System.out.println("\n");
 
         printHighscore();
 
@@ -45,6 +52,10 @@ public class GameController {
      */
     public void start() {
 
+        // Load old Highscores
+        getOldHighScores();
+
+        // show startsequenz
         startSequenz();
 
         Game g1 = new Game();
@@ -60,6 +71,24 @@ public class GameController {
 
         writeHighScoreToFile();
 
+    }
+
+    private void getOldHighScores() {
+
+
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader("Highscore.txt"));
+            String line;
+
+            while ((line = reader.readLine()) != null) {
+                String[] data = line.split(",");
+                HighScore highScore = new HighScore(data[1], Integer.parseInt(data[0]));
+                highScoreList.add(highScore);
+            }
+
+        } catch (IOException e) {
+            LOGGER.warning(e.getMessage());
+        }
     }
 
     /**
@@ -83,16 +112,16 @@ public class GameController {
         // Player 2,30
         // Player 1,29
         try {
-            FileWriter myWriter = new FileWriter("Highscore.txt", true);
+            FileWriter file = new FileWriter("Highscore.txt");
 
             for (Player player : pc.getPlayers()) {
                 int total = 0;
                 for (NumberCard card : player.getCards()) {
                     total += Integer.parseInt(card.getName());
                 }
-                myWriter.append(String.valueOf(total)).append(",").append(player.getName()).append("\n");
+                file.append(String.valueOf(total)).append(",").append(player.getName()).append("\n");
             }
-            myWriter.close();
+            file.close();
         } catch (IOException e) {
             LOGGER.warning(e.getMessage());
         }
@@ -102,16 +131,11 @@ public class GameController {
      * Method prints highscore at start of game
      */
     private void printHighscore() {
-        try {
-            System.out.println("HIGHSCORES:\nSCORE   PLAYER");
-            BufferedReader br = new BufferedReader(new FileReader("Highscore.txt"));
-            String line;
-            while ((line = br.readLine()) != null) {
-                System.out.println(line);
-            }
-        } catch (IOException e) {
-            LOGGER.warning(e.getMessage());
-        }
 
+        System.out.println("---------- Highscores ----------");
+        for (HighScore highscore : highScoreList) {
+            System.out.println("\t\t" +highscore.playerName() + "\t\t\t   " + highscore.highscore());
+        }
+        System.out.println();
     }
 }
