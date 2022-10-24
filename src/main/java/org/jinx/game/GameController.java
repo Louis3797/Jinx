@@ -7,6 +7,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Scanner;
 import java.util.logging.Logger;
 
 public class GameController {
@@ -20,6 +21,22 @@ public class GameController {
      */
     public GameController() {
         pc = PlayerController.getPlayerControllerInstance();
+    }
+
+    public void startSequenz() {
+
+        System.out.println("      _   ___   _   _  __  __");
+        System.out.println("     | | |_ _| | \\ | | \\ \\/ /");
+        System.out.println("  _  | |  | |  |  \\| |  \\  / ");
+        System.out.println(" | |_| |  | |  | |\\  |  /  \\ ");
+        System.out.println("  \\___/  |___| |_| \\_| /_/\\_\\");
+
+        printHighscore();
+
+        System.out.println("Press any Key to play");
+
+        Scanner scanner = new Scanner(System.in);
+        scanner.nextLine();
 
     }
 
@@ -27,7 +44,8 @@ public class GameController {
      * Method starts the game
      */
     public void start() {
-        printHighscore();
+
+        startSequenz();
 
         Game g1 = new Game();
 
