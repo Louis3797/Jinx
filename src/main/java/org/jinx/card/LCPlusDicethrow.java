@@ -7,7 +7,11 @@ public class LCPlusDicethrow extends LuckyCard{
 
     @Override
     public int effect() {
+        int result = (int) (Math.random() * 6 + 1);
 
-        return 1;
+        System.out.println("Wuerfel: " + result);
+
+        return result;
     }
 }
+

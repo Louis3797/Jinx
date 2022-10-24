@@ -25,13 +25,10 @@ public class Game {
 
         numberCardsDeck = new NumberCardStack();
 
-       luckyCardStack = new LuckyCardStack();
+        luckyCardStack = new LuckyCardStack();
 
         field = new Field();
     }
-
-
-
 
 
     /**
@@ -194,6 +191,86 @@ public class Game {
         }
 
         diceValue = throwDice();
+        return diceValue;
+    }
+
+    public int usePlus1() {
+        Scanner scanner = new Scanner(System.in);
+        int diceValue;
+
+        pc.getCurrentPlayer().printLuckyHand();
+
+        if (!pc.getCurrentPlayer().getLuckyCards().isEmpty()) {
+            System.out.println("Eine benutzen?");
+            if (scanner.next().equals("yes")) {
+
+                System.out.println("index eingeben: ");
+                int index = scanner.nextInt();
+
+                if (pc.getCurrentPlayer().getLuckyCards().get(index - 1).getName().equals("LC+1")) {
+                    int olDice = dice.use();
+                    System.out.println("olDice: " + olDice);
+                    diceValue = pc.getCurrentPlayer().getLuckyCards().get(index - 1).effect() + olDice;
+
+                    if (diceValue >= 6) {
+                        diceValue = 6;
+                        return diceValue;
+                    } else {
+                        System.out.println("DICEVALUE: " + diceValue);
+                        return diceValue;
+                    }
+                }
+            }
+        }
+        diceValue = dice.use();
+        return diceValue;
+    }
+
+    public int useMin() {
+        Scanner scanner = new Scanner(System.in);
+        int diceValue;
+        pc.getCurrentPlayer().printLuckyHand();
+
+        if (!pc.getCurrentPlayer().getLuckyCards().isEmpty()) {
+            System.out.println("Eine benutzen?");
+
+            if (scanner.next().equals("yes")) {
+                System.out.println("index eingeben: ");
+                int index = scanner.nextInt();
+
+                if (pc.getCurrentPlayer().getLuckyCards().get(index - 1).getName().equals("LC-1")) {
+                    int olDice = dice.use();
+                    System.out.println("olDice: " + olDice);
+                    diceValue = pc.getCurrentPlayer().getLuckyCards().get(index - 1).effect() + olDice;
+                    if (diceValue <= 1) {
+                        diceValue = 1;
+                        return diceValue;
+                    } else {
+                        System.out.println("DICEVALUE: " + diceValue);
+                        return diceValue;
+                    }
+                }
+            }
+        }
+        diceValue = dice.use();
+        return diceValue;
+    }
+    public int reroll(){
+        Scanner scanner = new Scanner(System.in);
+        int diceValue;
+        pc.getCurrentPlayer().printLuckyHand();
+        if (!pc.getCurrentPlayer().getLuckyCards().isEmpty()) {
+            System.out.println("Eine benutzen?");
+            if (scanner.next().equals("yes")) {
+                System.out.println("index eingeben: ");
+                int index = scanner.nextInt();
+                if (pc.getCurrentPlayer().getLuckyCards().get(index - 1).getName().equals("LCPlusDicetrhrow")) {
+                    diceValue = pc.getCurrentPlayer().getLuckyCards().get(index - 1).effect();
+                    return diceValue;
+                }
+            }
+        }
+        diceValue = dice.use();
         return diceValue;
     }
 
