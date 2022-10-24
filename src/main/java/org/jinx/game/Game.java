@@ -48,6 +48,7 @@ public class Game {
 
                 int index = scanner.nextInt();
 
+
                 pc.getCurrentPlayer().getCards().remove(index - 1);
                 pc.getCurrentPlayer().getLuckyCards().add(luckyCardStack.pop());
 
@@ -55,7 +56,7 @@ public class Game {
                 if (scanner.next().equals("yes")) {
                     tradeForLucky();
                 }
-            } catch (IndexOutOfBoundsException e) {
+            } catch (IndexOutOfBoundsException | InputMismatchException e) {
                 tradeForLucky();
             }
         } else {
@@ -149,8 +150,7 @@ public class Game {
                     }
                 }
 
-                if (count == 2) ;
-                {
+                if (count == 2) {
 
                     System.out.println("Noch einmal Plus 1?");
 
