@@ -4,9 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c2f48a1e-3d3a-44d2-82a0-57d9e6b79efa" name="Changes" comment="highscores are now in right order after player gets new highscore">
+    <list default="true" id="c2f48a1e-3d3a-44d2-82a0-57d9e6b79efa" name="Changes" comment="updated the appearance of the cards on the terminal">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/jinx/cardstack/NumberCardStack.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jinx/cardstack/NumberCardStack.java" afterDir="false" />
     </list>
     <list id="724caafb-73ed-4e9d-8fb3-c3c7ab2bc0d6" name="Changes by louis der motherfucker" comment="" />
     <list id="3e951ab4-bf93-4233-827f-8d62b05310ac" name="Changes by Yahiatene" comment="" />
@@ -178,7 +177,21 @@
       <option name="project" value="LOCAL" />
       <updated>1666607459919</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="removed to string method">
+      <created>1666613820140</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1666613820140</updated>
+    </task>
+    <task id="LOCAL-00007" summary="updated the appearance of the cards on the terminal">
+      <created>1666613885012</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1666613885012</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -201,6 +214,8 @@
     <MESSAGE value="added startsequenz" />
     <MESSAGE value="highscores are now stored in a list before game start" />
     <MESSAGE value="highscores are now in right order after player gets new highscore" />
-    <option name="LAST_COMMIT_MESSAGE" value="highscores are now in right order after player gets new highscore" />
+    <MESSAGE value="removed to string method" />
+    <MESSAGE value="updated the appearance of the cards on the terminal" />
+    <option name="LAST_COMMIT_MESSAGE" value="updated the appearance of the cards on the terminal" />
   </component>
 </project>
