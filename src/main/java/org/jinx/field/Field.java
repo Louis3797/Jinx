@@ -108,14 +108,14 @@ public class Field {
             System.out.println("|        |\t".repeat(4));
 
             for (int j = 0; j < 4; j++) {
-                System.out.print(field[i * 4 + j] == null ? "|      |\t" : "| " + field[i * 4 + j].getName() + " ".repeat(6) + "|\t");
+                System.out.print(field[i * 4 + j] == null ? "|        |\t" : "| " + field[i * 4 + j].getName() + " ".repeat(6) + "|\t");
             }
 
             System.out.println();
             System.out.println("|        |\t".repeat(4));
 
             for (int j = 0; j < 4; j++) {
-                System.out.print(field[i * 4 + j] == null ? "|      |\t" : "| " + field[i * 4 + j].getColor() + (field[i * 4 +j].getColor().name().length() < 6 ? (" ".repeat(6 - field[i * 4 +j].getColor().name().length())) : "") + " |\t");
+                System.out.print(field[i * 4 + j] == null ? "|        |\t" : "| " + field[i * 4 + j].getColor() + (field[i * 4 +j].getColor().name().length() < 6 ? (" ".repeat(6 - field[i * 4 +j].getColor().name().length())) : "") + " |\t");
             }
 
             System.out.println();
