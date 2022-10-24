@@ -12,9 +12,4 @@ public class NumberCard extends Card {
     public CardColor getColor() {
         return this.color;
     }
-
-    @Override
-    public String toString() {
-        return "|" + getName() + " " + getColor() + "|";
-    }
 }
