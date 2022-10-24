@@ -29,8 +29,9 @@ public class NumberCardStack extends Stack<NumberCard> {
         // 2. too few or to many cards in file
         // 3. card colors in file are nor supported from enum
         // 4. Number of card is not in range of 1-6
-        // 5. IOException
-        // 6. all good
+        // 5. Check if a card does only exists once
+        // 6. IOException
+        // 7. all good
 
         Path path = Path.of("NumberCards.csv");
 
@@ -65,7 +66,13 @@ public class NumberCardStack extends Stack<NumberCard> {
 
                 // if color exists and card number range
                 if (doesColorExists && checkNumber) {
-                    this.add(new NumberCard(data[0], CardColor.valueOf(cardColor)));
+                    NumberCard newCard = new NumberCard(data[0], CardColor.valueOf(cardColor));
+                    if(checkIfCardExists(newCard)) {
+                        LOGGER.info("NumberCard.csv contains multiple instances of one NumberCard");
+                        generateStandardDeck();
+                        return;
+                    }
+                    this.add(newCard);
                 } else {
                     LOGGER.info("Card Color is not supported in enum CardColor.");
                     generateStandardDeck();
@@ -80,6 +87,22 @@ public class NumberCardStack extends Stack<NumberCard> {
             // Generate standard deck in error
             generateStandardDeck();
         }
+    }
+
+    /**
+     * Checks if the given Card does exist in the Stack
+     * @param newCard Given NumberCard we want to check
+     * @return Return true if given Card is in Stack
+     */
+    private boolean checkIfCardExists(NumberCard newCard) {
+
+        for(NumberCard card : this){
+            if (card.getName().equals(newCard.getName()) && card.getColor().equals(newCard.getColor())){
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
