@@ -17,6 +17,17 @@ public class NumberCardStack extends Stack<NumberCard> {
      */
     private void generateDeck() {
 
+        // add csv file support
+
+        // check if file exists
+
+        // if yes
+        // load file
+        // check if color exists in CardColor Enum
+        // generate Deck from Cards with order from file
+
+        // if no
+        // use this code snippet
         for (CardColor color : CardColor.values()) {
             for (int i = 1; i < 7; i++) {
                 this.add(new NumberCard(Integer.toString(i), color));
