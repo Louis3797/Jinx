@@ -68,6 +68,36 @@ public class Field {
         return cards;
     }
 
+    public List<List<NumberCard>> getAvailableNumberCardsLcSum(int diceResult) {
+        List<List<NumberCard>> cards = new ArrayList<>();
+
+        for (int i = 0; i < field.length; i++) {
+            int total = 0;
+            List<NumberCard> temp = new ArrayList<>();
+
+            if (field[i] != null && Integer.parseInt(field[i].getName()) <= diceResult) {
+                temp.add(field[i]);
+                total += Integer.parseInt(field[i].getName());
+
+                for (int j = i; j < field.length; j++) {
+                    if (field[j] != null && Integer.parseInt(field[j].getName()) <= diceResult - total) {
+                        temp.add(field[j]);
+                        total += Integer.parseInt(field[j].getName());
+                    }
+
+                    if (total == diceResult) {
+                        break;
+                    }
+                }
+
+                cards.add(temp);
+            }
+
+        }
+
+        return cards;
+    }
+
     /**
      * prints all cards to choose from
      *
@@ -115,7 +145,7 @@ public class Field {
             System.out.println("|        |\t".repeat(4));
 
             for (int j = 0; j < 4; j++) {
-                System.out.print(field[i * 4 + j] == null ? "|        |\t" : "| " + field[i * 4 + j].getColor() + (field[i * 4 +j].getColor().name().length() < 6 ? (" ".repeat(6 - field[i * 4 +j].getColor().name().length())) : "") + " |\t");
+                System.out.print(field[i * 4 + j] == null ? "|        |\t" : "| " + field[i * 4 + j].getColor() + (field[i * 4 + j].getColor().name().length() < 6 ? (" ".repeat(6 - field[i * 4 + j].getColor().name().length())) : "") + " |\t");
             }
 
             System.out.println();
@@ -134,4 +164,5 @@ public class Field {
     public NumberCard[] getField() {
         return field;
     }
+
 }

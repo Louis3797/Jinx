@@ -208,7 +208,49 @@ public class Game {
             System.out.println("Drücken sie eine Taste um zu Würfeln");
             scanner.next();
 
-            List<NumberCard> availableCards = field.getAvailableNumberCards(throwDice());
+            // roll dice
+            int diceResult = throwDice();
+
+            // lcsum nutzen ??
+
+            int lcsum = hasLCSum();
+            if (lcsum >= 1) {
+                System.out.println("LuckyCard Sum nutzen? [yes ,no]");
+
+                if (scanner.nextLine().equals("yes")) {
+
+                    if (lcsum >= 2) {
+                        System.out.println("Sie haben zwei dieser Glückskarten,\n wollen sie das ergebniss des Würfels um ein erhöhen oder reduzieren ? [+, -]");
+
+                        String choice;
+
+                        while (true) {
+                            choice = scanner.nextLine();
+
+                            if (choice.equals("+")) {
+                                diceResult++;
+                                break;
+                            }
+
+                            if (choice.equals("-")) {
+                                if (diceResult > 1) {
+                                    diceResult--;
+                                    break;
+                                } else {
+                                    System.out.println("Sie können nicht reduzieren da sie nur eine 1 haben");
+                                }
+                            }
+
+                            System.out.println("Geben sie + oder - ein");
+                        }
+                    }
+
+
+                    List<List<NumberCard>> availableCards = field.getAvailableNumberCardsLcSum(diceResult);
+                }
+            }
+
+            List<NumberCard> availableCards = field.getAvailableNumberCards(diceResult);
 
             // if true, then the round is over
             if (availableCards.isEmpty()) {
@@ -243,6 +285,7 @@ public class Game {
                 }
             }
         }
+
     }
 
     private int use123or456() {
@@ -439,4 +482,20 @@ public class Game {
         }
     }
 
+    /**
+     * Checks if player has LuckzCard LCSum in hand
+     *
+     * @return Returns how much lcsum cards player has
+     */
+    private int hasLCSum() {
+
+        int total = 0;
+        for (LuckyCard card : pc.getCurrentPlayer().getLuckyCards()) {
+            if (card.getName().equals("LCSum")) {
+                total++;
+            }
+        }
+
+        return total;
+    }
 }
