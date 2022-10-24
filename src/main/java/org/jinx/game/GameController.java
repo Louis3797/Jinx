@@ -9,6 +9,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Scanner;
 import java.util.logging.Logger;
@@ -19,7 +20,7 @@ public class GameController {
 
     private final PlayerController pc;
 
-    private List<HighScore> highScoreList;
+    private final List<HighScore> highScoreList;
 
     /**
      * Basic Constructor of the GameController class
@@ -73,6 +74,9 @@ public class GameController {
 
     }
 
+    /**
+     * Method reads all highscore data from Highscore.txt and adds it to highScoreList as Highscore Record
+     */
     private void getOldHighScores() {
 
 
@@ -95,32 +99,26 @@ public class GameController {
      * Method writes Highscore of Player to highscore.txt file
      */
     private void writeHighScoreToFile() {
-        // What if the player makes new Highscore ?
-        // We need to rewrite the file everytime
 
-        // Example
+        // Calculate new Scores of after game and add them to highscore list
+        for (Player player : pc.getPlayers()) {
+            int score = 0;
+            for (NumberCard card : player.getCards()) {
+                score += Integer.parseInt(card.getName());
+            }
+            highScoreList.add(new HighScore(player.getName(), score));
+        }
 
-        // Player one makes new Highscore of 100 points
+        // sort highscore list
+        highScoreList.sort(Comparator.comparingInt(HighScore::highscore));
 
-        // old list is
-
-        // Player 2,30
-        // Player 1,29
-
-        // new list should be
-        // Player 1,100
-        // Player 2,30
-        // Player 1,29
         try {
             FileWriter file = new FileWriter("Highscore.txt");
 
-            for (Player player : pc.getPlayers()) {
-                int total = 0;
-                for (NumberCard card : player.getCards()) {
-                    total += Integer.parseInt(card.getName());
-                }
-                file.append(String.valueOf(total)).append(",").append(player.getName()).append("\n");
+            for (HighScore highScore : highScoreList) {
+                file.append(String.valueOf(highScore.highscore())).append(",").append(highScore.playerName()).append("\n");
             }
+
             file.close();
         } catch (IOException e) {
             LOGGER.warning(e.getMessage());
@@ -134,7 +132,7 @@ public class GameController {
 
         System.out.println("---------- Highscores ----------");
         for (HighScore highscore : highScoreList) {
-            System.out.println("\t\t" +highscore.playerName() + "\t\t\t   " + highscore.highscore());
+            System.out.println("\t\t" + highscore.playerName() + "\t\t\t   " + highscore.highscore());
         }
         System.out.println();
     }
