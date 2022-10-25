@@ -1,6 +1,7 @@
 package org.jinx.game;
 
 import org.jinx.player.Player;
+import org.jinx.wrapper.SafeScanner;
 
 import java.util.*;
 import java.util.logging.Logger;
@@ -27,47 +28,48 @@ public class PlayerController {
     private Player currentPlayer;
 
     /**
+     * Wrapper for the Scanner
+     */
+    private final SafeScanner safeScanner;
+
+    /**
      * Standard Constructor for the Player Controller
      */
     private PlayerController() {
         players = new LinkedList<>();
         currentPlayer = null;
+        safeScanner = new SafeScanner();
     }
 
     /**
      * adds players to game
      */
     public void addPlayers() {
-
-
-        Scanner input = new Scanner(System.in);
-
         System.out.println("Um das Spiel zu spielen brauchen sie mindestens 2-4 Spieler.");
 
         while (players.size() != 4) {
 
             // is max player number is reached?
 
-            // if min player number is reached
-            if (players.size() >= 2) {
-                System.out.println("Wollen sie noch ein weiteren Spieler hinzufügen?\n[yes, no]:");
+            // add player until min player number is reached
+            if (players.size() < 2) {
+                addOnePlayer();
+            } else {
+                System.out.println("Wollen sie noch ein weiteren Spieler hinzufügen?\n[y,yes,ja | n,no,nein]");
 
-                // no case
-                if (!input.next().equals("yes")) {
-                    System.out.println("Wollen sie die Spieler durchmischen?");
-                    if (input.next().equals("yes")) {
-                        shufflePlayerOrder();
-                    }
-                    return;
+                boolean oneMorePlayer = safeScanner.nextYesNoAnswer();
+
+                if (!oneMorePlayer) {
+                    break;
                 }
-            }
 
-            addOnePlayer();
+            }
         }
 
         System.out.println("Wollen sie die Spieler durchmischen?");
 
-        if (input.next().equals("yes")) {
+        boolean shufflePlayer = safeScanner.nextYesNoAnswer();
+        if (shufflePlayer) {
             shufflePlayerOrder();
         }
     }
@@ -79,13 +81,11 @@ public class PlayerController {
 
         System.out.println("Gib deinen Spieler einen Namen:");
 
-        Scanner input = new Scanner(System.in);
-
         String playerName;
         boolean temp;
 
         do {
-            playerName = input.nextLine();
+            playerName = safeScanner.nextStringSafe();
 
             temp = doesPlayerExist(playerName);
 
