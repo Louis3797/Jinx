@@ -347,7 +347,7 @@ public class Game {
      * @param dice rolled dice
      * @return dicevalue + 1
      */
-    public int usePlus(int dice) {
+    private int usePlus(int dice) {
         Scanner scanner = new Scanner(System.in);
         int value;
 
@@ -378,7 +378,7 @@ public class Game {
      * @param dice rolled dice
      * @return dicevalue - 1
      */
-    public int useMinus(int dice) {
+    private int useMinus(int dice) {
         Scanner scanner = new Scanner(System.in);
         int value;
 
@@ -408,7 +408,7 @@ public class Game {
      * allows player to reroll with luckycard
      * @return new rolled dice value
      */
-    public int reroll() {
+    private int reroll() {
         Scanner scanner = new Scanner(System.in);
         int diceValue;
         pc.getCurrentPlayer().printLuckyHand();
