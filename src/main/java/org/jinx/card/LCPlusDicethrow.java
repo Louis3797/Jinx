@@ -1,8 +1,8 @@
 package org.jinx.card;
 
 public class LCPlusDicethrow extends LuckyCard{
-    public LCPlusDicethrow(String name) {
-        super(name);
+    public LCPlusDicethrow() {
+        super(LuckyCardNames.LCPlusDicethrow);
     }
 
     @Override

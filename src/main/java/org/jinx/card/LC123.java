@@ -4,8 +4,8 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class LC123 extends LuckyCard{
-    public LC123(String name) {
-        super(name);
+    public LC123() {
+        super(LuckyCardNames.LC123);
     }
 
     @Override

@@ -78,25 +78,25 @@ public class LuckyCardStack extends Stack<LuckyCard> {
         }
     }
 
-    private LuckyCard luckyFactory(String name){
+    private LuckyCard luckyFactory(String name) {
         switch (name) {
             case "LC123" -> {
-                return new LC123("LC123");
+                return new LC123();
             }
             case "LC456" -> {
-                return new LC456("LC456");
+                return new LC456();
             }
             case "LCMinus1" -> {
-                return new LCMinus1("LCMinus1");
+                return new LCMinus1();
             }
             case "LCPlus1" -> {
-                return new LCPlus1("LCPlus1");
+                return new LCPlus1();
             }
             case "LCPlusDicethrow" -> {
-                return new LCPlusDicethrow("LCPlusDicethrow");
+                return new LCPlusDicethrow();
             }
             case "LCSum" -> {
-                return new LCSum("LCSum");
+                return new LCSum();
             }
             default -> {
                 return null;
@@ -111,15 +111,18 @@ public class LuckyCardStack extends Stack<LuckyCard> {
         // remove all old values
         this.removeAllElements();
 
-        // generate
-        for (int i = 1; i < 13; i++) {
-            if (i % 6 == 0) this.add(new LC123("LC123"));
-            if (i % 6 == 1) this.add(new LC456("LC456"));
-            if (i % 6 == 2) this.add(new LCMinus1("LCMinus1"));
-            if (i % 6 == 3) this.add(new LCPlus1("LCPlus1"));
-            if (i % 6 == 4) this.add(new LCPlusDicethrow("LCPlusDicethrow"));
-            if (i % 6 == 5) this.add(new LCSum("LCSum"));
-        }
+        this.add(new LC123());
+        this.add(new LC123());
+        this.add(new LC456());
+        this.add(new LC456());
+        this.add(new LCMinus1());
+        this.add(new LCMinus1());
+        this.add(new LCPlus1());
+        this.add(new LCPlus1());
+        this.add(new LCPlusDicethrow());
+        this.add(new LCPlusDicethrow());
+        this.add(new LCSum());
+        this.add(new LCSum());
 
         Collections.shuffle(this);
     }

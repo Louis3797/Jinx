@@ -5,8 +5,8 @@ import java.util.Scanner;
 
 public class LC456 extends LuckyCard {
 
-    public LC456(String name) {
-        super(name);
+    public LC456() {
+        super(LuckyCardNames.LC456);
     }
 
     @Override
