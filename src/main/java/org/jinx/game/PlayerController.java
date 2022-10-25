@@ -34,6 +34,9 @@ public class PlayerController {
         currentPlayer = null;
     }
 
+    /**
+     * adds players to game
+     */
     public void addPlayers() {
 
 

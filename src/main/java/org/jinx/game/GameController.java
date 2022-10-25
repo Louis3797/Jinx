@@ -30,6 +30,9 @@ public class GameController {
         highScoreList = new ArrayList<>();
     }
 
+    /**
+     * prints gamelogo
+     */
     public void startSequenz() {
 
         System.out.println("      _   ___   _   _  __  __");
