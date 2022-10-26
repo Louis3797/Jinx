@@ -2,7 +2,6 @@ package org.jinx.card;
 
 import org.jinx.wrapper.SafeScanner;
 
-
 public class LC456 extends LuckyCard {
 
     public LC456() {

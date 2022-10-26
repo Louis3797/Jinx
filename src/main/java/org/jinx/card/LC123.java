@@ -2,9 +2,6 @@ package org.jinx.card;
 
 import org.jinx.wrapper.SafeScanner;
 
-import java.util.InputMismatchException;
-import java.util.Scanner;
-
 public class LC123 extends LuckyCard{
     public LC123() {
         super(LuckyCardNames.LC123);
