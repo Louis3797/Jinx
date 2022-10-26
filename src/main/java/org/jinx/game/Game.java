@@ -99,7 +99,7 @@ public class Game {
             // show player available cards
             field.printAvailableCards(availableCards);
 
-            System.out.println("\n---------------\n");
+            System.out.println("---------------");
             // choose a card
             System.out.println("Wählen sie eine Karte aus: ");
 
@@ -109,9 +109,9 @@ public class Game {
             NumberCard card = availableCards.get(wantedCard - 1);
             pc.getCurrentPlayer().getCards().add(card);
 
-            System.out.println("Spieler: " + pc.getCurrentPlayer().getName() + "\n");
+            System.out.println("Spieler: " + pc.getCurrentPlayer().getName());
             pc.getCurrentPlayer().printHand();
-
+            System.out.println("---------------");
             // remove card that the player chose from field
             field.removeChosenCard(card);
 
@@ -210,7 +210,7 @@ public class Game {
     private void tradeForLucky() {
 
         if (pc.getCurrentPlayer().getCards().isEmpty()) {
-            System.out.println("Sie haben leider keine Karten mehr au der Hand");
+            System.out.println("Du hast leider keine Karten mehr auf der Hand");
             return;
         }
         pc.getCurrentPlayer().printHand();
@@ -345,6 +345,8 @@ public class Game {
                     }
                 }
             }
+
+            // show which cards are removed
             player.getCards().removeAll(tempCards);
         }
     }
