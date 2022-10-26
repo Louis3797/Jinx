@@ -1,14 +1,17 @@
 package org.jinx.game;
 
-import org.jinx.card.LuckyCard;
+import org.jinx.card.LuckyCardNames;
 import org.jinx.card.NumberCard;
 import org.jinx.cardstack.LuckyCardStack;
 import org.jinx.cardstack.NumberCardStack;
 import org.jinx.dice.Dice;
 import org.jinx.field.Field;
 import org.jinx.player.Player;
+import org.jinx.wrapper.SafeScanner;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Stack;
 
 
 public class Game {
@@ -21,6 +24,8 @@ public class Game {
 
     private final Field field;
 
+    private final SafeScanner safeScanner;
+
     public Game() {
         dice = new Dice();
 
@@ -29,49 +34,90 @@ public class Game {
         luckyCardStack = new LuckyCardStack();
 
         field = new Field();
-    }
 
-
-    /**
-     * trade Numbercards for luckycards
-     * after beginning of 2nd round
-     */
-    private void tradeForLucky() {
-
-        if (!pc.getCurrentPlayer().getCards().isEmpty()) {
-            try {
-                Scanner scanner = new Scanner(System.in);
-
-                System.out.println("Welche Karte eintauschen?");
-
-                pc.getCurrentPlayer().printHand();
-
-                int index = scanner.nextInt();
-
-
-                pc.getCurrentPlayer().getCards().remove(index - 1);
-                pc.getCurrentPlayer().getLuckyCards().add(luckyCardStack.pop());
-
-                System.out.println("Noch eine eintauschen?");
-                if (scanner.next().equals("yes")) {
-                    tradeForLucky();
-                }
-            } catch (IndexOutOfBoundsException | InputMismatchException e) {
-                tradeForLucky();
-            }
-        } else {
-            System.out.println("Keine Karten mehr!");
-        }
+        safeScanner = new SafeScanner();
     }
 
     /**
      * This method controls the gameflow for each round
      */
     public void play(int currentRound) {
-        pickAvailable(currentRound);
+
+        // initialize current player in PlayerController
+        if (currentRound == 1) {
+            pc.next();
+        }
+
+        // Lay new cards on field to replace old field
+        field.setField(numberCardsDeck);
+
+        System.out.println("Runde " + currentRound);
+
+        // if we are not in round 1, then we can trade
+        if (currentRound >= 2) {
+            for (int i = 0; i < pc.getPlayers().size(); i++) {
+
+                System.out.println("Spieler: " + pc.getCurrentPlayer().getName() +
+                        "\nKarte gegen Glückskarte eintauschen? [y,yes,ja | n,no,nein]");
+
+                boolean doTrade = safeScanner.nextYesNoAnswer();
+                if (doTrade) {
+                    tradeForLucky();
+                    pc.getCurrentPlayer().printLuckyHand();
+                }
+                pc.next();
+            }
+
+        }
+
+        pickCardsPhase();
+
         discardSameColor();
         printPlayerHands();
         discard();
+    }
+
+    /**
+     * method for user to pick from available cards
+     */
+    private void pickCardsPhase() {
+
+        while (true) {
+            field.printField();
+
+            System.out.println("\nAktiver Spieler: " + pc.getCurrentPlayer().getName());
+
+            int diceRollResult = throwDice();
+
+            List<NumberCard> availableCards = field.getAvailableNumberCards(diceRollResult);
+
+            // if true, then the round is over
+            if (availableCards.isEmpty()) {
+                System.out.println("Die Runde ist zu ende");
+                break;
+            }
+            // show player available cards
+            field.printAvailableCards(availableCards);
+
+            System.out.println("\n---------------\n");
+            // choose a card
+            System.out.println("Wählen sie eine Karte aus: ");
+
+            int wantedCard = safeScanner.nextIntInRange(1, availableCards.size()); // +1 bc for better ux
+
+            // add card to hand
+            NumberCard card = availableCards.get(wantedCard - 1);
+            pc.getCurrentPlayer().getCards().add(card);
+
+            System.out.println("Spieler: " + pc.getCurrentPlayer().getName() + "\n");
+            pc.getCurrentPlayer().printHand();
+
+            // remove card that the player chose from field
+            field.removeChosenCard(card);
+
+            // switch to next player
+            pc.next();
+        }
     }
 
     /**
@@ -80,262 +126,127 @@ public class Game {
      * @return user chosen dice value
      */
     private int throwDice() {
-        Scanner scanner = new Scanner(System.in);
-        int result;
 
-        if (luckyQuestion()) {
-            System.out.println("Luckycard benutzen?");
-            if (scanner.next().equals("yes")) {
+        Stack<Integer> diceStack = new Stack<>();
+
+        if (pc.getCurrentPlayer().hasLuckyCard(LuckyCardNames.LC123) || pc.getCurrentPlayer().hasLuckyCard(LuckyCardNames.LC456)) {
+            System.out.println("Glückskarte 123 oder 456 benutzen?");
+            if (safeScanner.nextYesNoAnswer()) {
                 return use123or456();
             }
         }
 
-        result = dice.use();
-        System.out.println("Wuerfel: " + result +
-                "\nNochmal wuerfeln? [yes|no]");
+        System.out.println("Drücken sie eine Taste um zu Würfeln");
 
-        if (scanner.next().equals("yes")) {
-            result = dice.use();
-            System.out.println("Wuerfel: " + result);
+        safeScanner.nextStringSafe();
 
-            if (luckyQuestionReroll()) {
+        diceStack.push(dice.use());
 
-                System.out.println("Nochmal rollen?");
-                if (scanner.next().equals("yes")) {
+        System.out.println("Du hast eine " + diceStack.peek() +
+                " gewürfelt\nNochmal wuerfeln? [yes|no]");
 
-                    result = reroll();
-
-                    int count = 0;
-
-                    for (int i = 0; i < pc.getCurrentPlayer().getLuckyCards().size(); i++) {
-
-                        if (pc.getCurrentPlayer().getLuckyCards().get(i).getName().equals("LCPlusDicethrow")) {
-                            count++;
-                        }
-                    }
-
-                    if (count == 2) {
-
-                        System.out.println("Nochmal wuerfeln?");
-
-                        if (scanner.next().equals("yes")) {
-                            return reroll();
-                        }
-                    }
-                    return result;
-                }
-            }
-
+        if (safeScanner.nextYesNoAnswer()) {
+            diceStack.push(dice.use());
+            System.out.println("Du hast eine " + diceStack.peek() + " gewürfelt");
         }
 
-        if (luckyQuestion()) {
-            System.out.println("123 oder 456 benutzen?");
-            if (scanner.next().equals("yes")) {
+        if (pc.getCurrentPlayer().hasLuckyCard(LuckyCardNames.LCPlusDicethrow)) {
+            System.out.println("Glückskarte benutzen um nochmal zu Würfeln:");
+            if (safeScanner.nextYesNoAnswer()) {
+                diceStack.push(useReroll());
+            }
+        }
+
+        if (pc.getCurrentPlayer().hasLuckyCard(LuckyCardNames.LC123) || pc.getCurrentPlayer().hasLuckyCard(LuckyCardNames.LC456)) {
+            System.out.println("Glückskarte 123 oder 456 benutzen?");
+            if (safeScanner.nextYesNoAnswer()) {
                 return use123or456();
             }
         }
 
-        if (luckyQuestionPlus()) {
-            System.out.println("Plus 1 benutzen?");
-            if (scanner.next().equals("yes")) {
-
-                result = usePlus(result);
-
-                int count = 0;
-
-                for (int i = 0; i < pc.getCurrentPlayer().getLuckyCards().size(); i++) {
-                    if (pc.getCurrentPlayer().getLuckyCards().get(i).getName().equals("LCPlus1")) {
-                        count++;
-                    }
-                }
-
-                if (count == 2) {
-
-                    System.out.println("Noch einmal Plus 1?");
-
-                    if (scanner.next().equals("yes")) {
-                        return usePlus(result);
-                    }
-                }
+        if (pc.getCurrentPlayer().hasLuckyCard(LuckyCardNames.LCPlus1)) {
+            System.out.println("Glückskarte Plus 1 benutzen?");
+            if (safeScanner.nextYesNoAnswer()) {
+                diceStack.push(usePlus(diceStack.peek()));
             }
         }
 
-        if (luckyQuestionMinus()) {
-            System.out.println("Minus 1 benutzen?");
-            if (scanner.next().equals("yes")) {
+        if (pc.getCurrentPlayer().hasLuckyCard(LuckyCardNames.LCMinus1)) {
+            System.out.println("Glückskarte Minus 1 benutzen?");
+            if (safeScanner.nextYesNoAnswer()) {
+                diceStack.push(useMinus(diceStack.peek()));
+            }
+        }
 
-                result = usePlus(useMinus(result));
+        if (diceStack.size() > 1) {
+            useUndo(diceStack);
+        }
 
-                int count = 0;
+        return diceStack.peek();
+    }
 
-                for (int i = 0; i < pc.getCurrentPlayer().getLuckyCards().size(); i++) {
-                    if (pc.getCurrentPlayer().getLuckyCards().get(i).getName().equals("LCMinus1")) {
-                        count++;
-                    }
-                }
+    private void useUndo(Stack<Integer> diceStack) {
+        System.out.println("Wollen sie die undo Funktion nutzen um ein vorheriges Würfelergebnis zurück zu holen?");
+        if (safeScanner.nextYesNoAnswer()) {
 
-                if (count == 2) ;
-                {
+            pc.getCurrentPlayer().setUsedRedo(true);
+            
+            while (diceStack.size() > 1) {
+                diceStack.pop();
+                System.out.println("Ihr Würfelergebnis ist nun " + diceStack.peek());
 
-                    System.out.println("Noch einmal Minus 1?");
-
-                    if (scanner.next().equals("yes")) {
-                        return useMinus(result);
-                    }
+                System.out.println("Nochmal undo nutzen ?");
+                if(!safeScanner.nextYesNoAnswer()){
+                    break;
                 }
             }
         }
-
-        return result;
-
     }
 
+
     /**
-     * checks if 123 or 456 card is available
-     * @return true, if available, false if not
+     * trade Numbercards for luckycards after beginning of 2nd round
      */
-    private boolean luckyQuestion() {
-        for (LuckyCard card : pc.getCurrentPlayer().getLuckyCards()) {
-            if (card.getName().equals("LC123") || card.getName().equals("LC456")) {
-                return true;
-            }
+    private void tradeForLucky() {
+
+        if (pc.getCurrentPlayer().getCards().isEmpty()) {
+            System.out.println("Sie haben leider keine Karten mehr au der Hand");
+            return;
         }
-        return false;
+        pc.getCurrentPlayer().printHand();
+
+        System.out.println("Welche Karte wollen sie eintauschen?");
+        // Get index of card we want to trade for a lucky card
+        int index = safeScanner.nextIntInRange(1, pc.getCurrentPlayer().getCards().size());
+
+        pc.getCurrentPlayer().getCards().remove(index - 1);
+
+        pc.getCurrentPlayer().getLuckyCards().add(luckyCardStack.pop());
+
+        System.out.println("Wollen sie noch eine Karte eintauschen?");
+
+        if (safeScanner.nextYesNoAnswer()) {
+            tradeForLucky();
+        }
     }
 
     /**
-     * checks if plus 1 card is available
-     * @return true if available, false if not
-     */
-    private boolean luckyQuestionPlus() {
-        for (LuckyCard card : pc.getCurrentPlayer().getLuckyCards()) {
-            if (card.getName().equals("LCPlus1")) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
-     * checks if minus 1 card is available
-     * @return true if available, false if not
-     */
-    private boolean luckyQuestionMinus() {
-        for (LuckyCard card : pc.getCurrentPlayer().getLuckyCards()) {
-            if (card.getName().equals("LCMinus1")) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
-     * checks if reroll luckycard is available
-     * @return true if available, false if not
-     */
-    private boolean luckyQuestionReroll() {
-        for (LuckyCard card : pc.getCurrentPlayer().getLuckyCards()) {
-            if (card.getName().equals("LCPlusDicethrow")) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
-     * method for user to pick from available cards
+     * choose a card with number 123 or 456 from field if use is available
      *
-     * @param currentRound round the player is in
-     */
-    private void pickAvailable(int currentRound) {
-        Scanner scanner = new Scanner(System.in);
-        field.setField(numberCardsDeck);
-        System.out.println("Runde " + currentRound);
-
-        for (int i = 0; i < pc.getPlayers().size(); i++) {
-            if (currentRound >= 2) {
-                System.out.println("Spieler: " + pc.getCurrentPlayer().getName() + "\nKarte gegen Glückskarte eintauschen?");
-                if (scanner.next().equals("yes")) {
-                    tradeForLucky();
-                    pc.getCurrentPlayer().printLuckyHand();
-                }
-                pc.next();
-            }
-        }
-
-        while (true) {
-
-            field.printField();
-            pc.next(); // Player ändern
-
-            System.out.println("\nAktiver Spieler: " + pc.getCurrentPlayer().getName());
-
-
-            System.out.println("Drücken sie eine Taste um zu Würfeln");
-            scanner.next();
-
-            List<NumberCard> availableCards = field.getAvailableNumberCards(throwDice());
-
-            // if true, then the round is over
-            if (availableCards.isEmpty()) {
-                System.out.println("ENDE");
-                break;
-            }
-            // show player available cards
-            field.printAvailableCards(availableCards);
-
-            System.out.println("\n---------------\n");
-
-            boolean chosen = false;
-            while (!chosen) {
-                // choose a card
-                System.out.println("Wählen sie eine Karte aus: ");
-                int index = scanner.nextInt();
-
-                // check for index exception
-                if (index <= 0 || index > availableCards.size()) {
-                    System.out.println("Falsche Eingabe");
-
-                } else {
-                    // add card to hand
-                    NumberCard card = availableCards.get(index - 1);
-                    pc.getCurrentPlayer().getCards().add(card);
-                    chosen = true;
-
-                    System.out.println("Spieler: " + pc.getCurrentPlayer().getName() + "\n");
-                    pc.getCurrentPlayer().printHand();
-
-                    field.removeChosenCard(card);
-                }
-            }
-        }
-    }
-
-    /**
-     * choose a card with number 123 or 456
-     * from field if use is available
      * @return player chosen number
      */
     private int use123or456() {
-        Scanner scanner = new Scanner(System.in);
-
         pc.getCurrentPlayer().printLuckyHand();
 
-
-        System.out.println("index eingeben: ");
-        int index = scanner.nextInt();
-
-        if (index <= 0 || index > pc.getCurrentPlayer().getLuckyCards().size()) {
-            return use123or456();
-        }
+        int index = selectLuckyCardIndex();
 
         if (pc.getCurrentPlayer().getLuckyCards().get(index - 1).getName().equals("LC123")
                 || pc.getCurrentPlayer().getLuckyCards().get(index - 1).getName().equals("LC456")) {
+
             int diceValue = pc.getCurrentPlayer().getLuckyCards().get(index - 1).effect();
 
             pc.getCurrentPlayer().getLuckyCards().remove(index - 1);
 
-            System.out.println("DICEVALUE: " + diceValue);
             return diceValue;
         } else {
             return use123or456();
@@ -344,24 +255,18 @@ public class Game {
 
     /**
      * adds 1 to dicevalue
+     *
      * @param dice rolled dice
      * @return dicevalue + 1
      */
     private int usePlus(int dice) {
-        Scanner scanner = new Scanner(System.in);
-        int value;
 
         pc.getCurrentPlayer().printLuckyHand();
 
-        System.out.println("index eingeben: ");
-        int index = scanner.nextInt();
-
-        if (index <= 0 || index > pc.getCurrentPlayer().getLuckyCards().size()) {
-            return usePlus(dice);
-        }
+        int index = selectLuckyCardIndex();
 
         if (pc.getCurrentPlayer().getLuckyCards().get(index - 1).getName().equals("LCPlus1")) {
-            value = pc.getCurrentPlayer().getLuckyCards().get(index - 1).effect() + dice;
+            int value = pc.getCurrentPlayer().getLuckyCards().get(index - 1).effect() + dice;
 
             if (value >= 6) {
                 value = 6;
@@ -375,24 +280,17 @@ public class Game {
 
     /**
      * subtracts 1 from dicevalue
+     *
      * @param dice rolled dice
      * @return dicevalue - 1
      */
     private int useMinus(int dice) {
-        Scanner scanner = new Scanner(System.in);
-        int value;
-
         pc.getCurrentPlayer().printLuckyHand();
 
-        System.out.println("index eingeben: ");
-        int index = scanner.nextInt();
-
-        if (index <= 0 || index > pc.getCurrentPlayer().getLuckyCards().size()) {
-            return useMinus(dice);
-        }
+        int index = selectLuckyCardIndex();
 
         if (pc.getCurrentPlayer().getLuckyCards().get(index - 1).getName().equals("LCMinus1")) {
-            value = pc.getCurrentPlayer().getLuckyCards().get(index - 1).effect() + dice;
+            int value = pc.getCurrentPlayer().getLuckyCards().get(index - 1).effect() + dice;
 
             if (value <= 1) {
                 value = 1;
@@ -406,25 +304,28 @@ public class Game {
 
     /**
      * allows player to reroll with luckycard
+     *
      * @return new rolled dice value
      */
-    private int reroll() {
-        Scanner scanner = new Scanner(System.in);
-        int diceValue;
+    private int useReroll() {
         pc.getCurrentPlayer().printLuckyHand();
 
-        System.out.println("index eingeben: ");
-        int index = scanner.nextInt();
-
-        if (index < 0 || index > pc.getCurrentPlayer().getLuckyCards().size()) {
-            return reroll();
-        }
+        int index = selectLuckyCardIndex();
 
         if (pc.getCurrentPlayer().getLuckyCards().get(index - 1).getName().equals("LCPlusDicethrow")) {
-            diceValue = pc.getCurrentPlayer().getLuckyCards().get(index - 1).effect();
-            return diceValue;
+            return pc.getCurrentPlayer().getLuckyCards().get(index - 1).effect();
         }
-        return reroll();
+        return useReroll();
+    }
+
+    /**
+     * Asks the player the index of the LuckyCard in their hand
+     *
+     * @return returns the selected index
+     */
+    private int selectLuckyCardIndex() {
+        System.out.println("Welche Karte wollen sie verwenden: ");
+        return safeScanner.nextIntInRange(1, pc.getCurrentPlayer().getLuckyCards().size());
     }
 
     /**
@@ -449,7 +350,7 @@ public class Game {
     }
 
     /**
-     * finds highest NumberCard in playerhand
+     * Finds the highest NumberCard in the hand of the player
      */
     private List<NumberCard> findHighest() {
         List<NumberCard> highestCards = new ArrayList<>();
@@ -471,7 +372,6 @@ public class Game {
             }
         }
 
-
         highestCards.add(max);
 
         for (NumberCard card : currentPlayer.getCards()) {
@@ -492,7 +392,6 @@ public class Game {
         }
         List<NumberCard> highest = findHighest();
         // scanner for index input
-        Scanner scanner = new Scanner(System.in);
 
         System.out.print("----------\t".repeat(highest.size()) + "\n");
 
@@ -514,21 +413,15 @@ public class Game {
         System.out.print("----------\t".repeat(highest.size()) + "\n");
 
         System.out.println("Welche Karte möchtest du wegwerfen?");
-        int index = scanner.nextInt();
 
-        // check for index exception
-        if (index <= 0 || index > highest.size()) {
-            System.out.println("Falsche Eingabe");
-            discard();
+        int index = safeScanner.nextIntInRange(1, highest.size());
 
-        } else {
+        //remove the highest from current player that ended turn
+        pc.getCurrentPlayer().getCards().remove(highest.get(index - 1));
 
-            //remove the highest from current player that ended turn
-            pc.getCurrentPlayer().getCards().remove(highest.get(index - 1));
+        System.out.println("NACH WEGWURF ----------------");
+        printPlayerHands();
 
-            System.out.println("NACH WEGWURF ----------------");
-            printPlayerHands();
-        }
     }
 
     /**
