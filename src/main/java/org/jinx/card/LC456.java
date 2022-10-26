@@ -1,6 +1,6 @@
 package org.jinx.card;
 
-import java.util.Scanner;
+import org.jinx.wrapper.SafeScanner;
 
 
 public class LC456 extends LuckyCard {
@@ -11,15 +11,8 @@ public class LC456 extends LuckyCard {
 
     @Override
     public int effect() {
-        Scanner scanner = new Scanner(System.in);
         System.out.println("Zahl von 4-6 eingeben");
-        int number = scanner.nextInt();
 
-        if (number < 4 || number > 6) {
-            System.out.println("Nur zwischen 4-6");
-            return effect();
-        }
-
-        return number;
+        return new SafeScanner().nextIntInRange(4, 6);
     }
 }
