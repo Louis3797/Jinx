@@ -73,7 +73,7 @@ public class Game {
         pickCardsPhase();
 
         discardSameColor();
-        printPlayerHands();
+        pc.printPlayerHands();
         discard();
     }
 
@@ -422,20 +422,8 @@ public class Game {
         pc.getCurrentPlayer().getCards().remove(highest.get(index - 1));
 
         System.out.println("NACH WEGWURF ----------------");
-        printPlayerHands();
+        pc.printPlayerHands();
 
-    }
-
-    /**
-     * Prints hands of all players
-     */
-    private void printPlayerHands() {
-        // print player hands
-        for (Player player : pc.getPlayers()) {
-            System.out.println("Spieler: " + player.getName());
-            player.printHand();
-            System.out.println();
-        }
     }
 
 }

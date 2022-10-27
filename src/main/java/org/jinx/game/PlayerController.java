@@ -6,6 +6,9 @@ import org.jinx.wrapper.SafeScanner;
 import java.util.*;
 import java.util.logging.Logger;
 
+import static org.jinx.utils.ConsoleColor.BLUE;
+import static org.jinx.utils.ConsoleColor.RESET;
+
 /**
  * The PlayerController manages all players.
  * It can register and save players and
@@ -45,7 +48,7 @@ public class PlayerController {
      * adds players to game
      */
     public void addPlayers() {
-        System.out.println("Um das Spiel zu spielen brauchen sie mindestens 2-4 Spieler.");
+        System.out.println(BLUE + "Um das Spiel zu spielen brauchen sie mindestens 2-4 Spieler." + RESET);
 
         while (players.size() != 4) {
 
@@ -55,7 +58,7 @@ public class PlayerController {
             if (players.size() < 2) {
                 addOnePlayer();
             } else {
-                System.out.println("Wollen sie noch ein weiteren Spieler hinzufügen?\n[y,yes,ja | n,no,nein]");
+                System.out.println(BLUE + "Wollen sie noch ein weiteren Spieler hinzufügen?\n[y,yes,ja | n,no,nein]" + RESET);
 
                 boolean oneMorePlayer = safeScanner.nextYesNoAnswer();
 
@@ -66,7 +69,7 @@ public class PlayerController {
             }
         }
 
-        System.out.println("Wollen sie die Spieler durchmischen?");
+        System.out.println(BLUE + "Wollen sie die Spieler durchmischen?" + RESET);
 
         boolean shufflePlayer = safeScanner.nextYesNoAnswer();
         if (shufflePlayer) {
@@ -79,7 +82,7 @@ public class PlayerController {
      */
     public void addOnePlayer() {
 
-        System.out.println("Gib deinen Spieler einen Namen:");
+        System.out.println(BLUE + "Gib deinen Spieler einen Namen:" + RESET);
 
         String playerName;
         boolean temp;
@@ -90,14 +93,14 @@ public class PlayerController {
             temp = doesPlayerExist(playerName);
 
             if (temp) {
-                System.out.println("Spieler " + playerName + " existiert bereits.\nBitte geben sie ein anderen Namen ein:");
+                System.out.println(BLUE + "Spieler " + playerName + " existiert bereits.\nBitte geben sie ein anderen Namen ein:" + RESET);
             }
         }
         while (temp);
 
         players.add(new Player(playerName));
 
-        System.out.println(playerName + " wurde dem Spiel hinzugefügt!");
+        System.out.println(BLUE + playerName + " wurde dem Spiel hinzugefügt!" + RESET);
     }
 
     /**
@@ -162,6 +165,17 @@ public class PlayerController {
      */
     public static PlayerController getPlayerControllerInstance() {
         return playerControllerInstance;
+    }
+
+    /**
+     * Prints the hands of all players
+     */
+    public void printPlayerHands() {
+        for (Player player : getPlayers()) {
+            System.out.println("Aktuelle Hand von " + player.getName());
+            player.printHand();
+            System.out.println();
+        }
     }
 
     /* ---------- Getter and Setter Methods ---------- */

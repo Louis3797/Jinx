@@ -42,26 +42,7 @@ public class Player {
      * Prints hand of player
      */
     public void printHand() {
-
-        System.out.print("----------\t".repeat(cards.size()) + "\n");
-
-        System.out.println("|        |\t".repeat(cards.size()));
-
-        // print card number
-        for (NumberCard card : cards) {
-            System.out.print("| " + card.getName() + " ".repeat(6) + "|\t");
-        }
-
-        System.out.println();
-        System.out.println("|        |\t".repeat(cards.size()));
-
-        for (NumberCard card : cards) {
-            System.out.print("| " + card.getColor() + (card.getColor().name().length() < 6 ? (" ".repeat(6 - card.getColor().name().length())) : "") + " |\t");
-        }
-        System.out.println();
-        System.out.println("|        |\t".repeat(cards.size()));
-        System.out.print("----------\t".repeat(cards.size()) + "\n");
-
+        NumberCard.printFormatedNumberCards(this.cards);
     }
 
     /**
