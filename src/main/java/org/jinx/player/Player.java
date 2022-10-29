@@ -1,6 +1,7 @@
 package org.jinx.player;
 
 import org.jinx.card.LuckyCard;
+import org.jinx.card.LuckyCardNames;
 import org.jinx.card.NumberCard;
 
 import java.util.ArrayList;
@@ -41,26 +42,7 @@ public class Player {
      * Prints hand of player
      */
     public void printHand() {
-
-        System.out.print("----------\t".repeat(cards.size()) + "\n");
-
-        System.out.println("|        |\t".repeat(cards.size()));
-
-        // print card number
-        for (NumberCard card : cards) {
-            System.out.print("| " + card.getName() + " ".repeat(6) + "|\t");
-        }
-
-        System.out.println();
-        System.out.println("|        |\t".repeat(cards.size()));
-
-        for (NumberCard card : cards) {
-            System.out.print("| " + card.getColor() + (card.getColor().name().length() < 6 ? (" ".repeat(6 - card.getColor().name().length())) : "") + " |\t");
-        }
-        System.out.println();
-        System.out.println("|        |\t".repeat(cards.size()));
-        System.out.print("----------\t".repeat(cards.size()) + "\n");
-
+        NumberCard.printFormatedNumberCards(this.cards);
     }
 
     /**
@@ -87,6 +69,37 @@ public class Player {
         System.out.println("|                 |\t".repeat(luckyCards.size()));
         System.out.print("-------------------\t".repeat(luckyCards.size()) + "\n");
 
+    }
+
+    /**
+     * Method checks if the player has a lucky card with the same given name in his hand
+     * @param cardName Given Lucky card name as enum
+     * @return Returns true if he holds a Lucky card with the given name in his hand
+     */
+    public boolean hasLuckyCard(LuckyCardNames cardName){
+        for (LuckyCard card: luckyCards) {
+            if(card.getName().equals(cardName.name())){
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Method counts how much Lucky cards the player holds in his hand of the given name
+     * @param cardName Given Lucky card name as enum
+     * @return Returns the amount of Lucky cards with the same name as the given one
+     */
+    public int countLuckyCards(LuckyCardNames cardName) {
+        int total = 0;
+        for (LuckyCard card: luckyCards) {
+            if(card.getName().equals(cardName.name())){
+                total++;
+            }
+        }
+
+        return total;
     }
 
     /* ---------- Getter and Setter Methods ---------- */

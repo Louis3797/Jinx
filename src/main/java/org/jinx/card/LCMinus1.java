@@ -1,8 +1,8 @@
 package org.jinx.card;
 
 public class LCMinus1 extends LuckyCard{
-    public LCMinus1(String name) {
-        super(name);
+    public LCMinus1() {
+        super(LuckyCardNames.LCMinus1);
     }
 
     @Override

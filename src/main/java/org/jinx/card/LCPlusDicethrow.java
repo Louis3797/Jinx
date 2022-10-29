@@ -1,13 +1,15 @@
 package org.jinx.card;
 
+import org.jinx.dice.Dice;
+
 public class LCPlusDicethrow extends LuckyCard{
-    public LCPlusDicethrow(String name) {
-        super(name);
+    public LCPlusDicethrow() {
+        super(LuckyCardNames.LCPlusDicethrow);
     }
 
     @Override
     public int effect() {
-        int result = (int) (Math.random() * 6 + 1);
+        int result = new Dice().use();
 
         System.out.println("Wuerfel: " + result);
 

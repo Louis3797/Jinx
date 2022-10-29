@@ -77,24 +77,7 @@ public class Field {
         System.out.println("AVAILABLE CARDS");
 
         //top of the cards
-        System.out.print("----------\t".repeat(availableCards.size()) + "\n");
-
-        System.out.println("|        |\t".repeat(availableCards.size()));
-
-        // print card number
-        for (NumberCard card : availableCards) {
-            System.out.print("| " + card.getName() + " ".repeat(6) + "|\t");
-        }
-
-        System.out.println();
-        System.out.println("|        |\t".repeat(availableCards.size()));
-
-        for (NumberCard card : availableCards) {
-            System.out.print("| " + card.getColor() + (card.getColor().name().length() < 6 ? (" ".repeat(6 - card.getColor().name().length())) : "") + " |\t");
-        }
-        System.out.println();
-        System.out.println("|        |\t".repeat(availableCards.size()));
-        System.out.print("----------\t".repeat(availableCards.size()) + "\n");
+        NumberCard.printFormatedNumberCards(availableCards);
     }
 
     /**

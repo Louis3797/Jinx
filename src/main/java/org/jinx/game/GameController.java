@@ -14,6 +14,9 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.logging.Logger;
 
+import static org.jinx.utils.ConsoleColor.BLUE_BOLD;
+import static org.jinx.utils.ConsoleColor.RESET;
+
 public class GameController {
 
     private final Logger LOGGER = Logger.getLogger(GameController.class.getName());
@@ -35,11 +38,11 @@ public class GameController {
      */
     public void startSequenz() {
 
-        System.out.println("      _   ___   _   _  __  __");
+        System.out.println(BLUE_BOLD +"      _   ___   _   _  __  __");
         System.out.println("     | | |_ _| | \\ | | \\ \\/ /");
         System.out.println("  _  | |  | |  |  \\| |  \\  / ");
         System.out.println(" | |_| |  | |  | |\\  |  /  \\ ");
-        System.out.println("  \\___/  |___| |_| \\_| /_/\\_\\");
+        System.out.println("  \\___/  |___| |_| \\_| /_/\\_\\" + RESET);
         System.out.println("\n");
 
         printHighscore();

@@ -2,8 +2,8 @@ package org.jinx.card;
 
 public abstract class LuckyCard extends Card {
 
-    public LuckyCard(String name) {
-        super(name);
+    public LuckyCard(LuckyCardNames name) {
+        super(name.name());
     }
 
     public abstract int effect();

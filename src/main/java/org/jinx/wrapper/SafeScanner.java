@@ -19,6 +19,15 @@ public class SafeScanner {
     }
 
     /**
+     * Wrapper method for the next method of java.util.Scanner
+     *
+     * @return Returns a String that the user inputs
+     */
+    public String nextStringSafe () {
+        return scanner.next();
+    }
+
+    /**
      * Wrapper method for the nextInt method of java.util.Scanner
      *
      * @return Returns an integer that the user inputs
