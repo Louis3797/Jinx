@@ -8,8 +8,6 @@ import java.util.List;
 
 public class Field {
 
-    private static final Field instance = new Field();
-
     /**
      * Size of the Field
      */
@@ -23,7 +21,7 @@ public class Field {
     /**
      * Standard Constructor
      */
-    private Field() {
+    public Field() {
         field = new NumberCard[FIELDSIZE];
     }
 
@@ -108,10 +106,6 @@ public class Field {
             System.out.print("----------\t".repeat(4) + "\n");
 
         }
-    }
-
-    public static Field getFieldInstance() {
-        return instance;
     }
 
     /* ---------- Getter and Setter Methods ---------- */
