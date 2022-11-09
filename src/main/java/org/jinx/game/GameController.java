@@ -2,6 +2,7 @@ package org.jinx.game;
 
 import org.jinx.card.NumberCard;
 import org.jinx.highscore.HighScore;
+import org.jinx.player.AutonomousPlayer;
 import org.jinx.player.Player;
 
 import java.io.BufferedReader;
@@ -38,7 +39,7 @@ public class GameController {
      */
     public void startSequenz() {
 
-        System.out.println(BLUE_BOLD +"      _   ___   _   _  __  __");
+        System.out.println(BLUE_BOLD + "      _   ___   _   _  __  __");
         System.out.println("     | | |_ _| | \\ | | \\ \\/ /");
         System.out.println("  _  | |  | |  |  \\| |  \\  / ");
         System.out.println(" | |_| |  | |  | |\\  |  /  \\ ");
@@ -106,7 +107,7 @@ public class GameController {
 
         // Calculate new Scores of after game and add them to highscore list
         for (Player player : pc.getPlayers()) {
-            if (!player.isUsedRedo()) {
+            if (!player.isUsedRedo() && player.getClass() != AutonomousPlayer.class) {
                 int score = 0;
                 for (NumberCard card : player.getCards()) {
                     score += Integer.parseInt(card.getName());
