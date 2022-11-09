@@ -11,8 +11,7 @@ import java.io.IOException;
 import java.util.*;
 import java.util.logging.Logger;
 
-import static org.jinx.utils.ConsoleColor.BLUE_BOLD;
-import static org.jinx.utils.ConsoleColor.RESET;
+import static org.jinx.utils.ConsoleColor.*;
 
 public class GameController {
 
@@ -52,6 +51,20 @@ public class GameController {
     }
 
     public void endSequenz(){
+
+        System.out.println(YELLOW +
+                "(%%%%%%         %%%%%%%%        .%%%%%%   (%%%%%%#   %%%%%%%%*           %%%%%%%\n" +
+                " %%%%%%%       %%%%%%%%%%       %%%%%%%   %%%%%%%%   %%%%%%%%%%          %%%%%%%\n" +
+                " #%%%%%%.     %%%%%%%%%%%,     /%%%%%%(   %%%%%%%%   %%%%%%%%%%%%"+RED+"        %%%%%%%\n" +
+                "  %%%%%%%     %%%%%%%%%%%%     %%%%%%%    %%%%%%%%   %%%%%%%%%%%%%       %%%%%%%\n" +
+                "  *%%%%%%    %%%%%%  %%%%%#   /%%%%%%.    %%%%%%%%   %%%%%%% %%%%%%%     %%%%%%%\n" +
+                "   %%%%%%%  ,%%%%%(  %%%%%%   %%%%%%%     %%%%%%%%   %%%%%%%  %%%%%%%,   %%%%%%%\n" +
+                "    %%%%%%. %%%%%% " + BLUE + "   %%%%%% (%%%%%%      %%%%%%%%   %%%%%%%    %%%%%%%  %%%%%%%\n" +
+                "    #%%%%%%#%%%%%.    /%%%%%/%%%%%%(      %%%%%%%%   %%%%%%%     (%%%%%%(%%%%%%%\n" +
+                "     %%%%%%%%%%%%      %%%%%%%%%%%%       %%%%%%%%   %%%%%%%       %%%%%%%%%%%%%\n" +
+                "     /%%%%%%%%%%        %%%%%%%%%%        %%"+WHITE+"%%%%%%   %%%%%%%        *%%%%%%%%%%%\n" +
+                "      %%%%%%%%%*        (%%%%%%%%%        %%%%%%%%   %%%%%%%          %%%%%%%%%%\n" +
+                "       %%%%%%%%          %%%%%%%%         /%%%%%%(   %%%%%%%            %%%%%%%%" + RESET);
 
         System.out.println("Spielende!");
 
