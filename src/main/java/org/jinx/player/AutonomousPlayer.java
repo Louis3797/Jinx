@@ -19,12 +19,18 @@ public class AutonomousPlayer extends Player {
     private final Field field = Field.getFieldInstance();
 
     /**
+     * Stores the difficulty of the bot
+     */
+    private final AgentDifficulty difficulty;
+
+    /**
      * Standard Constructor for the Player
      *
      * @param name Name of the player
      */
-    public AutonomousPlayer(String name) {
+    public AutonomousPlayer(String name, AgentDifficulty difficulty) {
         super(name);
+        this.difficulty = difficulty;
     }
 
     /**
