@@ -113,10 +113,12 @@ public class GameController {
         endSequenz();
         writeHighScoreToFile();
 
+        // clear everything from current round
         pc.getPlayers().clear();
         highScoreList.clear();
         System.out.println("Nochmal spielen?");
 
+        // start a new game
         SafeScanner scanner = new SafeScanner();
         if(scanner.nextYesNoAnswer()){
             start();
