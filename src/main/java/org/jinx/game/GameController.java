@@ -3,6 +3,7 @@ package org.jinx.game;
 import org.jinx.card.NumberCard;
 import org.jinx.highscore.HighScore;
 import org.jinx.player.Player;
+import org.jinx.wrapper.SafeScanner;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -111,6 +112,15 @@ public class GameController {
 
         endSequenz();
         writeHighScoreToFile();
+
+        pc.getPlayers().clear();
+        highScoreList.clear();
+        System.out.println("Nochmal spielen?");
+
+        SafeScanner scanner = new SafeScanner();
+        if(scanner.nextYesNoAnswer()){
+            start();
+        }
 
     }
 
