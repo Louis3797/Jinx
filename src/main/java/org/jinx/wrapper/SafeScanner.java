@@ -23,7 +23,7 @@ public class SafeScanner {
      *
      * @return Returns a String that the user inputs
      */
-    public String nextStringSafe() {
+    public String nextStringSafe () {
         return scanner.next();
     }
 
@@ -33,7 +33,7 @@ public class SafeScanner {
      * @return Returns an integer that the user inputs
      */
     public int nextIntSafe() {
-        int response = 0;
+        int response;
 
         try {
             response = scanner.nextInt();
@@ -55,6 +55,7 @@ public class SafeScanner {
      * @return Returns the integer that the user inputs and that is in range of the min and max value
      */
     public int nextIntInRange(int min, int max) {
+
         if (min > max) {
             throw new IllegalArgumentException("Given min value needs to be greater than the given max value");
         }
