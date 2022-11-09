@@ -108,7 +108,7 @@ public class PlayerController {
                 System.out.println(i + 1 + ": " + AgentDifficulty.values()[i].name());
             }
 
-            AgentDifficulty difficulty = AgentDifficulty.values()[safeScanner.nextIntInRange(0 + 1, AgentDifficulty.values().length) - 1];
+            AgentDifficulty difficulty = AgentDifficulty.values()[safeScanner.nextIntInRange(1, AgentDifficulty.values().length) - 1];
             players.add(new AutonomousPlayer(playerName, difficulty));
         } else {
             players.add(new Player(playerName));
