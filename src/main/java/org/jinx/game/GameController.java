@@ -66,7 +66,7 @@ public class GameController {
                         CYAN_BOLD_BRIGHT +"   ,%%%%%%     %%%%%%%    .%%%%  %%%%%     %%%%%%%\n" +
                         WHITE_BOLD_BRIGHT +"    %%%%%%     .%%%%%     .%%%%  %%%%%      %%%%%%");
 
-        System.out.println("Spielende!");
+        System.out.println("\n" + WHITE_BACKGROUND + "Spielende!"+RESET);
 
         Map<String,Integer> winner = new HashMap<>();
 
@@ -84,7 +84,7 @@ public class GameController {
 
         for(Map.Entry<String, Integer> entry : winner.entrySet()){
             if(max == entry.getValue()){
-                System.out.println("Gewinner ist: " + entry.getKey());
+                System.out.println("Gewinner ist: " + MAGENTA_BOLD_BRIGHT + entry.getKey() + RESET);
             }
         }
 
