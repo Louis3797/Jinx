@@ -9,6 +9,11 @@ import java.util.List;
 public class Field {
 
     /**
+     * Instance for singleton
+     */
+    private static final Field fieldInstance = new Field();
+
+    /**
      * Size of the Field
      */
     private final int FIELDSIZE = 16;
@@ -21,8 +26,12 @@ public class Field {
     /**
      * Standard Constructor
      */
-    public Field() {
+    private Field() {
         field = new NumberCard[FIELDSIZE];
+    }
+
+    public static Field getFieldInstance() {
+        return fieldInstance;
     }
 
     /**
