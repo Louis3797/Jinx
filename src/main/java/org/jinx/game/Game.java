@@ -22,7 +22,7 @@ public class Game {
     private final NumberCardStack numberCardsDeck;
     private final LuckyCardStack luckyCardStack;
 
-    private final Field field;
+    private final Field field = Field.getFieldInstance();
 
     private final SafeScanner safeScanner;
 
@@ -32,8 +32,6 @@ public class Game {
         numberCardsDeck = new NumberCardStack();
 
         luckyCardStack = new LuckyCardStack();
-
-        field = new Field();
 
         safeScanner = new SafeScanner();
     }
@@ -190,13 +188,13 @@ public class Game {
         if (safeScanner.nextYesNoAnswer()) {
 
             pc.getCurrentPlayer().setUsedRedo(true);
-            
+
             while (diceStack.size() > 1) {
                 diceStack.pop();
                 System.out.println("Ihr Würfelergebnis ist nun " + diceStack.peek());
 
                 System.out.println("Nochmal undo nutzen ?");
-                if(!safeScanner.nextYesNoAnswer()){
+                if (!safeScanner.nextYesNoAnswer()) {
                     break;
                 }
             }
