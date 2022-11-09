@@ -6,6 +6,7 @@ import org.jinx.cardstack.LuckyCardStack;
 import org.jinx.cardstack.NumberCardStack;
 import org.jinx.dice.Dice;
 import org.jinx.field.Field;
+import org.jinx.player.AutonomousPlayer;
 import org.jinx.player.Player;
 import org.jinx.wrapper.SafeScanner;
 
@@ -42,9 +43,13 @@ public class Game {
      */
     public void play(int currentRound) {
 
-        // initialize current player in PlayerController
+
         if (currentRound == 1) {
-            pc.next();
+            pc.next();  // initialize current player in PlayerController if it's the first round
+
+            // if currentPlayer is a bot, then update NumberCard weights
+            if (!pc.getCurrentPlayer().isHuman())
+                ((AutonomousPlayer) pc.getCurrentPlayer()).updateWeightOfNumberCards();
         }
 
         // Lay new cards on field to replace old field
@@ -116,6 +121,10 @@ public class Game {
 
             // switch to next player
             pc.next();
+
+            // if currentPlayer is a bot, then update NumberCard weights
+            if (!pc.getCurrentPlayer().isHuman())
+                ((AutonomousPlayer) pc.getCurrentPlayer()).updateWeightOfNumberCards();
         }
     }
 
@@ -267,7 +276,7 @@ public class Game {
         if (pc.getCurrentPlayer().getLuckyCards().get(index - 1).getName().equals("LCPlus1")) {
             int value = pc.getCurrentPlayer().getLuckyCards().get(index - 1).effect() + dice;
 
-            if (value >= 6) {
+            if (value > 6) {
                 value = 6;
             }
 
@@ -291,7 +300,7 @@ public class Game {
         if (pc.getCurrentPlayer().getLuckyCards().get(index - 1).getName().equals("LCMinus1")) {
             int value = pc.getCurrentPlayer().getLuckyCards().get(index - 1).effect() + dice;
 
-            if (value <= 1) {
+            if (value < 1) {
                 value = 1;
             }
 
