@@ -8,10 +8,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 import java.util.logging.Logger;
 
 import static org.jinx.utils.ConsoleColor.BLUE_BOLD;
@@ -54,6 +51,31 @@ public class GameController {
 
     }
 
+    public void endSequenz(){
+
+        System.out.println("Spielende!");
+
+        Map<String,Integer> winner = new HashMap<>();
+
+        int total = 5;
+        for(Player player : pc.getPlayers()){
+
+            winner.put(player.getName(),total);
+            total--;
+        }
+
+        System.out.println(winner);
+
+        int max = Collections.max(winner.values());
+
+        for(Map.Entry<String, Integer> entry : winner.entrySet()){
+            if(max == entry.getValue()){
+                System.out.println("Gewinner ist: " + entry.getKey());
+            }
+        }
+
+    }
+
     /**
      * Method starts the game
      */
@@ -71,6 +93,7 @@ public class GameController {
 
         // i is the current round
         for (int i = 1; i < 4; i++) {
+            endSequenz();
             g1.play(i);
         }
 
