@@ -51,6 +51,9 @@ public class GameController {
 
     }
 
+    /**
+     * prints endlogo and score
+     */
     public void endSequenz(){
 
         System.out.println(
@@ -60,17 +63,18 @@ public class GameController {
                         BLUE_BOLD_BRIGHT +"  %%%%/ %%%%  %%%. %%%%   .%%%%  %%%%%  %%%%  %%%%\n" +
                         MAGENTA_BOLD_BRIGHT +"   %%%%%%%%   %%%%%%%%    .%%%%  %%%%%   %%%%%%%%%\n" +
                         CYAN_BOLD_BRIGHT +"   ,%%%%%%     %%%%%%%    .%%%%  %%%%%     %%%%%%%\n" +
-                        WHITE_BOLD_BRIGHT +"    %%%%%%     .%%%%%     .%%%%  %%%%%      %%%%%%" + RESET);
+                        WHITE_BOLD_BRIGHT +"    %%%%%%     .%%%%%     .%%%%  %%%%%      %%%%%%");
 
         System.out.println("Spielende!");
 
         Map<String,Integer> winner = new HashMap<>();
 
-        int total = 5;
         for(Player player : pc.getPlayers()){
-
+            int total = 0;
+            for(NumberCard card :player.getCards()){
+                total += Integer.parseInt(card.getName());
+            }
             winner.put(player.getName(),total);
-            total--;
         }
 
         System.out.println(winner);
@@ -89,7 +93,6 @@ public class GameController {
      * Method starts the game
      */
     public void start() {
-
         // Load old Highscores
         getOldHighScores();
 
@@ -100,12 +103,13 @@ public class GameController {
 
         pc.addPlayers();
 
+        System.out.println(WHITE_BOLD_BRIGHT);
         // i is the current round
         for (int i = 1; i < 4; i++) {
-            endSequenz();
             g1.play(i);
         }
 
+        endSequenz();
         writeHighScoreToFile();
 
     }

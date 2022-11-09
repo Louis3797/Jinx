@@ -1,5 +1,7 @@
 package org.jinx.card;
 
+import org.jinx.utils.ConsoleColor;
+
 import java.util.List;
 
 public class NumberCard extends Card {
