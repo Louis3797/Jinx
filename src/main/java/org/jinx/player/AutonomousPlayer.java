@@ -23,6 +23,9 @@ public class AutonomousPlayer extends Player {
      */
     private final AgentDifficulty difficulty;
 
+    private final List<Weight<NumberCard>> numberCardWeightList;
+
+
     /**
      * Standard Constructor for the Player
      *
@@ -31,6 +34,7 @@ public class AutonomousPlayer extends Player {
     public AutonomousPlayer(String name, AgentDifficulty difficulty) {
         super(name);
         this.difficulty = difficulty;
+        this.numberCardWeightList = new ArrayList<>();
     }
 
     /**
@@ -42,13 +46,18 @@ public class AutonomousPlayer extends Player {
 
         Player mostDangerousOpponent = calculateMostDangerousOpponent();
 
-        List<Weight<NumberCard>> cardsWeights = calculateWeightOfCards(mostDangerousOpponent);
+        List<Weight<NumberCard>> cardsWeights = calculateWeightOfNumberCardsOnField(mostDangerousOpponent);
 
 
         return result;
     }
 
-    private List<Weight<NumberCard>> calculateWeightOfCards(Player opponent) {
+    public void updateWeightOfNumberCards() {
+        this.numberCardWeightList.clear();
+        this.numberCardWeightList.addAll(calculateWeightOfNumberCardsOnField(calculateMostDangerousOpponent()));
+    }
+
+    private List<Weight<NumberCard>> calculateWeightOfNumberCardsOnField(Player opponent) {
 
         List<Weight<NumberCard>> cardsWeights = new ArrayList<>();
 
@@ -113,6 +122,13 @@ public class AutonomousPlayer extends Player {
 
     }
 
+    /**
+     * Counts how much the card color occurs in the specified list
+     *
+     * @param cards List of NumberCards
+     * @param color Specified card color
+     * @return Returns how often the color occurs in the list
+     */
     private int countCardColor(List<NumberCard> cards, CardColor color) {
         int sum = 0;
         for (NumberCard card : cards) {
@@ -121,11 +137,24 @@ public class AutonomousPlayer extends Player {
         return sum;
     }
 
+    /**
+     * Checks if specified card color is in given players hand
+     *
+     * @param player Specified player
+     * @param color  Color of Card we want to check
+     * @return Returns true if card occurs in player hand, else false
+     */
     private boolean isCardColorInPlayerHand(Player player, CardColor color) {
         for (NumberCard card : player.getCards()) if (card.getColor().equals(color)) return true;
         return false;
     }
 
+    /**
+     * Calculates the percentage occurrence of the card colors in the specified list
+     *
+     * @param cards List of Numbercards
+     * @return Returns a Map with the CardColor as Key and the occurrence percentage as value of all card colors in the specified list
+     */
     private Map<CardColor, Double> calculateCardColorPercentage(List<NumberCard> cards) {
 
         Map<CardColor, Double> map = new HashMap<>();
@@ -261,4 +290,161 @@ public class AutonomousPlayer extends Player {
         return average / numberOfCards;
     }
 
+    /**
+     * Calculates if it's good if the round ends now
+     *
+     * @return Returns true if the outcome of the end of the round is good for us
+     */
+    public boolean considerEndRound() {
+
+        // true if player have the most points after discarding the cards
+
+
+        return false;
+    }
+
+    /**
+     * Method checks if the use of the LuckyCard 123 is usefully for the bot or not
+     *
+     * @return Returns true if the use of the LuckyCard is usefully, else returns false
+     */
+    public boolean considerUseOfLC123() {
+
+        for (Weight<NumberCard> cardWeight : numberCardWeightList) {
+
+            int cardNumber = Integer.parseInt(cardWeight.object().getName());
+
+            // A good card weight is decided by the difficulty level
+            int goodCardWeight = this.difficulty == AgentDifficulty.EASY ? 3 :
+                    this.difficulty == AgentDifficulty.MEDIUM ? 4 : 5;
+
+            if ((cardNumber >= 1 && cardNumber <= 3) && cardWeight.weight() == goodCardWeight) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Method checks if the use of the LuckyCard 456 is usefully for the bot or not
+     *
+     * @return Returns true if the use of the LuckyCard is usefully, else returns false
+     */
+    public boolean considerUseOfLC456() {
+
+        for (Weight<NumberCard> cardWeight : numberCardWeightList) {
+
+            int cardNumber = Integer.parseInt(cardWeight.object().getName());
+
+            // A good card weight is decided by the difficulty level
+            int goodCardWeight = this.difficulty == AgentDifficulty.EASY ? 3 :
+                    this.difficulty == AgentDifficulty.MEDIUM ? 4 : 5;
+
+            if ((cardNumber >= 4 && cardNumber <= 6) && cardWeight.weight() == goodCardWeight) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Method checks if the use of the LuckyCard plus dice throw is usefully for the bot or not
+     *
+     * @return Returns true if the use of the LuckyCard is usefully, else returns false
+     */
+    public boolean considerUseOfLCPlusDiceThrow() {
+        // card can be used more than one time, so it's always good to roll the dice again
+        return true;
+    }
+
+    /**
+     * Method checks if the use of the LuckyCard minus 1 is usefully for the bot or not
+     *
+     * @param diceResult Result of the dice roll
+     * @return Returns true if the use of the LuckyCard is usefully, else returns false
+     */
+    public boolean considerUseOfLCMinus1(int diceResult) {
+        if (diceResult - 1 < 1)
+            return false;
+
+        return compateCardWeightBetweenTwoDiceResults(diceResult, diceResult - 1);
+    }
+
+    /**
+     * Method checks if the use of the LuckyCard plus 1 is usefully for the bot or not
+     *
+     * @param diceResult Result of the dice roll
+     * @return Returns true if the use of the LuckyCard is usefully, else returns false
+     */
+    public boolean considerUseOfLCPlus1(int diceResult) {
+        if (diceResult + 1 > 6)
+            return false;
+
+        return compateCardWeightBetweenTwoDiceResults(diceResult, diceResult + 1);
+    }
+
+    /**
+     * Helper method to find the highest card weight between two dice results
+     *
+     * @param oldDiceResult old dice result
+     * @param newDiceResult new dice result
+     * @return Returns true if the card we can pick with the new dice result has a
+     * higher weight than the card with the old dice result
+     */
+    private boolean compateCardWeightBetweenTwoDiceResults(int oldDiceResult, int newDiceResult) {
+        int highestWeightWithOldDiceResult = Integer.MIN_VALUE, highestWeightWithNewDiceResult = Integer.MIN_VALUE;
+
+        for (Weight<NumberCard> cardWeight : numberCardWeightList) {
+
+            int cardNumber = Integer.parseInt(cardWeight.object().getName());
+
+            if (cardNumber == oldDiceResult && cardWeight.weight() > highestWeightWithOldDiceResult)
+                highestWeightWithOldDiceResult = cardWeight.weight();
+
+            if (cardNumber == newDiceResult && cardWeight.weight() > highestWeightWithNewDiceResult)
+                highestWeightWithNewDiceResult = cardWeight.weight();
+        }
+
+        return highestWeightWithNewDiceResult > highestWeightWithOldDiceResult;
+    }
+
+    /**
+     * Method checks if the undo function allows the selection of a better card
+     *
+     * @param diceStack Stack of all dice results
+     * @return Returns true if peek of the stack brings us the best card, false if not
+     */
+    public boolean considerUseOfUndo(Stack<Integer> diceStack) {
+
+        // simple cases
+        if (diceStack.size() == 1 || diceStack.isEmpty()) {
+            return false;
+        }
+
+        List<Integer> diceResultsList = diceStack.stream().toList();
+
+        int bestDiceResult = 0;
+        int bestCardWeight = Integer.MIN_VALUE;
+
+        // find the best available card weight with the available dice results in the list
+        for (Integer result : diceResultsList) {
+            for (Weight<NumberCard> cardWeight : numberCardWeightList) {
+
+                int cardNumber = Integer.parseInt(cardWeight.object().getName());
+                if (result == cardNumber && cardWeight.weight() > bestCardWeight) {
+                    bestCardWeight = cardWeight.weight();
+                    bestDiceResult = result;
+                }
+            }
+        }
+
+        return bestDiceResult == diceStack.peek();
+    }
+
+    @Override
+    public boolean isHuman() {
+        return false;
+    }
 }
