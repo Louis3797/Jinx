@@ -239,54 +239,7 @@ public class Game {
 
     private void useLCSUM(){
 
-        int wuerfelergebnis = 4;
 
-        System.out.println("Waehle eine Karte");
-
-        int input = safeScanner.nextIntSafe();
-
-        if(input < 1 || input > 16 || field.getFieldIndex(input) == null ){
-            useLCSUM();
-            return;
-        }
-
-        for(Integer index : storedIndices){
-            if (index == input){
-                useLCSUM();
-                return;
-            }
-        }
-
-        pickedCards.add(field.getFieldIndex(input-1));
-        storedIndices.add(input);
-
-        System.out.println("Nochmal auswaehlen?");
-
-        if(safeScanner.nextYesNoAnswer()){
-            useLCSUM();
-            return;
-        }
-
-        int total = 0;
-
-        for(NumberCard card : pickedCards){
-            total += Integer.parseInt(card.getName());
-        }
-
-        if (total == wuerfelergebnis){
-            System.out.println("Hurensohn");
-            pickedCards.clear();
-            storedIndices.clear();
-        }
-
-        else {
-            System.out.println("Nochmal versuchen?");
-            if (safeScanner.nextYesNoAnswer()){
-                pickedCards.clear();
-                storedIndices.clear();
-                useLCSUM();
-            }
-        }
     }
 
 
