@@ -54,7 +54,7 @@ public class Game {
 
         // Lay new cards on field to replace old field
         field.setField(numberCardsDeck);
-        useLCSUM();
+
         System.out.println("Runde " + currentRound);
 
         // if we are not in round 1, then we can trade
@@ -88,7 +88,7 @@ public class Game {
 
         while (true) {
             field.printField();
-
+            useLCSUM();
             System.out.println("\nAktiver Spieler: " + pc.getCurrentPlayer().getName());
 
             int diceRollResult = throwDice();
@@ -245,11 +245,23 @@ public class Game {
 
         list.add(field.getFieldIndex(eingabe-1));
 
-        System.out.println("Nochmal wuerfeln?");
+        System.out.println("Nochmal auswaehlen?");
 
         if(safeScanner.nextYesNoAnswer()){
             useLCSUM();
+            return;
         }
+
+        int total = 0;
+
+        for(NumberCard card : list){
+            total += Integer.parseInt(card.getName());
+        }
+
+        if (total == wuerfelergebnis){
+            System.out.println("Hurensohn");
+        }
+
     }
 
 
