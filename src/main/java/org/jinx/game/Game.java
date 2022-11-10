@@ -26,7 +26,8 @@ public class Game {
 
     private final SafeScanner safeScanner;
 
-    private ArrayList<NumberCard> list;
+    private ArrayList<NumberCard> pickedCards;
+    private ArrayList<Integer> storedIndices;
 
     public Game() {
         dice = new Dice();
@@ -39,7 +40,8 @@ public class Game {
 
         safeScanner = new SafeScanner();
 
-        list = new ArrayList<>();
+        pickedCards = new ArrayList<>();
+        storedIndices = new ArrayList<>();
     }
 
     /**
@@ -241,9 +243,22 @@ public class Game {
 
         System.out.println("Waehle eine Karte");
 
-        int eingabe = safeScanner.nextIntSafe();
+        int input = safeScanner.nextIntSafe();
 
-        list.add(field.getFieldIndex(eingabe-1));
+        if(input < 1 || input > 16 || field.getFieldIndex(input) == null ){
+            useLCSUM();
+            return;
+        }
+
+        for(Integer index : storedIndices){
+            if (index == input){
+                useLCSUM();
+                return;
+            }
+        }
+
+        pickedCards.add(field.getFieldIndex(input-1));
+        storedIndices.add(input);
 
         System.out.println("Nochmal auswaehlen?");
 
@@ -254,14 +269,24 @@ public class Game {
 
         int total = 0;
 
-        for(NumberCard card : list){
+        for(NumberCard card : pickedCards){
             total += Integer.parseInt(card.getName());
         }
 
         if (total == wuerfelergebnis){
             System.out.println("Hurensohn");
+            pickedCards.clear();
+            storedIndices.clear();
         }
 
+        else {
+            System.out.println("Nochmal versuchen?");
+            if (safeScanner.nextYesNoAnswer()){
+                pickedCards.clear();
+                storedIndices.clear();
+                useLCSUM();
+            }
+        }
     }
 
 
