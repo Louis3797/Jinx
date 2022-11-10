@@ -10,6 +10,7 @@ import org.jinx.player.Player;
 import org.jinx.wrapper.SafeScanner;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Stack;
 
@@ -236,9 +237,44 @@ public class Game {
         }
     }
 
+    private List<List<NumberCard>> useLCSUMrecursive(List<NumberCard> field, int wuerfel, List<NumberCard> partial, List<List<NumberCard>> result){
+
+        int s = 0;
+        for(NumberCard x : partial){
+            s += Integer.parseInt(x.getName());
+        }
+        if(s == wuerfel){
+            result.add(partial);
+        }
+        if(s >= wuerfel){
+            return result;
+        }
+
+        for(int i = 0; i < field.size(); i++){
+            ArrayList<NumberCard> remaining = new ArrayList<>();
+
+            for(int j = i+1; j < field.size(); j++){
+                remaining.add(field.get(j));
+            }
+
+            ArrayList<NumberCard> partial_rec = new ArrayList<>(partial);
+            partial_rec.add(field.get(i));
+            useLCSUMrecursive(remaining,wuerfel,partial_rec,result);
+        }
+        return result;
+    }
 
     private void useLCSUM(){
+        int wuerfel = 4;
+        List<List<NumberCard>> cards = useLCSUMrecursive(Arrays.stream(field.getField()).toList(),wuerfel,new ArrayList<>(), new ArrayList<>());
 
+        for(int i = 0; i < cards.size() ; i++){
+            System.out.print("["+i+"]  ");
+            for(int j = 0; j < cards.get(i).size(); j++){
+                System.out.print(cards.get(i).get(j).getName() +" "+ cards.get(i).get(j).getColor() +"  ");
+            }
+            System.out.println();
+        }
 
     }
 
