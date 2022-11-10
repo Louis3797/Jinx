@@ -27,8 +27,6 @@ public class Game {
 
     private final SafeScanner safeScanner;
 
-    private ArrayList<NumberCard> pickedCards;
-    private ArrayList<Integer> storedIndices;
 
     public Game() {
         dice = new Dice();
@@ -41,8 +39,6 @@ public class Game {
 
         safeScanner = new SafeScanner();
 
-        pickedCards = new ArrayList<>();
-        storedIndices = new ArrayList<>();
     }
 
     /**
