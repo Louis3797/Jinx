@@ -233,6 +233,14 @@ public class Game {
         }
     }
 
+    /**
+     * recurse function to calculate sum of multiple numbers
+     * @param field current field
+     * @param wuerfel dice result
+     * @param partial partial stored cards
+     * @param result all sums
+     * @return list with all sums
+     */
     private List<List<NumberCard>> useLCSUMrecursive(List<NumberCard> field, int wuerfel, List<NumberCard> partial, List<List<NumberCard>> result){
 
         int s = 0;
@@ -260,6 +268,9 @@ public class Game {
         return result;
     }
 
+    /**
+     * choose a sum in relation to your dice throw
+     */
     private void useLCSUM(){
         int wuerfel = 4;
         List<List<NumberCard>> cards = useLCSUMrecursive(Arrays.stream(field.getField()).toList(),wuerfel,new ArrayList<>(), new ArrayList<>());
