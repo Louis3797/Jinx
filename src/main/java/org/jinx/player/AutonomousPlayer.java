@@ -14,8 +14,14 @@ import java.util.*;
  */
 public class AutonomousPlayer extends Player {
 
+    /**
+     * Player Controller instance
+     */
     private final PlayerController playerController = PlayerController.getPlayerControllerInstance();
 
+    /**
+     * Field instance
+     */
     private final Field field = Field.getFieldInstance();
 
     /**
@@ -52,11 +58,21 @@ public class AutonomousPlayer extends Player {
         return result;
     }
 
+    /**
+     * Updates the numberCardWeightList variable
+     */
     public void updateWeightOfNumberCards() {
         this.numberCardWeightList.clear();
         this.numberCardWeightList.addAll(calculateWeightOfNumberCardsOnField(calculateMostDangerousOpponent()));
     }
 
+    /**
+     * Method calculates the weight of each Card on the field
+     * A high weight means that the Card is good a low weight means the card is bad
+     *
+     * @param opponent Most dangerous opponent
+     * @return Returns a List with all Cards in the Field weighted
+     */
     private List<Weight<NumberCard>> calculateWeightOfNumberCardsOnField(Player opponent) {
 
         List<Weight<NumberCard>> cardsWeights = new ArrayList<>();
@@ -118,6 +134,7 @@ public class AutonomousPlayer extends Player {
         }
 
         cardsWeights.sort(Comparator.comparingInt(Weight::weight));
+        Collections.reverse(cardsWeights);
         return cardsWeights;
 
     }
@@ -132,7 +149,7 @@ public class AutonomousPlayer extends Player {
     private int countCardColor(List<NumberCard> cards, CardColor color) {
         int sum = 0;
         for (NumberCard card : cards) {
-            if (card.getColor().equals(color)) ++sum;
+            if (card != null && card.getColor().equals(color)) ++sum;
         }
         return sum;
     }
@@ -164,7 +181,7 @@ public class AutonomousPlayer extends Player {
             if (card == null)
                 continue;
             ++numberOfCards;
-            CardColor color = CardColor.valueOf(card.getName());
+            CardColor color = card.getColor();
             map.put(color, map.getOrDefault(color, 0.0) + 1);
 
         }
@@ -214,6 +231,7 @@ public class AutonomousPlayer extends Player {
         }
 
         weightedOpponentList.sort(Comparator.comparingInt(Weight::weight));
+        Collections.reverse(weightedOpponentList);
 
         return weightedOpponentList.get(0).object();
     }
@@ -288,6 +306,16 @@ public class AutonomousPlayer extends Player {
         }
 
         return average / numberOfCards;
+    }
+
+    /**
+     * Calculates if its usefully for the autonomous agent to roll the dice again
+     *
+     * @return Returns true if usefully
+     */
+    public boolean considerRollDiceAgain() {
+        // check if first dice roll brought us the best card
+        return true;
     }
 
     /**
@@ -414,12 +442,19 @@ public class AutonomousPlayer extends Player {
      * Method checks if the undo function allows the selection of a better card
      *
      * @param diceStack Stack of all dice results
-     * @return Returns true if peek of the stack brings us the best card, false if not
+     * @return Returns true if the peek of the stack brings us not the best card
      */
     public boolean considerUseOfUndo(Stack<Integer> diceStack) {
 
+        // Debugging
+        System.out.print("[ ");
+        for (Weight<NumberCard> cardWeight : numberCardWeightList) {
+            System.out.print("( weight: " + cardWeight.weight() + ", card number: " + cardWeight.object().getName() + ", color: " + cardWeight.object().getColor() + " ) ");
+        }
+        System.out.println(" ]");
+
         // simple cases
-        if (diceStack.size() == 1 || diceStack.isEmpty()) {
+        if (diceStack.size() <= 1) {
             return false;
         }
 
@@ -433,14 +468,18 @@ public class AutonomousPlayer extends Player {
             for (Weight<NumberCard> cardWeight : numberCardWeightList) {
 
                 int cardNumber = Integer.parseInt(cardWeight.object().getName());
-                if (result == cardNumber && cardWeight.weight() > bestCardWeight) {
+
+                if (result == cardNumber && bestCardWeight < cardWeight.weight()) {
                     bestCardWeight = cardWeight.weight();
                     bestDiceResult = result;
                 }
             }
         }
 
-        return bestDiceResult == diceStack.peek();
+        System.out.println("BestDiceResult: " + bestDiceResult);
+        System.out.println("Peek: " + diceStack.peek());
+        System.out.println(diceStack.peek() == bestDiceResult);
+        return diceStack.peek() != bestDiceResult;
     }
 
     @Override
