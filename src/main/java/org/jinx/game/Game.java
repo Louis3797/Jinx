@@ -26,6 +26,8 @@ public class Game {
 
     private final SafeScanner safeScanner;
 
+    private ArrayList<NumberCard> list;
+
     public Game() {
         dice = new Dice();
 
@@ -36,6 +38,8 @@ public class Game {
         field = new Field();
 
         safeScanner = new SafeScanner();
+
+        list = new ArrayList<>();
     }
 
     /**
@@ -50,7 +54,7 @@ public class Game {
 
         // Lay new cards on field to replace old field
         field.setField(numberCardsDeck);
-
+        useLCSUM();
         System.out.println("Runde " + currentRound);
 
         // if we are not in round 1, then we can trade
@@ -229,6 +233,25 @@ public class Game {
             tradeForLucky();
         }
     }
+
+
+    private void useLCSUM(){
+
+        int wuerfelergebnis = 4;
+
+        System.out.println("Waehle eine Karte");
+
+        int eingabe = safeScanner.nextIntSafe();
+
+        list.add(field.getFieldIndex(eingabe-1));
+
+        System.out.println("Nochmal wuerfeln?");
+
+        if(safeScanner.nextYesNoAnswer()){
+            useLCSUM();
+        }
+    }
+
 
     /**
      * choose a card with number 123 or 456 from field if use is available
