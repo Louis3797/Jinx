@@ -1,5 +1,6 @@
 package org.jinx.game;
 
+import org.jinx.card.LCSum;
 import org.jinx.card.LuckyCardNames;
 import org.jinx.card.NumberCard;
 import org.jinx.cardstack.LuckyCardStack;
@@ -136,6 +137,8 @@ public class Game {
      * @return user chosen dice value
      */
     private int throwDice() {
+
+        pc.getCurrentPlayer().getLuckyCards().add(new LCSum());
 
         Stack<Integer> diceStack = new Stack<>();
 
@@ -322,7 +325,7 @@ public class Game {
         //removes cards from field
         for (int i = 0; i < field.getFieldSize(); i++) {
             for (int j = 0; j < newCards.get(index).size(); j++) {
-                if (field.getFieldIndex(i) == newCards.get(index).get(j)) {
+                if (field.getField()[i] == newCards.get(index).get(j)) {
                     field.removeChosenCard(newCards.get(index).get(j));
                 }
             }

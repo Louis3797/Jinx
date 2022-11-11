@@ -114,10 +114,6 @@ public class Field {
         return FIELDSIZE;
     }
 
-    public NumberCard getFieldIndex(int i){
-        return field[i];
-    }
-
     public NumberCard[] getField() {
         return field;
     }
