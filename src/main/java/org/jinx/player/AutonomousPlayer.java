@@ -44,18 +44,24 @@ public class AutonomousPlayer extends Player {
     }
 
     /**
-     * Calculates the next best Move that the Autonomous Player can do, by calculating the most dangerous opponent and
+     * Method finds the best card we can pick in the specified list of cards and the dice result
+     *
+     * @param cards      List of number cards we can pick from
+     * @param diceResult result of the dice roll
+     * @return Returns the best card the player can pick
      */
-    public List<NumberCard> calculateNextMove() {
+    public int getIndexOfBestCard(List<NumberCard> cards, int diceResult) {
 
-        List<NumberCard> result = new ArrayList<>();
+        NumberCard bestCard = null;
 
-        Player mostDangerousOpponent = calculateMostDangerousOpponent();
+        for (Weight<NumberCard> cardWeights : numberCardWeightList) {
+            if (cardWeights.object().getName().equals(Integer.toString(diceResult))) {
+                bestCard = cardWeights.object();
+                break;
+            }
+        }
 
-        List<Weight<NumberCard>> cardsWeights = calculateWeightOfNumberCardsOnField(mostDangerousOpponent);
-
-
-        return result;
+        return cards.indexOf(bestCard);
     }
 
     /**
@@ -309,6 +315,28 @@ public class AutonomousPlayer extends Player {
     }
 
     /**
+     * Method is used for discarding a card after a round ends
+     *
+     * @return Returns the index of the baddest card in the hand of the player
+     */
+    public int getBaddestCardIndex() {
+
+        int lowestNumber = Integer.MAX_VALUE;
+        int index = 0;
+
+        for (NumberCard card : getCards()) {
+            int cardNumber = Integer.parseInt(card.getName());
+
+            if (lowestNumber > cardNumber) {
+                lowestNumber = cardNumber;
+                index = getCards().indexOf(card);
+            }
+        }
+
+        return index;
+    }
+
+    /**
      * Calculates if its usefully for the autonomous agent to roll the dice again
      *
      * @return Returns true if usefully
@@ -319,10 +347,17 @@ public class AutonomousPlayer extends Player {
         // difficulty == Medium: If one of the 3 best cards can be selected by the dice result, false is returned
         // difficulty == Hard: If best card can be picked with the results in the Stack, return false
 
+        if (numberCardWeightList.isEmpty()) {
+            return false;
+        }
+
         int temp = difficulty == AgentDifficulty.EASY ? 5 : difficulty == AgentDifficulty.MEDIUM ? 3 : 1;
 
         for (int result : diceResults) {
             for (int i = 0; i < temp; i++) {
+                if (temp >= numberCardWeightList.size()) {
+                    return false;
+                }
                 Weight<NumberCard> card = numberCardWeightList.get(i);
                 if (card != null)
                     if (card.object().getName().equals(Integer.toString(result))) {
@@ -389,6 +424,25 @@ public class AutonomousPlayer extends Player {
         }
 
         return false;
+    }
+
+    public int getBestCardNumberForLCPickNumber(int min, int max) throws IllegalAccessException {
+
+        if (min > max) {
+            throw new IllegalAccessException("Parameter min cannot be higher than parameter max");
+        }
+
+        int bestNumber = 0;
+
+        for (Weight<NumberCard> cardWeight : numberCardWeightList) {
+            int number = Integer.parseInt(cardWeight.object().getName());
+            if (number >= min && number <= max) {
+                bestNumber = number;
+                break;
+            }
+        }
+
+        return bestNumber;
     }
 
     /**
@@ -482,9 +536,6 @@ public class AutonomousPlayer extends Player {
             }
         }
 
-        System.out.println("\nBestDiceResult: " + bestDiceResult);
-        System.out.println("Peek: " + diceStack.peek());
-        System.out.println(diceStack.peek() == bestDiceResult);
         return diceStack.peek() != bestDiceResult;
     }
 
@@ -492,4 +543,5 @@ public class AutonomousPlayer extends Player {
     public boolean isHuman() {
         return false;
     }
+
 }
