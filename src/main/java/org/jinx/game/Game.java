@@ -9,10 +9,7 @@ import org.jinx.field.Field;
 import org.jinx.player.Player;
 import org.jinx.wrapper.SafeScanner;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Stack;
+import java.util.*;
 
 
 public class Game {
@@ -87,7 +84,7 @@ public class Game {
 
         while (true) {
             field.printField();
-            //useLCSUM();
+            useLCSUM();
             System.out.println("\nAktiver Spieler: " + pc.getCurrentPlayer().getName());
 
             int diceRollResult = throwDice();
@@ -193,13 +190,13 @@ public class Game {
         if (safeScanner.nextYesNoAnswer()) {
 
             pc.getCurrentPlayer().setUsedRedo(true);
-            
+
             while (diceStack.size() > 1) {
                 diceStack.pop();
                 System.out.println("Ihr Würfelergebnis ist nun " + diceStack.peek());
 
                 System.out.println("Nochmal undo nutzen ?");
-                if(!safeScanner.nextYesNoAnswer()){
+                if (!safeScanner.nextYesNoAnswer()) {
                     break;
                 }
             }
@@ -235,54 +232,88 @@ public class Game {
 
     /**
      * recurse function to calculate sum of multiple numbers
-     * @param field current field
+     *
+     * @param field   current field
      * @param wuerfel dice result
      * @param partial partial stored cards
-     * @param result all sums
+     * @param result  all sums
      * @return list with all sums
      */
-    private List<List<NumberCard>> useLCSUMrecursive(List<NumberCard> field, int wuerfel, List<NumberCard> partial, List<List<NumberCard>> result){
+    private List<List<NumberCard>> useLCSUMrecursive(List<NumberCard> field, int wuerfel, List<NumberCard> partial, List<List<NumberCard>> result) {
 
         int s = 0;
-        for(NumberCard x : partial){
-            s += Integer.parseInt(x.getName());
+        for (NumberCard x : partial) {
+            if (x != null) {
+                s += Integer.parseInt(x.getName());
+            }
         }
-        if(s == wuerfel){
+        if (s == wuerfel) {
             result.add(partial);
         }
-        if(s >= wuerfel){
+        if (s >= wuerfel) {
             return result;
         }
 
-        for(int i = 0; i < field.size(); i++){
+        for (int i = 0; i < field.size(); i++) {
             ArrayList<NumberCard> remaining = new ArrayList<>();
 
-            for(int j = i+1; j < field.size(); j++){
-                remaining.add(field.get(j));
+            for (int j = i + 1; j < field.size(); j++) {
+                if(field.get(j) != null){
+                    remaining.add(field.get(j));
+                }
             }
 
             ArrayList<NumberCard> partial_rec = new ArrayList<>(partial);
-            partial_rec.add(field.get(i));
-            useLCSUMrecursive(remaining,wuerfel,partial_rec,result);
+            if(field.get(i) != null){
+                partial_rec.add(field.get(i));
+            }
+            useLCSUMrecursive(remaining, wuerfel, partial_rec, result);
         }
+
         return result;
     }
+
 
     /**
      * choose a sum in relation to your dice throw
      */
-    private void useLCSUM(){
-        int wuerfel = 4;
-        List<List<NumberCard>> cards = useLCSUMrecursive(Arrays.stream(field.getField()).toList(),wuerfel,new ArrayList<>(), new ArrayList<>());
+    private void useLCSUM() {
+        int wuerfel = 2;
 
-        for(int i = 0; i < cards.size() ; i++){
-            System.out.print("["+i+"]  ");
-            for(int j = 0; j < cards.get(i).size(); j++){
-                System.out.print(cards.get(i).get(j).getName() +" "+ cards.get(i).get(j).getColor() +"  ");
+        //Set for throwing out duplicate entries
+        HashSet<List<NumberCard>> hashedCards = new HashSet<>(useLCSUMrecursive(Arrays.stream(field.getField()).toList(), wuerfel, new ArrayList<>(), new ArrayList<>()));
+
+        //List out of set for indexing
+        List<List<NumberCard>> newCards = new ArrayList<>(hashedCards);
+
+        if(newCards.size() == 0){
+            System.out.println("Falsch");
+            return;
+        }
+
+        //print cards to choose from
+        for(int i = 0; i < newCards.size(); i++){
+            System.out.print("[" + i + "]  ");
+            for (int j = 0; j < newCards.get(i).size(); j++){
+                System.out.print(newCards.get(i).get(j).getName()+ "  " + newCards.get(i).get(j).getColor() + "  ");
             }
             System.out.println();
         }
 
+        //adds cards to player hand
+        int index = safeScanner.nextIntSafe();
+        pc.getCurrentPlayer().getCards().addAll(newCards.get(index));
+        pc.getCurrentPlayer().printHand();
+
+        //removes cards from field
+        for (int i = 0; i < field.getFieldSize(); i++) {
+            for (int j = 0; j < newCards.get(index).size(); j++) {
+                if (field.getFieldIndex(i) == newCards.get(index).get(j)) {
+                    field.removeChosenCard(newCards.get(index).get(j));
+                }
+            }
+        }
+        field.printField();
     }
 
 
