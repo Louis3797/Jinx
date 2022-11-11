@@ -60,7 +60,7 @@ public class LuckyCardStack extends Stack<LuckyCard> {
 
                 // if color exists and card number range
                 if (checkName) {
-                    LuckyCard newCard = luckyFactory(cardName);
+                    LuckyCard newCard = luckyFactory(LuckyCardNames.valueOf(cardName));
                     this.add(newCard);
                 } else {
                     LOGGER.info("Card Color is not supported in enum CardColor.");
@@ -78,24 +78,24 @@ public class LuckyCardStack extends Stack<LuckyCard> {
         }
     }
 
-    private LuckyCard luckyFactory(String name) {
+    private LuckyCard luckyFactory(LuckyCardNames name) {
         switch (name) {
-            case "LC123" -> {
+            case LC123 -> {
                 return new LC123();
             }
-            case "LC456" -> {
+            case LC456 -> {
                 return new LC456();
             }
-            case "LCMinus1" -> {
+            case LCMinus1 -> {
                 return new LCMinus1();
             }
-            case "LCPlus1" -> {
+            case LCPlus1 -> {
                 return new LCPlus1();
             }
-            case "LCPlusDicethrow" -> {
+            case LCPlusDicethrow -> {
                 return new LCPlusDicethrow();
             }
-            case "LCSum" -> {
+            case LCSum-> {
                 return new LCSum();
             }
             default -> {
