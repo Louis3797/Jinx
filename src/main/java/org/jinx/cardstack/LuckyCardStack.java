@@ -55,8 +55,8 @@ public class LuckyCardStack extends Stack<LuckyCard> {
             for (String cardName : lines) {
 
 
-                boolean checkName = cardName.equals("LC123") || cardName.equals("LC456") || cardName.equals("LCMinus1") ||
-                        cardName.equals("LCPlus1") || cardName.equals("LCPlusDicethrow") || cardName.equals("LCSum");
+                boolean checkName = cardName.equals(LuckyCardNames.LC123) || cardName.equals(LuckyCardNames.LC456) || cardName.equals(LuckyCardNames.LCMinus1) ||
+                        cardName.equals(LuckyCardNames.LCPlus1) || cardName.equals(LuckyCardNames.LCPlusDicethrow) || cardName.equals(LuckyCardNames.LCSum);
 
                 // if color exists and card number range
                 if (checkName) {

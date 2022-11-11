@@ -5,16 +5,14 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class PlayerTest {
 
-        @Test
-        void testPlayer() {
-            Player player = new Player("Test");
-            assertEquals("Test", player.getName());
-        }
+
+
 
         @Test
         void testPlayerHand() {
             Player player = new Player("Test");
             player.printHand();
+            //assertEquals(0, player.getHandSize());
         }
 
         @Test
