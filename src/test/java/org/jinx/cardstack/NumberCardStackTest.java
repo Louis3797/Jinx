@@ -10,13 +10,13 @@ class NumberCardStackTest {
 
     @Test
     void testNumberCardStack()  {
-        NumberCardStack numberCardStack = new NumberCardStack();
+        var numberCardStack = new NumberCardStack();
         assertEquals(48, numberCardStack.size());
     }
 
     @Test
     void testNumberCardStack2()  {
-        NumberCardStack numberCardStack = new NumberCardStack();
+        var numberCardStack = new NumberCardStack();
         numberCardStack.remove(1);
         assertEquals(47, numberCardStack.size());
     }

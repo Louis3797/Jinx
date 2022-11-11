@@ -12,14 +12,14 @@ import java.lang.reflect.InvocationTargetException;
 class LuckyCardStackTest {
     @Test
     void testLuckyCardStack() {
-        LuckyCardStack luckyCardStack = new LuckyCardStack();
+        var luckyCardStack = new LuckyCardStack();
         luckyCardStack.remove(1);
         assertEquals(11, luckyCardStack.size());
     }
 
     @Test
     void testLuckyCardStack2() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-        LuckyCardStack luckyCardStack = new LuckyCardStack();
+        var luckyCardStack = new LuckyCardStack();
         assertEquals(12,luckyCardStack.size());
     }
 
