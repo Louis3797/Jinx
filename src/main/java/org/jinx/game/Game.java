@@ -87,7 +87,7 @@ public class Game {
 
         while (true) {
             field.printField();
-            useLCSUM();
+            //useLCSUM();
             System.out.println("\nAktiver Spieler: " + pc.getCurrentPlayer().getName());
 
             int diceRollResult = throwDice();

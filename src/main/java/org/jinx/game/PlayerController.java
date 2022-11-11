@@ -65,6 +65,9 @@ public class PlayerController {
                 if (!oneMorePlayer) {
                     break;
                 }
+                else {
+                    addOnePlayer();
+                }
 
             }
         }
