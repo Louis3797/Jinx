@@ -6,6 +6,6 @@ public abstract class LuckyCard extends Card {
         super(name.name());
     }
 
-    public abstract int effect();
+    public abstract int effect() throws IllegalAccessException;
 
 }

@@ -58,7 +58,7 @@ public class GameController {
     /**
      * Method starts the game
      */
-    public void start() {
+    public void start() throws IllegalAccessException {
 
         // Load old Highscores
         getOldHighScores();

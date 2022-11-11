@@ -1,6 +1,8 @@
 package org.jinx.game;
 
-import org.jinx.card.*;
+import org.jinx.card.LuckyCard;
+import org.jinx.card.LuckyCardNames;
+import org.jinx.card.NumberCard;
 import org.jinx.cardstack.LuckyCardStack;
 import org.jinx.cardstack.NumberCardStack;
 import org.jinx.dice.Dice;
@@ -40,8 +42,8 @@ public class Game {
     /**
      * This method controls the gameflow for each round
      */
-    public void play(int currentRound) {
-
+    public void play(int currentRound) throws IllegalAccessException {
+        field.setField(numberCardsDeck);
 
         if (currentRound == 1) {
             pc.next();  // initialize current player in PlayerController if it's the first round
@@ -52,7 +54,7 @@ public class Game {
         }
 
         // Lay new cards on field to replace old field
-        field.setField(numberCardsDeck);
+
 
         System.out.println("Runde " + currentRound);
 
@@ -83,7 +85,7 @@ public class Game {
     /**
      * method for user to pick from available cards
      */
-    private void pickCardsPhase() {
+    private void pickCardsPhase() throws IllegalAccessException {
 
         while (true) {
             field.printField();
@@ -106,10 +108,20 @@ public class Game {
             // choose a card
             System.out.println("Wählen sie eine Karte aus: ");
 
-            int wantedCard = safeScanner.nextIntInRange(1, availableCards.size()); // +1 bc for better ux
+            int wantedCardIndex;
+
+            if (pc.getCurrentPlayer().isHuman())
+                wantedCardIndex = safeScanner.nextIntInRange(1, availableCards.size()) - 1; // -1 bc for better ux
+            else {
+                wantedCardIndex = ((AutonomousPlayer) pc.getCurrentPlayer()).getIndexOfBestCard(availableCards, diceRollResult);
+                // This line is only here for cosmetic reasons
+                // to bring the human player a better game experience
+                // by pretending that the bot can also write to the console.
+                System.out.println(wantedCardIndex);
+            }
 
             // add card to hand
-            NumberCard card = availableCards.get(wantedCard - 1);
+            NumberCard card = availableCards.get(wantedCardIndex);
             pc.getCurrentPlayer().getCards().add(card);
 
             System.out.println("Spieler: " + pc.getCurrentPlayer().getName());
@@ -132,21 +144,11 @@ public class Game {
      *
      * @return user chosen dice value
      */
-    private int throwDice() {
+    private int throwDice() throws IllegalAccessException {
 
 
         Player currentPlayer = pc.getCurrentPlayer();
-        if (!currentPlayer.isHuman()) {
-            currentPlayer.getLuckyCards().add(new LC123());
 
-            currentPlayer.getLuckyCards().add(new LC456());
-
-            currentPlayer.getLuckyCards().add(new LCMinus1());
-            currentPlayer.getLuckyCards().add(new LCPlus1());
-
-            currentPlayer.getLuckyCards().add(new LCPlusDicethrow());
-
-        }
         Stack<Integer> diceStack = new Stack<>();
 
         if (currentPlayer.hasLuckyCard(LuckyCardNames.LC123) || currentPlayer.hasLuckyCard(LuckyCardNames.LC456)) {
@@ -368,7 +370,7 @@ public class Game {
      *
      * @return player chosen number
      */
-    private int use123or456() {
+    private int use123or456() throws IllegalAccessException {
         pc.getCurrentPlayer().printLuckyHand();
 
         int index = 0;
@@ -413,7 +415,7 @@ public class Game {
      * @param dice rolled dice
      * @return dicevalue + 1
      */
-    private int usePlus(int dice) {
+    private int usePlus(int dice) throws IllegalAccessException {
 
         pc.getCurrentPlayer().printLuckyHand();
 
@@ -447,7 +449,7 @@ public class Game {
      * @param dice rolled dice
      * @return dicevalue - 1
      */
-    private int useMinus(int dice) {
+    private int useMinus(int dice) throws IllegalAccessException {
         pc.getCurrentPlayer().printLuckyHand();
 
         int index = 0;
@@ -479,7 +481,7 @@ public class Game {
      *
      * @return new rolled dice value
      */
-    private int useReroll() {
+    private int useReroll() throws IllegalAccessException {
         pc.getCurrentPlayer().printLuckyHand();
 
         int index = 0;
@@ -574,20 +576,27 @@ public class Game {
             return;
         }
         List<NumberCard> highest = findHighest();
-        // scanner for index input
 
         NumberCard.printFormatedNumberCards(highest);
 
         System.out.println("Welche Karte möchtest du wegwerfen?");
+        int index;
 
-        int index = safeScanner.nextIntInRange(1, highest.size());
+        if (pc.getCurrentPlayer().isHuman()) {
+            index = safeScanner.nextIntInRange(1, highest.size());
+        } else {
+            index = ((AutonomousPlayer) pc.getCurrentPlayer()).getBaddestCardIndex();
+            // This line is only here for cosmetic reasons
+            // to bring the human player a better game experience
+            // by pretending that the bot can also write to the console.
+            System.out.println(index);
+        }
 
         //remove the highest from current player that ended turn
         pc.getCurrentPlayer().getCards().remove(highest.get(index - 1));
 
         System.out.println("NACH WEGWURF ----------------");
         pc.printPlayerHands();
-
     }
 
 }
