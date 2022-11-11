@@ -83,8 +83,6 @@ public class GameController {
      * Method reads all highscore data from Highscore.txt and adds it to highScoreList as Highscore Record
      */
     private void getOldHighScores() {
-
-
         try {
             BufferedReader reader = new BufferedReader(new FileReader("Highscore.txt"));
             String line;

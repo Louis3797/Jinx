@@ -2,6 +2,7 @@ package org.jinx.field;
 
 import org.jinx.card.NumberCard;
 import org.jinx.cardstack.NumberCardStack;
+import org.jinx.utils.ConsoleColor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -95,24 +96,62 @@ public class Field {
     public void printField() {
         for (int i = 0; i < 4; i++) {
 
-            System.out.print("----------\t".repeat(4) + "\n");
-
-            System.out.println("|        |\t".repeat(4));
+            for (int j = 0; j < 4; j++) {
+                System.out.print(
+                        (field[i * 4 + j] != null ? ConsoleColor.valueOf(field[i * 4 + j].getColor().name() + "_BRIGHT") : "") +
+                                "----------\t" + ConsoleColor.RESET);
+            }
+            // for new line
+            System.out.println();
 
             for (int j = 0; j < 4; j++) {
-                System.out.print(field[i * 4 + j] == null ? "|        |\t" : "| " + field[i * 4 + j].getName() + " ".repeat(6) + "|\t");
+                System.out.print(
+                        (field[i * 4 + j] != null ? ConsoleColor.valueOf(field[i * 4 + j].getColor().name() + "_BRIGHT") : "") +
+                                "|        |\t" + ConsoleColor.RESET);
+            }
+
+            // for new line
+            System.out.println();
+
+            for (int j = 0; j < 4; j++) {
+                System.out.print(field[i * 4 + j] == null ? "|        |\t" : ConsoleColor.valueOf(field[i * 4 + j].getColor().name() + "_BRIGHT") + "| " + field[i * 4 + j].getName() + " ".repeat(6) + "|\t" + ConsoleColor.RESET);
             }
 
             System.out.println();
-            System.out.println("|        |\t".repeat(4));
 
             for (int j = 0; j < 4; j++) {
-                System.out.print(field[i * 4 + j] == null ? "|        |\t" : "| " + field[i * 4 + j].getColor() + (field[i * 4 +j].getColor().name().length() < 6 ? (" ".repeat(6 - field[i * 4 +j].getColor().name().length())) : "") + " |\t");
+                System.out.print(
+                        (field[i * 4 + j] != null ? ConsoleColor.valueOf(field[i * 4 + j].getColor().name() + "_BRIGHT") : "") +
+                                "|        |\t" + ConsoleColor.RESET);
+            }
+            // for new line
+            System.out.println();
+
+
+            for (int j = 0; j < 4; j++) {
+                System.out.print(field[i * 4 + j] == null ? "|        |\t" : ConsoleColor.valueOf(field[i * 4 + j].getColor().name() + "_BRIGHT") + "| " + field[i * 4 + j].getColor() + (field[i * 4 + j].getColor().name().length() < 6 ? (" ".repeat(6 - field[i * 4 + j].getColor().name().length())) : "") + " |\t" + ConsoleColor.RESET);
             }
 
             System.out.println();
-            System.out.println("|        |\t".repeat(4));
-            System.out.print("----------\t".repeat(4) + "\n");
+
+            for (int j = 0; j < 4; j++) {
+
+                System.out.print(
+                        (field[i * 4 + j] != null ? ConsoleColor.valueOf(field[i * 4 + j].getColor().name() + "_BRIGHT") : "") +
+                                "|        |\t" + ConsoleColor.RESET);
+            }
+            // for new line
+            System.out.println();
+
+
+            for (int j = 0; j < 4; j++) {
+
+                System.out.print(
+                        (field[i * 4 + j] != null ? ConsoleColor.valueOf(field[i * 4 + j].getColor().name() + "_BRIGHT") : "") +
+                                "----------\t" + ConsoleColor.RESET);
+            }
+            // for new line
+            System.out.println();
 
         }
     }
