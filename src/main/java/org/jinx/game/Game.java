@@ -1,6 +1,5 @@
 package org.jinx.game;
 
-import org.jinx.card.LCSum;
 import org.jinx.card.LuckyCardNames;
 import org.jinx.card.NumberCard;
 import org.jinx.cardstack.LuckyCardStack;
@@ -95,7 +94,7 @@ public class Game {
             if (pc.getCurrentPlayer().hasLuckyCard(LuckyCardNames.LCSum) && !hashedCards.isEmpty()) {
                 System.out.println("Glückskarte Summe benutzen?");
                 if (safeScanner.nextYesNoAnswer()) {
-                    useLCSUM(diceRollResult, hashedCards);
+                    useLCSUM(hashedCards);
                     continue;
                 }
             }
@@ -288,7 +287,7 @@ public class Game {
     /**
      * choose a sum in relation to your dice throw
      */
-    private void useLCSUM(int wuerfel, HashSet<List<NumberCard>> set) {
+    private void useLCSUM(HashSet<List<NumberCard>> set) {
 
 
         //List out of set for indexing
