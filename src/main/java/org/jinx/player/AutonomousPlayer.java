@@ -313,8 +313,23 @@ public class AutonomousPlayer extends Player {
      *
      * @return Returns true if usefully
      */
-    public boolean considerRollDiceAgain() {
-        // check if first dice roll brought us the best card
+    public boolean considerRollDiceAgain(Stack<Integer> diceResults) {
+        // check if given dice results are brought us the best card based on difficulty:
+        // difficulty == Easy: If one of the 5 best cards can be selected by the dice result, false is returned
+        // difficulty == Medium: If one of the 3 best cards can be selected by the dice result, false is returned
+        // difficulty == Hard: If best card can be picked with the results in the Stack, return false
+
+        int temp = difficulty == AgentDifficulty.EASY ? 5 : difficulty == AgentDifficulty.MEDIUM ? 3 : 1;
+
+        for (int result : diceResults) {
+            for (int i = 0; i < temp; i++) {
+                Weight<NumberCard> card = numberCardWeightList.get(i);
+                if (card != null)
+                    if (card.object().getName().equals(Integer.toString(result))) {
+                        return false;
+                    }
+            }
+        }
         return true;
     }
 
@@ -324,7 +339,6 @@ public class AutonomousPlayer extends Player {
      * @return Returns true if the outcome of the end of the round is good for us
      */
     public boolean considerEndRound() {
-
         // true if player have the most points after discarding the cards
 
 
@@ -382,9 +396,8 @@ public class AutonomousPlayer extends Player {
      *
      * @return Returns true if the use of the LuckyCard is usefully, else returns false
      */
-    public boolean considerUseOfLCPlusDiceThrow() {
-        // card can be used more than one time, so it's always good to roll the dice again
-        return true;
+    public boolean considerUseOfLCPlusDiceThrow(Stack<Integer> diceResults) {
+        return considerRollDiceAgain(diceResults);
     }
 
     /**
@@ -446,13 +459,6 @@ public class AutonomousPlayer extends Player {
      */
     public boolean considerUseOfUndo(Stack<Integer> diceStack) {
 
-        // Debugging
-        System.out.print("[ ");
-        for (Weight<NumberCard> cardWeight : numberCardWeightList) {
-            System.out.print("( weight: " + cardWeight.weight() + ", card number: " + cardWeight.object().getName() + ", color: " + cardWeight.object().getColor() + " ) ");
-        }
-        System.out.println(" ]");
-
         // simple cases
         if (diceStack.size() <= 1) {
             return false;
@@ -476,7 +482,7 @@ public class AutonomousPlayer extends Player {
             }
         }
 
-        System.out.println("BestDiceResult: " + bestDiceResult);
+        System.out.println("\nBestDiceResult: " + bestDiceResult);
         System.out.println("Peek: " + diceStack.peek());
         System.out.println(diceStack.peek() == bestDiceResult);
         return diceStack.peek() != bestDiceResult;
