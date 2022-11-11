@@ -184,7 +184,7 @@ public class Game {
                 " gewürfelt\nNochmal wuerfeln? [yes|no]");
 
         if ((currentPlayer.isHuman() && safeScanner.nextYesNoAnswer()) ||
-                (!currentPlayer.isHuman() && ((AutonomousPlayer) currentPlayer).considerRollDiceAgain())) {
+                (!currentPlayer.isHuman() && ((AutonomousPlayer) currentPlayer).considerRollDiceAgain(diceStack))) {
 
             // These two lines are only here for cosmetic reasons
             // to bring the human player a better game experience
@@ -206,7 +206,7 @@ public class Game {
         if (currentPlayer.hasLuckyCard(LuckyCardNames.LCPlusDicethrow)) {
             System.out.println("Glückskarte benutzen um nochmal zu Würfeln:");
             if ((currentPlayer.isHuman() && safeScanner.nextYesNoAnswer()) ||
-                    (!currentPlayer.isHuman() && ((AutonomousPlayer) currentPlayer).considerUseOfLCPlusDiceThrow())) {
+                    (!currentPlayer.isHuman() && ((AutonomousPlayer) currentPlayer).considerUseOfLCPlusDiceThrow(diceStack))) {
                 // These two lines are only here for cosmetic reasons
                 // to bring the human player a better game experience
                 // by pretending that the bot can also write to the console.
@@ -576,24 +576,7 @@ public class Game {
         List<NumberCard> highest = findHighest();
         // scanner for index input
 
-        System.out.print("----------\t".repeat(highest.size()) + "\n");
-
-        System.out.println("|        |\t".repeat(highest.size()));
-
-        // print card number
-        for (NumberCard card : highest) {
-            System.out.print("| " + card.getName() + " ".repeat(6) + "|\t");
-        }
-
-        System.out.println();
-        System.out.println("|        |\t".repeat(highest.size()));
-
-        for (NumberCard card : highest) {
-            System.out.print("| " + card.getColor() + (card.getColor().name().length() < 6 ? (" ".repeat(6 - card.getColor().name().length())) : "") + " |\t");
-        }
-        System.out.println();
-        System.out.println("|        |\t".repeat(highest.size()));
-        System.out.print("----------\t".repeat(highest.size()) + "\n");
+        NumberCard.printFormatedNumberCards(highest);
 
         System.out.println("Welche Karte möchtest du wegwerfen?");
 
