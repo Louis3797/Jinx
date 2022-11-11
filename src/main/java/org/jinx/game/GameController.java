@@ -38,7 +38,7 @@ public class GameController {
      */
     public void startSequenz() {
 
-        System.out.println(BLUE_BOLD +"      _   ___   _   _  __  __");
+        System.out.println(BLUE_BOLD + "      _   ___   _   _  __  __");
         System.out.println("     | | |_ _| | \\ | | \\ \\/ /");
         System.out.println("  _  | |  | |  |  \\| |  \\  / ");
         System.out.println(" | |_| |  | |  | |\\  |  /  \\ ");
@@ -82,8 +82,6 @@ public class GameController {
      * Method reads all highscore data from Highscore.txt and adds it to highScoreList as Highscore Record
      */
     private void getOldHighScores() {
-
-
         try {
             BufferedReader reader = new BufferedReader(new FileReader("Highscore.txt"));
             String line;
