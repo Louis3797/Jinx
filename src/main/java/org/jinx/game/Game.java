@@ -1,5 +1,6 @@
 package org.jinx.game;
 
+import org.jinx.card.LCSum;
 import org.jinx.card.LuckyCardNames;
 import org.jinx.card.NumberCard;
 import org.jinx.cardstack.LuckyCardStack;
@@ -84,10 +85,20 @@ public class Game {
 
         while (true) {
             field.printField();
-            useLCSUM();
+
             System.out.println("\nAktiver Spieler: " + pc.getCurrentPlayer().getName());
 
             int diceRollResult = throwDice();
+
+            HashSet<List<NumberCard>> hashedCards = new HashSet<>(useLCSUMrecursive(Arrays.stream(field.getField()).toList(), diceRollResult, new ArrayList<>(), new ArrayList<>()));
+
+            if (pc.getCurrentPlayer().hasLuckyCard(LuckyCardNames.LCSum) && !hashedCards.isEmpty()) {
+                System.out.println("Glückskarte Summe benutzen?");
+                if (safeScanner.nextYesNoAnswer()) {
+                    useLCSUM(diceRollResult, hashedCards);
+                    continue;
+                }
+            }
 
             List<NumberCard> availableCards = field.getAvailableNumberCards(diceRollResult);
 
@@ -277,33 +288,37 @@ public class Game {
     /**
      * choose a sum in relation to your dice throw
      */
-    private void useLCSUM() {
-        int wuerfel = 2;
+    private void useLCSUM(int wuerfel, HashSet<List<NumberCard>> set) {
 
-        //Set for throwing out duplicate entries
-        HashSet<List<NumberCard>> hashedCards = new HashSet<>(useLCSUMrecursive(Arrays.stream(field.getField()).toList(), wuerfel, new ArrayList<>(), new ArrayList<>()));
 
         //List out of set for indexing
-        List<List<NumberCard>> newCards = new ArrayList<>(hashedCards);
+        List<List<NumberCard>> newCards = new ArrayList<>(set);
 
         if(newCards.size() == 0){
-            System.out.println("Falsch");
+            System.out.println("Geht nicht");
             return;
         }
 
         //print cards to choose from
         for(int i = 0; i < newCards.size(); i++){
-            System.out.print("[" + i + "]  ");
+            System.out.print("[" + (i+1) + "]  ");
             for (int j = 0; j < newCards.get(i).size(); j++){
                 System.out.print(newCards.get(i).get(j).getName()+ "  " + newCards.get(i).get(j).getColor() + "  ");
             }
             System.out.println();
         }
 
+        System.out.println("---------------");
+        // choose a card
+        System.out.println("Wählen sie ein Kartenpaar aus: ");
+
         //adds cards to player hand
-        int index = safeScanner.nextIntSafe();
+        int index = safeScanner.nextIntInRange(1,newCards.size())-1;
         pc.getCurrentPlayer().getCards().addAll(newCards.get(index));
+
+        System.out.println("Spieler: " + pc.getCurrentPlayer().getName());
         pc.getCurrentPlayer().printHand();
+        System.out.println("---------------");
 
         //removes cards from field
         for (int i = 0; i < field.getFieldSize(); i++) {
@@ -313,7 +328,8 @@ public class Game {
                 }
             }
         }
-        field.printField();
+        // switch to next player
+        pc.next();
     }
 
 
