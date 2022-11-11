@@ -138,6 +138,8 @@ public class Game {
      */
     private int throwDice() {
 
+        pc.getCurrentPlayer().getLuckyCards().add(new LCSum());
+
         Stack<Integer> diceStack = new Stack<>();
 
         if (pc.getCurrentPlayer().hasLuckyCard(LuckyCardNames.LC123) || pc.getCurrentPlayer().hasLuckyCard(LuckyCardNames.LC456)) {
@@ -299,13 +301,9 @@ public class Game {
             return;
         }
 
-        //print cards to choose from
-        for(int i = 0; i < newCards.size(); i++){
-            System.out.print("[" + (i+1) + "]  ");
-            for (int j = 0; j < newCards.get(i).size(); j++){
-                System.out.print(newCards.get(i).get(j).getName()+ "  " + newCards.get(i).get(j).getColor() + "  ");
-            }
-            System.out.println();
+        //print cards
+        for(List<NumberCard> list : newCards){
+            printCards(list);
         }
 
         System.out.println("---------------");
@@ -498,24 +496,7 @@ public class Game {
         List<NumberCard> highest = findHighest();
         // scanner for index input
 
-        System.out.print("----------\t".repeat(highest.size()) + "\n");
-
-        System.out.println("|        |\t".repeat(highest.size()));
-
-        // print card number
-        for (NumberCard card : highest) {
-            System.out.print("| " + card.getName() + " ".repeat(6) + "|\t");
-        }
-
-        System.out.println();
-        System.out.println("|        |\t".repeat(highest.size()));
-
-        for (NumberCard card : highest) {
-            System.out.print("| " + card.getColor() + (card.getColor().name().length() < 6 ? (" ".repeat(6 - card.getColor().name().length())) : "") + " |\t");
-        }
-        System.out.println();
-        System.out.println("|        |\t".repeat(highest.size()));
-        System.out.print("----------\t".repeat(highest.size()) + "\n");
+        printCards(highest);
 
         System.out.println("Welche Karte möchtest du wegwerfen?");
 
@@ -527,6 +508,27 @@ public class Game {
         System.out.println("NACH WEGWURF ----------------");
         pc.printPlayerHands();
 
+    }
+
+    private void printCards(List<NumberCard> list){
+        System.out.print("----------\t".repeat(list.size()) + "\n");
+
+        System.out.println("|        |\t".repeat(list.size()));
+
+        // print card number
+        for (NumberCard card : list) {
+            System.out.print("| " + card.getName() + " ".repeat(6) + "|\t");
+        }
+
+        System.out.println();
+        System.out.println("|        |\t".repeat(list.size()));
+
+        for (NumberCard card : list) {
+            System.out.print("| " + card.getColor() + (card.getColor().name().length() < 6 ? (" ".repeat(6 - card.getColor().name().length())) : "") + " |\t");
+        }
+        System.out.println();
+        System.out.println("|        |\t".repeat(list.size()));
+        System.out.print("----------\t".repeat(list.size()) + "\n");
     }
 
 }
