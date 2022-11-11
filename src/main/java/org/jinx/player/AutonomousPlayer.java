@@ -464,7 +464,7 @@ public class AutonomousPlayer extends Player {
         if (diceResult - 1 < 1)
             return false;
 
-        return compateCardWeightBetweenTwoDiceResults(diceResult, diceResult - 1);
+        return compareCardWeightBetweenTwoDiceResults(diceResult, diceResult - 1);
     }
 
     /**
@@ -477,7 +477,7 @@ public class AutonomousPlayer extends Player {
         if (diceResult + 1 > 6)
             return false;
 
-        return compateCardWeightBetweenTwoDiceResults(diceResult, diceResult + 1);
+        return compareCardWeightBetweenTwoDiceResults(diceResult, diceResult + 1);
     }
 
     /**
@@ -488,7 +488,7 @@ public class AutonomousPlayer extends Player {
      * @return Returns true if the card we can pick with the new dice result has a
      * higher weight than the card with the old dice result
      */
-    private boolean compateCardWeightBetweenTwoDiceResults(int oldDiceResult, int newDiceResult) {
+    private boolean compareCardWeightBetweenTwoDiceResults(int oldDiceResult, int newDiceResult) {
         int highestWeightWithOldDiceResult = Integer.MIN_VALUE, highestWeightWithNewDiceResult = Integer.MIN_VALUE;
 
         for (Weight<NumberCard> cardWeight : numberCardWeightList) {
