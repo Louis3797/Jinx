@@ -1,6 +1,7 @@
 package org.jinx.game;
 
 import org.jinx.card.LCSum;
+import org.jinx.card.LuckyCard;
 import org.jinx.card.LuckyCardNames;
 import org.jinx.card.NumberCard;
 import org.jinx.cardstack.LuckyCardStack;
@@ -89,14 +90,49 @@ public class Game {
             System.out.println("\nAktiver Spieler: " + pc.getCurrentPlayer().getName());
 
             int diceRollResult = throwDice();
+            int unchangedResult = diceRollResult;
 
-            HashSet<List<NumberCard>> hashedCards = new HashSet<>(useLCSUMrecursive(Arrays.stream(field.getField()).toList(), diceRollResult, new ArrayList<>(), new ArrayList<>()));
 
-            if (pc.getCurrentPlayer().hasLuckyCard(LuckyCardNames.LCSum) && !hashedCards.isEmpty()) {
+            if (pc.getCurrentPlayer().hasLuckyCard(LuckyCardNames.LCSum)) {
                 System.out.println("Glückskarte Summe benutzen?");
                 if (safeScanner.nextYesNoAnswer()) {
-                    useLCSUM(hashedCards);
-                    continue;
+
+                    int cardCount = 0;
+                    for (LuckyCard luckyCard : pc.getCurrentPlayer().getLuckyCards()) {
+                        if (luckyCard.getName().equals(String.valueOf(LuckyCardNames.LCSum))) {
+                            cardCount++;
+                        }
+                    }
+
+                    if (cardCount >= 2) {
+                        System.out.println("Karte um 1 erhöhen oder reduzieren?");
+                        if (safeScanner.nextYesNoAnswer()) {
+                            int choose = safeScanner.nextIntInRange(1, 2);
+                            if (choose == 1) {
+                                diceRollResult++;
+
+                            }
+
+                            if (choose == 2) {
+                                if (diceRollResult != 1) {
+                                    diceRollResult--;
+                                }
+                            }
+                        }
+                    }
+                    HashSet<List<NumberCard>> hashedCards = new HashSet<>(useLCSUMrecursive(Arrays.stream(field.getField()).toList(), diceRollResult, new ArrayList<>(), new ArrayList<>()));
+
+                    hashedCards.removeIf(list -> list.size() == 1);
+
+                    if(!hashedCards.isEmpty()){
+                        useLCSUM(hashedCards);
+                        continue;
+                    }
+
+                    else {
+                        System.out.println("Keine Summe möglich!");
+                        diceRollResult = unchangedResult;
+                    }
                 }
             }
 
@@ -138,6 +174,7 @@ public class Game {
      */
     private int throwDice() {
 
+        pc.getCurrentPlayer().getLuckyCards().add(new LCSum());
         pc.getCurrentPlayer().getLuckyCards().add(new LCSum());
 
         Stack<Integer> diceStack = new Stack<>();
@@ -271,13 +308,13 @@ public class Game {
             ArrayList<NumberCard> remaining = new ArrayList<>();
 
             for (int j = i + 1; j < field.size(); j++) {
-                if(field.get(j) != null){
+                if (field.get(j) != null) {
                     remaining.add(field.get(j));
                 }
             }
 
             ArrayList<NumberCard> partial_rec = new ArrayList<>(partial);
-            if(field.get(i) != null){
+            if (field.get(i) != null) {
                 partial_rec.add(field.get(i));
             }
             useLCSUMrecursive(remaining, wuerfel, partial_rec, result);
@@ -296,10 +333,9 @@ public class Game {
         //List out of set for indexing
         List<List<NumberCard>> newCards = new ArrayList<>(set);
 
-        newCards.removeIf(list -> list.size() == 1);
 
         //print cards
-        for(List<NumberCard> list : newCards){
+        for (List<NumberCard> list : newCards) {
             printCards(list);
         }
 
@@ -308,7 +344,7 @@ public class Game {
         System.out.println("Wählen sie ein Kartenpaar aus: ");
 
         //adds cards to player hand
-        int index = safeScanner.nextIntInRange(1,newCards.size())-1;
+        int index = safeScanner.nextIntInRange(1, newCards.size()) - 1;
         pc.getCurrentPlayer().getCards().addAll(newCards.get(index));
 
         System.out.println("Spieler: " + pc.getCurrentPlayer().getName());
@@ -507,7 +543,7 @@ public class Game {
 
     }
 
-    private void printCards(List<NumberCard> list){
+    private void printCards(List<NumberCard> list) {
         System.out.print("----------\t".repeat(list.size()) + "\n");
 
         System.out.println("|        |\t".repeat(list.size()));
