@@ -296,10 +296,7 @@ public class Game {
         //List out of set for indexing
         List<List<NumberCard>> newCards = new ArrayList<>(set);
 
-        if(newCards.size() == 0){
-            System.out.println("Geht nicht");
-            return;
-        }
+        newCards.removeIf(list -> list.size() == 1);
 
         //print cards
         for(List<NumberCard> list : newCards){
