@@ -1,7 +1,6 @@
 package org.jinx.game;
 
 import org.jinx.card.LCSum;
-import org.jinx.card.LuckyCard;
 import org.jinx.card.LuckyCardNames;
 import org.jinx.card.NumberCard;
 import org.jinx.cardstack.LuckyCardStack;
@@ -110,7 +109,7 @@ public class Game {
                             }
 
                             if (choose == 2) {
-                                if (diceRollResult != 1) {
+                                if (diceRollResult > 2) {
                                     diceRollResult--;
                                 }
                             }
