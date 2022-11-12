@@ -97,16 +97,12 @@ public class Game {
                 System.out.println("Glückskarte Summe benutzen?");
                 if (safeScanner.nextYesNoAnswer()) {
 
-                    int cardCount = 0;
-                    for (LuckyCard luckyCard : pc.getCurrentPlayer().getLuckyCards()) {
-                        if (luckyCard.getName().equals(String.valueOf(LuckyCardNames.LCSum))) {
-                            cardCount++;
-                        }
-                    }
+                    int cardCount = pc.getCurrentPlayer().countLuckyCards(LuckyCardNames.LCSum);
 
                     if (cardCount >= 2) {
                         System.out.println("Karte um 1 erhöhen oder reduzieren?");
                         if (safeScanner.nextYesNoAnswer()) {
+                            System.out.println("[1] = erhöhen || [2] = reduzieren");
                             int choose = safeScanner.nextIntInRange(1, 2);
                             if (choose == 1) {
                                 diceRollResult++;
