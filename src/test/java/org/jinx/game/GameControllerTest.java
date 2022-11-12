@@ -6,7 +6,7 @@ class GameControllerTest {
     @Test
     void testGameController() throws NoSuchMethodException {
         var gameController = new GameController();
-        assertEquals(1, gameController.getClass().getMethod("startSequenz").getModifiers());
+        gameController.start();
 
     }
 
