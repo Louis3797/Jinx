@@ -63,6 +63,7 @@ public class LuckyCardStack extends Stack<LuckyCard> {
                                 cardName.equals(String.valueOf(LuckyCardNames.LCPlusDicethrow)) ||
                                 cardName.equals(String.valueOf(LuckyCardNames.LCSum));
 
+
                 // if color exists and card number range
                 if (checkName) {
                     LuckyCard newCard = luckyFactory(LuckyCardNames.valueOf(cardName));
