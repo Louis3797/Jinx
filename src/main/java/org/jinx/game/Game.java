@@ -7,6 +7,7 @@ import org.jinx.cardstack.LuckyCardStack;
 import org.jinx.cardstack.NumberCardStack;
 import org.jinx.dice.Dice;
 import org.jinx.field.Field;
+import org.jinx.player.AgentDifficulty;
 import org.jinx.player.AutonomousPlayer;
 import org.jinx.player.Player;
 import org.jinx.wrapper.SafeScanner;
@@ -167,7 +168,7 @@ public class Game {
                     // These two lines are only here for cosmetic reasons
                     // to bring the human player a better game experience
                     // by pretending that the bot can also write to the console.
-                    if (!pc.getCurrentPlayer().isHuman()) {
+                    if (!currentPlayer.isHuman()) {
                         System.out.println("no");
                     }
                 }
@@ -179,8 +180,8 @@ public class Game {
             if (availableCards.isEmpty()) {
                 System.out.println("Die Runde ist zu ende");
                 // if currentPlayer is a bot, then update NumberCard weights
-                if (!pc.getCurrentPlayer().isHuman())
-                    ((AutonomousPlayer) pc.getCurrentPlayer()).updateWeightOfNumberCards();
+                if (!currentPlayer.isHuman())
+                    ((AutonomousPlayer) currentPlayer).updateWeightOfNumberCards();
                 break;
             }
             // show player available cards
@@ -190,25 +191,37 @@ public class Game {
             // choose a card
             System.out.println("Wählen sie eine Karte aus: ");
 
+            if (currentPlayer.isHuman()) {
+                System.out.println("Wollen sie ein Tipp kriegen?");
+
+                if (safeScanner.nextYesNoAnswer()) {
+                    AutonomousPlayer autonomousPlayer = new AutonomousPlayer("Tipp Geber", AgentDifficulty.HARD);
+                    NumberCard card = autonomousPlayer.givePlayerTip(currentPlayer, availableCards);
+                    System.out.println("Ich würde ja diese Karte nehmen:");
+                    NumberCard.printFormatedNumberCards(List.of(new NumberCard[]{card}));
+                }
+            }
+
+
             int wantedCardIndex;
 
-            if (pc.getCurrentPlayer().isHuman())
+            if (currentPlayer.isHuman())
                 wantedCardIndex = safeScanner.nextIntInRange(1, availableCards.size()) - 1; // -1 bc for better ux
             else {
-                wantedCardIndex = ((AutonomousPlayer) pc.getCurrentPlayer()).getIndexOfBestCard(availableCards);
+                wantedCardIndex = ((AutonomousPlayer) currentPlayer).getIndexOfBestCard(availableCards);
                 // This line is only here for cosmetic reasons
                 // to bring the human player a better game experience
                 // by pretending that the bot can also write to the console.
                 System.out.println(wantedCardIndex);
-                System.out.println("Begründung für diese Karte: \n" + ((AutonomousPlayer) pc.getCurrentPlayer()).getReasonForCard(availableCards.get(wantedCardIndex)));
+                System.out.println("Begründung für diese Karte: \n" + ((AutonomousPlayer) currentPlayer).getReasonForCard(availableCards.get(wantedCardIndex)));
             }
 
             // add card to hand
             NumberCard card = availableCards.get(wantedCardIndex);
-            pc.getCurrentPlayer().getCards().add(card);
+            currentPlayer.getCards().add(card);
 
-            System.out.println("Spieler: " + pc.getCurrentPlayer().getName());
-            pc.getCurrentPlayer().printHand();
+            System.out.println("Spieler: " + currentPlayer.getName());
+            currentPlayer.printHand();
             System.out.println("---------------");
             // remove card that the player chose from field
             field.removeChosenCard(card);
@@ -217,8 +230,8 @@ public class Game {
             pc.next();
 
             // if currentPlayer is a bot, then update NumberCard weights
-            if (!pc.getCurrentPlayer().isHuman())
-                ((AutonomousPlayer) pc.getCurrentPlayer()).updateWeightOfNumberCards();
+            if (!currentPlayer.isHuman())
+                ((AutonomousPlayer) currentPlayer).updateWeightOfNumberCards();
         }
     }
 
