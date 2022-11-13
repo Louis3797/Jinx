@@ -49,36 +49,18 @@ public class Player {
      * Prints LuckyCards of the Player
      */
     public void printLuckyHand() {
-
-        System.out.print("-------------------\t".repeat(luckyCards.size()) + "\n");
-
-        System.out.println("|                 |\t".repeat(luckyCards.size()));
-
-        // print card number
-        for (LuckyCard card : luckyCards) {
-            System.out.print("| " + card.getName() + " ".repeat(16 - card.getName().length()) + "|\t");
-        }
-
-        System.out.println();
-        System.out.println("|                 |\t".repeat(luckyCards.size()));
-
-        for (LuckyCard card : luckyCards) {
-            System.out.print("| " + card.getName() + " ".repeat(16 - card.getName().length()) + "|\t");
-        }
-        System.out.println();
-        System.out.println("|                 |\t".repeat(luckyCards.size()));
-        System.out.print("-------------------\t".repeat(luckyCards.size()) + "\n");
-
+        LuckyCard.printFormatedLuckyCards(luckyCards);
     }
 
     /**
      * Method checks if the player has a lucky card with the same given name in his hand
+     *
      * @param cardName Given Lucky card name as enum
      * @return Returns true if he holds a Lucky card with the given name in his hand
      */
-    public boolean hasLuckyCard(LuckyCardNames cardName){
-        for (LuckyCard card: luckyCards) {
-            if(card.getName().equals(cardName.name())){
+    public boolean hasLuckyCard(LuckyCardNames cardName) {
+        for (LuckyCard card : luckyCards) {
+            if (card.getName().equals(cardName.name())) {
                 return true;
             }
         }
@@ -88,18 +70,30 @@ public class Player {
 
     /**
      * Method counts how much Lucky cards the player holds in his hand of the given name
+     *
      * @param cardName Given Lucky card name as enum
      * @return Returns the amount of Lucky cards with the same name as the given one
      */
     public int countLuckyCards(LuckyCardNames cardName) {
         int total = 0;
-        for (LuckyCard card: luckyCards) {
-            if(card.getName().equals(cardName.name())){
+        for (LuckyCard card : luckyCards) {
+            if (card.getName().equals(cardName.name())) {
                 total++;
             }
         }
 
         return total;
+    }
+
+    /**
+     * Method to check if the current Player is a bot or a human
+     * <p>
+     * This method is overwritten in the Autonomous Player class
+     *
+     * @return Returns true everytime
+     */
+    public boolean isHuman() {
+        return true;
     }
 
     /* ---------- Getter and Setter Methods ---------- */
