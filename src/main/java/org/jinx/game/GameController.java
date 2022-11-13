@@ -2,21 +2,18 @@ package org.jinx.game;
 
 import org.jinx.card.NumberCard;
 import org.jinx.highscore.HighScore;
-import org.jinx.player.AutonomousPlayer;
 import org.jinx.player.Player;
+import org.jinx.wrapper.SafeScanner;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 import java.util.logging.Logger;
 
-import static org.jinx.utils.ConsoleColor.BLUE_BOLD;
-import static org.jinx.utils.ConsoleColor.RESET;
+import static org.jinx.utils.ConsoleColor.*;
+import static org.jinx.utils.ConsoleColor.WHITE_BOLD_BRIGHT;
 
 public class GameController {
 
@@ -39,7 +36,7 @@ public class GameController {
      */
     public void startSequenz() {
 
-        System.out.println(BLUE_BOLD + "      _   ___   _   _  __  __");
+        System.out.println(BLUE_BOLD +"      _   ___   _   _  __  __");
         System.out.println("     | | |_ _| | \\ | | \\ \\/ /");
         System.out.println("  _  | |  | |  |  \\| |  \\  / ");
         System.out.println(" | |_| |  | |  | |\\  |  /  \\ ");
@@ -56,10 +53,47 @@ public class GameController {
     }
 
     /**
+     * prints endlogo and score
+     */
+    public void endSequenz(){
+
+        System.out.println(
+                        RED_BOLD_BRIGHT +"*%%%%     %%%%%(    %%%%% .%%%%  %%%%%%       %%%%\n" +
+                        GREEN_BOLD_BRIGHT +" %%%%*   %%%%%%%    %%%%  .%%%%  %%%%%%%%     %%%%\n" +
+                        YELLOW_BOLD_BRIGHT +"  %%%%  #%%% %%%%  %%%%#  .%%%%  %%%%%%%%%*   %%%%\n" +
+                        BLUE_BOLD_BRIGHT +"  %%%%/ %%%%  %%%. %%%%   .%%%%  %%%%%  %%%%  %%%%\n" +
+                        PINK_BOLD_BRIGHT +"   %%%%%%%%   %%%%%%%%    .%%%%  %%%%%   %%%%%%%%%\n" +
+                        CYAN_BOLD_BRIGHT +"   ,%%%%%%     %%%%%%%    .%%%%  %%%%%     %%%%%%%\n" +
+                        WHITE_BOLD_BRIGHT +"    %%%%%%     .%%%%%     .%%%%  %%%%%      %%%%%%");
+
+        System.out.println("\n" + WHITE_BACKGROUND + "Spielende!"+RESET);
+
+        Map<String,Integer> winner = new HashMap<>();
+
+        for(Player player : pc.getPlayers()){
+            int total = 0;
+            for(NumberCard card :player.getCards()){
+                total += Integer.parseInt(card.getName());
+            }
+            winner.put(player.getName(),total);
+        }
+
+        System.out.println(winner);
+
+        int max = Collections.max(winner.values());
+
+        for(Map.Entry<String, Integer> entry : winner.entrySet()){
+            if(max == entry.getValue()){
+                System.out.println("Gewinner ist: " + PINK_BOLD_BRIGHT + entry.getKey() + RESET);
+            }
+        }
+
+    }
+
+    /**
      * Method starts the game
      */
     public void start() throws IllegalAccessException {
-
         // Load old Highscores
         getOldHighScores();
 
@@ -70,12 +104,25 @@ public class GameController {
 
         pc.addPlayers();
 
+        System.out.println(WHITE_BOLD_BRIGHT);
         // i is the current round
         for (int i = 1; i < 4; i++) {
             g1.play(i);
         }
 
+        endSequenz();
         writeHighScoreToFile();
+
+        // clear everything from current round
+        pc.getPlayers().clear();
+        highScoreList.clear();
+        System.out.println("Nochmal spielen?");
+
+        // start a new game
+        SafeScanner scanner = new SafeScanner();
+        if(scanner.nextYesNoAnswer()){
+            start();
+        }
 
     }
 
@@ -83,6 +130,8 @@ public class GameController {
      * Method reads all highscore data from Highscore.txt and adds it to highScoreList as Highscore Record
      */
     private void getOldHighScores() {
+
+
         try {
             BufferedReader reader = new BufferedReader(new FileReader("Highscore.txt"));
             String line;
@@ -105,7 +154,7 @@ public class GameController {
 
         // Calculate new Scores of after game and add them to highscore list
         for (Player player : pc.getPlayers()) {
-            if (!player.isUsedRedo() && player.getClass() != AutonomousPlayer.class) {
+            if (!player.isUsedRedo()) {
                 int score = 0;
                 for (NumberCard card : player.getCards()) {
                     score += Integer.parseInt(card.getName());
