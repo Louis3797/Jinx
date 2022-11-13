@@ -46,22 +46,28 @@ public class AutonomousPlayer extends Player {
     /**
      * Method finds the best card we can pick in the specified list of cards and the dice result
      *
-     * @param cards      List of number cards we can pick from
-     * @param diceResult result of the dice roll
+     * @param cards List of number cards we can pick from
      * @return Returns the best card the player can pick
      */
-    public int getIndexOfBestCard(List<NumberCard> cards, int diceResult) {
+    public int getIndexOfBestCard(List<NumberCard> cards) {
 
-        NumberCard bestCard = null;
+        if (cards.size() == 1) {
+            return 0;
+        }
 
-        for (Weight<NumberCard> cardWeights : numberCardWeightList) {
-            if (cardWeights.object().getName().equals(Integer.toString(diceResult))) {
-                bestCard = cardWeights.object();
-                break;
+        int indexOfBestCard = 0;
+        int bestWeight = Integer.MIN_VALUE;
+
+        for (int i = 0; i < cards.size(); i++) {
+            for (Weight<NumberCard> cardWeight : numberCardWeightList) {
+                if (cards.get(i).equals(cardWeight.object()) && bestWeight < cardWeight.weight()) {
+                    indexOfBestCard = i;
+                    bestWeight = cardWeight.weight();
+                }
             }
         }
 
-        return cards.indexOf(bestCard);
+        return indexOfBestCard;
     }
 
     /**
@@ -209,7 +215,7 @@ public class AutonomousPlayer extends Player {
      * @return Returns the Player object of the most dangerous opponent
      */
     public Player calculateMostDangerousOpponent() {
-
+        
         List<Weight<Player>> weightedOpponentList = new ArrayList<>();
 
         double averageCardAmountOfAllPlayers = calculateAverageCardAmountOfAllPlayers();
@@ -223,14 +229,17 @@ public class AutonomousPlayer extends Player {
 
                 // check if opponent has more cards than the average player
                 if (opponentCardAmount >= averageCardAmountOfAllPlayers) ++weight;
+                else --weight;
 
                 int amountOfDifferentCards = calculateCardDiversity(opponent.getCards());
 
                 // check if opponent has more than 3 different cards in his hand
                 if (amountOfDifferentCards >= 3) ++weight;
+                else --weight;
 
                 // check if opponent has more points than the average
                 if (calculateAveragePoints(opponent.getCards()) >= calculateAveragePointsOfAllPlayers()) ++weight;
+                else --weight;
 
                 weightedOpponentList.add(new Weight<>(opponent, weight));
             }
@@ -319,17 +328,26 @@ public class AutonomousPlayer extends Player {
      *
      * @return Returns the index of the baddest card in the hand of the player
      */
-    public int getBaddestCardIndex() {
+    public int findIndexForTheBestCardToDiscard(List<NumberCard> cards) {
 
-        int lowestNumber = Integer.MAX_VALUE;
+        if (cards.size() == 1) {
+            return 0;
+        }
+
+        Player mdo = calculateMostDangerousOpponent();
+
+        Map<CardColor, Double> map = calculateCardColorPercentage(mdo.getCards());
+
         int index = 0;
+        double highestPercentage = 0;
 
-        for (NumberCard card : getCards()) {
-            int cardNumber = Integer.parseInt(card.getName());
+        for (int i = 0; i < cards.size(); i++) {
 
-            if (lowestNumber > cardNumber) {
-                lowestNumber = cardNumber;
-                index = getCards().indexOf(card);
+            double colorPercentage = map.get(cards.get(i).getColor());
+
+            if (highestPercentage < colorPercentage) {
+                highestPercentage = colorPercentage;
+                index = i;
             }
         }
 
@@ -539,9 +557,62 @@ public class AutonomousPlayer extends Player {
         return diceStack.peek() != bestDiceResult;
     }
 
+    public boolean considerPickLuckyCard() {
+
+        if (getCards().isEmpty()) {
+            return false;
+        }
+
+
+        // Difficulty == Easy and
+        // (amount of number cards -1 >= avg amount of number cards)
+        // -> true
+        if (difficulty == AgentDifficulty.EASY && getCards().size() - 1 >= calculateAverageCardAmountOfAllPlayers()) {
+            return true;
+        }
+
+        // Difficulty == Easy
+        // and amount of number cards -1 >= avg amount of number cards
+        // and point of player >= avg points
+        // -> true
+        if (difficulty == AgentDifficulty.MEDIUM && getCards().size() - 1 >= calculateAverageCardAmountOfAllPlayers() && calculateAveragePoints(this.getCards()) >= calculateAveragePointsOfAllPlayers()) {
+            return true;
+        }
+
+        if (difficulty == AgentDifficulty.HARD) {
+            if (getCards().size() - 1 >= calculateAverageCardAmountOfAllPlayers() && calculateAveragePoints(this.getCards()) >= calculateAveragePointsOfAllPlayers()) {
+                for (NumberCard cards : getCards()) {
+                    if (Integer.parseInt(cards.getName()) <= 3) return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
     @Override
     public boolean isHuman() {
         return false;
     }
 
+    /**
+     * Finds the best number card to trade for a lucky card
+     *
+     * @return Returns the index of the card
+     */
+    public int findCardforTrade() {
+
+        int lowestCardIndex = 0;
+        int lowestCardNumber = Integer.MAX_VALUE;
+
+        for (int i = 0; i < getCards().size(); i++) {
+            int cardNumber = Integer.parseInt(getCards().get(i).getName());
+            if (lowestCardNumber > cardNumber) {
+                lowestCardNumber = cardNumber;
+                lowestCardIndex = i;
+            }
+        }
+
+        return lowestCardIndex;
+    }
 }
