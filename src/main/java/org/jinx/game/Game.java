@@ -46,11 +46,12 @@ public class Game {
         if (currentRound == 1) {
             pc.next();  // initialize current player in PlayerController if it's the first round
 
-            // if currentPlayer is a bot, then update NumberCard weights
-            if (!pc.getCurrentPlayer().isHuman())
-                ((AutonomousPlayer) pc.getCurrentPlayer()).updateWeightOfNumberCards();
+
         }
 
+        // if currentPlayer is a bot, then update NumberCard weights
+        if (!pc.getCurrentPlayer().isHuman())
+            ((AutonomousPlayer) pc.getCurrentPlayer()).updateWeightOfNumberCards();
         // Lay new cards on field to replace old field
 
 
@@ -132,7 +133,10 @@ public class Game {
             // if true, then the round is over
             if (availableCards.isEmpty()) {
                 System.out.println("Die Runde ist zu ende");
-                break;
+                // if currentPlayer is a bot, then update NumberCard weights
+                if (!pc.getCurrentPlayer().isHuman())
+                    ((AutonomousPlayer) pc.getCurrentPlayer()).updateWeightOfNumberCards();
+                  break;
             }
             // show player available cards
             field.printAvailableCards(availableCards);
@@ -151,6 +155,7 @@ public class Game {
                 // to bring the human player a better game experience
                 // by pretending that the bot can also write to the console.
                 System.out.println(wantedCardIndex);
+                System.out.println("Begründung für diese Karte: \n" +((AutonomousPlayer) pc.getCurrentPlayer()).getReasonForCard(availableCards.get(wantedCardIndex)));
             }
 
             // add card to hand
@@ -320,7 +325,7 @@ public class Game {
             // by pretending that the bot can also write to the console.
             if (!pc.getCurrentPlayer().isHuman()) System.out.println("yes");
 
-            pc.getCurrentPlayer().setUsedRedo(true);
+            pc.getCurrentPlayer().setUsedCheats(true);
 
             while (diceStack.size() > 1) {
                 diceStack.pop();
