@@ -1,5 +1,7 @@
 package org.jinx.game;
 
+import org.jinx.player.AgentDifficulty;
+import org.jinx.player.AutonomousPlayer;
 import org.jinx.player.Player;
 import org.jinx.wrapper.SafeScanner;
 
@@ -65,6 +67,9 @@ public class PlayerController {
                 if (!oneMorePlayer) {
                     break;
                 }
+                else {
+                    addOnePlayer();
+                }
 
             }
         }
@@ -85,20 +90,32 @@ public class PlayerController {
         System.out.println(BLUE + "Gib deinen Spieler einen Namen:" + RESET);
 
         String playerName;
-        boolean temp;
+        boolean isPlayerExisting;
 
         do {
             playerName = safeScanner.nextStringSafe();
 
-            temp = doesPlayerExist(playerName);
+            isPlayerExisting = doesPlayerExist(playerName);
 
-            if (temp) {
+            if (isPlayerExisting) {
                 System.out.println(BLUE + "Spieler " + playerName + " existiert bereits.\nBitte geben sie ein anderen Namen ein:" + RESET);
             }
-        }
-        while (temp);
+        } while (isPlayerExisting);
 
-        players.add(new Player(playerName));
+        System.out.println("Wollen sie das der Spieler von alleine spielt?\n[y,yes,ja | n,no,nein]");
+
+        if (safeScanner.nextYesNoAnswer()) {
+
+            System.out.println("Welche Schwierigkeit wollen sie der KI geben?");
+            for (int i = 0; i < AgentDifficulty.values().length; i++) {
+                System.out.println(i + 1 + ": " + AgentDifficulty.values()[i].name());
+            }
+
+            AgentDifficulty difficulty = AgentDifficulty.values()[safeScanner.nextIntInRange(1, AgentDifficulty.values().length) - 1];
+            players.add(new AutonomousPlayer(playerName, difficulty));
+        } else {
+            players.add(new Player(playerName));
+        }
 
         System.out.println(BLUE + playerName + " wurde dem Spiel hinzugefügt!" + RESET);
     }

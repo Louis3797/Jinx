@@ -33,7 +33,7 @@ public class SafeScanner {
      * @return Returns an integer that the user inputs
      */
     public int nextIntSafe() {
-        int response = 0;
+        int response;
 
         try {
             response = scanner.nextInt();
