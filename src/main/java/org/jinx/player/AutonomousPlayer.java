@@ -215,7 +215,7 @@ public class AutonomousPlayer extends Player {
      * @return Returns the Player object of the most dangerous opponent
      */
     public Player calculateMostDangerousOpponent() {
-        
+
         List<Weight<Player>> weightedOpponentList = new ArrayList<>();
 
         double averageCardAmountOfAllPlayers = calculateAverageCardAmountOfAllPlayers();
@@ -614,5 +614,9 @@ public class AutonomousPlayer extends Player {
         }
 
         return lowestCardIndex;
+    }
+
+    public boolean considerUseOFLCSum(HashSet<List<NumberCard>> hashedCards) {
+        return false;
     }
 }

@@ -11,9 +11,7 @@ import org.jinx.player.AutonomousPlayer;
 import org.jinx.player.Player;
 import org.jinx.wrapper.SafeScanner;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Stack;
+import java.util.*;
 
 
 public class Game {
@@ -107,6 +105,30 @@ public class Game {
             System.out.println("\nAktiver Spieler: " + pc.getCurrentPlayer().getName());
 
             int diceRollResult = throwDice();
+
+            HashSet<List<NumberCard>> hashedCards = new HashSet<>(useLCSUMrecursive(Arrays.stream(field.getField()).toList(), diceRollResult, new ArrayList<>(), new ArrayList<>()));
+
+            if (pc.getCurrentPlayer().hasLuckyCard(LuckyCardNames.LCSum) && !hashedCards.isEmpty()) {
+                System.out.println("Glückskarte Summe benutzen?");
+                if ((pc.getCurrentPlayer().isHuman() && safeScanner.nextYesNoAnswer()) || ((AutonomousPlayer) pc.getCurrentPlayer()).considerUseOFLCSum(hashedCards)) {
+                    // These two lines are only here for cosmetic reasons
+                    // to bring the human player a better game experience
+                    // by pretending that the bot can also write to the console.
+                    if (!pc.getCurrentPlayer().isHuman()) {
+                        System.out.println("yes");
+                    }
+
+                    useLCSUM(hashedCards);
+                    continue;
+                } else {
+                    // These two lines are only here for cosmetic reasons
+                    // to bring the human player a better game experience
+                    // by pretending that the bot can also write to the console.
+                    if (!pc.getCurrentPlayer().isHuman()) {
+                        System.out.println("no");
+                    }
+                }
+            }
 
             List<NumberCard> availableCards = field.getAvailableNumberCards(diceRollResult);
 
@@ -370,8 +392,7 @@ public class Game {
         if (pc.getCurrentPlayer().isHuman()) {
             index = safeScanner.nextIntInRange(1, pc.getCurrentPlayer().getCards().size()) - 1;
         } else {
-            // ai uses baddest card in his hand
-
+            // AI uses the baddest card in his hand
             index = ((AutonomousPlayer) pc.getCurrentPlayer()).findCardforTrade();
             // This line is only here for cosmetic reasons
             // to bring the human player a better game experience
@@ -389,6 +410,94 @@ public class Game {
             tradeForLucky();
         }
     }
+
+    /**
+     * recurse function to calculate sum of multiple numbers
+     *
+     * @param field   current field
+     * @param wuerfel dice result
+     * @param partial partial stored cards
+     * @param result  all sums
+     * @return list with all sums
+     */
+    private List<List<NumberCard>> useLCSUMrecursive(List<NumberCard> field, int wuerfel, List<NumberCard> partial, List<List<NumberCard>> result) {
+
+        int s = 0;
+        for (NumberCard x : partial) {
+            if (x != null) {
+                s += Integer.parseInt(x.getName());
+            }
+        }
+        if (s == wuerfel) {
+            result.add(partial);
+        }
+        if (s >= wuerfel) {
+            return result;
+        }
+
+        for (int i = 0; i < field.size(); i++) {
+            ArrayList<NumberCard> remaining = new ArrayList<>();
+
+            for (int j = i + 1; j < field.size(); j++) {
+                if (field.get(j) != null) {
+                    remaining.add(field.get(j));
+                }
+            }
+
+            ArrayList<NumberCard> partial_rec = new ArrayList<>(partial);
+            if (field.get(i) != null) {
+                partial_rec.add(field.get(i));
+            }
+            useLCSUMrecursive(remaining, wuerfel, partial_rec, result);
+        }
+
+        return result;
+    }
+
+
+    /**
+     * choose a sum in relation to your dice throw
+     */
+    private void useLCSUM(HashSet<List<NumberCard>> set) {
+
+
+        //List out of set for indexing
+        List<List<NumberCard>> newCards = new ArrayList<>(set);
+
+        if (newCards.size() == 0) {
+            System.out.println("Geht nicht");
+            return;
+        }
+
+        //print cards
+        for (List<NumberCard> list : newCards) {
+            NumberCard.printFormatedNumberCards(list);
+        }
+
+        System.out.println("---------------");
+        // choose a card
+        System.out.println("Wählen sie ein Kartenpaar aus: ");
+
+        //adds cards to player hand
+        int index = safeScanner.nextIntInRange(1, newCards.size()) - 1;
+        pc.getCurrentPlayer().getCards().addAll(newCards.get(index));
+
+        System.out.println("Spieler: " + pc.getCurrentPlayer().getName());
+        pc.getCurrentPlayer().printHand();
+        System.out.println("---------------");
+
+        //removes cards from field
+        for (int i = 0; i < field.getFieldSize(); i++) {
+            for (int j = 0; j < newCards.get(index).size(); j++) {
+                if (field.getField()[i] == newCards.get(index).get(j)) {
+                    field.removeChosenCard(newCards.get(index).get(j));
+                }
+            }
+        }
+        // switch to next player
+        pc.next();
+    }
+
 
     /**
      * choose a card with number 123 or 456 from field if use is available
