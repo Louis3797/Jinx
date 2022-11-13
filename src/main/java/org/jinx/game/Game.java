@@ -169,9 +169,6 @@ public class Game {
      */
     private int throwDice() {
 
-        pc.getCurrentPlayer().getLuckyCards().add(new LCSum());
-        pc.getCurrentPlayer().getLuckyCards().add(new LCSum());
-
         Stack<Integer> diceStack = new Stack<>();
 
         if (pc.getCurrentPlayer().hasLuckyCard(LuckyCardNames.LC123) || pc.getCurrentPlayer().hasLuckyCard(LuckyCardNames.LC456)) {
