@@ -33,7 +33,8 @@ class PlayerControllerTest {
 
         Object[] medthodArgruments = new Object[1];
         medthodArgruments[0] = "test";
-        assertEquals(false, method.invoke(playerController, medthodArgruments));
+        boolean temp = (boolean) method.invoke(playerController, medthodArgruments);
+        assertFalse(temp);
     }
 
 }
