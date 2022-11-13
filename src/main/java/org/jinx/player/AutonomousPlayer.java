@@ -637,13 +637,9 @@ public class AutonomousPlayer extends Player {
     /**
      * Method checks if the use of the LuckyCard Sum is usefully for the player or not
      *
-     * @param hashedCards Number Card combinations
      * @return Returns if the use of the lucky card is usefully
      */
-    public boolean considerUseOfLCSum(HashSet<List<NumberCard>> hashedCards) {
-
-        if (hashedCards == null || hashedCards.isEmpty())
-            return false;
+    public boolean considerUseOfLCSum() {
 
         // Easy condition
         if (this.difficulty == AgentDifficulty.EASY) {
@@ -656,21 +652,8 @@ public class AutonomousPlayer extends Player {
 
         } else if (this.difficulty == AgentDifficulty.HARD) {
             // return true if player has fewer cards than the average and less than 3 colors on the hand or if there is a combination with only high weight cards
-
             if (getCards().size() < calculateAverageCardAmountOfAllPlayers() && calculateCardDiversity(getCards()) <= 3) {
                 return true;
-            }
-
-            for (List<NumberCard> list : hashedCards) {
-                boolean flag = false;
-                for (NumberCard card : list) {
-
-                    for (Weight<NumberCard> cardWeight : numberCardWeightList) {
-                        flag = cardWeight.object().equals(card) && cardWeight.weight() >= 2;
-                    }
-                }
-                if (flag)
-                    return true;
             }
         }
 

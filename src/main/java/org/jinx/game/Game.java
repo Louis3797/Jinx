@@ -45,12 +45,15 @@ public class Game {
 
         if (currentRound == 1) {
             pc.next();  // initialize current player in PlayerController if it's the first round
+
+
         }
 
         // if currentPlayer is a bot, then update NumberCard weights
         if (!pc.getCurrentPlayer().isHuman())
             ((AutonomousPlayer) pc.getCurrentPlayer()).updateWeightOfNumberCards();
         // Lay new cards on field to replace old field
+
 
         System.out.println("Runde " + currentRound);
 
@@ -59,6 +62,7 @@ public class Game {
             for (int i = 0; i < pc.getPlayers().size(); i++) {
 
                 System.out.println("Spieler: " + pc.getCurrentPlayer().getName() + "\nKarte gegen Glückskarte eintauschen? [y,yes,ja | n,no,nein]");
+
 
                 if ((pc.getCurrentPlayer().isHuman() && safeScanner.nextYesNoAnswer()) || (((AutonomousPlayer) pc.getCurrentPlayer()).considerPickLuckyCard())) {
 
@@ -78,6 +82,7 @@ public class Game {
                 }
                 pc.next();
             }
+
         }
 
         pickCardsPhase();
@@ -93,27 +98,71 @@ public class Game {
     private void pickCardsPhase() throws IllegalAccessException {
 
         while (true) {
+
+            Player currentPlayer = pc.getCurrentPlayer();
+
             field.printField();
 
-            System.out.println("\nAktiver Spieler: " + pc.getCurrentPlayer().getName());
+            System.out.println("\nAktiver Spieler: " + currentPlayer.getName());
 
             int diceRollResult = throwDice();
+            int unchangedResult = diceRollResult;
 
-
-            HashSet<List<NumberCard>> hashedCards = new HashSet<>(getCardCombinations(Arrays.stream(field.getField()).toList(), diceRollResult, new ArrayList<>(), new ArrayList<>()));
-
-            if (pc.getCurrentPlayer().hasLuckyCard(LuckyCardNames.LCSum) && !hashedCards.isEmpty()) {
+            if (currentPlayer.hasLuckyCard(LuckyCardNames.LCSum)) {
                 System.out.println("Glückskarte Summe benutzen?");
-                if ((pc.getCurrentPlayer().isHuman() && safeScanner.nextYesNoAnswer()) || (!pc.getCurrentPlayer().isHuman() && ((AutonomousPlayer) pc.getCurrentPlayer()).considerUseOfLCSum(hashedCards))) {
+                if ((currentPlayer.isHuman() && safeScanner.nextYesNoAnswer()) || (!currentPlayer.isHuman() && ((AutonomousPlayer) currentPlayer).considerUseOfLCSum())) {
                     // These two lines are only here for cosmetic reasons
                     // to bring the human player a better game experience
                     // by pretending that the bot can also write to the console.
-                    if (!pc.getCurrentPlayer().isHuman()) {
+                    if (!currentPlayer.isHuman()) {
                         System.out.println("yes");
                     }
 
-                    useLCSum(hashedCards);
-                    continue;
+
+                    int cardCount = currentPlayer.countLuckyCards(LuckyCardNames.LCSum);
+
+                    if (cardCount >= 2 && !currentPlayer.isHuman()) {
+                        System.out.println("Karte um 1 erhöhen oder reduzieren?");
+                        if ((currentPlayer.isHuman() && safeScanner.nextYesNoAnswer())) {
+                            System.out.println("[1] = erhöhen || [2] = reduzieren");
+                            int choose = safeScanner.nextIntInRange(1, 2);
+                            if (choose == 1) {
+                                diceRollResult++;
+
+                            }
+
+                            if (choose == 2) {
+                                if (diceRollResult > 2) {
+                                    diceRollResult--;
+                                }
+                            }
+                        }
+                    }
+                    HashSet<List<NumberCard>> hashedCards = new HashSet<>(getCardCombinations(Arrays.stream(field.getField()).toList(), diceRollResult, new ArrayList<>(), new ArrayList<>()));
+
+                    hashedCards.removeIf(list -> list.size() == 1);
+
+                    HashSet<List<NumberCard>> removeDiffColor = new HashSet<>();
+
+                    //store all lists with distinct color cards
+                    for (List<NumberCard> list : hashedCards) {
+                        for (int i = 0; i < list.size() - 1; i++) {
+                            if (list.get(i).getColor() != list.get(i + 1).getColor()) {
+                                removeDiffColor.add(list);
+                            }
+                        }
+                    }
+
+                    //remove cards with distinct color from main-list
+                    hashedCards.removeAll(removeDiffColor);
+
+                    if (!hashedCards.isEmpty()) {
+                        useLCSum(hashedCards);
+                        continue;
+                    } else {
+                        System.out.println("Keine Summe möglich!");
+                        diceRollResult = unchangedResult;
+                    }
                 } else {
                     // These two lines are only here for cosmetic reasons
                     // to bring the human player a better game experience
