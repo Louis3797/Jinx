@@ -101,11 +101,13 @@ public class Game {
                     if (cardCount >= 2) {
                         System.out.println("Karte um 1 erhöhen oder reduzieren?");
                         if (safeScanner.nextYesNoAnswer()) {
+
                             System.out.println("[1] = erhöhen || [2] = reduzieren");
+
                             int choose = safeScanner.nextIntInRange(1, 2);
+
                             if (choose == 1) {
                                 diceRollResult++;
-
                             }
 
                             if (choose == 2) {
@@ -118,6 +120,18 @@ public class Game {
                     HashSet<List<NumberCard>> hashedCards = new HashSet<>(useLCSUMrecursive(Arrays.stream(field.getField()).toList(), diceRollResult, new ArrayList<>(), new ArrayList<>()));
 
                     hashedCards.removeIf(list -> list.size() == 1);
+
+                    HashSet<List<NumberCard>> removeDiffColor = new HashSet<>();
+
+                    for(List<NumberCard> list : hashedCards){
+                        for(int i = 0; i < list.size()-1; i++){
+                            if(list.get(i).getColor() != list.get(i+1).getColor()){
+                                removeDiffColor.add(list);
+                            }
+                        }
+                    }
+
+                    hashedCards.removeAll(removeDiffColor);
 
                     if(!hashedCards.isEmpty()){
                         useLCSUM(hashedCards);
@@ -168,6 +182,10 @@ public class Game {
      * @return user chosen dice value
      */
     private int throwDice() {
+
+        pc.getCurrentPlayer().getLuckyCards().add(new LCSum());
+        pc.getCurrentPlayer().getLuckyCards().add(new LCSum());
+
 
         Stack<Integer> diceStack = new Stack<>();
 
