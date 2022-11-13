@@ -65,10 +65,24 @@ public class Game {
                 System.out.println("Spieler: " + pc.getCurrentPlayer().getName() +
                         "\nKarte gegen Glückskarte eintauschen? [y,yes,ja | n,no,nein]");
 
-                boolean doTrade = safeScanner.nextYesNoAnswer();
-                if (doTrade) {
+
+                if ((pc.getCurrentPlayer().isHuman() && safeScanner.nextYesNoAnswer()) || (((AutonomousPlayer) pc.getCurrentPlayer()).considerPickLuckyCard())) {
+
+                    // These two lines are only here for cosmetic reasons
+                    // to bring the human player a better game experience
+                    // by pretending that the bot can also write to the console.
+                    if (!pc.getCurrentPlayer().isHuman())
+                        System.out.println("yes");
+
                     tradeForLucky();
                     pc.getCurrentPlayer().printLuckyHand();
+
+                } else {
+                    // These two lines are only here for cosmetic reasons
+                    // to bring the human player a better game experience
+                    // by pretending that the bot can also write to the console.
+                    if (!pc.getCurrentPlayer().isHuman())
+                        System.out.println("no");
                 }
                 pc.next();
             }
@@ -113,7 +127,7 @@ public class Game {
             if (pc.getCurrentPlayer().isHuman())
                 wantedCardIndex = safeScanner.nextIntInRange(1, availableCards.size()) - 1; // -1 bc for better ux
             else {
-                wantedCardIndex = ((AutonomousPlayer) pc.getCurrentPlayer()).getIndexOfBestCard(availableCards, diceRollResult);
+                wantedCardIndex = ((AutonomousPlayer) pc.getCurrentPlayer()).getIndexOfBestCard(availableCards);
                 // This line is only here for cosmetic reasons
                 // to bring the human player a better game experience
                 // by pretending that the bot can also write to the console.
@@ -352,15 +366,26 @@ public class Game {
 
         System.out.println("Welche Karte wollen sie eintauschen?");
         // Get index of card we want to trade for a lucky card
-        int index = safeScanner.nextIntInRange(1, pc.getCurrentPlayer().getCards().size());
+        int index;
+        if (pc.getCurrentPlayer().isHuman()) {
+            index = safeScanner.nextIntInRange(1, pc.getCurrentPlayer().getCards().size()) - 1;
+        } else {
+            // ai uses baddest card in his hand
 
-        pc.getCurrentPlayer().getCards().remove(index - 1);
+            index = ((AutonomousPlayer) pc.getCurrentPlayer()).findCardforTrade();
+            // This line is only here for cosmetic reasons
+            // to bring the human player a better game experience
+            // by pretending that the bot can also write to the console.
+            System.out.println(index);
+        }
+
+        pc.getCurrentPlayer().getCards().remove(index);
 
         pc.getCurrentPlayer().getLuckyCards().add(luckyCardStack.pop());
 
         System.out.println("Wollen sie noch eine Karte eintauschen?");
 
-        if (safeScanner.nextYesNoAnswer()) {
+        if ((pc.getCurrentPlayer().isHuman() && safeScanner.nextYesNoAnswer()) || (((AutonomousPlayer) pc.getCurrentPlayer()).considerPickLuckyCard())) {
             tradeForLucky();
         }
     }
@@ -428,6 +453,11 @@ public class Game {
                 if (card.getName().equals(LuckyCardNames.LCPlus1.name()))
                     index = pc.getCurrentPlayer().getLuckyCards().indexOf(card);
             }
+
+            // This line is only here for cosmetic reasons
+            // to bring the human player a better game experience
+            // by pretending that the bot can also write to the console.
+            System.out.println("Welche Karte wollen sie verwenden: \n" + index);
         }
 
         if (pc.getCurrentPlayer().getLuckyCards().get(index).getName().equals(LuckyCardNames.LCPlus1.name())) {
@@ -461,6 +491,11 @@ public class Game {
                 if (card.getName().equals(LuckyCardNames.LCMinus1.name()))
                     index = pc.getCurrentPlayer().getLuckyCards().indexOf(card);
             }
+
+            // This line is only here for cosmetic reasons
+            // to bring the human player a better game experience
+            // by pretending that the bot can also write to the console.
+            System.out.println("Welche Karte wollen sie verwenden: \n" + index);
         }
 
         if (pc.getCurrentPlayer().getLuckyCards().get(index).getName().equals(LuckyCardNames.LCMinus1.name())) {
@@ -493,6 +528,11 @@ public class Game {
                 if (card.getName().equals(LuckyCardNames.LCPlusDicethrow.name()))
                     index = pc.getCurrentPlayer().getLuckyCards().indexOf(card);
             }
+
+            // This line is only here for cosmetic reasons
+            // to bring the human player a better game experience
+            // by pretending that the bot can also write to the console.
+            System.out.println("Welche Karte wollen sie verwenden: \n" + index);
         }
 
         if (pc.getCurrentPlayer().getLuckyCards().get(index).getName().equals(LuckyCardNames.LCPlusDicethrow.name())) {
@@ -583,9 +623,9 @@ public class Game {
         int index;
 
         if (pc.getCurrentPlayer().isHuman()) {
-            index = safeScanner.nextIntInRange(1, highest.size());
+            index = safeScanner.nextIntInRange(1, highest.size()) - 1;
         } else {
-            index = ((AutonomousPlayer) pc.getCurrentPlayer()).getBaddestCardIndex();
+            index = ((AutonomousPlayer) pc.getCurrentPlayer()).findIndexForTheBestCardToDiscard(highest);
             // This line is only here for cosmetic reasons
             // to bring the human player a better game experience
             // by pretending that the bot can also write to the console.
@@ -593,7 +633,7 @@ public class Game {
         }
 
         //remove the highest from current player that ended turn
-        pc.getCurrentPlayer().getCards().remove(highest.get(index - 1));
+        pc.getCurrentPlayer().getCards().remove(highest.get(index));
 
         System.out.println("NACH WEGWURF ----------------");
         pc.printPlayerHands();
