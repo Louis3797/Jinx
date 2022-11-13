@@ -15,10 +15,9 @@ public class Player {
     private final String name;
 
     /**
-     * Stores if the Player used the redo funtion in game to get the old dice result back.
-     * If true, then player Highscore should not be listed after game
+     * Stores if the Player used cheats in the game
      */
-    private boolean usedRedo = false;
+    private boolean usedCheats = false;
 
     /**
      * Stores the cards of the player in game
@@ -101,12 +100,12 @@ public class Player {
         return name;
     }
 
-    public boolean isUsedRedo() {
-        return usedRedo;
+    public boolean isUsedCheats() {
+        return usedCheats;
     }
 
-    public void setUsedRedo(boolean usedRedo) {
-        this.usedRedo = usedRedo;
+    public void setUsedCheats(boolean usedCheats) {
+        this.usedCheats = usedCheats;
     }
 
     public List<NumberCard> getCards() {
