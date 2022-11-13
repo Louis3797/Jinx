@@ -96,6 +96,7 @@ public class Game {
                 System.out.println("Glückskarte Summe benutzen?");
                 if (safeScanner.nextYesNoAnswer()) {
 
+                    //counts luckycards in player hand
                     int cardCount = pc.getCurrentPlayer().countLuckyCards(LuckyCardNames.LCSum);
 
                     if (cardCount >= 2) {
@@ -106,6 +107,7 @@ public class Game {
 
                             int choose = safeScanner.nextIntInRange(1, 2);
 
+                            //increase or decrease dice result
                             if (choose == 1) {
                                 diceRollResult++;
                             }
@@ -119,10 +121,12 @@ public class Game {
                     }
                     HashSet<List<NumberCard>> hashedCards = new HashSet<>(useLCSUMrecursive(Arrays.stream(field.getField()).toList(), diceRollResult, new ArrayList<>(), new ArrayList<>()));
 
+                    // remove all lists with only 1 card in it
                     hashedCards.removeIf(list -> list.size() == 1);
 
                     HashSet<List<NumberCard>> removeDiffColor = new HashSet<>();
 
+                    //store all lists with distinct color cards
                     for(List<NumberCard> list : hashedCards){
                         for(int i = 0; i < list.size()-1; i++){
                             if(list.get(i).getColor() != list.get(i+1).getColor()){
@@ -131,13 +135,17 @@ public class Game {
                         }
                     }
 
+                    //remove cards with distinct color from main-list
                     hashedCards.removeAll(removeDiffColor);
 
+
+                    //uses lcsum if main-list is not empty
                     if(!hashedCards.isEmpty()){
                         useLCSUM(hashedCards);
                         continue;
                     }
 
+                    //otherwise use first dice result
                     else {
                         System.out.println("Keine Summe möglich!");
                         diceRollResult = unchangedResult;
