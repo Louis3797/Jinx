@@ -43,7 +43,8 @@ class NumberCardStackTest {
 
         Object[] medthodArgruments = new Object[1];
         medthodArgruments[0] = "RED";
-        assertEquals(true, method.invoke(numberCardStack, medthodArgruments));
+        boolean temp = (boolean) method.invoke(numberCardStack, medthodArgruments);
+        assertTrue(temp);
     }
 
 
@@ -64,7 +65,8 @@ class NumberCardStackTest {
 
         Object[] medthodArgruments = new Object[1];
         medthodArgruments[0] = "BLUE";
-        assertEquals(true, method.invoke(numberCardStack, medthodArgruments));
+        boolean temp = (boolean) method.invoke(numberCardStack, medthodArgruments);
+        assertTrue(temp);
     }
 
 
@@ -85,7 +87,8 @@ class NumberCardStackTest {
 
         Object[] medthodArgruments = new Object[1];
         medthodArgruments[0] = "GREEN";
-        assertEquals(true, method.invoke(numberCardStack, medthodArgruments));
+        boolean temp = (boolean) method.invoke(numberCardStack, medthodArgruments);
+        assertTrue(temp);
     }
 
 
@@ -106,7 +109,8 @@ class NumberCardStackTest {
 
         Object[] medthodArgruments = new Object[1];
         medthodArgruments[0] = "WHITE";
-        assertEquals(true, method.invoke(numberCardStack, medthodArgruments));
+        boolean temp = (boolean) method.invoke(numberCardStack, medthodArgruments);
+        assertTrue(temp);
     }
 
     /**
@@ -126,7 +130,8 @@ class NumberCardStackTest {
 
         Object[] medthodArgruments = new Object[1];
         medthodArgruments[0] = "PINK";
-        assertEquals(true, method.invoke(numberCardStack, medthodArgruments));
+        boolean temp = (boolean) method.invoke(numberCardStack, medthodArgruments);
+        assertTrue(temp);
     }
 
     /**
@@ -146,7 +151,8 @@ class NumberCardStackTest {
 
         Object[] medthodArgruments = new Object[1];
         medthodArgruments[0] = "CYAN";
-        assertEquals(true, method.invoke(numberCardStack, medthodArgruments));
+        boolean temp = (boolean) method.invoke(numberCardStack, medthodArgruments);
+        assertTrue(temp);
     }
 
     /**
@@ -166,7 +172,8 @@ class NumberCardStackTest {
 
         Object[] medthodArgruments = new Object[1];
         medthodArgruments[0] = "YELLOW";
-        assertEquals(true, method.invoke(numberCardStack, medthodArgruments));
+        boolean temp = (boolean) method.invoke(numberCardStack, medthodArgruments);
+        assertTrue(temp);
     }
 
     /**
@@ -186,7 +193,8 @@ class NumberCardStackTest {
 
         Object[] medthodArgruments = new Object[1];
         medthodArgruments[0] = "BLACK";
-        assertEquals(true, method.invoke(numberCardStack, medthodArgruments));
+        boolean temp = (boolean) method.invoke(numberCardStack, medthodArgruments);
+        assertTrue(temp);
     }
 
 }
