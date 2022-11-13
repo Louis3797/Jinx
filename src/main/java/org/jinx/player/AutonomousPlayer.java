@@ -343,11 +343,13 @@ public class AutonomousPlayer extends Player {
 
         for (int i = 0; i < cards.size(); i++) {
 
-            double colorPercentage = map.get(cards.get(i).getColor());
+            if (map.get(cards.get(i).getColor()) != null) {
+                double colorPercentage = map.get(cards.get(i).getColor());
 
-            if (highestPercentage < colorPercentage) {
-                highestPercentage = colorPercentage;
-                index = i;
+                if (highestPercentage < colorPercentage) {
+                    highestPercentage = colorPercentage;
+                    index = i;
+                }
             }
         }
 
@@ -384,18 +386,6 @@ public class AutonomousPlayer extends Player {
             }
         }
         return true;
-    }
-
-    /**
-     * Calculates if it's good if the round ends now
-     *
-     * @return Returns true if the outcome of the end of the round is good for us
-     */
-    public boolean considerEndRound() {
-        // true if player have the most points after discarding the cards
-
-
-        return false;
     }
 
     /**
@@ -559,7 +549,7 @@ public class AutonomousPlayer extends Player {
 
     public boolean considerPickLuckyCard() {
 
-        if (getCards().isEmpty()) {
+        if (getCards().isEmpty() || getLuckyCards().size() > 3) {
             return false;
         }
 
@@ -590,17 +580,12 @@ public class AutonomousPlayer extends Player {
         return false;
     }
 
-    @Override
-    public boolean isHuman() {
-        return false;
-    }
-
     /**
      * Finds the best number card to trade for a lucky card
      *
      * @return Returns the index of the card
      */
-    public int findCardforTrade() {
+    public int findCardForTrade() {
 
         int lowestCardIndex = 0;
         int lowestCardNumber = Integer.MAX_VALUE;
@@ -616,7 +601,79 @@ public class AutonomousPlayer extends Player {
         return lowestCardIndex;
     }
 
-    public boolean considerUseOFLCSum(HashSet<List<NumberCard>> hashedCards) {
+    public boolean considerUseOfLCSum(HashSet<List<NumberCard>> hashedCards) {
+
+        if (hashedCards == null || hashedCards.isEmpty())
+            return false;
+
+        // Easy condition
+        if (this.difficulty == AgentDifficulty.EASY) {
+            // return true if player has fewer cards than the average
+            return getCards().size() < calculateAverageCardAmountOfAllPlayers();
+
+        } else if (this.difficulty == AgentDifficulty.MEDIUM) {
+            // return true if player has fewer cards than the average and less than 3 colors on the hand
+            return getCards().size() < calculateAverageCardAmountOfAllPlayers() && calculateCardDiversity(getCards()) < 3;
+
+        } else if (this.difficulty == AgentDifficulty.HARD) {
+            // return true if player has fewer cards than the average and less than 3 colors on the hand or if there is a combination with only high weight cards
+
+            if (getCards().size() < calculateAverageCardAmountOfAllPlayers() && calculateCardDiversity(getCards()) <= 3) {
+                return true;
+            }
+
+            for (List<NumberCard> list : hashedCards) {
+                boolean flag = false;
+                for (NumberCard card : list) {
+
+                    for (Weight<NumberCard> cardWeight : numberCardWeightList) {
+                        flag = cardWeight.object().equals(card) && cardWeight.weight() >= 2;
+                    }
+                }
+                if (flag)
+                    return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Returns the index of the list with the best combination
+     *
+     * @param combinations 2 dimensional list of number cards
+     * @return Returns the index of the list with the best combination
+     */
+    public int getIndexOfBestCardCombination(List<List<NumberCard>> combinations) {
+        int highestSumWeight = 0;
+        int index = 0;
+
+        for (int i = 0; i < combinations.size(); i++) {
+
+            int sum = 0;
+
+            for (NumberCard card : combinations.get(i)) {
+
+                for (Weight<NumberCard> cardWeight : numberCardWeightList) {
+
+                    if (cardWeight.object().equals(card)) {
+                        sum += cardWeight.weight();
+                    }
+                }
+
+                if (sum > highestSumWeight) {
+                    highestSumWeight = sum;
+                    index = i;
+                }
+            }
+
+        }
+
+        return index;
+    }
+
+    @Override
+    public boolean isHuman() {
         return false;
     }
 }

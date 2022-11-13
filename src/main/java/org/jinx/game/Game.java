@@ -57,11 +57,10 @@ public class Game {
         System.out.println("Runde " + currentRound);
 
         // if we are not in round 1, then we can trade
-        if (currentRound >= 2) {
+        if (currentRound >= 2 && !luckyCardStack.isEmpty()) {
             for (int i = 0; i < pc.getPlayers().size(); i++) {
 
-                System.out.println("Spieler: " + pc.getCurrentPlayer().getName() +
-                        "\nKarte gegen Glückskarte eintauschen? [y,yes,ja | n,no,nein]");
+                System.out.println("Spieler: " + pc.getCurrentPlayer().getName() + "\nKarte gegen Glückskarte eintauschen? [y,yes,ja | n,no,nein]");
 
 
                 if ((pc.getCurrentPlayer().isHuman() && safeScanner.nextYesNoAnswer()) || (((AutonomousPlayer) pc.getCurrentPlayer()).considerPickLuckyCard())) {
@@ -69,8 +68,7 @@ public class Game {
                     // These two lines are only here for cosmetic reasons
                     // to bring the human player a better game experience
                     // by pretending that the bot can also write to the console.
-                    if (!pc.getCurrentPlayer().isHuman())
-                        System.out.println("yes");
+                    if (!pc.getCurrentPlayer().isHuman()) System.out.println("yes");
 
                     tradeForLucky();
                     pc.getCurrentPlayer().printLuckyHand();
@@ -79,8 +77,7 @@ public class Game {
                     // These two lines are only here for cosmetic reasons
                     // to bring the human player a better game experience
                     // by pretending that the bot can also write to the console.
-                    if (!pc.getCurrentPlayer().isHuman())
-                        System.out.println("no");
+                    if (!pc.getCurrentPlayer().isHuman()) System.out.println("no");
                 }
                 pc.next();
             }
@@ -106,11 +103,11 @@ public class Game {
 
             int diceRollResult = throwDice();
 
-            HashSet<List<NumberCard>> hashedCards = new HashSet<>(useLCSUMrecursive(Arrays.stream(field.getField()).toList(), diceRollResult, new ArrayList<>(), new ArrayList<>()));
+            HashSet<List<NumberCard>> hashedCards = new HashSet<>(getCardCombinations(Arrays.stream(field.getField()).toList(), diceRollResult, new ArrayList<>(), new ArrayList<>()));
 
             if (pc.getCurrentPlayer().hasLuckyCard(LuckyCardNames.LCSum) && !hashedCards.isEmpty()) {
                 System.out.println("Glückskarte Summe benutzen?");
-                if ((pc.getCurrentPlayer().isHuman() && safeScanner.nextYesNoAnswer()) || ((AutonomousPlayer) pc.getCurrentPlayer()).considerUseOFLCSum(hashedCards)) {
+                if ((pc.getCurrentPlayer().isHuman() && safeScanner.nextYesNoAnswer()) || (!pc.getCurrentPlayer().isHuman() && ((AutonomousPlayer) pc.getCurrentPlayer()).considerUseOfLCSum(hashedCards))) {
                     // These two lines are only here for cosmetic reasons
                     // to bring the human player a better game experience
                     // by pretending that the bot can also write to the console.
@@ -118,7 +115,7 @@ public class Game {
                         System.out.println("yes");
                     }
 
-                    useLCSUM(hashedCards);
+                    useLCSum(hashedCards);
                     continue;
                 } else {
                     // These two lines are only here for cosmetic reasons
@@ -182,23 +179,18 @@ public class Game {
      */
     private int throwDice() throws IllegalAccessException {
 
-
         Player currentPlayer = pc.getCurrentPlayer();
 
         Stack<Integer> diceStack = new Stack<>();
 
         if (currentPlayer.hasLuckyCard(LuckyCardNames.LC123) || currentPlayer.hasLuckyCard(LuckyCardNames.LC456)) {
             System.out.println("Glückskarte 123 oder 456 benutzen?");
-            if ((currentPlayer.isHuman() && safeScanner.nextYesNoAnswer()) ||
-                    (!currentPlayer.isHuman() &&
-                            (((AutonomousPlayer) currentPlayer).considerUseOfLC123() ||
-                                    ((AutonomousPlayer) currentPlayer).considerUseOfLC456()))) {
+            if ((currentPlayer.isHuman() && safeScanner.nextYesNoAnswer()) || (!currentPlayer.isHuman() && (((AutonomousPlayer) currentPlayer).considerUseOfLC123() || ((AutonomousPlayer) currentPlayer).considerUseOfLC456()))) {
 
                 // These two lines are only here for cosmetic reasons
                 // to bring the human player a better game experience
                 // by pretending that the bot can also write to the console.
-                if (!currentPlayer.isHuman())
-                    System.out.println("yes");
+                if (!currentPlayer.isHuman()) System.out.println("yes");
 
                 return use123or456();
             }
@@ -206,8 +198,7 @@ public class Game {
             // These two lines are only here for cosmetic reasons
             // to bring the human player a better game experience
             // by pretending that the bot can also write to the console.
-            if (!currentPlayer.isHuman())
-                System.out.println("no");
+            if (!currentPlayer.isHuman()) System.out.println("no");
         }
 
         if (currentPlayer.isHuman()) {
@@ -218,17 +209,14 @@ public class Game {
 
         diceStack.push(dice.use());
 
-        System.out.println("Du hast eine " + diceStack.peek() +
-                " gewürfelt\nNochmal wuerfeln? [yes|no]");
+        System.out.println("Du hast eine " + diceStack.peek() + " gewürfelt\nNochmal wuerfeln? [yes|no]");
 
-        if ((currentPlayer.isHuman() && safeScanner.nextYesNoAnswer()) ||
-                (!currentPlayer.isHuman() && ((AutonomousPlayer) currentPlayer).considerRollDiceAgain(diceStack))) {
+        if ((currentPlayer.isHuman() && safeScanner.nextYesNoAnswer()) || (!currentPlayer.isHuman() && ((AutonomousPlayer) currentPlayer).considerRollDiceAgain(diceStack))) {
 
             // These two lines are only here for cosmetic reasons
             // to bring the human player a better game experience
             // by pretending that the bot can also write to the console.
-            if (!currentPlayer.isHuman())
-                System.out.println("yes");
+            if (!currentPlayer.isHuman()) System.out.println("yes");
 
             diceStack.push(dice.use());
             System.out.println("Du hast eine " + diceStack.peek() + " gewürfelt");
@@ -236,43 +224,35 @@ public class Game {
             // These two lines are only here for cosmetic reasons
             // to bring the human player a better game experience
             // by pretending that the bot can also write to the console.
-            if (!currentPlayer.isHuman())
-                System.out.println("no");
+            if (!currentPlayer.isHuman()) System.out.println("no");
         }
 
 
         if (currentPlayer.hasLuckyCard(LuckyCardNames.LCPlusDicethrow)) {
             System.out.println("Glückskarte benutzen um nochmal zu Würfeln:");
-            if ((currentPlayer.isHuman() && safeScanner.nextYesNoAnswer()) ||
-                    (!currentPlayer.isHuman() && ((AutonomousPlayer) currentPlayer).considerUseOfLCPlusDiceThrow(diceStack))) {
+            if ((currentPlayer.isHuman() && safeScanner.nextYesNoAnswer()) || (!currentPlayer.isHuman() && ((AutonomousPlayer) currentPlayer).considerUseOfLCPlusDiceThrow(diceStack))) {
                 // These two lines are only here for cosmetic reasons
                 // to bring the human player a better game experience
                 // by pretending that the bot can also write to the console.
-                if (!currentPlayer.isHuman())
-                    System.out.println("yes");
+                if (!currentPlayer.isHuman()) System.out.println("yes");
 
                 diceStack.push(useReroll());
             } else {
                 // These two lines are only here for cosmetic reasons
                 // to bring the human player a better game experience
                 // by pretending that the bot can also write to the console.
-                if (!currentPlayer.isHuman())
-                    System.out.println("no");
+                if (!currentPlayer.isHuman()) System.out.println("no");
             }
         }
 
         if (currentPlayer.hasLuckyCard(LuckyCardNames.LC123) || currentPlayer.hasLuckyCard(LuckyCardNames.LC456)) {
             System.out.println("Glückskarte 123 oder 456 benutzen?");
-            if ((currentPlayer.isHuman() && safeScanner.nextYesNoAnswer()) ||
-                    (!currentPlayer.isHuman() &&
-                            (((AutonomousPlayer) currentPlayer).considerUseOfLC123() ||
-                                    ((AutonomousPlayer) currentPlayer).considerUseOfLC456()))) {
+            if ((currentPlayer.isHuman() && safeScanner.nextYesNoAnswer()) || (!currentPlayer.isHuman() && (((AutonomousPlayer) currentPlayer).considerUseOfLC123() || ((AutonomousPlayer) currentPlayer).considerUseOfLC456()))) {
 
                 // These two lines are only here for cosmetic reasons
                 // to bring the human player a better game experience
                 // by pretending that the bot can also write to the console.
-                if (!currentPlayer.isHuman())
-                    System.out.println("yes");
+                if (!currentPlayer.isHuman()) System.out.println("yes");
 
                 return use123or456();
             } else {
@@ -280,47 +260,48 @@ public class Game {
                 // These two lines are only here for cosmetic reasons
                 // to bring the human player a better game experience
                 // by pretending that the bot can also write to the console.
-                if (!currentPlayer.isHuman())
-                    System.out.println("no");
+                if (!currentPlayer.isHuman()) System.out.println("no");
             }
+        }
+
+        if (diceStack.size() > 1) {
+            useUndo(diceStack);
         }
 
 
         if (pc.getCurrentPlayer().hasLuckyCard(LuckyCardNames.LCPlus1)) {
             System.out.println("Glückskarte Plus 1 benutzen?");
-            if ((currentPlayer.isHuman() && safeScanner.nextYesNoAnswer()) ||
-                    (!currentPlayer.isHuman() && ((AutonomousPlayer) currentPlayer).considerUseOfLCPlus1(diceStack.peek()))) {
+            if ((currentPlayer.isHuman() && safeScanner.nextYesNoAnswer()) || (!currentPlayer.isHuman() && ((AutonomousPlayer) currentPlayer).considerUseOfLCPlus1(diceStack.peek()))) {
                 // These two lines are only here for cosmetic reasons
                 // to bring the human player a better game experience
                 // by pretending that the bot can also write to the console.
-                if (!currentPlayer.isHuman())
-                    System.out.println("yes");
+                if (!currentPlayer.isHuman()) System.out.println("yes");
                 diceStack.push(usePlus(diceStack.peek()));
             } else {
                 // These two lines are only here for cosmetic reasons
                 // to bring the human player a better game experience
                 // by pretending that the bot can also write to the console.
-                if (!currentPlayer.isHuman())
-                    System.out.println("no");
+                if (!currentPlayer.isHuman()) System.out.println("no");
             }
+        }
+
+        if (diceStack.size() > 1) {
+            useUndo(diceStack);
         }
 
         if (pc.getCurrentPlayer().hasLuckyCard(LuckyCardNames.LCMinus1)) {
             System.out.println("Glückskarte Minus 1 benutzen?");
-            if ((currentPlayer.isHuman() && safeScanner.nextYesNoAnswer()) ||
-                    (!currentPlayer.isHuman() && ((AutonomousPlayer) currentPlayer).considerUseOfLCMinus1(diceStack.peek()))) {
+            if ((currentPlayer.isHuman() && safeScanner.nextYesNoAnswer()) || (!currentPlayer.isHuman() && ((AutonomousPlayer) currentPlayer).considerUseOfLCMinus1(diceStack.peek()))) {
                 diceStack.push(useMinus(diceStack.peek()));
                 // These two lines are only here for cosmetic reasons
                 // to bring the human player a better game experience
                 // by pretending that the bot can also write to the console.
-                if (!currentPlayer.isHuman())
-                    System.out.println("yes");
+                if (!currentPlayer.isHuman()) System.out.println("yes");
             } else {
                 // These two lines are only here for cosmetic reasons
                 // to bring the human player a better game experience
                 // by pretending that the bot can also write to the console.
-                if (!currentPlayer.isHuman())
-                    System.out.println("no");
+                if (!currentPlayer.isHuman()) System.out.println("no");
             }
         }
 
@@ -333,14 +314,11 @@ public class Game {
 
     private void useUndo(Stack<Integer> diceStack) {
         System.out.println("Wollen sie die undo Funktion nutzen um ein vorheriges Würfelergebnis zurück zu holen?");
-        if ((pc.getCurrentPlayer().isHuman() && safeScanner.nextYesNoAnswer()) ||
-                (!pc.getCurrentPlayer().isHuman() &&
-                        ((AutonomousPlayer) pc.getCurrentPlayer()).considerUseOfUndo(diceStack))) {
+        if ((pc.getCurrentPlayer().isHuman() && safeScanner.nextYesNoAnswer()) || (!pc.getCurrentPlayer().isHuman() && ((AutonomousPlayer) pc.getCurrentPlayer()).considerUseOfUndo(diceStack))) {
             // These two lines are only here for cosmetic reasons
             // to bring the human player a better game experience
             // by pretending that the bot can also write to the console.
-            if (!pc.getCurrentPlayer().isHuman())
-                System.out.println("yes");
+            if (!pc.getCurrentPlayer().isHuman()) System.out.println("yes");
 
             pc.getCurrentPlayer().setUsedRedo(true);
 
@@ -349,28 +327,23 @@ public class Game {
                 System.out.println("Ihr Würfelergebnis ist nun " + diceStack.peek());
 
                 System.out.println("Nochmal undo nutzen ?");
-                if (!(pc.getCurrentPlayer().isHuman() && safeScanner.nextYesNoAnswer()) ||
-                        !(!pc.getCurrentPlayer().isHuman() &&
-                                ((AutonomousPlayer) pc.getCurrentPlayer()).considerUseOfUndo(diceStack))) {
+                if (!(pc.getCurrentPlayer().isHuman() && safeScanner.nextYesNoAnswer()) || !(!pc.getCurrentPlayer().isHuman() && ((AutonomousPlayer) pc.getCurrentPlayer()).considerUseOfUndo(diceStack))) {
                     // These two lines are only here for cosmetic reasons
                     // to bring the human player a better game experience
                     // by pretending that the bot can also write to the console.
-                    if (!pc.getCurrentPlayer().isHuman())
-                        System.out.println("no");
+                    if (!pc.getCurrentPlayer().isHuman()) System.out.println("no");
                     break;
                 }
                 // These two lines are only here for cosmetic reasons
                 // to bring the human player a better game experience
                 // by pretending that the bot can also write to the console.
-                if (!pc.getCurrentPlayer().isHuman())
-                    System.out.println("yes");
+                if (!pc.getCurrentPlayer().isHuman()) System.out.println("yes");
             }
         } else {
             // These two lines are only here for cosmetic reasons
             // to bring the human player a better game experience
             // by pretending that the bot can also write to the console.
-            if (!pc.getCurrentPlayer().isHuman())
-                System.out.println("no");
+            if (!pc.getCurrentPlayer().isHuman()) System.out.println("no");
         }
     }
 
@@ -393,7 +366,7 @@ public class Game {
             index = safeScanner.nextIntInRange(1, pc.getCurrentPlayer().getCards().size()) - 1;
         } else {
             // AI uses the baddest card in his hand
-            index = ((AutonomousPlayer) pc.getCurrentPlayer()).findCardforTrade();
+            index = ((AutonomousPlayer) pc.getCurrentPlayer()).findCardForTrade();
             // This line is only here for cosmetic reasons
             // to bring the human player a better game experience
             // by pretending that the bot can also write to the console.
@@ -402,36 +375,44 @@ public class Game {
 
         pc.getCurrentPlayer().getCards().remove(index);
 
-        pc.getCurrentPlayer().getLuckyCards().add(luckyCardStack.pop());
+        LuckyCard pickedLuckyCard = luckyCardStack.pop();
 
-        System.out.println("Wollen sie noch eine Karte eintauschen?");
+        System.out.println("Sie haben die LuckyCard " + pickedLuckyCard.getName() + " gezogen");
 
-        if ((pc.getCurrentPlayer().isHuman() && safeScanner.nextYesNoAnswer()) || (((AutonomousPlayer) pc.getCurrentPlayer()).considerPickLuckyCard())) {
-            tradeForLucky();
+        LuckyCard.printFormatedLuckyCards(new ArrayList<>(List.of(new LuckyCard[]{pickedLuckyCard})));
+
+        pc.getCurrentPlayer().getLuckyCards().add(pickedLuckyCard);
+
+        if (!luckyCardStack.isEmpty()) {
+            System.out.println("Wollen sie noch eine Karte eintauschen?");
+
+            if ((pc.getCurrentPlayer().isHuman() && safeScanner.nextYesNoAnswer()) || (!pc.getCurrentPlayer().isHuman() && ((AutonomousPlayer) pc.getCurrentPlayer()).considerPickLuckyCard())) {
+                tradeForLucky();
+            }
         }
     }
 
     /**
-     * recurse function to calculate sum of multiple numbers
+     * Methods calculates all possible combinations of number cards for a specific target
      *
      * @param field   current field
      * @param wuerfel dice result
      * @param partial partial stored cards
      * @param result  all sums
-     * @return list with all sums
+     * @return list with all combinations
      */
-    private List<List<NumberCard>> useLCSUMrecursive(List<NumberCard> field, int wuerfel, List<NumberCard> partial, List<List<NumberCard>> result) {
+    private List<List<NumberCard>> getCardCombinations(List<NumberCard> field, int wuerfel, List<NumberCard> partial, List<List<NumberCard>> result) {
 
-        int s = 0;
+        int sum = 0;
         for (NumberCard x : partial) {
             if (x != null) {
-                s += Integer.parseInt(x.getName());
+                sum += Integer.parseInt(x.getName());
             }
         }
-        if (s == wuerfel) {
+        if (sum == wuerfel) {
             result.add(partial);
         }
-        if (s >= wuerfel) {
+        if (sum >= wuerfel) {
             return result;
         }
 
@@ -448,7 +429,7 @@ public class Game {
             if (field.get(i) != null) {
                 partial_rec.add(field.get(i));
             }
-            useLCSUMrecursive(remaining, wuerfel, partial_rec, result);
+            getCardCombinations(remaining, wuerfel, partial_rec, result);
         }
 
         return result;
@@ -458,19 +439,13 @@ public class Game {
     /**
      * choose a sum in relation to your dice throw
      */
-    private void useLCSUM(HashSet<List<NumberCard>> set) {
-
+    private void useLCSum(HashSet<List<NumberCard>> set) {
 
         //List out of set for indexing
-        List<List<NumberCard>> newCards = new ArrayList<>(set);
-
-        if (newCards.size() == 0) {
-            System.out.println("Geht nicht");
-            return;
-        }
+        List<List<NumberCard>> combinations = new ArrayList<>(set);
 
         //print cards
-        for (List<NumberCard> list : newCards) {
+        for (List<NumberCard> list : combinations) {
             NumberCard.printFormatedNumberCards(list);
         }
 
@@ -478,9 +453,18 @@ public class Game {
         // choose a card
         System.out.println("Wählen sie ein Kartenpaar aus: ");
 
-        //adds cards to player hand
-        int index = safeScanner.nextIntInRange(1, newCards.size()) - 1;
-        pc.getCurrentPlayer().getCards().addAll(newCards.get(index));
+        int wantedCardIndex;
+
+        if (pc.getCurrentPlayer().isHuman())
+            wantedCardIndex = safeScanner.nextIntInRange(1, combinations.size()) - 1; // -1 bc for better ux
+        else {
+            wantedCardIndex = ((AutonomousPlayer) pc.getCurrentPlayer()).getIndexOfBestCardCombination(combinations);
+            // This line is only here for cosmetic reasons
+            // to bring the human player a better game experience
+            // by pretending that the bot can also write to the console.
+            System.out.println(wantedCardIndex);
+        }
+        pc.getCurrentPlayer().getCards().addAll(combinations.get(wantedCardIndex));
 
         System.out.println("Spieler: " + pc.getCurrentPlayer().getName());
         pc.getCurrentPlayer().printHand();
@@ -488,9 +472,9 @@ public class Game {
 
         //removes cards from field
         for (int i = 0; i < field.getFieldSize(); i++) {
-            for (int j = 0; j < newCards.get(index).size(); j++) {
-                if (field.getField()[i] == newCards.get(index).get(j)) {
-                    field.removeChosenCard(newCards.get(index).get(j));
+            for (int j = 0; j < combinations.get(wantedCardIndex).size(); j++) {
+                if (field.getField()[i] == combinations.get(wantedCardIndex).get(j)) {
+                    field.removeChosenCard(combinations.get(wantedCardIndex).get(j));
                 }
             }
         }
@@ -530,8 +514,7 @@ public class Game {
             System.out.println("Welche Karte wollen sie verwenden: \n" + index);
         }
 
-        if (pc.getCurrentPlayer().getLuckyCards().get(index).getName().equals(LuckyCardNames.LC123.name())
-                || pc.getCurrentPlayer().getLuckyCards().get(index).getName().equals(LuckyCardNames.LC456.name())) {
+        if (pc.getCurrentPlayer().getLuckyCards().get(index).getName().equals(LuckyCardNames.LC123.name()) || pc.getCurrentPlayer().getLuckyCards().get(index).getName().equals(LuckyCardNames.LC456.name())) {
 
             int diceValue = pc.getCurrentPlayer().getLuckyCards().get(index).effect();
 
