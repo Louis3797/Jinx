@@ -49,26 +49,7 @@ public class Player {
      * Prints LuckyCards of the Player
      */
     public void printLuckyHand() {
-
-        System.out.print("-------------------\t".repeat(luckyCards.size()) + "\n");
-
-        System.out.println("|                 |\t".repeat(luckyCards.size()));
-
-        // print card number
-        for (LuckyCard card : luckyCards) {
-            System.out.print("| " + card.getName() + " ".repeat(16 - card.getName().length()) + "|\t");
-        }
-
-        System.out.println();
-        System.out.println("|                 |\t".repeat(luckyCards.size()));
-
-        for (LuckyCard card : luckyCards) {
-            System.out.print("| " + card.getName() + " ".repeat(16 - card.getName().length()) + "|\t");
-        }
-        System.out.println();
-        System.out.println("|                 |\t".repeat(luckyCards.size()));
-        System.out.print("-------------------\t".repeat(luckyCards.size()) + "\n");
-
+        LuckyCard.printFormatedLuckyCards(luckyCards);
     }
 
     /**
