@@ -702,7 +702,6 @@ public class AutonomousPlayer extends Player {
     public String getReasonForCard(NumberCard card) {
 
         for (Weight<NumberCard> cardWeight : numberCardWeightList) {
-
             if (cardWeight.object().equals(card)) {
                 return cardWeight.reason();
             }

@@ -50,12 +50,6 @@ public class Game {
 
         }
 
-        // if currentPlayer is a bot, then update NumberCard weights
-        if (!pc.getCurrentPlayer().isHuman())
-            ((AutonomousPlayer) pc.getCurrentPlayer()).updateWeightOfNumberCards();
-        // Lay new cards on field to replace old field
-
-
         System.out.println("Runde " + currentRound);
 
         // if we are not in round 1, then we can trade
@@ -101,6 +95,10 @@ public class Game {
         while (true) {
 
             Player currentPlayer = pc.getCurrentPlayer();
+
+            if (!currentPlayer.isHuman())
+                // dont change pc.getCurrentPlayer() to currentPlayer
+                ((AutonomousPlayer) pc.getCurrentPlayer()).updateWeightOfNumberCards();
 
             field.printField();
 
@@ -181,7 +179,8 @@ public class Game {
                 System.out.println("Die Runde ist zu ende");
                 // if currentPlayer is a bot, then update NumberCard weights
                 if (!currentPlayer.isHuman())
-                    ((AutonomousPlayer) currentPlayer).updateWeightOfNumberCards();
+                    // dont change pc.getCurrentPlayer() to currentPlayer
+                    ((AutonomousPlayer) pc.getCurrentPlayer()).updateWeightOfNumberCards();
                 break;
             }
             // show player available cards
@@ -190,11 +189,17 @@ public class Game {
             System.out.println("---------------");
             // choose a card
             System.out.println("Wählen sie eine Karte aus: ");
+//            try {
+//                Thread.sleep(4000);
+//            } catch (InterruptedException e) {
+//                throw new RuntimeException(e);
+//            }
 
             if (currentPlayer.isHuman()) {
                 System.out.println("Wollen sie ein Tipp kriegen?");
 
                 if (safeScanner.nextYesNoAnswer()) {
+                    currentPlayer.setUsedCheats(true);
                     AutonomousPlayer autonomousPlayer = new AutonomousPlayer("Tipp Geber", AgentDifficulty.HARD);
                     NumberCard card = autonomousPlayer.givePlayerTip(currentPlayer, availableCards);
                     System.out.println("Ich würde ja diese Karte nehmen:");
@@ -213,7 +218,7 @@ public class Game {
                 // to bring the human player a better game experience
                 // by pretending that the bot can also write to the console.
                 System.out.println(wantedCardIndex);
-                System.out.println("Begründung für diese Karte: \n" + ((AutonomousPlayer) currentPlayer).getReasonForCard(availableCards.get(wantedCardIndex)));
+                System.out.println("Begründung für diese Karte: \n" + ((AutonomousPlayer) pc.getCurrentPlayer()).getReasonForCard(availableCards.get(wantedCardIndex)));
             }
 
             // add card to hand
@@ -230,8 +235,9 @@ public class Game {
             pc.next();
 
             // if currentPlayer is a bot, then update NumberCard weights
-            if (!currentPlayer.isHuman())
-                ((AutonomousPlayer) currentPlayer).updateWeightOfNumberCards();
+            if (!pc.getCurrentPlayer().isHuman())
+                // dont change pc.getCurrentPlayer() to currentPlayer
+                ((AutonomousPlayer) pc.getCurrentPlayer()).updateWeightOfNumberCards();
         }
     }
 
