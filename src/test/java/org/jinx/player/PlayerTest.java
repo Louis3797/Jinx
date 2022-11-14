@@ -8,12 +8,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class PlayerTest {
 
-    Player player = new Player("Bob");
-
-    @BeforeEach
-    void beforeEach() {
-
-    }
+    private Player player = new Player("Bob");
 
     @Test
     void testIfNumberCardListIsEmpty() {

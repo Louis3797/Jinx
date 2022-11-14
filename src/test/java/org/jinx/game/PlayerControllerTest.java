@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class PlayerControllerTest {
 
-    PlayerController playerController = PlayerController.getPlayerControllerInstance();
+    private PlayerController playerController = PlayerController.getPlayerControllerInstance();
 
     @AfterEach
     void afterEach() {
