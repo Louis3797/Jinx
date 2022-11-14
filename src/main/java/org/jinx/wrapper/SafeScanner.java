@@ -15,7 +15,7 @@ public class SafeScanner {
      * Standard Constructor
      */
     public SafeScanner() {
-        scanner = new Scanner(System.in);
+        this.scanner = new Scanner(System.in);
     }
 
     /**
@@ -23,7 +23,7 @@ public class SafeScanner {
      *
      * @return Returns a String that the user inputs
      */
-    public String nextStringSafe () {
+    public String nextStringSafe() {
         return scanner.next();
     }
 
