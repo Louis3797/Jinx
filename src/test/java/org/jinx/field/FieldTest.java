@@ -62,7 +62,6 @@ class FieldTest {
         List<NumberCard> availableNumberCards = field.getAvailableNumberCards(1);
         field.printAvailableCards(availableNumberCards);
         assertFalse(field.getAvailableNumberCards(1).isEmpty());
-
     }
 
 }
