@@ -199,7 +199,6 @@ public class Game {
                 System.out.println("Wollen sie ein Tipp kriegen?");
 
                 if (safeScanner.nextYesNoAnswer()) {
-                    currentPlayer.setUsedCheats(true);
                     AutonomousPlayer autonomousPlayer = new AutonomousPlayer("Tipp Geber", AgentDifficulty.HARD);
                     NumberCard card = autonomousPlayer.givePlayerTip(currentPlayer, availableCards);
                     System.out.println("Ich würde ja diese Karte nehmen:");

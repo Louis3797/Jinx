@@ -1,13 +1,14 @@
 package org.jinx.cardstack;
 
-import static org.jinx.card.LuckyCardNames.*;
-import static org.junit.jupiter.api.Assertions.*;
-
 import org.jinx.card.LuckyCardNames;
 import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+
+import static org.jinx.card.LuckyCardNames.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class LuckyCardStackTest {
 
@@ -17,7 +18,7 @@ class LuckyCardStackTest {
     @Test
     void testLuckyCardStackremove() {
         var luckyCardStack = new LuckyCardStack();
-        luckyCardStack.remove(1);
+        luckyCardStack.pop();
         assertEquals(11, luckyCardStack.size());
     }
 
@@ -45,10 +46,10 @@ class LuckyCardStackTest {
         Method method = luckyCardStack.getClass().getDeclaredMethod("luckyFactory", parameters);
         method.setAccessible(true);
 
-        Object[] medthodArgruments = new Object[1];
-        medthodArgruments[0] = LC456;
+        Object[] methodArgruments = new Object[1];
+        methodArgruments[0] = LC456;
 
-        assertEquals(org.jinx.card.LC456.class, method.invoke(luckyCardStack, medthodArgruments).getClass());
+        assertEquals(org.jinx.card.LC456.class, method.invoke(luckyCardStack, methodArgruments).getClass());
     }
 
     /**
@@ -66,10 +67,10 @@ class LuckyCardStackTest {
         Method method = luckyCardStack.getClass().getDeclaredMethod("luckyFactory", parameters);
         method.setAccessible(true);
 
-        Object[] medthodArgruments = new Object[1];
-        medthodArgruments[0] = LC123;
+        Object[] methodArguments = new Object[1];
+        methodArguments[0] = LC123;
 
-        assertEquals(org.jinx.card.LC123.class, method.invoke(luckyCardStack, medthodArgruments).getClass());
+        assertEquals(org.jinx.card.LC123.class, method.invoke(luckyCardStack, methodArguments).getClass());
 
     }
 
@@ -88,10 +89,10 @@ class LuckyCardStackTest {
         Method method = luckyCardStack.getClass().getDeclaredMethod("luckyFactory", parameters);
         method.setAccessible(true);
 
-        Object[] medthodArgruments = new Object[1];
-        medthodArgruments[0] = LCMinus1;
+        Object[] methodArguments = new Object[1];
+        methodArguments[0] = LCMinus1;
 
-        assertEquals(org.jinx.card.LCMinus1.class, method.invoke(luckyCardStack, medthodArgruments).getClass());
+        assertEquals(org.jinx.card.LCMinus1.class, method.invoke(luckyCardStack, methodArguments).getClass());
 
     }
 
@@ -110,10 +111,10 @@ class LuckyCardStackTest {
         Method method = luckyCardStack.getClass().getDeclaredMethod("luckyFactory", parameters);
         method.setAccessible(true);
 
-        Object[] medthodArgruments = new Object[1];
-        medthodArgruments[0] = LCPlus1;
+        Object[] methodArguments = new Object[1];
+        methodArguments[0] = LCPlus1;
 
-        assertEquals(org.jinx.card.LCPlus1.class, method.invoke(luckyCardStack, medthodArgruments).getClass());
+        assertEquals(org.jinx.card.LCPlus1.class, method.invoke(luckyCardStack, methodArguments).getClass());
     }
 
     /**
@@ -131,10 +132,10 @@ class LuckyCardStackTest {
         Method method = luckyCardStack.getClass().getDeclaredMethod("luckyFactory", parameters);
         method.setAccessible(true);
 
-        Object[] medthodArgruments = new Object[1];
-        medthodArgruments[0] = LCPlusDicethrow;
+        Object[] methodArguments = new Object[1];
+        methodArguments[0] = LCPlusDicethrow;
 
-        assertEquals(org.jinx.card.LCPlusDicethrow.class, method.invoke(luckyCardStack, medthodArgruments).getClass());
+        assertEquals(org.jinx.card.LCPlusDicethrow.class, method.invoke(luckyCardStack, methodArguments).getClass());
     }
 
     /**
@@ -152,10 +153,10 @@ class LuckyCardStackTest {
         Method method = luckyCardStack.getClass().getDeclaredMethod("luckyFactory", parameters);
         method.setAccessible(true);
 
-        Object[] medthodArgruments = new Object[1];
-        medthodArgruments[0] = LCSum;
+        Object[] methodArguments = new Object[1];
+        methodArguments[0] = LCSum;
 
-        assertEquals(org.jinx.card.LCSum.class, method.invoke(luckyCardStack, medthodArgruments).getClass());
+        assertEquals(org.jinx.card.LCSum.class, method.invoke(luckyCardStack, methodArguments).getClass());
     }
 
     @Test
@@ -172,7 +173,6 @@ class LuckyCardStackTest {
         parameters[0] = LuckyCardNames.class;
         Method method = luckyCardStack.getClass().getDeclaredMethod("luckyFactory", parameters);
         method.setAccessible(true);
-
 
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
             method.invoke(luckyCardStack, "lC452");

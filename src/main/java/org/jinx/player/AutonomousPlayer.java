@@ -730,6 +730,7 @@ public class AutonomousPlayer extends Player {
             }
         }
 
+        player.setUsedCheats(true);
         return availableCards.get(index);
 
 

@@ -1,11 +1,12 @@
 package org.jinx.field;
 
-import static org.junit.jupiter.api.Assertions.*;
 import org.jinx.card.NumberCard;
 import org.jinx.cardstack.NumberCardStack;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 class FieldTest {
 
@@ -13,16 +14,11 @@ class FieldTest {
      * Tests if the method setField() and getAvailableNumberCards() work correctly
      */
     @Test
-    void testsetField() {
-        var field = new Field();
+    void testSetField() {
+        var field = Field.getFieldInstance();
         var numberCardStack = new NumberCardStack();
         field.setField(numberCardStack);
-        assertEquals(16, field.getAvailableNumberCards(1).size()
-                + field.getAvailableNumberCards(2).size()
-                + field.getAvailableNumberCards(3).size()
-                + field.getAvailableNumberCards(4).size()
-                + field.getAvailableNumberCards(5).size()
-                + field.getAvailableNumberCards(6).size());
+        assertEquals(16, field.getField().length);
 
     }
 
@@ -31,7 +27,7 @@ class FieldTest {
      */
     @Test
     void testRemoveChosenCard() {
-        var field = new Field();
+        var field = Field.getFieldInstance();
         var numberCardStack = new NumberCardStack();
         field.setField(numberCardStack);
         List<NumberCard> availableCards = field.getAvailableNumberCards(1);
@@ -40,12 +36,13 @@ class FieldTest {
         assertEquals(1, field.getAvailableNumberCards(1).size());
 
     }
+
     /**
      * Tests if the method removeChosenCard() works correctly, if the card is not on the field
      */
     @Test
-    void testremoveChosenCard(){
-        var field = new Field();
+    void testremoveChosenCard() {
+        var field = Field.getFieldInstance();
         var numberCardStack = new NumberCardStack();
         field.setField(numberCardStack);
         List<NumberCard> availableCards = field.getAvailableNumberCards(1);
@@ -59,7 +56,7 @@ class FieldTest {
      */
     @Test
     void testprintAvailableCards() {
-        var field = new Field();
+        var field = Field.getFieldInstance();
         var numberCardStack = new NumberCardStack();
         field.setField(numberCardStack);
         List<NumberCard> availableNumberCards = field.getAvailableNumberCards(1);
