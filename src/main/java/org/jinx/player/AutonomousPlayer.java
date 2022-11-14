@@ -76,7 +76,7 @@ public class AutonomousPlayer extends Player {
      */
     public void updateWeightOfNumberCards() {
         this.numberCardWeightList.clear();
-        this.numberCardWeightList.addAll(calculateWeightOfNumberCardsOnField(calculateMostDangerousOpponent()));
+        this.numberCardWeightList.addAll(calculateWeightOfNumberCardsOnField(this, calculateMostDangerousOpponent(this)));
     }
 
     /**
@@ -86,7 +86,7 @@ public class AutonomousPlayer extends Player {
      * @param opponent Most dangerous opponent
      * @return Returns a List with all Cards in the Field weighted
      */
-    private List<Weight<NumberCard>> calculateWeightOfNumberCardsOnField(Player opponent) {
+    private List<Weight<NumberCard>> calculateWeightOfNumberCardsOnField(Player player, Player opponent) {
 
         List<Weight<NumberCard>> cardsWeights = new ArrayList<>();
 
@@ -94,7 +94,7 @@ public class AutonomousPlayer extends Player {
 
         Map<CardColor, Double> opponentCardColorPercentageMap = calculateCardColorPercentage(opponent.getCards());
 
-        Map<CardColor, Double> playerCardColorPercentageMap = calculateCardColorPercentage(this.getCards());
+        Map<CardColor, Double> playerCardColorPercentageMap = calculateCardColorPercentage(player.getCards());
 
 
         int numberOfCardsInField = 0;
@@ -128,7 +128,7 @@ public class AutonomousPlayer extends Player {
                 reason.append("-1 Gewicht, da die Nummer der Karte ist kleiner als der Durchschnitt ist\n");
             }
 
-            if (isCardColorInPlayerHand(this, color)) {
+            if (isCardColorInPlayerHand(player, color)) {
                 ++weight;
                 reason.append("+1 Gewicht, da die Farbe der Karte in der Hand des Spielers vorkommt\n");
             } else {
@@ -240,16 +240,17 @@ public class AutonomousPlayer extends Player {
      * 2. Opponent has more than or 3 different suits of cards in hand = weight + 1
      * 3. Sum of points >= average sum of points = weight + 1
      *
+     * @param currentPlayer Current player we calculate for
      * @return Returns the Player object of the most dangerous opponent
      */
-    public Player calculateMostDangerousOpponent() {
+    public Player calculateMostDangerousOpponent(Player currentPlayer) {
 
         List<Weight<Player>> weightedOpponentList = new ArrayList<>();
 
         double averageCardAmountOfAllPlayers = calculateAverageCardAmountOfAllPlayers();
 
         for (Player opponent : playerController.getPlayers()) {
-            if (!opponent.equals(this)) {
+            if (!opponent.equals(currentPlayer)) {
 
                 int weight = 0;
 
@@ -362,7 +363,7 @@ public class AutonomousPlayer extends Player {
             return 0;
         }
 
-        Player mdo = calculateMostDangerousOpponent();
+        Player mdo = calculateMostDangerousOpponent(this);
 
         Map<CardColor, Double> map = calculateCardColorPercentage(mdo.getCards());
 
@@ -637,13 +638,9 @@ public class AutonomousPlayer extends Player {
     /**
      * Method checks if the use of the LuckyCard Sum is usefully for the player or not
      *
-     * @param hashedCards Number Card combinations
      * @return Returns if the use of the lucky card is usefully
      */
-    public boolean considerUseOfLCSum(HashSet<List<NumberCard>> hashedCards) {
-
-        if (hashedCards == null || hashedCards.isEmpty())
-            return false;
+    public boolean considerUseOfLCSum() {
 
         // Easy condition
         if (this.difficulty == AgentDifficulty.EASY) {
@@ -656,22 +653,7 @@ public class AutonomousPlayer extends Player {
 
         } else if (this.difficulty == AgentDifficulty.HARD) {
             // return true if player has fewer cards than the average and less than 3 colors on the hand or if there is a combination with only high weight cards
-
-            if (getCards().size() < calculateAverageCardAmountOfAllPlayers() && calculateCardDiversity(getCards()) <= 3) {
-                return true;
-            }
-
-            for (List<NumberCard> list : hashedCards) {
-                boolean flag = false;
-                for (NumberCard card : list) {
-
-                    for (Weight<NumberCard> cardWeight : numberCardWeightList) {
-                        flag = cardWeight.object().equals(card) && cardWeight.weight() >= 2;
-                    }
-                }
-                if (flag)
-                    return true;
-            }
+            return getCards().size() < calculateAverageCardAmountOfAllPlayers() && calculateCardDiversity(getCards()) <= 3;
         }
 
         return false;
@@ -720,13 +702,37 @@ public class AutonomousPlayer extends Player {
     public String getReasonForCard(NumberCard card) {
 
         for (Weight<NumberCard> cardWeight : numberCardWeightList) {
-
             if (cardWeight.object().equals(card)) {
                 return cardWeight.reason();
             }
         }
 
         throw new IllegalArgumentException("Weight for Card does not exist!");
+    }
+
+    public NumberCard givePlayerTip(Player player, List<NumberCard> availableCards) {
+        if (availableCards.size() == 1) {
+            return availableCards.get(0);
+        }
+
+        List<Weight<NumberCard>> cardWeights = calculateWeightOfNumberCardsOnField(player, calculateMostDangerousOpponent(player));
+
+
+        int index = 0;
+        int bestWeight = Integer.MIN_VALUE;
+
+        for (int i = 0; i < availableCards.size(); i++) {
+            for (Weight<NumberCard> cardWeight : cardWeights) {
+                if (availableCards.get(i).equals(cardWeight.object()) && bestWeight < cardWeight.weight()) {
+                    index = i;
+                    bestWeight = cardWeight.weight();
+                }
+            }
+        }
+
+        return availableCards.get(index);
+
+
     }
 
     @Override

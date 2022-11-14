@@ -7,6 +7,7 @@ import org.jinx.cardstack.LuckyCardStack;
 import org.jinx.cardstack.NumberCardStack;
 import org.jinx.dice.Dice;
 import org.jinx.field.Field;
+import org.jinx.player.AgentDifficulty;
 import org.jinx.player.AutonomousPlayer;
 import org.jinx.player.Player;
 import org.jinx.wrapper.SafeScanner;
@@ -45,12 +46,9 @@ public class Game {
 
         if (currentRound == 1) {
             pc.next();  // initialize current player in PlayerController if it's the first round
-        }
 
-        // if currentPlayer is a bot, then update NumberCard weights
-        if (!pc.getCurrentPlayer().isHuman())
-            ((AutonomousPlayer) pc.getCurrentPlayer()).updateWeightOfNumberCards();
-        // Lay new cards on field to replace old field
+
+        }
 
         System.out.println("Runde " + currentRound);
 
@@ -59,6 +57,7 @@ public class Game {
             for (int i = 0; i < pc.getPlayers().size(); i++) {
 
                 System.out.println("Spieler: " + pc.getCurrentPlayer().getName() + "\nKarte gegen Glückskarte eintauschen? [y,yes,ja | n,no,nein]");
+
 
                 if ((pc.getCurrentPlayer().isHuman() && safeScanner.nextYesNoAnswer()) || (((AutonomousPlayer) pc.getCurrentPlayer()).considerPickLuckyCard())) {
 
@@ -78,6 +77,7 @@ public class Game {
                 }
                 pc.next();
             }
+
         }
 
         pickCardsPhase();
@@ -93,32 +93,80 @@ public class Game {
     private void pickCardsPhase() throws IllegalAccessException {
 
         while (true) {
+
+            Player currentPlayer = pc.getCurrentPlayer();
+
+            if (!currentPlayer.isHuman())
+                // dont change pc.getCurrentPlayer() to currentPlayer
+                ((AutonomousPlayer) pc.getCurrentPlayer()).updateWeightOfNumberCards();
+
             field.printField();
 
-            System.out.println("\nAktiver Spieler: " + pc.getCurrentPlayer().getName());
+            System.out.println("\nAktiver Spieler: " + currentPlayer.getName());
 
             int diceRollResult = throwDice();
+            int unchangedResult = diceRollResult;
 
-
-            HashSet<List<NumberCard>> hashedCards = new HashSet<>(getCardCombinations(Arrays.stream(field.getField()).toList(), diceRollResult, new ArrayList<>(), new ArrayList<>()));
-
-            if (pc.getCurrentPlayer().hasLuckyCard(LuckyCardNames.LCSum) && !hashedCards.isEmpty()) {
+            if (currentPlayer.hasLuckyCard(LuckyCardNames.LCSum)) {
                 System.out.println("Glückskarte Summe benutzen?");
-                if ((pc.getCurrentPlayer().isHuman() && safeScanner.nextYesNoAnswer()) || (!pc.getCurrentPlayer().isHuman() && ((AutonomousPlayer) pc.getCurrentPlayer()).considerUseOfLCSum(hashedCards))) {
+                if ((currentPlayer.isHuman() && safeScanner.nextYesNoAnswer()) || (!currentPlayer.isHuman() && ((AutonomousPlayer) currentPlayer).considerUseOfLCSum())) {
                     // These two lines are only here for cosmetic reasons
                     // to bring the human player a better game experience
                     // by pretending that the bot can also write to the console.
-                    if (!pc.getCurrentPlayer().isHuman()) {
+                    if (!currentPlayer.isHuman()) {
                         System.out.println("yes");
                     }
 
-                    useLCSum(hashedCards);
-                    continue;
+
+                    int cardCount = currentPlayer.countLuckyCards(LuckyCardNames.LCSum);
+
+                    if (cardCount >= 2 && !currentPlayer.isHuman()) {
+                        System.out.println("Karte um 1 erhöhen oder reduzieren?");
+                        if ((currentPlayer.isHuman() && safeScanner.nextYesNoAnswer())) {
+                            System.out.println("[1] = erhöhen || [2] = reduzieren");
+                            int choose = safeScanner.nextIntInRange(1, 2);
+                            if (choose == 1) {
+                                diceRollResult++;
+
+                            }
+
+                            if (choose == 2) {
+                                if (diceRollResult > 2) {
+                                    diceRollResult--;
+                                }
+                            }
+                        }
+                    }
+                    HashSet<List<NumberCard>> hashedCards = new HashSet<>(getCardCombinations(Arrays.stream(field.getField()).toList(), diceRollResult, new ArrayList<>(), new ArrayList<>()));
+
+                    hashedCards.removeIf(list -> list.size() == 1);
+
+                    HashSet<List<NumberCard>> removeDiffColor = new HashSet<>();
+
+                    //store all lists with distinct color cards
+                    for (List<NumberCard> list : hashedCards) {
+                        for (int i = 0; i < list.size() - 1; i++) {
+                            if (list.get(i).getColor() != list.get(i + 1).getColor()) {
+                                removeDiffColor.add(list);
+                            }
+                        }
+                    }
+
+                    //remove cards with distinct color from main-list
+                    hashedCards.removeAll(removeDiffColor);
+
+                    if (!hashedCards.isEmpty()) {
+                        useLCSum(hashedCards);
+                        continue;
+                    } else {
+                        System.out.println("Keine Summe möglich!");
+                        diceRollResult = unchangedResult;
+                    }
                 } else {
                     // These two lines are only here for cosmetic reasons
                     // to bring the human player a better game experience
                     // by pretending that the bot can also write to the console.
-                    if (!pc.getCurrentPlayer().isHuman()) {
+                    if (!currentPlayer.isHuman()) {
                         System.out.println("no");
                     }
                 }
@@ -130,7 +178,8 @@ public class Game {
             if (availableCards.isEmpty()) {
                 System.out.println("Die Runde ist zu ende");
                 // if currentPlayer is a bot, then update NumberCard weights
-                if (!pc.getCurrentPlayer().isHuman())
+                if (!currentPlayer.isHuman())
+                    // dont change pc.getCurrentPlayer() to currentPlayer
                     ((AutonomousPlayer) pc.getCurrentPlayer()).updateWeightOfNumberCards();
                 break;
             }
@@ -140,13 +189,31 @@ public class Game {
             System.out.println("---------------");
             // choose a card
             System.out.println("Wählen sie eine Karte aus: ");
+//            try {
+//                Thread.sleep(4000);
+//            } catch (InterruptedException e) {
+//                throw new RuntimeException(e);
+//            }
+
+            if (currentPlayer.isHuman()) {
+                System.out.println("Wollen sie ein Tipp kriegen?");
+
+                if (safeScanner.nextYesNoAnswer()) {
+                    currentPlayer.setUsedCheats(true);
+                    AutonomousPlayer autonomousPlayer = new AutonomousPlayer("Tipp Geber", AgentDifficulty.HARD);
+                    NumberCard card = autonomousPlayer.givePlayerTip(currentPlayer, availableCards);
+                    System.out.println("Ich würde ja diese Karte nehmen:");
+                    NumberCard.printFormatedNumberCards(List.of(new NumberCard[]{card}));
+                }
+            }
+
 
             int wantedCardIndex;
 
-            if (pc.getCurrentPlayer().isHuman())
+            if (currentPlayer.isHuman())
                 wantedCardIndex = safeScanner.nextIntInRange(1, availableCards.size()) - 1; // -1 bc for better ux
             else {
-                wantedCardIndex = ((AutonomousPlayer) pc.getCurrentPlayer()).getIndexOfBestCard(availableCards);
+                wantedCardIndex = ((AutonomousPlayer) currentPlayer).getIndexOfBestCard(availableCards);
                 // This line is only here for cosmetic reasons
                 // to bring the human player a better game experience
                 // by pretending that the bot can also write to the console.
@@ -156,10 +223,10 @@ public class Game {
 
             // add card to hand
             NumberCard card = availableCards.get(wantedCardIndex);
-            pc.getCurrentPlayer().getCards().add(card);
+            currentPlayer.getCards().add(card);
 
-            System.out.println("Spieler: " + pc.getCurrentPlayer().getName());
-            pc.getCurrentPlayer().printHand();
+            System.out.println("Spieler: " + currentPlayer.getName());
+            currentPlayer.printHand();
             System.out.println("---------------");
             // remove card that the player chose from field
             field.removeChosenCard(card);
@@ -169,6 +236,7 @@ public class Game {
 
             // if currentPlayer is a bot, then update NumberCard weights
             if (!pc.getCurrentPlayer().isHuman())
+                // dont change pc.getCurrentPlayer() to currentPlayer
                 ((AutonomousPlayer) pc.getCurrentPlayer()).updateWeightOfNumberCards();
         }
     }
