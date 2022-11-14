@@ -41,6 +41,7 @@ public class AutonomousPlayer extends Player {
         super(name);
         this.difficulty = difficulty;
         this.numberCardWeightList = new ArrayList<>();
+        this.setUsedCheats(true);
     }
 
     /**
@@ -111,38 +112,65 @@ public class AutonomousPlayer extends Player {
             if (card == null)
                 continue;
 
+            StringBuilder reason = new StringBuilder();
+
             int weight = 0;
 
             CardColor color = card.getColor();
 
             int cardNumber = Integer.parseInt(card.getName());
 
-            if (cardNumber >= avgPoints) ++weight;
-            else --weight;
-
-            if (isCardColorInPlayerHand(this, color)) ++weight;
-            else --weight;
-
-            if (playerCardColorPercentageMap.get(color) != null && playerCardColorPercentageMap.get(color) >= 33.0)
+            if (cardNumber >= avgPoints) {
                 ++weight;
+                reason.append("+1 Gewicht, da die Nummer der Karte ist größer oder gleich als der Durchschnitt ist\n");
+            } else {
+                --weight;
+                reason.append("-1 Gewicht, da die Nummer der Karte ist kleiner als der Durchschnitt ist\n");
+            }
+
+            if (isCardColorInPlayerHand(this, color)) {
+                ++weight;
+                reason.append("+1 Gewicht, da die Farbe der Karte in der Hand des Spielers vorkommt\n");
+            } else {
+                --weight;
+                reason.append("-1 Gewicht, da die Farbe der Karte nicht in der Hand des Spielers vorkommt\n");
+            }
+
+            if (playerCardColorPercentageMap.get(color) != null && playerCardColorPercentageMap.get(color) >= 33.0) {
+                ++weight;
+                reason.append("+1 Gewicht, da die Farbe der Karte mehr oder gleich 33% der Spielerhand ausmacht\n");
+            }
+
 
             // stored in extra variable, bc we need it twice
             boolean isColorInOpponentHand = isCardColorInPlayerHand(opponent, color);
 
-            if (isColorInOpponentHand) --weight;
-            else ++weight;
-
-            if (opponentCardColorPercentageMap.get(color) != null && opponentCardColorPercentageMap.get(color) < 33.0)
+            if (isColorInOpponentHand) {
+                --weight;
+                reason.append("-1 Gewicht, da die Farbe der Karte in der Hand des gefährlichsten Spielers (").append(opponent.getName()).append(") vorkommt \n");
+            } else {
                 ++weight;
+                reason.append("+1 Gewicht, da die Farbe der Karte nicht in der Hand des gefährlichsten Spielers (").append(opponent.getName()).append(") vorkommt \n");
+            }
+
+            if (opponentCardColorPercentageMap.get(color) != null && opponentCardColorPercentageMap.get(color) < 33.0) {
+                ++weight;
+                reason.append("+1 Gewicht, da die Farbe der Karte weniger als 33% der Hand des gefährlichsten Spielers (").append(opponent.getName()).append(") ausmacht\n");
+            }
 
             int colorCount = countCardColor(Arrays.stream(field.getField()).toList(), color);
 
 
-            if (colorCount <= rareCardConstant) ++weight;
-            else --weight;
+            if (colorCount <= rareCardConstant) {
+                ++weight;
+                reason.append("+1 Gewicht, da die Farbe der Karte nicht oft auf den Feld vorkommt\n");
+            } else {
+                --weight;
+                reason.append("-1 Gewicht, da die Farbe der Karte oft auf den Feld vorkommt\n");
+            }
 
 
-            cardsWeights.add(new Weight<>(card, weight));
+            cardsWeights.add(new Weight<>(card, weight, reason.toString()));
         }
 
         cardsWeights.sort(Comparator.comparingInt(Weight::weight));
@@ -241,7 +269,7 @@ public class AutonomousPlayer extends Player {
                 if (calculateAveragePoints(opponent.getCards()) >= calculateAveragePointsOfAllPlayers()) ++weight;
                 else --weight;
 
-                weightedOpponentList.add(new Weight<>(opponent, weight));
+                weightedOpponentList.add(new Weight<>(opponent, weight, ""));
             }
         }
 
@@ -547,6 +575,11 @@ public class AutonomousPlayer extends Player {
         return diceStack.peek() != bestDiceResult;
     }
 
+    /**
+     * Method checks if the player should pick a lucky card
+     *
+     * @return Returns true if yes
+     */
     public boolean considerPickLuckyCard() {
 
         if (getCards().isEmpty() || getLuckyCards().size() > 3) {
@@ -601,6 +634,12 @@ public class AutonomousPlayer extends Player {
         return lowestCardIndex;
     }
 
+    /**
+     * Method checks if the use of the LuckyCard Sum is usefully for the player or not
+     *
+     * @param hashedCards Number Card combinations
+     * @return Returns if the use of the lucky card is usefully
+     */
     public boolean considerUseOfLCSum(HashSet<List<NumberCard>> hashedCards) {
 
         if (hashedCards == null || hashedCards.isEmpty())
@@ -670,6 +709,24 @@ public class AutonomousPlayer extends Player {
         }
 
         return index;
+    }
+
+    /**
+     * Returns the reasoning of the weight for a specific card
+     *
+     * @param card Given Number card
+     * @return Returns the reason for the weight of the card exists and
+     */
+    public String getReasonForCard(NumberCard card) {
+
+        for (Weight<NumberCard> cardWeight : numberCardWeightList) {
+
+            if (cardWeight.object().equals(card)) {
+                return cardWeight.reason();
+            }
+        }
+
+        throw new IllegalArgumentException("Weight for Card does not exist!");
     }
 
     @Override

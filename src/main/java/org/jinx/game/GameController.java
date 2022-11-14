@@ -154,7 +154,7 @@ public class GameController {
 
         // Calculate new Scores of after game and add them to highscore list
         for (Player player : pc.getPlayers()) {
-            if (!player.isUsedRedo()) {
+            if (!player.isUsedCheats()) {
                 int score = 0;
                 for (NumberCard card : player.getCards()) {
                     score += Integer.parseInt(card.getName());
