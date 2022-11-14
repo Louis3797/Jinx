@@ -1,8 +1,8 @@
 package org.jinx.dice;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class DiceTest {
 
@@ -12,8 +12,8 @@ class DiceTest {
     @Test
     void testDice() {
         var dice = new Dice();
-        int i = dice.use();
-        assertEquals(true, i >= 1 && i <= 6);
+        int diceResult = dice.use();
+        assertTrue(diceResult >= 1 && diceResult <= 6);
     }
 }
 

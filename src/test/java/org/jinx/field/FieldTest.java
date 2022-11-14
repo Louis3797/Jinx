@@ -1,11 +1,12 @@
 package org.jinx.field;
 
-import static org.junit.jupiter.api.Assertions.*;
 import org.jinx.card.NumberCard;
 import org.jinx.cardstack.NumberCardStack;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 class FieldTest {
 
@@ -13,11 +14,11 @@ class FieldTest {
      * Tests if the method setField() and getAvailableNumberCards() work correctly
      */
     @Test
-    void testsetField() {
+    void testSetField() {
         var field = Field.getFieldInstance();
         var numberCardStack = new NumberCardStack();
         field.setField(numberCardStack);
-        assertTrue(field.getField().length == 16);
+        assertEquals(16, field.getField().length);
 
     }
 
@@ -35,11 +36,12 @@ class FieldTest {
         assertEquals(1, field.getAvailableNumberCards(1).size());
 
     }
+
     /**
      * Tests if the method removeChosenCard() works correctly, if the card is not on the field
      */
     @Test
-    void testremoveChosenCard(){
+    void testremoveChosenCard() {
         var field = Field.getFieldInstance();
         var numberCardStack = new NumberCardStack();
         field.setField(numberCardStack);
