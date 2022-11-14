@@ -13,7 +13,7 @@ class NumberCardStackTest {
     @Test
     void testNumberCardStack() {
         var numberCardStack = new NumberCardStack();
-        assertEquals(48, numberCardStack.size());
+        assertTrue(numberCardStack.size() == 48);
     }
 
     /**
@@ -22,8 +22,8 @@ class NumberCardStackTest {
     @Test
     void testNumberCardStack2() {
         var numberCardStack = new NumberCardStack();
-        numberCardStack.remove(1);
-        assertEquals(47, numberCardStack.size());
+        numberCardStack.pop();
+        assertTrue(numberCardStack.size() == 47);
     }
 
     /**

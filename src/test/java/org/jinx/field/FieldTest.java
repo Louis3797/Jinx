@@ -14,15 +14,10 @@ class FieldTest {
      */
     @Test
     void testsetField() {
-        var field = new Field();
+        var field = Field.getFieldInstance();
         var numberCardStack = new NumberCardStack();
         field.setField(numberCardStack);
-        assertEquals(16, field.getAvailableNumberCards(1).size()
-                + field.getAvailableNumberCards(2).size()
-                + field.getAvailableNumberCards(3).size()
-                + field.getAvailableNumberCards(4).size()
-                + field.getAvailableNumberCards(5).size()
-                + field.getAvailableNumberCards(6).size());
+        assertTrue(field.getField().length == 16);
 
     }
 
@@ -31,7 +26,7 @@ class FieldTest {
      */
     @Test
     void testRemoveChosenCard() {
-        var field = new Field();
+        var field = Field.getFieldInstance();
         var numberCardStack = new NumberCardStack();
         field.setField(numberCardStack);
         List<NumberCard> availableCards = field.getAvailableNumberCards(1);
@@ -45,7 +40,7 @@ class FieldTest {
      */
     @Test
     void testremoveChosenCard(){
-        var field = new Field();
+        var field = Field.getFieldInstance();
         var numberCardStack = new NumberCardStack();
         field.setField(numberCardStack);
         List<NumberCard> availableCards = field.getAvailableNumberCards(1);
@@ -59,7 +54,7 @@ class FieldTest {
      */
     @Test
     void testprintAvailableCards() {
-        var field = new Field();
+        var field = Field.getFieldInstance();
         var numberCardStack = new NumberCardStack();
         field.setField(numberCardStack);
         List<NumberCard> availableNumberCards = field.getAvailableNumberCards(1);

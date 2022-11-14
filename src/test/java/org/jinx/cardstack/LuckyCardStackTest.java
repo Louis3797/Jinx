@@ -17,7 +17,7 @@ class LuckyCardStackTest {
     @Test
     void testLuckyCardStackremove() {
         var luckyCardStack = new LuckyCardStack();
-        luckyCardStack.remove(1);
+        luckyCardStack.pop();
         assertEquals(11, luckyCardStack.size());
     }
 

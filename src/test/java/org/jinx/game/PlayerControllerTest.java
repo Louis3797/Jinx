@@ -10,16 +10,6 @@ import static org.junit.jupiter.api.Assertions.*;
 class PlayerControllerTest {
 
     /**
-     * Test if the method next() returns nothing if the player list is empty
-     *
-     */
-    @Test
-    void testnext(){
-        var playerController = PlayerController.getPlayerControllerInstance();
-        playerController.next();
-        assertEquals(0, playerController.getPlayers().size());
-    }
-    /**
      * Test if the method doesPlayerExist() returns false if the player list is empty
      *
      */
