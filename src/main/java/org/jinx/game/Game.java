@@ -67,7 +67,7 @@ public class Game {
                     if (!pc.getCurrentPlayer().isHuman()) System.out.println("yes");
 
                     tradeForLucky();
-                    pc.getCurrentPlayer().printLuckyHand();
+                    pc.getCurrentPlayer().getLuckyCardHand().print();
 
                 } else {
                     // These two lines are only here for cosmetic reasons
@@ -107,7 +107,7 @@ public class Game {
             int diceRollResult = throwDice();
             int unchangedResult = diceRollResult;
 
-            if (currentPlayer.hasLuckyCard(LuckyCardNames.LCSum)) {
+            if (currentPlayer.getLuckyCardHand().has(LuckyCardNames.LCSum)) {
                 System.out.println("Glückskarte Summe benutzen?");
                 if ((currentPlayer.isHuman() && safeScanner.nextYesNoAnswer()) || (!currentPlayer.isHuman() && ((AutonomousPlayer) currentPlayer).considerUseOfLCSum())) {
                     // These two lines are only here for cosmetic reasons
@@ -118,7 +118,7 @@ public class Game {
                     }
 
 
-                    int cardCount = currentPlayer.countLuckyCards(LuckyCardNames.LCSum);
+                    int cardCount = currentPlayer.getLuckyCardHand().count(LuckyCardNames.LCSum);
 
                     if (cardCount >= 2 && !currentPlayer.isHuman()) {
                         System.out.println("Karte um 1 erhöhen oder reduzieren?");
@@ -222,10 +222,10 @@ public class Game {
 
             // add card to hand
             NumberCard card = availableCards.get(wantedCardIndex);
-            currentPlayer.getCards().add(card);
+            currentPlayer.getNumberCardHand().add(card);
 
             System.out.println("Spieler: " + currentPlayer.getName());
-            currentPlayer.printHand();
+            currentPlayer.getNumberCardHand().print();
             System.out.println("---------------");
             // remove card that the player chose from field
             field.removeChosenCard(card);
@@ -251,7 +251,7 @@ public class Game {
 
         Stack<Integer> diceStack = new Stack<>();
 
-        if (currentPlayer.hasLuckyCard(LuckyCardNames.LC123) || currentPlayer.hasLuckyCard(LuckyCardNames.LC456)) {
+        if (currentPlayer.getLuckyCardHand().has(LuckyCardNames.LC123) || currentPlayer.getLuckyCardHand().has(LuckyCardNames.LC456)) {
             System.out.println("Glückskarte 123 oder 456 benutzen?");
             if ((currentPlayer.isHuman() && safeScanner.nextYesNoAnswer()) || (!currentPlayer.isHuman() && (((AutonomousPlayer) currentPlayer).considerUseOfLC123() || ((AutonomousPlayer) currentPlayer).considerUseOfLC456()))) {
 
@@ -296,7 +296,7 @@ public class Game {
         }
 
 
-        if (currentPlayer.hasLuckyCard(LuckyCardNames.LCPlusDicethrow)) {
+        if (currentPlayer.getLuckyCardHand().has(LuckyCardNames.LCPlusDicethrow)) {
             System.out.println("Glückskarte benutzen um nochmal zu Würfeln:");
             if ((currentPlayer.isHuman() && safeScanner.nextYesNoAnswer()) || (!currentPlayer.isHuman() && ((AutonomousPlayer) currentPlayer).considerUseOfLCPlusDiceThrow(diceStack))) {
                 // These two lines are only here for cosmetic reasons
@@ -313,7 +313,7 @@ public class Game {
             }
         }
 
-        if (currentPlayer.hasLuckyCard(LuckyCardNames.LC123) || currentPlayer.hasLuckyCard(LuckyCardNames.LC456)) {
+        if (currentPlayer.getLuckyCardHand().has(LuckyCardNames.LC123) || currentPlayer.getLuckyCardHand().has(LuckyCardNames.LC456)) {
             System.out.println("Glückskarte 123 oder 456 benutzen?");
             if ((currentPlayer.isHuman() && safeScanner.nextYesNoAnswer()) || (!currentPlayer.isHuman() && (((AutonomousPlayer) currentPlayer).considerUseOfLC123() || ((AutonomousPlayer) currentPlayer).considerUseOfLC456()))) {
 
@@ -337,7 +337,7 @@ public class Game {
         }
 
 
-        if (pc.getCurrentPlayer().hasLuckyCard(LuckyCardNames.LCPlus1)) {
+        if (pc.getCurrentPlayer().getLuckyCardHand().has(LuckyCardNames.LCPlus1)) {
             System.out.println("Glückskarte Plus 1 benutzen?");
             if ((currentPlayer.isHuman() && safeScanner.nextYesNoAnswer()) || (!currentPlayer.isHuman() && ((AutonomousPlayer) currentPlayer).considerUseOfLCPlus1(diceStack.peek()))) {
                 // These two lines are only here for cosmetic reasons
@@ -357,7 +357,7 @@ public class Game {
             useUndo(diceStack);
         }
 
-        if (pc.getCurrentPlayer().hasLuckyCard(LuckyCardNames.LCMinus1)) {
+        if (pc.getCurrentPlayer().getLuckyCardHand().has(LuckyCardNames.LCMinus1)) {
             System.out.println("Glückskarte Minus 1 benutzen?");
             if ((currentPlayer.isHuman() && safeScanner.nextYesNoAnswer()) || (!currentPlayer.isHuman() && ((AutonomousPlayer) currentPlayer).considerUseOfLCMinus1(diceStack.peek()))) {
                 diceStack.push(useMinus(diceStack.peek()));
@@ -421,17 +421,17 @@ public class Game {
      */
     private void tradeForLucky() {
 
-        if (pc.getCurrentPlayer().getCards().isEmpty()) {
+        if (pc.getCurrentPlayer().getNumberCardHand().isEmpty()) {
             System.out.println("Du hast leider keine Karten mehr auf der Hand");
             return;
         }
-        pc.getCurrentPlayer().printHand();
+        pc.getCurrentPlayer().getNumberCardHand().print();
 
         System.out.println("Welche Karte wollen sie eintauschen?");
         // Get index of card we want to trade for a lucky card
         int index;
         if (pc.getCurrentPlayer().isHuman()) {
-            index = safeScanner.nextIntInRange(1, pc.getCurrentPlayer().getCards().size()) - 1;
+            index = safeScanner.nextIntInRange(1, pc.getCurrentPlayer().getNumberCardHand().size()) - 1;
         } else {
             // AI uses the baddest card in his hand
             index = ((AutonomousPlayer) pc.getCurrentPlayer()).findCardForTrade();
@@ -441,7 +441,7 @@ public class Game {
             System.out.println(index);
         }
 
-        pc.getCurrentPlayer().getCards().remove(index);
+        pc.getCurrentPlayer().getNumberCardHand().remove(index);
 
         LuckyCard pickedLuckyCard = luckyCardStack.pop();
 
@@ -532,10 +532,10 @@ public class Game {
             // by pretending that the bot can also write to the console.
             System.out.println(wantedCardIndex);
         }
-        pc.getCurrentPlayer().getCards().addAll(combinations.get(wantedCardIndex));
+        pc.getCurrentPlayer().getNumberCardHand().addAll(combinations.get(wantedCardIndex));
 
         System.out.println("Spieler: " + pc.getCurrentPlayer().getName());
-        pc.getCurrentPlayer().printHand();
+        pc.getCurrentPlayer().getNumberCardHand().print();
         System.out.println("---------------");
 
         //removes cards from field
@@ -557,7 +557,7 @@ public class Game {
      * @return player chosen number
      */
     private int use123or456() throws IllegalAccessException {
-        pc.getCurrentPlayer().printLuckyHand();
+        pc.getCurrentPlayer().getLuckyCardHand().print();
 
         int index = 0;
 
@@ -602,7 +602,7 @@ public class Game {
      */
     private int usePlus(int dice) throws IllegalAccessException {
 
-        pc.getCurrentPlayer().printLuckyHand();
+        pc.getCurrentPlayer().getLuckyCardHand().print();
 
         int index = 0;
 
@@ -640,7 +640,7 @@ public class Game {
      * @return dicevalue - 1
      */
     private int useMinus(int dice) throws IllegalAccessException {
-        pc.getCurrentPlayer().printLuckyHand();
+        pc.getCurrentPlayer().getLuckyCardHand().print();
 
         int index = 0;
 
@@ -677,7 +677,7 @@ public class Game {
      * @return new rolled dice value
      */
     private int useReroll() throws IllegalAccessException {
-        pc.getCurrentPlayer().printLuckyHand();
+        pc.getCurrentPlayer().getLuckyCardHand().print();
 
         int index = 0;
 
@@ -719,7 +719,7 @@ public class Game {
 
             List<NumberCard> tempCards = new ArrayList<>();
 
-            for (NumberCard cardsOfPlayer : player.getCards()) {
+            for (NumberCard cardsOfPlayer : player.getNumberCardHand()) {
 
                 for (NumberCard cardInField : field.getField()) {
                     if (cardInField != null && cardsOfPlayer.getColor().equals(cardInField.getColor())) {
@@ -730,7 +730,7 @@ public class Game {
             }
 
             // show which cards are removed
-            player.getCards().removeAll(tempCards);
+            player.getNumberCardHand().removeAll(tempCards);
         }
     }
 
@@ -743,14 +743,14 @@ public class Game {
         Player currentPlayer = pc.getCurrentPlayer();
 
         // check if player has no number cards
-        if (currentPlayer.getCards().isEmpty()) {
+        if (currentPlayer.getNumberCardHand().isEmpty()) {
             return highestCards;
         }
 
         // find the highest number card
-        NumberCard max = currentPlayer.getCards().get(0);
+        NumberCard max = currentPlayer.getNumberCardHand().get(0);
 
-        for (NumberCard card : currentPlayer.getCards()) {
+        for (NumberCard card : currentPlayer.getNumberCardHand()) {
 
             if (Integer.parseInt(card.getName()) > Integer.parseInt(max.getName())) {
                 max = card;
@@ -759,7 +759,7 @@ public class Game {
 
         highestCards.add(max);
 
-        for (NumberCard card : currentPlayer.getCards()) {
+        for (NumberCard card : currentPlayer.getNumberCardHand()) {
             if (card.getName().equals(max.getName()) && !card.equals(max)) {
                 highestCards.add(card);
             }
@@ -772,7 +772,7 @@ public class Game {
      * discards highest NumberCard from playerhand
      */
     private void discard() {
-        if (pc.getCurrentPlayer().getCards().isEmpty()) {
+        if (pc.getCurrentPlayer().getNumberCardHand().isEmpty()) {
             return;
         }
         List<NumberCard> highest = findHighest();
@@ -793,7 +793,7 @@ public class Game {
         }
 
         //remove the highest from current player that ended turn
-        pc.getCurrentPlayer().getCards().remove(highest.get(index));
+        pc.getCurrentPlayer().getNumberCardHand().remove(highest.get(index));
 
         System.out.println("NACH WEGWURF ----------------");
         pc.printPlayerHands();

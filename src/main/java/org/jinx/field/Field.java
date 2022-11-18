@@ -1,5 +1,6 @@
 package org.jinx.field;
 
+import org.jinx.card.CardColor;
 import org.jinx.card.NumberCard;
 import org.jinx.cardstack.NumberCardStack;
 import org.jinx.utils.ConsoleColor;
@@ -31,10 +32,6 @@ public class Field {
         field = new NumberCard[FIELDSIZE];
     }
 
-    public static Field getFieldInstance() {
-        return fieldInstance;
-    }
-
     /**
      * Call this method every time you start a round so that the field is set
      */
@@ -58,6 +55,21 @@ public class Field {
                 break;
             }
         }
+    }
+
+    /**
+     * Counts how much the card color occurs in the specified list
+     *
+     * @param cards List of NumberCards
+     * @param color Specified card color
+     * @return Returns how often the color occurs in the list
+     */
+    public int countCardColor(CardColor color) {
+        int sum = 0;
+        for (NumberCard card : field) {
+            if (card != null && card.getColor().equals(color)) ++sum;
+        }
+        return sum;
     }
 
     /**
@@ -154,6 +166,10 @@ public class Field {
             System.out.println();
 
         }
+    }
+
+    public static Field getFieldInstance() {
+        return fieldInstance;
     }
 
     /* ---------- Getter and Setter Methods ---------- */

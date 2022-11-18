@@ -190,7 +190,7 @@ public class PlayerController {
     public void printPlayerHands() {
         for (Player player : getPlayers()) {
             System.out.println("Aktuelle Hand von " + player.getName());
-            player.printHand();
+            player.getNumberCardHand().print();
             System.out.println();
         }
     }
