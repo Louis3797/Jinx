@@ -583,7 +583,7 @@ public class AutonomousPlayer extends Player {
      */
     public boolean considerPickLuckyCard() {
 
-        if (getCards().isEmpty() || getLuckyCards().size() > 3) {
+        if (getCards().isEmpty() || getLuckyCardHand().size() > 3) {
             return false;
         }
 

@@ -22,7 +22,7 @@ class PlayerTest {
      */
     @Test
     void testIfLuckyCardListIsEmpty() {
-        assertEquals(0, player.getLuckyCards().size());
+        assertEquals(0, player.getLuckyCardHand().size());
     }
 
     /**
@@ -46,7 +46,7 @@ class PlayerTest {
      */
     @Test
     void testHasLuckyCardWithSameLuckyCardInList() {
-        player.getLuckyCards().add(new LC123());
+        player.getLuckyCardHand().add(new LC123());
         assertTrue(player.hasLuckyCard(LuckyCardNames.LC123));
     }
 
@@ -55,7 +55,7 @@ class PlayerTest {
      */
     @Test
     void testHasLuckyCardWithOtherLuckyCardInList() {
-        player.getLuckyCards().add(new LC456());
+        player.getLuckyCardHand().add(new LC456());
         assertFalse(player.hasLuckyCard(LuckyCardNames.LC123));
     }
 
@@ -72,7 +72,7 @@ class PlayerTest {
      */
     @Test
     void testcountLuckyCardsWithOneSameLuckyCardInList() {
-        player.getLuckyCards().add(new LC123());
+        player.getLuckyCardHand().add(new LC123());
         assertEquals(1, player.countLuckyCards(LuckyCardNames.LC123));
 
     }
@@ -82,8 +82,8 @@ class PlayerTest {
      */
     @Test
     void testcountLuckyCardsWithTwoSameLuckyCardInList() {
-        player.getLuckyCards().add(new LC123());
-        player.getLuckyCards().add(new LC123());
+        player.getLuckyCardHand().add(new LC123());
+        player.getLuckyCardHand().add(new LC123());
         assertEquals(2, player.countLuckyCards(LuckyCardNames.LC123));
     }
 
@@ -92,7 +92,7 @@ class PlayerTest {
      */
     @Test
     void testcountLuckyCardsWithOtherLuckyCardsInList() {
-        player.getLuckyCards().add(new LC456());
+        player.getLuckyCardHand().add(new LC456());
         assertEquals(0, player.countLuckyCards(LuckyCardNames.LC123));
     }
 
@@ -101,11 +101,11 @@ class PlayerTest {
      */
     @Test
     void testcountLuckyCardsWithABunchOfLuckyCardsInList() {
-        player.getLuckyCards().add(new LC123());
-        player.getLuckyCards().add(new LC123());
-        player.getLuckyCards().add(new LC456());
-        player.getLuckyCards().add(new LCSum());
-        player.getLuckyCards().add(new LCPlusDicethrow());
+        player.getLuckyCardHand().add(new LC123());
+        player.getLuckyCardHand().add(new LC123());
+        player.getLuckyCardHand().add(new LC456());
+        player.getLuckyCardHand().add(new LCSum());
+        player.getLuckyCardHand().add(new LCPlusDicethrow());
         assertEquals(2, player.countLuckyCards(LuckyCardNames.LC123));
     }
 

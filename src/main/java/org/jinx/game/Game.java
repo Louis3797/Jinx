@@ -449,7 +449,7 @@ public class Game {
 
         LuckyCard.printFormatedLuckyCards(new ArrayList<>(List.of(new LuckyCard[]{pickedLuckyCard})));
 
-        pc.getCurrentPlayer().getLuckyCards().add(pickedLuckyCard);
+        pc.getCurrentPlayer().getLuckyCardHand().add(pickedLuckyCard);
 
         if (!luckyCardStack.isEmpty()) {
             System.out.println("Wollen sie noch eine Karte eintauschen?");
@@ -565,14 +565,14 @@ public class Game {
             index = selectLuckyCardIndex() - 1;
         } else {
             if (((AutonomousPlayer) pc.getCurrentPlayer()).considerUseOfLC123()) {
-                for (LuckyCard card : pc.getCurrentPlayer().getLuckyCards()) {
+                for (LuckyCard card : pc.getCurrentPlayer().getLuckyCardHand()) {
                     if (card.getName().equals(LuckyCardNames.LC123.name()))
-                        index = pc.getCurrentPlayer().getLuckyCards().indexOf(card);
+                        index = pc.getCurrentPlayer().getLuckyCardHand().indexOf(card);
                 }
             } else {
-                for (LuckyCard card : pc.getCurrentPlayer().getLuckyCards()) {
+                for (LuckyCard card : pc.getCurrentPlayer().getLuckyCardHand()) {
                     if (card.getName().equals(LuckyCardNames.LC456.name()))
-                        index = pc.getCurrentPlayer().getLuckyCards().indexOf(card);
+                        index = pc.getCurrentPlayer().getLuckyCardHand().indexOf(card);
                 }
             }
 
@@ -582,11 +582,11 @@ public class Game {
             System.out.println("Welche Karte wollen sie verwenden: \n" + index);
         }
 
-        if (pc.getCurrentPlayer().getLuckyCards().get(index).getName().equals(LuckyCardNames.LC123.name()) || pc.getCurrentPlayer().getLuckyCards().get(index).getName().equals(LuckyCardNames.LC456.name())) {
+        if (pc.getCurrentPlayer().getLuckyCardHand().get(index).getName().equals(LuckyCardNames.LC123.name()) || pc.getCurrentPlayer().getLuckyCardHand().get(index).getName().equals(LuckyCardNames.LC456.name())) {
 
-            int diceValue = pc.getCurrentPlayer().getLuckyCards().get(index).effect();
+            int diceValue = pc.getCurrentPlayer().getLuckyCardHand().get(index).effect();
 
-            pc.getCurrentPlayer().getLuckyCards().remove(index);
+            pc.getCurrentPlayer().getLuckyCardHand().remove(index);
 
             return diceValue;
         } else {
@@ -609,9 +609,9 @@ public class Game {
         if (pc.getCurrentPlayer().isHuman()) {
             index = selectLuckyCardIndex() - 1;
         } else {
-            for (LuckyCard card : pc.getCurrentPlayer().getLuckyCards()) {
+            for (LuckyCard card : pc.getCurrentPlayer().getLuckyCardHand()) {
                 if (card.getName().equals(LuckyCardNames.LCPlus1.name()))
-                    index = pc.getCurrentPlayer().getLuckyCards().indexOf(card);
+                    index = pc.getCurrentPlayer().getLuckyCardHand().indexOf(card);
             }
 
             // This line is only here for cosmetic reasons
@@ -620,8 +620,8 @@ public class Game {
             System.out.println("Welche Karte wollen sie verwenden: \n" + index);
         }
 
-        if (pc.getCurrentPlayer().getLuckyCards().get(index).getName().equals(LuckyCardNames.LCPlus1.name())) {
-            int value = pc.getCurrentPlayer().getLuckyCards().get(index).effect() + dice;
+        if (pc.getCurrentPlayer().getLuckyCardHand().get(index).getName().equals(LuckyCardNames.LCPlus1.name())) {
+            int value = pc.getCurrentPlayer().getLuckyCardHand().get(index).effect() + dice;
 
             if (value > 6) {
                 value = 6;
@@ -647,9 +647,9 @@ public class Game {
         if (pc.getCurrentPlayer().isHuman()) {
             index = selectLuckyCardIndex() - 1;
         } else {
-            for (LuckyCard card : pc.getCurrentPlayer().getLuckyCards()) {
+            for (LuckyCard card : pc.getCurrentPlayer().getLuckyCardHand()) {
                 if (card.getName().equals(LuckyCardNames.LCMinus1.name()))
-                    index = pc.getCurrentPlayer().getLuckyCards().indexOf(card);
+                    index = pc.getCurrentPlayer().getLuckyCardHand().indexOf(card);
             }
 
             // This line is only here for cosmetic reasons
@@ -658,8 +658,8 @@ public class Game {
             System.out.println("Welche Karte wollen sie verwenden: \n" + index);
         }
 
-        if (pc.getCurrentPlayer().getLuckyCards().get(index).getName().equals(LuckyCardNames.LCMinus1.name())) {
-            int value = pc.getCurrentPlayer().getLuckyCards().get(index).effect() + dice;
+        if (pc.getCurrentPlayer().getLuckyCardHand().get(index).getName().equals(LuckyCardNames.LCMinus1.name())) {
+            int value = pc.getCurrentPlayer().getLuckyCardHand().get(index).effect() + dice;
 
             if (value < 1) {
                 value = 1;
@@ -684,9 +684,9 @@ public class Game {
         if (pc.getCurrentPlayer().isHuman()) {
             index = selectLuckyCardIndex() - 1;
         } else {
-            for (LuckyCard card : pc.getCurrentPlayer().getLuckyCards()) {
+            for (LuckyCard card : pc.getCurrentPlayer().getLuckyCardHand()) {
                 if (card.getName().equals(LuckyCardNames.LCPlusDicethrow.name()))
-                    index = pc.getCurrentPlayer().getLuckyCards().indexOf(card);
+                    index = pc.getCurrentPlayer().getLuckyCardHand().indexOf(card);
             }
 
             // This line is only here for cosmetic reasons
@@ -695,8 +695,8 @@ public class Game {
             System.out.println("Welche Karte wollen sie verwenden: \n" + index);
         }
 
-        if (pc.getCurrentPlayer().getLuckyCards().get(index).getName().equals(LuckyCardNames.LCPlusDicethrow.name())) {
-            return pc.getCurrentPlayer().getLuckyCards().get(index).effect();
+        if (pc.getCurrentPlayer().getLuckyCardHand().get(index).getName().equals(LuckyCardNames.LCPlusDicethrow.name())) {
+            return pc.getCurrentPlayer().getLuckyCardHand().get(index).effect();
         }
         return useReroll();
     }
@@ -708,7 +708,7 @@ public class Game {
      */
     private int selectLuckyCardIndex() {
         System.out.println("Welche Karte wollen sie verwenden: ");
-        return safeScanner.nextIntInRange(1, pc.getCurrentPlayer().getLuckyCards().size());
+        return safeScanner.nextIntInRange(1, pc.getCurrentPlayer().getLuckyCardHand().size());
     }
 
     /**
