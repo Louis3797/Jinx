@@ -12,7 +12,7 @@ public class NumberCardHand extends CardHand<NumberCard> {
      *
      * @return Returns how many card colors are contained in the given card list
      */
-    public int calculateCardDiversity() {
+    public int getColorDiversity() {
         Set<CardColor> set = new HashSet<>();
 
         for (NumberCard card : this) set.add(card.getColor());
@@ -25,7 +25,7 @@ public class NumberCardHand extends CardHand<NumberCard> {
      *
      * @return Returns a Map with the CardColor as Key and the occurrence percentage as value of all card colors in the specified list
      */
-    public Map<CardColor, Double> calculateCardColorPercentage() {
+    public Map<CardColor, Double> getColorPercentage() {
 
         Map<CardColor, Double> map = new HashMap<>();
         int numberOfCards = 0;

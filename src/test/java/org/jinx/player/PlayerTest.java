@@ -10,18 +10,18 @@ class PlayerTest {
     private final Player player = new Player("Bob");
 
     /**
-     * Tests if size of number card list of player is 0
+     * Tests if size of numberCardHand of player is 0
      */
     @Test
-    void testIfNumberCardListIsEmpty() {
-        assertEquals(0, player.getCards().size());
+    void testIfNumberCardHandIsEmpty() {
+        assertEquals(0, player.getNumberCardHand().size());
     }
 
     /**
-     * Tests if size of lucky card list of player is 0
+     * Tests if size of luckyCardHand of player is 0
      */
     @Test
-    void testIfLuckyCardListIsEmpty() {
+    void testIfLuckyCardHandIsEmpty() {
         assertEquals(0, player.getLuckyCardHand().size());
     }
 
@@ -31,82 +31,6 @@ class PlayerTest {
     @Test
     void testIfPlayerIsHuman() {
         assertTrue(player.isHuman()); // should be true everytime, bc return true is hardcoded
-    }
-
-    /**
-     * Tests hasLuckyCard method in player with empty lucky card list
-     */
-    @Test
-    void testHasLuckyCardWithEmptyLuckyCardList() {
-        assertFalse(player.hasLuckyCard(LuckyCardNames.LC123));
-    }
-
-    /**
-     * Tests hasLuckyCard method in player with same luckyCard in lucky card list
-     */
-    @Test
-    void testHasLuckyCardWithSameLuckyCardInList() {
-        player.getLuckyCardHand().add(new LC123());
-        assertTrue(player.hasLuckyCard(LuckyCardNames.LC123));
-    }
-
-    /**
-     * Tests hasLuckyCard method in player with other luckyCard in lucky card list
-     */
-    @Test
-    void testHasLuckyCardWithOtherLuckyCardInList() {
-        player.getLuckyCardHand().add(new LC456());
-        assertFalse(player.hasLuckyCard(LuckyCardNames.LC123));
-    }
-
-    /**
-     * Tests countLuckyCards method in player with empty lucky card list
-     */
-    @Test
-    void testcountLuckyCardsWithEmptyList() {
-        assertEquals(0, player.countLuckyCards(LuckyCardNames.LC123));
-    }
-
-    /**
-     * Tests countLuckyCards method in player with one same luckyCard in lucky card list
-     */
-    @Test
-    void testcountLuckyCardsWithOneSameLuckyCardInList() {
-        player.getLuckyCardHand().add(new LC123());
-        assertEquals(1, player.countLuckyCards(LuckyCardNames.LC123));
-
-    }
-
-    /**
-     * Tests countLuckyCards method in player with two same luckyCard in lucky card list
-     */
-    @Test
-    void testcountLuckyCardsWithTwoSameLuckyCardInList() {
-        player.getLuckyCardHand().add(new LC123());
-        player.getLuckyCardHand().add(new LC123());
-        assertEquals(2, player.countLuckyCards(LuckyCardNames.LC123));
-    }
-
-    /**
-     * Tests countLuckyCards method in player with other luckyCard in lucky card list
-     */
-    @Test
-    void testcountLuckyCardsWithOtherLuckyCardsInList() {
-        player.getLuckyCardHand().add(new LC456());
-        assertEquals(0, player.countLuckyCards(LuckyCardNames.LC123));
-    }
-
-    /**
-     * Tests countLuckyCards method in player with a bunch of luckyCards in lucky card list
-     */
-    @Test
-    void testcountLuckyCardsWithABunchOfLuckyCardsInList() {
-        player.getLuckyCardHand().add(new LC123());
-        player.getLuckyCardHand().add(new LC123());
-        player.getLuckyCardHand().add(new LC456());
-        player.getLuckyCardHand().add(new LCSum());
-        player.getLuckyCardHand().add(new LCPlusDicethrow());
-        assertEquals(2, player.countLuckyCards(LuckyCardNames.LC123));
     }
 
 }

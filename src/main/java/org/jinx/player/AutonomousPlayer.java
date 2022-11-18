@@ -92,9 +92,9 @@ public class AutonomousPlayer extends Player {
 
         double avgPoints = calculateAveragePoints(Arrays.stream(field.getField()).toList());
 
-        Map<CardColor, Double> opponentCardColorPercentageMap = opponent.getNumberCardHand().calculateCardColorPercentage();
+        Map<CardColor, Double> opponentCardColorPercentageMap = opponent.getNumberCardHand().getColorPercentage();
 
-        Map<CardColor, Double> playerCardColorPercentageMap = player.getNumberCardHand().calculateCardColorPercentage();
+        Map<CardColor, Double> playerCardColorPercentageMap = player.getNumberCardHand().getColorPercentage();
 
 
         int numberOfCardsInField = 0;
@@ -205,7 +205,7 @@ public class AutonomousPlayer extends Player {
                 if (opponentCardAmount >= averageCardAmountOfAllPlayers) ++weight;
                 else --weight;
 
-                int amountOfDifferentCards = opponent.getNumberCardHand().calculateCardDiversity();
+                int amountOfDifferentCards = opponent.getNumberCardHand().getColorDiversity();
 
                 // check if opponent has more than 3 different cards in his hand
                 if (amountOfDifferentCards >= 3) ++weight;
@@ -298,7 +298,7 @@ public class AutonomousPlayer extends Player {
 
         Player mdo = calculateMostDangerousOpponent(this);
 
-        Map<CardColor, Double> map = mdo.getNumberCardHand().calculateCardColorPercentage();
+        Map<CardColor, Double> map = mdo.getNumberCardHand().getColorPercentage();
 
         int index = 0;
         double highestPercentage = 0;
@@ -582,11 +582,11 @@ public class AutonomousPlayer extends Player {
 
         } else if (this.difficulty == AgentDifficulty.MEDIUM) {
             // return true if player has fewer cards than the average and less than 3 colors on the hand
-            return getNumberCardHand().size() < calculateAverageCardAmountOfAllPlayers() && getNumberCardHand().calculateCardDiversity() < 3;
+            return getNumberCardHand().size() < calculateAverageCardAmountOfAllPlayers() && getNumberCardHand().getColorDiversity() < 3;
 
         } else if (this.difficulty == AgentDifficulty.HARD) {
             // return true if player has fewer cards than the average and less than 3 colors on the hand or if there is a combination with only high weight cards
-            return getNumberCardHand().size() < calculateAverageCardAmountOfAllPlayers() && getNumberCardHand().calculateCardDiversity() <= 3;
+            return getNumberCardHand().size() < calculateAverageCardAmountOfAllPlayers() && getNumberCardHand().getColorDiversity() <= 3;
         }
 
         return false;
