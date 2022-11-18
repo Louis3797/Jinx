@@ -45,33 +45,6 @@ public class AutonomousPlayer extends Player {
     }
 
     /**
-     * Method finds the best card we can pick in the specified list of cards and the dice result
-     *
-     * @param cards List of number cards we can pick from
-     * @return Returns the best card the player can pick
-     */
-    public int getIndexOfBestCard(List<NumberCard> cards) {
-
-        if (cards.size() == 1) {
-            return 0;
-        }
-
-        int indexOfBestCard = 0;
-        int bestWeight = Integer.MIN_VALUE;
-
-        for (int i = 0; i < cards.size(); i++) {
-            for (Weight<NumberCard> cardWeight : numberCardWeightList) {
-                if (cards.get(i).equals(cardWeight.object()) && bestWeight < cardWeight.weight()) {
-                    indexOfBestCard = i;
-                    bestWeight = cardWeight.weight();
-                }
-            }
-        }
-
-        return indexOfBestCard;
-    }
-
-    /**
      * Updates the numberCardWeightList variable
      */
     public void updateWeightOfNumberCards() {
@@ -256,9 +229,7 @@ public class AutonomousPlayer extends Player {
         for (Player player : playerController.getPlayers()) {
             numberOfCards += player.getNumberCardHand().size();
 
-            for (NumberCard card : player.getNumberCardHand()) {
-                sumOfAllPoints += Integer.parseInt(card.getName());
-            }
+            sumOfAllPoints += player.getPoints();
         }
 
         return (double) sumOfAllPoints / numberOfCards;
@@ -283,6 +254,33 @@ public class AutonomousPlayer extends Player {
         }
 
         return average / numberOfCards;
+    }
+
+    /**
+     * Method finds the best card we can pick in the specified list of cards and the dice result
+     *
+     * @param cards List of number cards we can pick from
+     * @return Returns the best card the player can pick
+     */
+    public int getIndexOfBestCard(List<NumberCard> cards) {
+
+        if (cards.size() == 1) {
+            return 0;
+        }
+
+        int indexOfBestCard = 0;
+        int bestWeight = Integer.MIN_VALUE;
+
+        for (int i = 0; i < cards.size(); i++) {
+            for (Weight<NumberCard> cardWeight : numberCardWeightList) {
+                if (cards.get(i).equals(cardWeight.object()) && bestWeight < cardWeight.weight()) {
+                    indexOfBestCard = i;
+                    bestWeight = cardWeight.weight();
+                }
+            }
+        }
+
+        return indexOfBestCard;
     }
 
     /**

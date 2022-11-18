@@ -33,4 +33,23 @@ class PlayerTest {
         assertTrue(player.isHuman()); // should be true everytime, bc return true is hardcoded
     }
 
+    @Test
+    void testGetPointsWithEmptyHand() {
+        assertEquals(0, player.getPoints());
+    }
+
+    @Test
+    void testGetPointsWithNullHand() {
+        player.getNumberCardHand().add(null);
+        assertEquals(0, player.getPoints());
+    }
+
+    @Test
+    void testGetPointsWithCardsInHand() {
+        player.getNumberCardHand().add(new NumberCard("1", CardColor.GREEN));
+        player.getNumberCardHand().add(new NumberCard("2", CardColor.GREEN));
+        player.getNumberCardHand().add(new NumberCard("3", CardColor.GREEN));
+        player.getNumberCardHand().add(new NumberCard("4", CardColor.GREEN));
+        assertEquals(10, player.getPoints());
+    }
 }

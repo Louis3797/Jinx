@@ -13,7 +13,6 @@ import java.util.*;
 import java.util.logging.Logger;
 
 import static org.jinx.utils.ConsoleColor.*;
-import static org.jinx.utils.ConsoleColor.WHITE_BOLD_BRIGHT;
 
 public class GameController {
 
@@ -36,7 +35,7 @@ public class GameController {
      */
     public void startSequenz() {
 
-        System.out.println(BLUE_BOLD +"      _   ___   _   _  __  __");
+        System.out.println(BLUE_BOLD + "      _   ___   _   _  __  __");
         System.out.println("     | | |_ _| | \\ | | \\ \\/ /");
         System.out.println("  _  | |  | |  |  \\| |  \\  / ");
         System.out.println(" | |_| |  | |  | |\\  |  /  \\ ");
@@ -55,35 +54,35 @@ public class GameController {
     /**
      * prints endlogo and score
      */
-    public void endSequenz(){
+    public void endSequenz() {
 
         System.out.println(
-                        RED_BOLD_BRIGHT +"*%%%%     %%%%%(    %%%%% .%%%%  %%%%%%       %%%%\n" +
-                        GREEN_BOLD_BRIGHT +" %%%%*   %%%%%%%    %%%%  .%%%%  %%%%%%%%     %%%%\n" +
-                        YELLOW_BOLD_BRIGHT +"  %%%%  #%%% %%%%  %%%%#  .%%%%  %%%%%%%%%*   %%%%\n" +
-                        BLUE_BOLD_BRIGHT +"  %%%%/ %%%%  %%%. %%%%   .%%%%  %%%%%  %%%%  %%%%\n" +
-                        PINK_BOLD_BRIGHT +"   %%%%%%%%   %%%%%%%%    .%%%%  %%%%%   %%%%%%%%%\n" +
-                        CYAN_BOLD_BRIGHT +"   ,%%%%%%     %%%%%%%    .%%%%  %%%%%     %%%%%%%\n" +
-                        WHITE_BOLD_BRIGHT +"    %%%%%%     .%%%%%     .%%%%  %%%%%      %%%%%%");
+                RED_BOLD_BRIGHT + "*%%%%     %%%%%(    %%%%% .%%%%  %%%%%%       %%%%\n" +
+                        GREEN_BOLD_BRIGHT + " %%%%*   %%%%%%%    %%%%  .%%%%  %%%%%%%%     %%%%\n" +
+                        YELLOW_BOLD_BRIGHT + "  %%%%  #%%% %%%%  %%%%#  .%%%%  %%%%%%%%%*   %%%%\n" +
+                        BLUE_BOLD_BRIGHT + "  %%%%/ %%%%  %%%. %%%%   .%%%%  %%%%%  %%%%  %%%%\n" +
+                        PINK_BOLD_BRIGHT + "   %%%%%%%%   %%%%%%%%    .%%%%  %%%%%   %%%%%%%%%\n" +
+                        CYAN_BOLD_BRIGHT + "   ,%%%%%%     %%%%%%%    .%%%%  %%%%%     %%%%%%%\n" +
+                        WHITE_BOLD_BRIGHT + "    %%%%%%     .%%%%%     .%%%%  %%%%%      %%%%%%");
 
-        System.out.println("\n" + WHITE_BACKGROUND + "Spielende!"+RESET);
+        System.out.println("\n" + WHITE_BACKGROUND + "Spielende!" + RESET);
 
-        Map<String,Integer> winner = new HashMap<>();
+        Map<String, Integer> winner = new HashMap<>();
 
-        for(Player player : pc.getPlayers()){
+        for (Player player : pc.getPlayers()) {
             int total = 0;
-            for(NumberCard card :player.getNumberCardHand()){
+            for (NumberCard card : player.getNumberCardHand()) {
                 total += Integer.parseInt(card.getName());
             }
-            winner.put(player.getName(),total);
+            winner.put(player.getName(), total);
         }
 
         System.out.println(winner);
 
         int max = Collections.max(winner.values());
 
-        for(Map.Entry<String, Integer> entry : winner.entrySet()){
-            if(max == entry.getValue()){
+        for (Map.Entry<String, Integer> entry : winner.entrySet()) {
+            if (max == entry.getValue()) {
                 System.out.println("Gewinner ist: " + PINK_BOLD_BRIGHT + entry.getKey() + RESET);
             }
         }
@@ -120,7 +119,7 @@ public class GameController {
 
         // start a new game
         SafeScanner scanner = new SafeScanner();
-        if(scanner.nextYesNoAnswer()){
+        if (scanner.nextYesNoAnswer()) {
             start();
         }
 
@@ -155,10 +154,7 @@ public class GameController {
         // Calculate new Scores of after game and add them to highscore list
         for (Player player : pc.getPlayers()) {
             if (!player.isUsedCheats()) {
-                int score = 0;
-                for (NumberCard card : player.getNumberCardHand()) {
-                    score += Integer.parseInt(card.getName());
-                }
+                int score = player.getPoints();
                 highScoreList.add(new HighScore(player.getName(), score));
             }
         }

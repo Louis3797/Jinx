@@ -1,5 +1,6 @@
 package org.jinx.player;
 
+import org.jinx.card.NumberCard;
 import org.jinx.cardhand.LuckyCardHand;
 import org.jinx.cardhand.NumberCardHand;
 
@@ -31,6 +32,20 @@ public class Player {
         this.name = name;
         this.numberCardHand = new NumberCardHand();
         this.luckyCardHand = new LuckyCardHand();
+    }
+
+    /**
+     * Calculates the points of every umber card in the hand of the player and returns the sum
+     * @return Returns the sum off all number card points in our hand
+     */
+    public int getPoints() {
+        int sum = 0;
+        for (NumberCard card : numberCardHand) {
+            if (card != null)
+                sum += Integer.parseInt(card.getName());
+        }
+
+        return sum;
     }
 
     /**
