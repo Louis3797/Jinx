@@ -60,7 +60,6 @@ public class Field {
     /**
      * Counts how much the card color occurs in the specified list
      *
-     * @param cards List of NumberCards
      * @param color Specified card color
      * @return Returns how often the color occurs in the list
      */
