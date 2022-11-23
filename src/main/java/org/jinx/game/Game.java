@@ -622,10 +622,13 @@ public class Game {
 
         if (pc.getCurrentPlayer().getLuckyCards().get(index).getName().equals(LuckyCardNames.LC123.name()) || pc.getCurrentPlayer().getLuckyCards().get(index).getName().equals(LuckyCardNames.LC456.name())) {
 
+            logger.info(pc.getCurrentPlayer().getName() + " hat: " + pc.getCurrentPlayer().getLuckyCards().get(index).getName() + " benutzt");
             int diceValue = pc.getCurrentPlayer().getLuckyCards().get(index).effect();
 
-            pc.getCurrentPlayer().getLuckyCards().remove(index);
+            logger.info("Neues Wuerfelergebnis ist: " + diceValue);
+            logger.info(pc.getCurrentPlayer().getLuckyCards().get(index).getName() + " wurde aus: " + pc.getCurrentPlayer().getName() + "s Hand entfernt");
 
+            pc.getCurrentPlayer().getLuckyCards().remove(index);
             return diceValue;
         } else {
             return use123or456();
