@@ -71,7 +71,7 @@ public class Game {
      */
     public void play(int currentRound) throws IllegalAccessException {
         field.setField(numberCardsDeck);
-        logger.info("Field set");
+        logger.info("Field set\n");
 
         if (currentRound == 1) {
             pc.next();  // initialize current player in PlayerController if it's the first round
@@ -252,7 +252,7 @@ public class Game {
             // add card to hand
             NumberCard card = availableCards.get(wantedCardIndex);
             currentPlayer.getCards().add(card);
-            logger.info(currentPlayer.getName() + " hat Karte: " + card.getName() +" " +card.getColor() + " gewaehlt");
+            logger.info(currentPlayer.getName() + " hat Karte: " + card.getName() +" " +card.getColor() + " gewaehlt\n");
 
 
             System.out.println("Spieler: " + currentPlayer.getName());
@@ -309,10 +309,10 @@ public class Game {
         diceStack.push(dice.use());
 
         System.out.println("Du hast eine " + diceStack.peek() + " gewürfelt\nNochmal wuerfeln? [yes|no]");
-        logger.info(currentPlayer.getName() + " hat eine: " + diceStack.peek() + " gewuerfelt");
+        logger.info(currentPlayer.getName() + " hat eine: " + diceStack.peek() + " gewuerfelt\n");
 
         if ((currentPlayer.isHuman() && safeScanner.nextYesNoAnswer()) || (!currentPlayer.isHuman() && ((AutonomousPlayer) currentPlayer).considerRollDiceAgain(diceStack))) {
-            logger.info(currentPlayer.getName() + " hat nochmal wuerfeln ausgewaehlt");
+            logger.info(currentPlayer.getName() + " hat nochmal wuerfeln ausgewaehlt\n");
             // These two lines are only here for cosmetic reasons
             // to bring the human player a better game experience
             // by pretending that the bot can also write to the console.
@@ -320,7 +320,7 @@ public class Game {
 
             diceStack.push(dice.use());
             System.out.println("Du hast eine " + diceStack.peek() + " gewürfelt");
-            logger.info(currentPlayer.getName() + " hat eine: " + diceStack.peek() + " gewuerfelt");
+            logger.info(currentPlayer.getName() + " hat eine: " + diceStack.peek() + " gewuerfelt\n");
         } else {
             // These two lines are only here for cosmetic reasons
             // to bring the human player a better game experience
@@ -421,14 +421,14 @@ public class Game {
             // by pretending that the bot can also write to the console.
             if (!pc.getCurrentPlayer().isHuman()) System.out.println("yes");
 
-            logger.info(pc.getCurrentPlayer().getName() + " hat undo benutzt");
+            logger.info(pc.getCurrentPlayer().getName() + " hat undo benutzt\n");
 
             pc.getCurrentPlayer().setUsedCheats(true);
 
             while (diceStack.size() > 1) {
                 diceStack.pop();
                 System.out.println("Ihr Würfelergebnis ist nun " + diceStack.peek());
-                logger.info(pc.getCurrentPlayer().getName() + " hat altes Wuerfelergebnis: " + diceStack.peek());
+                logger.info(pc.getCurrentPlayer().getName() + " hat altes Wuerfelergebnis: " + diceStack.peek() + "\n");
                 System.out.println("Nochmal undo nutzen ?");
                 if (!(pc.getCurrentPlayer().isHuman() && safeScanner.nextYesNoAnswer()) || !(!pc.getCurrentPlayer().isHuman() && ((AutonomousPlayer) pc.getCurrentPlayer()).considerUseOfUndo(diceStack))) {
                     // These two lines are only here for cosmetic reasons
@@ -477,13 +477,13 @@ public class Game {
         }
 
         logger.info(pc.getCurrentPlayer().getName() + " hat: " + pc.getCurrentPlayer().getCards().get(index).getName() + " "
-        + pc.getCurrentPlayer().getCards().get(index).getColor() + " gegen eine Luckycard getauscht");
+        + pc.getCurrentPlayer().getCards().get(index).getColor() + " gegen eine Luckycard getauscht \n");
         pc.getCurrentPlayer().getCards().remove(index);
 
         LuckyCard pickedLuckyCard = luckyCardStack.pop();
 
         System.out.println("Sie haben die LuckyCard " + pickedLuckyCard.getName() + " gezogen");
-        logger.info(pc.getCurrentPlayer().getName() + " hat: " + pickedLuckyCard.getName() + " gezogen");
+        logger.info(pc.getCurrentPlayer().getName() + " hat: " + pickedLuckyCard.getName() + " gezogen\n");
 
         LuckyCard.printFormatedLuckyCards(new ArrayList<>(List.of(new LuckyCard[]{pickedLuckyCard})));
 
@@ -622,11 +622,11 @@ public class Game {
 
         if (pc.getCurrentPlayer().getLuckyCards().get(index).getName().equals(LuckyCardNames.LC123.name()) || pc.getCurrentPlayer().getLuckyCards().get(index).getName().equals(LuckyCardNames.LC456.name())) {
 
-            logger.info(pc.getCurrentPlayer().getName() + " hat: " + pc.getCurrentPlayer().getLuckyCards().get(index).getName() + " benutzt");
+            logger.info(pc.getCurrentPlayer().getName() + " hat: " + pc.getCurrentPlayer().getLuckyCards().get(index).getName() + " benutzt\n");
             int diceValue = pc.getCurrentPlayer().getLuckyCards().get(index).effect();
 
-            logger.info("Neues Wuerfelergebnis ist: " + diceValue);
-            logger.info(pc.getCurrentPlayer().getLuckyCards().get(index).getName() + " wurde aus: " + pc.getCurrentPlayer().getName() + "s Hand entfernt");
+            logger.info("Neues Wuerfelergebnis ist: " + diceValue + "\n");
+            logger.info(pc.getCurrentPlayer().getLuckyCards().get(index).getName() + " wurde aus: " + pc.getCurrentPlayer().getName() + "s Hand entfernt\n");
 
             pc.getCurrentPlayer().getLuckyCards().remove(index);
             return diceValue;
@@ -668,7 +668,7 @@ public class Game {
             if (value > 6) {
                 value = 6;
             }
-            logger.info("Neues Wuerfelergebnis: " + value);
+            logger.info("Neues Wuerfelergebnis: " + value + "\n");
             return value;
         } else {
             return usePlus(dice);
@@ -708,7 +708,7 @@ public class Game {
             if (value < 1) {
                 value = 1;
             }
-            logger.info("Neues Wuerfelergebnis: " + value);
+            logger.info("Neues Wuerfelergebnis: " + value +"\n");
             return value;
         } else {
             return useMinus(dice);
