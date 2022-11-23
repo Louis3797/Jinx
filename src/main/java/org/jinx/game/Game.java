@@ -421,12 +421,14 @@ public class Game {
             // by pretending that the bot can also write to the console.
             if (!pc.getCurrentPlayer().isHuman()) System.out.println("yes");
 
+            logger.info(pc.getCurrentPlayer().getName() + " hat undo benutzt");
+
             pc.getCurrentPlayer().setUsedCheats(true);
 
             while (diceStack.size() > 1) {
                 diceStack.pop();
                 System.out.println("Ihr Würfelergebnis ist nun " + diceStack.peek());
-
+                logger.info(pc.getCurrentPlayer().getName() + " hat altes Wuerfelergebnis: " + diceStack.peek());
                 System.out.println("Nochmal undo nutzen ?");
                 if (!(pc.getCurrentPlayer().isHuman() && safeScanner.nextYesNoAnswer()) || !(!pc.getCurrentPlayer().isHuman() && ((AutonomousPlayer) pc.getCurrentPlayer()).considerUseOfUndo(diceStack))) {
                     // These two lines are only here for cosmetic reasons
@@ -474,11 +476,14 @@ public class Game {
             System.out.println(index);
         }
 
+        logger.info(pc.getCurrentPlayer().getName() + " hat: " + pc.getCurrentPlayer().getCards().get(index).getName() + " "
+        + pc.getCurrentPlayer().getCards().get(index).getColor() + " gegen eine Luckycard getauscht");
         pc.getCurrentPlayer().getCards().remove(index);
 
         LuckyCard pickedLuckyCard = luckyCardStack.pop();
 
         System.out.println("Sie haben die LuckyCard " + pickedLuckyCard.getName() + " gezogen");
+        logger.info(pc.getCurrentPlayer().getName() + " hat: " + pickedLuckyCard.getName() + " gezogen");
 
         LuckyCard.printFormatedLuckyCards(new ArrayList<>(List.of(new LuckyCard[]{pickedLuckyCard})));
 
