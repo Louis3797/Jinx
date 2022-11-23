@@ -642,7 +642,6 @@ public class Game {
      * @return dicevalue + 1
      */
     private int usePlus(int dice) throws IllegalAccessException {
-        logger.info(pc.getCurrentPlayer().getName() + " hat LCPlus1 benutzt\n");
         pc.getCurrentPlayer().printLuckyHand();
 
         int index = 0;
@@ -662,6 +661,8 @@ public class Game {
         }
 
         if (pc.getCurrentPlayer().getLuckyCards().get(index).getName().equals(LuckyCardNames.LCPlus1.name())) {
+
+            logger.info(pc.getCurrentPlayer().getName() + " hat LCPlus1 benutzt\n");
             int value = pc.getCurrentPlayer().getLuckyCards().get(index).effect() + dice;
 
             if (value > 6) {
@@ -700,12 +701,14 @@ public class Game {
         }
 
         if (pc.getCurrentPlayer().getLuckyCards().get(index).getName().equals(LuckyCardNames.LCMinus1.name())) {
+
+            logger.info(pc.getCurrentPlayer().getName() + " hat LCMinus1 benutzt\n");
             int value = pc.getCurrentPlayer().getLuckyCards().get(index).effect() + dice;
 
             if (value < 1) {
                 value = 1;
             }
-
+            logger.info("Neues Wuerfelergebnis: " + value);
             return value;
         } else {
             return useMinus(dice);
