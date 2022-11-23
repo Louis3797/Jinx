@@ -206,6 +206,7 @@ public class Game {
             // if true, then the round is over
             if (availableCards.isEmpty()) {
                 System.out.println("Die Runde ist zu ende");
+                logger.info("Runde beendet");
                 // if currentPlayer is a bot, then update NumberCard weights
                 if (!currentPlayer.isHuman())
                     // dont change pc.getCurrentPlayer() to currentPlayer
@@ -228,6 +229,7 @@ public class Game {
                 System.out.println("Wollen sie ein Tipp kriegen?");
 
                 if (safeScanner.nextYesNoAnswer()) {
+                    logger.info(currentPlayer.getName() + " hat einen Tipp bekommen\n");
                     AutonomousPlayer autonomousPlayer = new AutonomousPlayer("Tipp Geber", AgentDifficulty.HARD);
                     NumberCard card = autonomousPlayer.givePlayerTip(currentPlayer, availableCards);
                     System.out.println("Ich würde ja diese Karte nehmen:");

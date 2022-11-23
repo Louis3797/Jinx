@@ -1,366 +1,354 @@
-Nov. 23, 2022 8:48:08 PM org.jinx.game.Game play
+Nov. 23, 2022 8:50:23 PM org.jinx.game.Game play
 INFORMATION: Field set
 
-Nov. 23, 2022 8:48:08 PM org.jinx.game.Game throwDice
-INFORMATION: a hat eine: 5 gewuerfelt
+Nov. 23, 2022 8:50:23 PM org.jinx.game.Game throwDice
+INFORMATION: a hat eine: 3 gewuerfelt
 
-Nov. 23, 2022 8:48:08 PM org.jinx.game.Game pickCardsPhase
-INFORMATION: a hat Karte: 5 CYAN gewaehlt
+Nov. 23, 2022 8:50:23 PM org.jinx.game.Game pickCardsPhase
+INFORMATION: a hat Karte: 3 CYAN gewaehlt
 
-Nov. 23, 2022 8:48:08 PM org.jinx.game.Game throwDice
+Nov. 23, 2022 8:50:23 PM org.jinx.game.Game throwDice
 INFORMATION: b hat eine: 4 gewuerfelt
 
-Nov. 23, 2022 8:48:08 PM org.jinx.game.Game pickCardsPhase
+Nov. 23, 2022 8:50:23 PM org.jinx.game.Game pickCardsPhase
 INFORMATION: b hat Karte: 4 BLACK gewaehlt
 
-Nov. 23, 2022 8:48:08 PM org.jinx.game.Game throwDice
-INFORMATION: a hat eine: 6 gewuerfelt
-
-Nov. 23, 2022 8:48:08 PM org.jinx.game.Game pickCardsPhase
-INFORMATION: a hat Karte: 6 CYAN gewaehlt
-
-Nov. 23, 2022 8:48:08 PM org.jinx.game.Game throwDice
-INFORMATION: b hat eine: 4 gewuerfelt
-
-Nov. 23, 2022 8:48:08 PM org.jinx.game.Game throwDice
-INFORMATION: b hat nochmal wuerfeln ausgewaehlt
-
-Nov. 23, 2022 8:48:08 PM org.jinx.game.Game throwDice
-INFORMATION: b hat eine: 3 gewuerfelt
-
-Nov. 23, 2022 8:48:08 PM org.jinx.game.Game pickCardsPhase
-INFORMATION: b hat Karte: 3 BLACK gewaehlt
-
-Nov. 23, 2022 8:48:08 PM org.jinx.game.Game throwDice
-INFORMATION: a hat eine: 6 gewuerfelt
-
-Nov. 23, 2022 8:48:08 PM org.jinx.game.Game throwDice
-INFORMATION: a hat nochmal wuerfeln ausgewaehlt
-
-Nov. 23, 2022 8:48:08 PM org.jinx.game.Game throwDice
-INFORMATION: a hat eine: 6 gewuerfelt
-
-Nov. 23, 2022 8:48:08 PM org.jinx.game.Game pickCardsPhase
-INFORMATION: a hat Karte: 6 YELLOW gewaehlt
-
-Nov. 23, 2022 8:48:08 PM org.jinx.game.Game throwDice
-INFORMATION: b hat eine: 1 gewuerfelt
-
-Nov. 23, 2022 8:48:08 PM org.jinx.game.Game pickCardsPhase
-INFORMATION: b hat Karte: 1 BLACK gewaehlt
-
-Nov. 23, 2022 8:48:08 PM org.jinx.game.Game throwDice
+Nov. 23, 2022 8:50:23 PM org.jinx.game.Game throwDice
 INFORMATION: a hat eine: 1 gewuerfelt
 
-Nov. 23, 2022 8:48:08 PM org.jinx.game.Game throwDice
+Nov. 23, 2022 8:50:23 PM org.jinx.game.Game throwDice
 INFORMATION: a hat nochmal wuerfeln ausgewaehlt
 
-Nov. 23, 2022 8:48:08 PM org.jinx.game.Game throwDice
-INFORMATION: a hat eine: 1 gewuerfelt
+Nov. 23, 2022 8:50:23 PM org.jinx.game.Game throwDice
+INFORMATION: a hat eine: 3 gewuerfelt
 
-Nov. 23, 2022 8:48:08 PM org.jinx.game.Game pickCardsPhase
-INFORMATION: a hat Karte: 1 YELLOW gewaehlt
-
-Nov. 23, 2022 8:48:08 PM org.jinx.game.Game throwDice
-INFORMATION: b hat eine: 5 gewuerfelt
-
-Nov. 23, 2022 8:48:08 PM org.jinx.game.Game pickCardsPhase
-INFORMATION: b hat Karte: 5 BLACK gewaehlt
-
-Nov. 23, 2022 8:48:08 PM org.jinx.game.Game throwDice
-INFORMATION: a hat eine: 1 gewuerfelt
-
-Nov. 23, 2022 8:48:08 PM org.jinx.game.Game throwDice
-INFORMATION: a hat nochmal wuerfeln ausgewaehlt
-
-Nov. 23, 2022 8:48:08 PM org.jinx.game.Game throwDice
-INFORMATION: a hat eine: 5 gewuerfelt
-
-Nov. 23, 2022 8:48:08 PM org.jinx.game.Game pickCardsPhase
-INFORMATION: a hat Karte: 5 YELLOW gewaehlt
-
-Nov. 23, 2022 8:48:08 PM org.jinx.game.Game throwDice
-INFORMATION: b hat eine: 2 gewuerfelt
-
-Nov. 23, 2022 8:48:08 PM org.jinx.game.Game pickCardsPhase
-INFORMATION: b hat Karte: 2 BLACK gewaehlt
-
-Nov. 23, 2022 8:48:08 PM org.jinx.game.Game throwDice
-INFORMATION: a hat eine: 6 gewuerfelt
-
-Nov. 23, 2022 8:48:08 PM org.jinx.game.Game throwDice
-INFORMATION: a hat nochmal wuerfeln ausgewaehlt
-
-Nov. 23, 2022 8:48:08 PM org.jinx.game.Game throwDice
-INFORMATION: a hat eine: 4 gewuerfelt
-
-Nov. 23, 2022 8:48:08 PM org.jinx.game.Game pickCardsPhase
-INFORMATION: a hat Karte: 4 YELLOW gewaehlt
-
-Nov. 23, 2022 8:48:08 PM org.jinx.game.Game throwDice
-INFORMATION: b hat eine: 5 gewuerfelt
-
-Nov. 23, 2022 8:48:08 PM org.jinx.game.Game throwDice
-INFORMATION: b hat nochmal wuerfeln ausgewaehlt
-
-Nov. 23, 2022 8:48:08 PM org.jinx.game.Game throwDice
-INFORMATION: b hat eine: 1 gewuerfelt
-
-Nov. 23, 2022 8:48:08 PM org.jinx.game.Game useUndo
-INFORMATION: b hat undo benutzt
-
-Nov. 23, 2022 8:48:08 PM org.jinx.game.Game useUndo
-INFORMATION: b hat altes Wuerfelergebnis: 5
-
-Nov. 23, 2022 8:48:08 PM org.jinx.game.Game play
-INFORMATION: Field set
-
-Nov. 23, 2022 8:48:08 PM org.jinx.game.Game throwDice
-INFORMATION: b hat eine: 3 gewuerfelt
-
-Nov. 23, 2022 8:48:08 PM org.jinx.game.Game throwDice
-INFORMATION: b hat nochmal wuerfeln ausgewaehlt
-
-Nov. 23, 2022 8:48:08 PM org.jinx.game.Game throwDice
-INFORMATION: b hat eine: 2 gewuerfelt
-
-Nov. 23, 2022 8:48:08 PM org.jinx.game.Game pickCardsPhase
-INFORMATION: b hat Karte: 2 CYAN gewaehlt
-
-Nov. 23, 2022 8:48:08 PM org.jinx.game.Game throwDice
-INFORMATION: a hat eine: 2 gewuerfelt
-
-Nov. 23, 2022 8:48:08 PM org.jinx.game.Game throwDice
-INFORMATION: a hat nochmal wuerfeln ausgewaehlt
-
-Nov. 23, 2022 8:48:08 PM org.jinx.game.Game throwDice
-INFORMATION: a hat eine: 1 gewuerfelt
-
-Nov. 23, 2022 8:48:08 PM org.jinx.game.Game useUndo
+Nov. 23, 2022 8:50:23 PM org.jinx.game.Game useUndo
 INFORMATION: a hat undo benutzt
 
-Nov. 23, 2022 8:48:08 PM org.jinx.game.Game useUndo
-INFORMATION: a hat altes Wuerfelergebnis: 2
+Nov. 23, 2022 8:50:23 PM org.jinx.game.Game useUndo
+INFORMATION: a hat altes Wuerfelergebnis: 1
 
-Nov. 23, 2022 8:48:08 PM org.jinx.game.Game pickCardsPhase
-INFORMATION: a hat Karte: 2 PINK gewaehlt
+Nov. 23, 2022 8:50:23 PM org.jinx.game.Game pickCardsPhase
+INFORMATION: a hat Karte: 1 YELLOW gewaehlt
 
-Nov. 23, 2022 8:48:08 PM org.jinx.game.Game throwDice
-INFORMATION: b hat eine: 4 gewuerfelt
+Nov. 23, 2022 8:50:23 PM org.jinx.game.Game throwDice
+INFORMATION: b hat eine: 2 gewuerfelt
 
-Nov. 23, 2022 8:48:08 PM org.jinx.game.Game throwDice
+Nov. 23, 2022 8:50:23 PM org.jinx.game.Game throwDice
 INFORMATION: b hat nochmal wuerfeln ausgewaehlt
 
-Nov. 23, 2022 8:48:08 PM org.jinx.game.Game throwDice
-INFORMATION: b hat eine: 4 gewuerfelt
-
-Nov. 23, 2022 8:48:08 PM org.jinx.game.Game pickCardsPhase
-INFORMATION: b hat Karte: 4 WHITE gewaehlt
-
-Nov. 23, 2022 8:48:08 PM org.jinx.game.Game throwDice
-INFORMATION: a hat eine: 6 gewuerfelt
-
-Nov. 23, 2022 8:48:08 PM org.jinx.game.Game pickCardsPhase
-INFORMATION: a hat Karte: 6 PINK gewaehlt
-
-Nov. 23, 2022 8:48:08 PM org.jinx.game.Game throwDice
-INFORMATION: b hat eine: 3 gewuerfelt
-
-Nov. 23, 2022 8:48:08 PM org.jinx.game.Game throwDice
-INFORMATION: b hat nochmal wuerfeln ausgewaehlt
-
-Nov. 23, 2022 8:48:08 PM org.jinx.game.Game throwDice
+Nov. 23, 2022 8:50:23 PM org.jinx.game.Game throwDice
 INFORMATION: b hat eine: 5 gewuerfelt
 
-Nov. 23, 2022 8:48:08 PM org.jinx.game.Game pickCardsPhase
-INFORMATION: b hat Karte: 5 WHITE gewaehlt
+Nov. 23, 2022 8:50:23 PM org.jinx.game.Game pickCardsPhase
+INFORMATION: b hat Karte: 5 BLACK gewaehlt
 
-Nov. 23, 2022 8:48:08 PM org.jinx.game.Game throwDice
-INFORMATION: a hat eine: 4 gewuerfelt
-
-Nov. 23, 2022 8:48:08 PM org.jinx.game.Game pickCardsPhase
-INFORMATION: a hat Karte: 4 PINK gewaehlt
-
-Nov. 23, 2022 8:48:08 PM org.jinx.game.Game throwDice
-INFORMATION: b hat eine: 5 gewuerfelt
-
-Nov. 23, 2022 8:48:08 PM org.jinx.game.Game pickCardsPhase
-INFORMATION: b hat Karte: 5 GREEN gewaehlt
-
-Nov. 23, 2022 8:48:08 PM org.jinx.game.Game throwDice
+Nov. 23, 2022 8:50:23 PM org.jinx.game.Game throwDice
 INFORMATION: a hat eine: 1 gewuerfelt
 
-Nov. 23, 2022 8:48:08 PM org.jinx.game.Game pickCardsPhase
-INFORMATION: a hat Karte: 1 PINK gewaehlt
+Nov. 23, 2022 8:50:23 PM org.jinx.game.Game throwDice
+INFORMATION: a hat nochmal wuerfeln ausgewaehlt
 
-Nov. 23, 2022 8:48:08 PM org.jinx.game.Game throwDice
-INFORMATION: b hat eine: 5 gewuerfelt
+Nov. 23, 2022 8:50:23 PM org.jinx.game.Game throwDice
+INFORMATION: a hat eine: 1 gewuerfelt
 
-Nov. 23, 2022 8:48:08 PM org.jinx.game.Game throwDice
+Nov. 23, 2022 8:50:23 PM org.jinx.game.Game pickCardsPhase
+INFORMATION: a hat Karte: 1 BLACK gewaehlt
+
+Nov. 23, 2022 8:50:23 PM org.jinx.game.Game throwDice
+INFORMATION: b hat eine: 3 gewuerfelt
+
+Nov. 23, 2022 8:50:23 PM org.jinx.game.Game throwDice
 INFORMATION: b hat nochmal wuerfeln ausgewaehlt
 
-Nov. 23, 2022 8:48:08 PM org.jinx.game.Game throwDice
-INFORMATION: b hat eine: 2 gewuerfelt
+Nov. 23, 2022 8:50:23 PM org.jinx.game.Game throwDice
+INFORMATION: b hat eine: 1 gewuerfelt
 
-Nov. 23, 2022 8:48:08 PM org.jinx.game.Game pickCardsPhase
-INFORMATION: b hat Karte: 2 WHITE gewaehlt
-
-Nov. 23, 2022 8:48:08 PM org.jinx.game.Game throwDice
-INFORMATION: a hat eine: 3 gewuerfelt
-
-Nov. 23, 2022 8:48:08 PM org.jinx.game.Game pickCardsPhase
-INFORMATION: a hat Karte: 3 PINK gewaehlt
-
-Nov. 23, 2022 8:48:08 PM org.jinx.game.Game throwDice
-INFORMATION: b hat eine: 4 gewuerfelt
-
-Nov. 23, 2022 8:48:08 PM org.jinx.game.Game throwDice
-INFORMATION: b hat nochmal wuerfeln ausgewaehlt
-
-Nov. 23, 2022 8:48:08 PM org.jinx.game.Game throwDice
-INFORMATION: b hat eine: 2 gewuerfelt
-
-Nov. 23, 2022 8:48:08 PM org.jinx.game.Game useUndo
+Nov. 23, 2022 8:50:23 PM org.jinx.game.Game useUndo
 INFORMATION: b hat undo benutzt
 
-Nov. 23, 2022 8:48:08 PM org.jinx.game.Game useUndo
-INFORMATION: b hat altes Wuerfelergebnis: 4
+Nov. 23, 2022 8:50:23 PM org.jinx.game.Game useUndo
+INFORMATION: b hat altes Wuerfelergebnis: 3
 
-Nov. 23, 2022 8:48:08 PM org.jinx.game.Game play
+Nov. 23, 2022 8:50:23 PM org.jinx.game.Game pickCardsPhase
+INFORMATION: b hat Karte: 3 BLACK gewaehlt
+
+Nov. 23, 2022 8:50:23 PM org.jinx.game.Game throwDice
+INFORMATION: a hat eine: 4 gewuerfelt
+
+Nov. 23, 2022 8:50:23 PM org.jinx.game.Game throwDice
+INFORMATION: a hat nochmal wuerfeln ausgewaehlt
+
+Nov. 23, 2022 8:50:23 PM org.jinx.game.Game throwDice
+INFORMATION: a hat eine: 2 gewuerfelt
+
+Nov. 23, 2022 8:50:23 PM org.jinx.game.Game useUndo
+INFORMATION: a hat undo benutzt
+
+Nov. 23, 2022 8:50:23 PM org.jinx.game.Game useUndo
+INFORMATION: a hat altes Wuerfelergebnis: 4
+
+Nov. 23, 2022 8:50:23 PM org.jinx.game.Game pickCardsPhase
+INFORMATION: a hat Karte: 4 YELLOW gewaehlt
+
+Nov. 23, 2022 8:50:23 PM org.jinx.game.Game throwDice
+INFORMATION: b hat eine: 1 gewuerfelt
+
+Nov. 23, 2022 8:50:23 PM org.jinx.game.Game throwDice
+INFORMATION: b hat nochmal wuerfeln ausgewaehlt
+
+Nov. 23, 2022 8:50:23 PM org.jinx.game.Game throwDice
+INFORMATION: b hat eine: 2 gewuerfelt
+
+Nov. 23, 2022 8:50:23 PM org.jinx.game.Game pickCardsPhase
+INFORMATION: b hat Karte: 2 BLACK gewaehlt
+
+Nov. 23, 2022 8:50:23 PM org.jinx.game.Game throwDice
+INFORMATION: a hat eine: 1 gewuerfelt
+
+Nov. 23, 2022 8:50:23 PM org.jinx.game.Game throwDice
+INFORMATION: a hat nochmal wuerfeln ausgewaehlt
+
+Nov. 23, 2022 8:50:23 PM org.jinx.game.Game throwDice
+INFORMATION: a hat eine: 1 gewuerfelt
+
+Nov. 23, 2022 8:50:23 PM org.jinx.game.Game useUndo
+INFORMATION: a hat undo benutzt
+
+Nov. 23, 2022 8:50:23 PM org.jinx.game.Game useUndo
+INFORMATION: a hat altes Wuerfelergebnis: 1
+
+Nov. 23, 2022 8:50:23 PM org.jinx.game.Game play
 INFORMATION: Field set
 
-Nov. 23, 2022 8:48:08 PM org.jinx.game.Game throwDice
-INFORMATION: b hat eine: 5 gewuerfelt
-
-Nov. 23, 2022 8:48:08 PM org.jinx.game.Game pickCardsPhase
-INFORMATION: b hat Karte: 5 BLUE gewaehlt
-
-Nov. 23, 2022 8:48:08 PM org.jinx.game.Game throwDice
-INFORMATION: a hat eine: 2 gewuerfelt
-
-Nov. 23, 2022 8:48:08 PM org.jinx.game.Game throwDice
-INFORMATION: a hat nochmal wuerfeln ausgewaehlt
-
-Nov. 23, 2022 8:48:08 PM org.jinx.game.Game throwDice
-INFORMATION: a hat eine: 4 gewuerfelt
-
-Nov. 23, 2022 8:48:08 PM org.jinx.game.Game pickCardsPhase
-INFORMATION: a hat Karte: 4 GREEN gewaehlt
-
-Nov. 23, 2022 8:48:08 PM org.jinx.game.Game throwDice
-INFORMATION: b hat eine: 6 gewuerfelt
-
-Nov. 23, 2022 8:48:08 PM org.jinx.game.Game pickCardsPhase
-INFORMATION: b hat Karte: 6 BLUE gewaehlt
-
-Nov. 23, 2022 8:48:08 PM org.jinx.game.Game throwDice
-INFORMATION: a hat eine: 2 gewuerfelt
-
-Nov. 23, 2022 8:48:08 PM org.jinx.game.Game pickCardsPhase
-INFORMATION: a hat Karte: 2 GREEN gewaehlt
-
-Nov. 23, 2022 8:48:08 PM org.jinx.game.Game throwDice
-INFORMATION: b hat eine: 4 gewuerfelt
-
-Nov. 23, 2022 8:48:08 PM org.jinx.game.Game pickCardsPhase
-INFORMATION: b hat Karte: 4 BLUE gewaehlt
-
-Nov. 23, 2022 8:48:08 PM org.jinx.game.Game throwDice
-INFORMATION: a hat eine: 2 gewuerfelt
-
-Nov. 23, 2022 8:48:08 PM org.jinx.game.Game throwDice
-INFORMATION: a hat nochmal wuerfeln ausgewaehlt
-
-Nov. 23, 2022 8:48:08 PM org.jinx.game.Game throwDice
-INFORMATION: a hat eine: 6 gewuerfelt
-
-Nov. 23, 2022 8:48:08 PM org.jinx.game.Game pickCardsPhase
-INFORMATION: a hat Karte: 6 RED gewaehlt
-
-Nov. 23, 2022 8:48:08 PM org.jinx.game.Game throwDice
-INFORMATION: b hat eine: 5 gewuerfelt
-
-Nov. 23, 2022 8:48:08 PM org.jinx.game.Game throwDice
-INFORMATION: b hat nochmal wuerfeln ausgewaehlt
-
-Nov. 23, 2022 8:48:08 PM org.jinx.game.Game throwDice
-INFORMATION: b hat eine: 3 gewuerfelt
-
-Nov. 23, 2022 8:48:08 PM org.jinx.game.Game pickCardsPhase
-INFORMATION: b hat Karte: 3 BLUE gewaehlt
-
-Nov. 23, 2022 8:48:08 PM org.jinx.game.Game throwDice
-INFORMATION: a hat eine: 2 gewuerfelt
-
-Nov. 23, 2022 8:48:08 PM org.jinx.game.Game throwDice
-INFORMATION: a hat nochmal wuerfeln ausgewaehlt
-
-Nov. 23, 2022 8:48:08 PM org.jinx.game.Game throwDice
-INFORMATION: a hat eine: 2 gewuerfelt
-
-Nov. 23, 2022 8:48:08 PM org.jinx.game.Game pickCardsPhase
-INFORMATION: a hat Karte: 2 RED gewaehlt
-
-Nov. 23, 2022 8:48:08 PM org.jinx.game.Game throwDice
-INFORMATION: b hat eine: 1 gewuerfelt
-
-Nov. 23, 2022 8:48:08 PM org.jinx.game.Game pickCardsPhase
-INFORMATION: b hat Karte: 1 BLUE gewaehlt
-
-Nov. 23, 2022 8:48:08 PM org.jinx.game.Game throwDice
-INFORMATION: a hat eine: 1 gewuerfelt
-
-Nov. 23, 2022 8:48:08 PM org.jinx.game.Game throwDice
-INFORMATION: a hat nochmal wuerfeln ausgewaehlt
-
-Nov. 23, 2022 8:48:08 PM org.jinx.game.Game throwDice
+Nov. 23, 2022 8:50:23 PM org.jinx.game.Game throwDice
 INFORMATION: a hat eine: 3 gewuerfelt
 
-Nov. 23, 2022 8:48:08 PM org.jinx.game.Game pickCardsPhase
-INFORMATION: a hat Karte: 3 GREEN gewaehlt
-
-Nov. 23, 2022 8:48:08 PM org.jinx.game.Game throwDice
-INFORMATION: b hat eine: 5 gewuerfelt
-
-Nov. 23, 2022 8:48:08 PM org.jinx.game.Game throwDice
-INFORMATION: b hat nochmal wuerfeln ausgewaehlt
-
-Nov. 23, 2022 8:48:08 PM org.jinx.game.Game throwDice
-INFORMATION: b hat eine: 1 gewuerfelt
-
-Nov. 23, 2022 8:48:08 PM org.jinx.game.Game useUndo
-INFORMATION: b hat undo benutzt
-
-Nov. 23, 2022 8:48:08 PM org.jinx.game.Game useUndo
-INFORMATION: b hat altes Wuerfelergebnis: 5
-
-Nov. 23, 2022 8:48:08 PM org.jinx.game.Game pickCardsPhase
-INFORMATION: b hat Karte: 5 RED gewaehlt
-
-Nov. 23, 2022 8:48:08 PM org.jinx.game.Game throwDice
-INFORMATION: a hat eine: 2 gewuerfelt
-
-Nov. 23, 2022 8:48:08 PM org.jinx.game.Game throwDice
+Nov. 23, 2022 8:50:23 PM org.jinx.game.Game throwDice
 INFORMATION: a hat nochmal wuerfeln ausgewaehlt
 
-Nov. 23, 2022 8:48:08 PM org.jinx.game.Game throwDice
-INFORMATION: a hat eine: 4 gewuerfelt
+Nov. 23, 2022 8:50:23 PM org.jinx.game.Game throwDice
+INFORMATION: a hat eine: 1 gewuerfelt
 
-Nov. 23, 2022 8:48:08 PM org.jinx.game.Game pickCardsPhase
-INFORMATION: a hat Karte: 4 RED gewaehlt
+Nov. 23, 2022 8:50:23 PM org.jinx.game.Game pickCardsPhase
+INFORMATION: a hat Karte: 1 CYAN gewaehlt
 
-Nov. 23, 2022 8:48:08 PM org.jinx.game.Game throwDice
-INFORMATION: b hat eine: 6 gewuerfelt
-
-Nov. 23, 2022 8:48:08 PM org.jinx.game.Game throwDice
-INFORMATION: b hat nochmal wuerfeln ausgewaehlt
-
-Nov. 23, 2022 8:48:08 PM org.jinx.game.Game throwDice
+Nov. 23, 2022 8:50:23 PM org.jinx.game.Game throwDice
 INFORMATION: b hat eine: 2 gewuerfelt
 
-Nov. 23, 2022 8:48:08 PM org.jinx.game.Game pickCardsPhase
-INFORMATION: b hat Karte: 2 BLUE gewaehlt
+Nov. 23, 2022 8:50:23 PM org.jinx.game.Game throwDice
+INFORMATION: b hat nochmal wuerfeln ausgewaehlt
 
-Nov. 23, 2022 8:48:08 PM org.jinx.game.Game throwDice
+Nov. 23, 2022 8:50:23 PM org.jinx.game.Game throwDice
+INFORMATION: b hat eine: 2 gewuerfelt
+
+Nov. 23, 2022 8:50:23 PM org.jinx.game.Game pickCardsPhase
+INFORMATION: b hat Karte: 2 CYAN gewaehlt
+
+Nov. 23, 2022 8:50:23 PM org.jinx.game.Game throwDice
+INFORMATION: a hat eine: 6 gewuerfelt
+
+Nov. 23, 2022 8:50:23 PM org.jinx.game.Game pickCardsPhase
+INFORMATION: a hat Karte: 6 GREEN gewaehlt
+
+Nov. 23, 2022 8:50:23 PM org.jinx.game.Game throwDice
+INFORMATION: b hat eine: 3 gewuerfelt
+
+Nov. 23, 2022 8:50:23 PM org.jinx.game.Game throwDice
+INFORMATION: b hat nochmal wuerfeln ausgewaehlt
+
+Nov. 23, 2022 8:50:23 PM org.jinx.game.Game throwDice
+INFORMATION: b hat eine: 6 gewuerfelt
+
+Nov. 23, 2022 8:50:23 PM org.jinx.game.Game pickCardsPhase
+INFORMATION: b hat Karte: 6 PINK gewaehlt
+
+Nov. 23, 2022 8:50:23 PM org.jinx.game.Game throwDice
+INFORMATION: a hat eine: 1 gewuerfelt
+
+Nov. 23, 2022 8:50:23 PM org.jinx.game.Game pickCardsPhase
+INFORMATION: a hat Karte: 1 WHITE gewaehlt
+
+Nov. 23, 2022 8:50:23 PM org.jinx.game.Game throwDice
+INFORMATION: b hat eine: 3 gewuerfelt
+
+Nov. 23, 2022 8:50:23 PM org.jinx.game.Game throwDice
+INFORMATION: b hat nochmal wuerfeln ausgewaehlt
+
+Nov. 23, 2022 8:50:23 PM org.jinx.game.Game throwDice
+INFORMATION: b hat eine: 4 gewuerfelt
+
+Nov. 23, 2022 8:50:23 PM org.jinx.game.Game pickCardsPhase
+INFORMATION: b hat Karte: 4 PINK gewaehlt
+
+Nov. 23, 2022 8:50:23 PM org.jinx.game.Game throwDice
 INFORMATION: a hat eine: 2 gewuerfelt
+
+Nov. 23, 2022 8:50:23 PM org.jinx.game.Game pickCardsPhase
+INFORMATION: a hat Karte: 2 WHITE gewaehlt
+
+Nov. 23, 2022 8:50:23 PM org.jinx.game.Game throwDice
+INFORMATION: b hat eine: 4 gewuerfelt
+
+Nov. 23, 2022 8:50:23 PM org.jinx.game.Game throwDice
+INFORMATION: b hat nochmal wuerfeln ausgewaehlt
+
+Nov. 23, 2022 8:50:23 PM org.jinx.game.Game throwDice
+INFORMATION: b hat eine: 1 gewuerfelt
+
+Nov. 23, 2022 8:50:23 PM org.jinx.game.Game pickCardsPhase
+INFORMATION: b hat Karte: 1 PINK gewaehlt
+
+Nov. 23, 2022 8:50:23 PM org.jinx.game.Game throwDice
+INFORMATION: a hat eine: 2 gewuerfelt
+
+Nov. 23, 2022 8:50:23 PM org.jinx.game.Game throwDice
+INFORMATION: a hat nochmal wuerfeln ausgewaehlt
+
+Nov. 23, 2022 8:50:23 PM org.jinx.game.Game throwDice
+INFORMATION: a hat eine: 6 gewuerfelt
+
+Nov. 23, 2022 8:50:23 PM org.jinx.game.Game pickCardsPhase
+INFORMATION: a hat Karte: 6 WHITE gewaehlt
+
+Nov. 23, 2022 8:50:23 PM org.jinx.game.Game throwDice
+INFORMATION: b hat eine: 3 gewuerfelt
+
+Nov. 23, 2022 8:50:23 PM org.jinx.game.Game throwDice
+INFORMATION: b hat nochmal wuerfeln ausgewaehlt
+
+Nov. 23, 2022 8:50:23 PM org.jinx.game.Game throwDice
+INFORMATION: b hat eine: 4 gewuerfelt
+
+Nov. 23, 2022 8:50:23 PM org.jinx.game.Game useUndo
+INFORMATION: b hat undo benutzt
+
+Nov. 23, 2022 8:50:23 PM org.jinx.game.Game useUndo
+INFORMATION: b hat altes Wuerfelergebnis: 3
+
+Nov. 23, 2022 8:50:23 PM org.jinx.game.Game pickCardsPhase
+INFORMATION: b hat Karte: 3 PINK gewaehlt
+
+Nov. 23, 2022 8:50:23 PM org.jinx.game.Game throwDice
+INFORMATION: a hat eine: 4 gewuerfelt
+
+Nov. 23, 2022 8:50:23 PM org.jinx.game.Game pickCardsPhase
+INFORMATION: a hat Karte: 4 WHITE gewaehlt
+
+Nov. 23, 2022 8:50:23 PM org.jinx.game.Game throwDice
+INFORMATION: b hat eine: 3 gewuerfelt
+
+Nov. 23, 2022 8:50:23 PM org.jinx.game.Game throwDice
+INFORMATION: b hat nochmal wuerfeln ausgewaehlt
+
+Nov. 23, 2022 8:50:23 PM org.jinx.game.Game throwDice
+INFORMATION: b hat eine: 5 gewuerfelt
+
+Nov. 23, 2022 8:50:23 PM org.jinx.game.Game pickCardsPhase
+INFORMATION: b hat Karte: 5 PINK gewaehlt
+
+Nov. 23, 2022 8:50:23 PM org.jinx.game.Game throwDice
+INFORMATION: a hat eine: 4 gewuerfelt
+
+Nov. 23, 2022 8:50:23 PM org.jinx.game.Game play
+INFORMATION: Field set
+
+Nov. 23, 2022 8:50:23 PM org.jinx.game.Game throwDice
+INFORMATION: a hat eine: 4 gewuerfelt
+
+Nov. 23, 2022 8:50:23 PM org.jinx.game.Game pickCardsPhase
+INFORMATION: a hat Karte: 4 GREEN gewaehlt
+
+Nov. 23, 2022 8:50:23 PM org.jinx.game.Game throwDice
+INFORMATION: b hat eine: 6 gewuerfelt
+
+Nov. 23, 2022 8:50:23 PM org.jinx.game.Game throwDice
+INFORMATION: b hat nochmal wuerfeln ausgewaehlt
+
+Nov. 23, 2022 8:50:23 PM org.jinx.game.Game throwDice
+INFORMATION: b hat eine: 6 gewuerfelt
+
+Nov. 23, 2022 8:50:23 PM org.jinx.game.Game pickCardsPhase
+INFORMATION: b hat Karte: 6 BLUE gewaehlt
+
+Nov. 23, 2022 8:50:23 PM org.jinx.game.Game throwDice
+INFORMATION: a hat eine: 5 gewuerfelt
+
+Nov. 23, 2022 8:50:23 PM org.jinx.game.Game throwDice
+INFORMATION: a hat nochmal wuerfeln ausgewaehlt
+
+Nov. 23, 2022 8:50:23 PM org.jinx.game.Game throwDice
+INFORMATION: a hat eine: 5 gewuerfelt
+
+Nov. 23, 2022 8:50:23 PM org.jinx.game.Game pickCardsPhase
+INFORMATION: a hat Karte: 5 RED gewaehlt
+
+Nov. 23, 2022 8:50:23 PM org.jinx.game.Game throwDice
+INFORMATION: b hat eine: 3 gewuerfelt
+
+Nov. 23, 2022 8:50:23 PM org.jinx.game.Game pickCardsPhase
+INFORMATION: b hat Karte: 3 BLUE gewaehlt
+
+Nov. 23, 2022 8:50:23 PM org.jinx.game.Game throwDice
+INFORMATION: a hat eine: 6 gewuerfelt
+
+Nov. 23, 2022 8:50:23 PM org.jinx.game.Game pickCardsPhase
+INFORMATION: a hat Karte: 6 RED gewaehlt
+
+Nov. 23, 2022 8:50:23 PM org.jinx.game.Game throwDice
+INFORMATION: b hat eine: 6 gewuerfelt
+
+Nov. 23, 2022 8:50:23 PM org.jinx.game.Game throwDice
+INFORMATION: b hat nochmal wuerfeln ausgewaehlt
+
+Nov. 23, 2022 8:50:23 PM org.jinx.game.Game throwDice
+INFORMATION: b hat eine: 3 gewuerfelt
+
+Nov. 23, 2022 8:50:23 PM org.jinx.game.Game pickCardsPhase
+INFORMATION: b hat Karte: 3 GREEN gewaehlt
+
+Nov. 23, 2022 8:50:23 PM org.jinx.game.Game throwDice
+INFORMATION: a hat eine: 4 gewuerfelt
+
+Nov. 23, 2022 8:50:23 PM org.jinx.game.Game pickCardsPhase
+INFORMATION: a hat Karte: 4 RED gewaehlt
+
+Nov. 23, 2022 8:50:23 PM org.jinx.game.Game throwDice
+INFORMATION: b hat eine: 4 gewuerfelt
+
+Nov. 23, 2022 8:50:23 PM org.jinx.game.Game pickCardsPhase
+INFORMATION: b hat Karte: 4 BLUE gewaehlt
+
+Nov. 23, 2022 8:50:23 PM org.jinx.game.Game throwDice
+INFORMATION: a hat eine: 1 gewuerfelt
+
+Nov. 23, 2022 8:50:23 PM org.jinx.game.Game pickCardsPhase
+INFORMATION: a hat Karte: 1 GREEN gewaehlt
+
+Nov. 23, 2022 8:50:23 PM org.jinx.game.Game throwDice
+INFORMATION: b hat eine: 3 gewuerfelt
+
+Nov. 23, 2022 8:50:23 PM org.jinx.game.Game throwDice
+INFORMATION: b hat nochmal wuerfeln ausgewaehlt
+
+Nov. 23, 2022 8:50:23 PM org.jinx.game.Game throwDice
+INFORMATION: b hat eine: 3 gewuerfelt
+
+Nov. 23, 2022 8:50:23 PM org.jinx.game.Game pickCardsPhase
+INFORMATION: b hat Karte: 3 RED gewaehlt
+
+Nov. 23, 2022 8:50:23 PM org.jinx.game.Game throwDice
+INFORMATION: a hat eine: 1 gewuerfelt
+
+Nov. 23, 2022 8:50:23 PM org.jinx.game.Game pickCardsPhase
+INFORMATION: a hat Karte: 1 RED gewaehlt
+
+Nov. 23, 2022 8:50:23 PM org.jinx.game.Game throwDice
+INFORMATION: b hat eine: 5 gewuerfelt
+
+Nov. 23, 2022 8:50:23 PM org.jinx.game.Game pickCardsPhase
+INFORMATION: b hat Karte: 5 BLUE gewaehlt
+
+Nov. 23, 2022 8:50:23 PM org.jinx.game.Game throwDice
+INFORMATION: a hat eine: 6 gewuerfelt
 
