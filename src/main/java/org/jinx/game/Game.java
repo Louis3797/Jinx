@@ -548,7 +548,7 @@ public class Game {
      * choose a sum in relation to your dice throw
      */
     private void useLCSum(HashSet<List<NumberCard>> set) {
-
+        logger.info(pc.getCurrentPlayer().getName() + " hat LCSum benutzt");
         //List out of set for indexing
         List<List<NumberCard>> combinations = new ArrayList<>(set);
 
@@ -573,6 +573,10 @@ public class Game {
             System.out.println(wantedCardIndex);
         }
         pc.getCurrentPlayer().getCards().addAll(combinations.get(wantedCardIndex));
+
+        for(NumberCard card : combinations.get(wantedCardIndex)){
+            logger.info(pc.getCurrentPlayer().getName() + " hat: " + card.getName() + " " + card.getColor() + " bekommen\n");
+        }
 
         System.out.println("Spieler: " + pc.getCurrentPlayer().getName());
         pc.getCurrentPlayer().printHand();
