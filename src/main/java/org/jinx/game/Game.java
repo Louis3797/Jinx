@@ -12,7 +12,11 @@ import org.jinx.player.AutonomousPlayer;
 import org.jinx.player.Player;
 import org.jinx.wrapper.SafeScanner;
 
+import java.io.IOException;
 import java.util.*;
+import java.util.logging.FileHandler;
+import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
 
 
 public class Game {
@@ -27,6 +31,9 @@ public class Game {
 
     private final SafeScanner safeScanner;
 
+    private Logger logger;
+    FileHandler fh;
+
     public Game() {
         dice = new Dice();
 
@@ -36,6 +43,26 @@ public class Game {
 
 
         safeScanner = new SafeScanner();
+
+        initLogger();
+    }
+
+    /**
+     * initializes logger
+     */
+    private void initLogger() {
+
+        try {
+            logger = Logger.getLogger(getClass().getName());
+            fh = new FileHandler("Spielzuege.log");
+            logger.addHandler(fh);
+            SimpleFormatter formatter = new SimpleFormatter();
+            fh.setFormatter(formatter);
+            logger.setUseParentHandlers(false);
+        } catch (IOException e) {
+
+        }
+
     }
 
     /**
@@ -43,6 +70,7 @@ public class Game {
      */
     public void play(int currentRound) throws IllegalAccessException {
         field.setField(numberCardsDeck);
+        logger.info("Field set\n");
 
         if (currentRound == 1) {
             pc.next();  // initialize current player in PlayerController if it's the first round
@@ -59,7 +87,7 @@ public class Game {
                 System.out.println("Spieler: " + pc.getCurrentPlayer().getName() + "\nKarte gegen Glückskarte eintauschen? [y,yes,ja | n,no,nein]");
 
 
-                if ((pc.getCurrentPlayer().isHuman() && safeScanner.nextYesNoAnswer()) || (((AutonomousPlayer) pc.getCurrentPlayer()).considerPickLuckyCard())) {
+                if ((pc.getCurrentPlayer().isHuman() && safeScanner.nextYesNoAnswer()) || (!pc.getCurrentPlayer().isHuman() && (((AutonomousPlayer) pc.getCurrentPlayer()).considerPickLuckyCard()))) {
 
                     // These two lines are only here for cosmetic reasons
                     // to bring the human player a better game experience
@@ -177,6 +205,7 @@ public class Game {
             // if true, then the round is over
             if (availableCards.isEmpty()) {
                 System.out.println("Die Runde ist zu ende");
+                logger.info("Runde beendet\n");
                 // if currentPlayer is a bot, then update NumberCard weights
                 if (!currentPlayer.isHuman())
                     // dont change pc.getCurrentPlayer() to currentPlayer
@@ -199,6 +228,7 @@ public class Game {
                 System.out.println("Wollen sie ein Tipp kriegen?");
 
                 if (safeScanner.nextYesNoAnswer()) {
+                    logger.info(currentPlayer.getName() + " hat einen Tipp bekommen\n");
                     AutonomousPlayer autonomousPlayer = new AutonomousPlayer("Tipp Geber", AgentDifficulty.HARD);
                     NumberCard card = autonomousPlayer.givePlayerTip(currentPlayer, availableCards);
                     System.out.println("Ich würde ja diese Karte nehmen:");
@@ -223,6 +253,8 @@ public class Game {
             // add card to hand
             NumberCard card = availableCards.get(wantedCardIndex);
             currentPlayer.getCards().add(card);
+            logger.info(currentPlayer.getName() + " hat Karte: " + card.getName() + " " + card.getColor() + " gewaehlt\n");
+
 
             System.out.println("Spieler: " + currentPlayer.getName());
             currentPlayer.printHand();
@@ -278,9 +310,10 @@ public class Game {
         diceStack.push(dice.use());
 
         System.out.println("Du hast eine " + diceStack.peek() + " gewürfelt\nNochmal wuerfeln? [yes|no]");
+        logger.info(currentPlayer.getName() + " hat eine: " + diceStack.peek() + " gewuerfelt\n");
 
         if ((currentPlayer.isHuman() && safeScanner.nextYesNoAnswer()) || (!currentPlayer.isHuman() && ((AutonomousPlayer) currentPlayer).considerRollDiceAgain(diceStack))) {
-
+            logger.info(currentPlayer.getName() + " hat nochmal wuerfeln ausgewaehlt\n");
             // These two lines are only here for cosmetic reasons
             // to bring the human player a better game experience
             // by pretending that the bot can also write to the console.
@@ -288,6 +321,7 @@ public class Game {
 
             diceStack.push(dice.use());
             System.out.println("Du hast eine " + diceStack.peek() + " gewürfelt");
+            logger.info(currentPlayer.getName() + " hat eine: " + diceStack.peek() + " gewuerfelt\n");
         } else {
             // These two lines are only here for cosmetic reasons
             // to bring the human player a better game experience
@@ -388,12 +422,14 @@ public class Game {
             // by pretending that the bot can also write to the console.
             if (!pc.getCurrentPlayer().isHuman()) System.out.println("yes");
 
+            logger.info(pc.getCurrentPlayer().getName() + " hat undo benutzt\n");
+
             pc.getCurrentPlayer().setUsedCheats(true);
 
             while (diceStack.size() > 1) {
                 diceStack.pop();
                 System.out.println("Ihr Würfelergebnis ist nun " + diceStack.peek());
-
+                logger.info(pc.getCurrentPlayer().getName() + " hat altes Wuerfelergebnis: " + diceStack.peek() + "\n");
                 System.out.println("Nochmal undo nutzen ?");
                 if (!(pc.getCurrentPlayer().isHuman() && safeScanner.nextYesNoAnswer()) || !(!pc.getCurrentPlayer().isHuman() && ((AutonomousPlayer) pc.getCurrentPlayer()).considerUseOfUndo(diceStack))) {
                     // These two lines are only here for cosmetic reasons
@@ -441,11 +477,14 @@ public class Game {
             System.out.println(index);
         }
 
+        logger.info(pc.getCurrentPlayer().getName() + " hat: " + pc.getCurrentPlayer().getCards().get(index).getName() + " "
+                + pc.getCurrentPlayer().getCards().get(index).getColor() + " gegen eine Luckycard getauscht \n");
         pc.getCurrentPlayer().getCards().remove(index);
 
         LuckyCard pickedLuckyCard = luckyCardStack.pop();
 
         System.out.println("Sie haben die LuckyCard " + pickedLuckyCard.getName() + " gezogen");
+        logger.info(pc.getCurrentPlayer().getName() + " hat: " + pickedLuckyCard.getName() + " gezogen\n");
 
         LuckyCard.printFormatedLuckyCards(new ArrayList<>(List.of(new LuckyCard[]{pickedLuckyCard})));
 
@@ -508,7 +547,7 @@ public class Game {
      * choose a sum in relation to your dice throw
      */
     private void useLCSum(HashSet<List<NumberCard>> set) {
-
+        logger.info(pc.getCurrentPlayer().getName() + " hat LCSum benutzt");
         //List out of set for indexing
         List<List<NumberCard>> combinations = new ArrayList<>(set);
 
@@ -533,6 +572,10 @@ public class Game {
             System.out.println(wantedCardIndex);
         }
         pc.getCurrentPlayer().getCards().addAll(combinations.get(wantedCardIndex));
+
+        for (NumberCard card : combinations.get(wantedCardIndex)) {
+            logger.info(pc.getCurrentPlayer().getName() + " hat: " + card.getName() + " " + card.getColor() + " bekommen\n");
+        }
 
         System.out.println("Spieler: " + pc.getCurrentPlayer().getName());
         pc.getCurrentPlayer().printHand();
@@ -584,10 +627,13 @@ public class Game {
 
         if (pc.getCurrentPlayer().getLuckyCards().get(index).getName().equals(LuckyCardNames.LC123.name()) || pc.getCurrentPlayer().getLuckyCards().get(index).getName().equals(LuckyCardNames.LC456.name())) {
 
+            logger.info(pc.getCurrentPlayer().getName() + " hat: " + pc.getCurrentPlayer().getLuckyCards().get(index).getName() + " benutzt\n");
             int diceValue = pc.getCurrentPlayer().getLuckyCards().get(index).effect();
 
-            pc.getCurrentPlayer().getLuckyCards().remove(index);
+            logger.info("Neues Wuerfelergebnis ist: " + diceValue + "\n");
+            logger.info(pc.getCurrentPlayer().getLuckyCards().get(index).getName() + " wurde aus: " + pc.getCurrentPlayer().getName() + "s Hand entfernt\n");
 
+            pc.getCurrentPlayer().getLuckyCards().remove(index);
             return diceValue;
         } else {
             return use123or456();
@@ -601,7 +647,6 @@ public class Game {
      * @return dicevalue + 1
      */
     private int usePlus(int dice) throws IllegalAccessException {
-
         pc.getCurrentPlayer().printLuckyHand();
 
         int index = 0;
@@ -621,12 +666,14 @@ public class Game {
         }
 
         if (pc.getCurrentPlayer().getLuckyCards().get(index).getName().equals(LuckyCardNames.LCPlus1.name())) {
+
+            logger.info(pc.getCurrentPlayer().getName() + " hat LCPlus1 benutzt\n");
             int value = pc.getCurrentPlayer().getLuckyCards().get(index).effect() + dice;
 
             if (value > 6) {
                 value = 6;
             }
-
+            logger.info("Neues Wuerfelergebnis: " + value + "\n");
             return value;
         } else {
             return usePlus(dice);
@@ -659,12 +706,14 @@ public class Game {
         }
 
         if (pc.getCurrentPlayer().getLuckyCards().get(index).getName().equals(LuckyCardNames.LCMinus1.name())) {
+
+            logger.info(pc.getCurrentPlayer().getName() + " hat LCMinus1 benutzt\n");
             int value = pc.getCurrentPlayer().getLuckyCards().get(index).effect() + dice;
 
             if (value < 1) {
                 value = 1;
             }
-
+            logger.info("Neues Wuerfelergebnis: " + value + "\n");
             return value;
         } else {
             return useMinus(dice);
@@ -696,6 +745,7 @@ public class Game {
         }
 
         if (pc.getCurrentPlayer().getLuckyCards().get(index).getName().equals(LuckyCardNames.LCPlusDicethrow.name())) {
+            logger.info(pc.getCurrentPlayer().getName() + " hat useReroll benutzt\n");
             return pc.getCurrentPlayer().getLuckyCards().get(index).effect();
         }
         return useReroll();
@@ -793,6 +843,8 @@ public class Game {
         }
 
         //remove the highest from current player that ended turn
+        logger.info(pc.getCurrentPlayer().getName() + " hat: " + pc.getCurrentPlayer().getCards().get(index).getName() + " " +
+                pc.getCurrentPlayer().getCards().get(index).getColor() + " weggeworfen\n");
         pc.getCurrentPlayer().getCards().remove(highest.get(index));
 
         System.out.println("NACH WEGWURF ----------------");
