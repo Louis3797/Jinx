@@ -1,10 +1,58 @@
-Nov. 23, 2022 8:25:07 PM org.jinx.game.Game play
+Nov. 23, 2022 8:33:47 PM org.jinx.game.Game play
 INFORMATION: Field set
-Nov. 23, 2022 8:25:10 PM org.jinx.game.Game throwDice
-INFORMATION: a hat eine: 2 gewuerfelt
-Nov. 23, 2022 8:25:14 PM org.jinx.game.Game throwDice
+Nov. 23, 2022 8:33:49 PM org.jinx.game.Game throwDice
+INFORMATION: a hat eine: 5 gewuerfelt
+Nov. 23, 2022 8:33:51 PM org.jinx.game.Game throwDice
 INFORMATION: a hat nochmal wuerfeln ausgewaehlt
-Nov. 23, 2022 8:25:14 PM org.jinx.game.Game throwDice
-INFORMATION: a hat eine: 1 gewuerfelt
-Nov. 23, 2022 8:25:35 PM org.jinx.game.Game pickCardsPhase
-INFORMATION: a hat Karte: 1 BLACK gewaehlt
+Nov. 23, 2022 8:33:51 PM org.jinx.game.Game throwDice
+INFORMATION: a hat eine: 6 gewuerfelt
+Nov. 23, 2022 8:33:59 PM org.jinx.game.Game pickCardsPhase
+INFORMATION: a hat Karte: 6 YELLOW gewaehlt
+Nov. 23, 2022 8:34:01 PM org.jinx.game.Game throwDice
+INFORMATION: b hat eine: 6 gewuerfelt
+Nov. 23, 2022 8:34:09 PM org.jinx.game.Game pickCardsPhase
+INFORMATION: b hat Karte: 6 CYAN gewaehlt
+Nov. 23, 2022 8:34:12 PM org.jinx.game.Game throwDice
+INFORMATION: a hat eine: 3 gewuerfelt
+Nov. 23, 2022 8:34:21 PM org.jinx.game.Game pickCardsPhase
+INFORMATION: a hat Karte: 3 CYAN gewaehlt
+Nov. 23, 2022 8:34:23 PM org.jinx.game.Game throwDice
+INFORMATION: b hat eine: 1 gewuerfelt
+Nov. 23, 2022 8:34:29 PM org.jinx.game.Game pickCardsPhase
+INFORMATION: b hat Karte: 1 BLACK gewaehlt
+Nov. 23, 2022 8:34:31 PM org.jinx.game.Game throwDice
+INFORMATION: a hat eine: 6 gewuerfelt
+Nov. 23, 2022 8:34:37 PM org.jinx.game.Game pickCardsPhase
+INFORMATION: a hat Karte: 6 BLACK gewaehlt
+Nov. 23, 2022 8:34:39 PM org.jinx.game.Game throwDice
+INFORMATION: b hat eine: 4 gewuerfelt
+Nov. 23, 2022 8:34:45 PM org.jinx.game.Game pickCardsPhase
+INFORMATION: b hat Karte: 4 CYAN gewaehlt
+Nov. 23, 2022 8:34:47 PM org.jinx.game.Game throwDice
+INFORMATION: a hat eine: 4 gewuerfelt
+Nov. 23, 2022 8:34:54 PM org.jinx.game.Game pickCardsPhase
+INFORMATION: a hat Karte: 4 BLACK gewaehlt
+Nov. 23, 2022 8:35:00 PM org.jinx.game.Game throwDice
+INFORMATION: b hat eine: 5 gewuerfelt
+Nov. 23, 2022 8:35:06 PM org.jinx.game.Game pickCardsPhase
+INFORMATION: b hat Karte: 5 CYAN gewaehlt
+Nov. 23, 2022 8:35:08 PM org.jinx.game.Game throwDice
+INFORMATION: a hat eine: 5 gewuerfelt
+Nov. 23, 2022 8:35:13 PM org.jinx.game.Game pickCardsPhase
+INFORMATION: a hat Karte: 5 BLACK gewaehlt
+Nov. 23, 2022 8:35:15 PM org.jinx.game.Game throwDice
+INFORMATION: b hat eine: 6 gewuerfelt
+Nov. 23, 2022 8:35:24 PM org.jinx.game.Game play
+INFORMATION: Field set
+Nov. 23, 2022 8:35:31 PM org.jinx.game.Game tradeForLucky
+INFORMATION: b hat: 5 CYAN gegen eine Luckycard getauscht
+Nov. 23, 2022 8:35:31 PM org.jinx.game.Game tradeForLucky
+INFORMATION: b hat: LCPlus1 gezogen
+Nov. 23, 2022 8:35:36 PM org.jinx.game.Game tradeForLucky
+INFORMATION: b hat: 4 CYAN gegen eine Luckycard getauscht
+Nov. 23, 2022 8:35:36 PM org.jinx.game.Game tradeForLucky
+INFORMATION: b hat: LCPlus1 gezogen
+Nov. 23, 2022 8:35:42 PM org.jinx.game.Game tradeForLucky
+INFORMATION: a hat: 3 CYAN gegen eine Luckycard getauscht
+Nov. 23, 2022 8:35:42 PM org.jinx.game.Game tradeForLucky
+INFORMATION: a hat: LCPlusDicethrow gezogen

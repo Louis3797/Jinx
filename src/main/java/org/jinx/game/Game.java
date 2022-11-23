@@ -639,7 +639,7 @@ public class Game {
      * @return dicevalue + 1
      */
     private int usePlus(int dice) throws IllegalAccessException {
-
+        logger.info(pc.getCurrentPlayer().getName() + " hat LCPlus1 benutzt\n");
         pc.getCurrentPlayer().printLuckyHand();
 
         int index = 0;
@@ -664,7 +664,7 @@ public class Game {
             if (value > 6) {
                 value = 6;
             }
-
+            logger.info("Neues Wuerfelergebnis: " + value);
             return value;
         } else {
             return usePlus(dice);
