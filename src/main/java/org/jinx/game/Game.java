@@ -12,7 +12,11 @@ import org.jinx.player.AutonomousPlayer;
 import org.jinx.player.Player;
 import org.jinx.wrapper.SafeScanner;
 
+import java.io.IOException;
 import java.util.*;
+import java.util.logging.FileHandler;
+import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
 
 
 public class Game {
@@ -27,6 +31,9 @@ public class Game {
 
     private final SafeScanner safeScanner;
 
+    private Logger logger;
+    FileHandler fh;
+
     public Game() {
         dice = new Dice();
 
@@ -36,6 +43,27 @@ public class Game {
 
 
         safeScanner = new SafeScanner();
+
+        initLogger();
+    }
+
+    /**
+     * initializes logger
+     */
+    private void initLogger(){
+
+        try {
+            logger = Logger.getLogger(getClass().getName());
+            fh = new FileHandler("Spielzuege.log");
+            logger.addHandler(fh);
+            SimpleFormatter formatter = new SimpleFormatter();
+            fh.setFormatter(formatter);
+            logger.setUseParentHandlers(false);
+        }
+        catch (IOException e){
+
+        }
+
     }
 
     /**
@@ -43,6 +71,7 @@ public class Game {
      */
     public void play(int currentRound) throws IllegalAccessException {
         field.setField(numberCardsDeck);
+        logger.info("Field set");
 
         if (currentRound == 1) {
             pc.next();  // initialize current player in PlayerController if it's the first round
@@ -223,6 +252,8 @@ public class Game {
             // add card to hand
             NumberCard card = availableCards.get(wantedCardIndex);
             currentPlayer.getCards().add(card);
+            logger.info(currentPlayer.getName() + " hat Karte: " + card.getName() +" " +card.getColor() + " gewaehlt");
+
 
             System.out.println("Spieler: " + currentPlayer.getName());
             currentPlayer.printHand();
@@ -278,9 +309,10 @@ public class Game {
         diceStack.push(dice.use());
 
         System.out.println("Du hast eine " + diceStack.peek() + " gewürfelt\nNochmal wuerfeln? [yes|no]");
+        logger.info(currentPlayer.getName() + " hat eine: " + diceStack.peek() + " gewuerfelt");
 
         if ((currentPlayer.isHuman() && safeScanner.nextYesNoAnswer()) || (!currentPlayer.isHuman() && ((AutonomousPlayer) currentPlayer).considerRollDiceAgain(diceStack))) {
-
+            logger.info(currentPlayer.getName() + " hat nochmal wuerfeln ausgewaehlt");
             // These two lines are only here for cosmetic reasons
             // to bring the human player a better game experience
             // by pretending that the bot can also write to the console.
@@ -288,6 +320,7 @@ public class Game {
 
             diceStack.push(dice.use());
             System.out.println("Du hast eine " + diceStack.peek() + " gewürfelt");
+            logger.info(currentPlayer.getName() + " hat eine: " + diceStack.peek() + " gewuerfelt");
         } else {
             // These two lines are only here for cosmetic reasons
             // to bring the human player a better game experience
