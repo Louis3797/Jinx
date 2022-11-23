@@ -87,7 +87,7 @@ public class Game {
                 System.out.println("Spieler: " + pc.getCurrentPlayer().getName() + "\nKarte gegen Glückskarte eintauschen? [y,yes,ja | n,no,nein]");
 
 
-                if ((pc.getCurrentPlayer().isHuman() && safeScanner.nextYesNoAnswer()) || (((AutonomousPlayer) pc.getCurrentPlayer()).considerPickLuckyCard())) {
+                if ((pc.getCurrentPlayer().isHuman() && safeScanner.nextYesNoAnswer()) || (!pc.getCurrentPlayer().isHuman() && (((AutonomousPlayer) pc.getCurrentPlayer()).considerPickLuckyCard()))) {
 
                     // These two lines are only here for cosmetic reasons
                     // to bring the human player a better game experience
