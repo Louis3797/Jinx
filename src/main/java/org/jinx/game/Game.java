@@ -50,7 +50,7 @@ public class Game {
     /**
      * initializes logger
      */
-    private void initLogger(){
+    private void initLogger() {
 
         try {
             logger = Logger.getLogger(getClass().getName());
@@ -59,8 +59,7 @@ public class Game {
             SimpleFormatter formatter = new SimpleFormatter();
             fh.setFormatter(formatter);
             logger.setUseParentHandlers(false);
-        }
-        catch (IOException e){
+        } catch (IOException e) {
 
         }
 
@@ -206,7 +205,7 @@ public class Game {
             // if true, then the round is over
             if (availableCards.isEmpty()) {
                 System.out.println("Die Runde ist zu ende");
-                logger.info("Runde beendet");
+                logger.info("Runde beendet\n");
                 // if currentPlayer is a bot, then update NumberCard weights
                 if (!currentPlayer.isHuman())
                     // dont change pc.getCurrentPlayer() to currentPlayer
@@ -254,7 +253,7 @@ public class Game {
             // add card to hand
             NumberCard card = availableCards.get(wantedCardIndex);
             currentPlayer.getCards().add(card);
-            logger.info(currentPlayer.getName() + " hat Karte: " + card.getName() +" " +card.getColor() + " gewaehlt\n");
+            logger.info(currentPlayer.getName() + " hat Karte: " + card.getName() + " " + card.getColor() + " gewaehlt\n");
 
 
             System.out.println("Spieler: " + currentPlayer.getName());
@@ -479,7 +478,7 @@ public class Game {
         }
 
         logger.info(pc.getCurrentPlayer().getName() + " hat: " + pc.getCurrentPlayer().getCards().get(index).getName() + " "
-        + pc.getCurrentPlayer().getCards().get(index).getColor() + " gegen eine Luckycard getauscht \n");
+                + pc.getCurrentPlayer().getCards().get(index).getColor() + " gegen eine Luckycard getauscht \n");
         pc.getCurrentPlayer().getCards().remove(index);
 
         LuckyCard pickedLuckyCard = luckyCardStack.pop();
@@ -574,7 +573,7 @@ public class Game {
         }
         pc.getCurrentPlayer().getCards().addAll(combinations.get(wantedCardIndex));
 
-        for(NumberCard card : combinations.get(wantedCardIndex)){
+        for (NumberCard card : combinations.get(wantedCardIndex)) {
             logger.info(pc.getCurrentPlayer().getName() + " hat: " + card.getName() + " " + card.getColor() + " bekommen\n");
         }
 
@@ -714,7 +713,7 @@ public class Game {
             if (value < 1) {
                 value = 1;
             }
-            logger.info("Neues Wuerfelergebnis: " + value +"\n");
+            logger.info("Neues Wuerfelergebnis: " + value + "\n");
             return value;
         } else {
             return useMinus(dice);
@@ -746,6 +745,7 @@ public class Game {
         }
 
         if (pc.getCurrentPlayer().getLuckyCards().get(index).getName().equals(LuckyCardNames.LCPlusDicethrow.name())) {
+            logger.info(pc.getCurrentPlayer().getName() + " hat useReroll benutzt\n");
             return pc.getCurrentPlayer().getLuckyCards().get(index).effect();
         }
         return useReroll();
@@ -843,6 +843,8 @@ public class Game {
         }
 
         //remove the highest from current player that ended turn
+        logger.info(pc.getCurrentPlayer().getName() + " hat: " + pc.getCurrentPlayer().getCards().get(index).getName() + " " +
+                pc.getCurrentPlayer().getCards().get(index).getColor() + " weggeworfen\n");
         pc.getCurrentPlayer().getCards().remove(highest.get(index));
 
         System.out.println("NACH WEGWURF ----------------");
