@@ -72,7 +72,6 @@ public class Game implements Serializable {
             pc.next();
         }
 
-        System.out.println("DATA:" + data.currentPlayer.getName());
         for (int i = 0; i < field.getFieldSize(); i++) {
             field.getField()[i] = data.field.getField()[i];
         }

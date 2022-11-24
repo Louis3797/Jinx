@@ -10,7 +10,11 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Datastructure for saving the game
+ */
 public class SaveData implements Serializable {
+
     public static final long serialVersionUID = 42L;
     public NumberCardStack deck;
     public LuckyCardStack luckyDeck;
