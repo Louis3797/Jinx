@@ -5,6 +5,7 @@ import org.jinx.player.AutonomousPlayer;
 import org.jinx.player.Player;
 import org.jinx.wrapper.SafeScanner;
 
+import java.io.Serializable;
 import java.util.*;
 import java.util.logging.Logger;
 
@@ -18,8 +19,8 @@ import static org.jinx.utils.ConsoleColor.RESET;
  * <p>
  * PlayerController uses Singleton Pattern
  */
-public class PlayerController {
-    private final Logger LOGGER = Logger.getLogger(PlayerController.class.getName());
+public class PlayerController implements Serializable {
+    private transient final Logger LOGGER = Logger.getLogger(PlayerController.class.getName());
 
     /**
      * Instance for the Singleton pattern of the PlayerController
@@ -35,7 +36,7 @@ public class PlayerController {
     /**
      * Wrapper for the Scanner
      */
-    private final SafeScanner safeScanner;
+    private transient final SafeScanner safeScanner;
 
     /**
      * Standard Constructor for the Player Controller
@@ -204,4 +205,5 @@ public class PlayerController {
     public Player getCurrentPlayer() {
         return currentPlayer;
     }
+
 }

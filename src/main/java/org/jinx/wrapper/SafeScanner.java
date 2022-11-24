@@ -1,5 +1,6 @@
 package org.jinx.wrapper;
 
+import java.io.Serializable;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -7,7 +8,7 @@ import java.util.Scanner;
  * SafeScanner is a wrapper class around the java.util.Scanner that provides predefined methodes
  * for a safe use of the Scanner class in our program
  */
-public class SafeScanner {
+public class SafeScanner implements Serializable {
 
     private final Scanner scanner;
 

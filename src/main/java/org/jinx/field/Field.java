@@ -4,11 +4,13 @@ import org.jinx.card.NumberCard;
 import org.jinx.cardstack.NumberCardStack;
 import org.jinx.utils.ConsoleColor;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Field {
+public class Field implements Serializable{
 
+    public static final long serialVersionUID = 42L;
     /**
      * Instance for singleton
      */

@@ -3,19 +3,18 @@ package org.jinx.game;
 import org.jinx.card.NumberCard;
 import org.jinx.highscore.HighScore;
 import org.jinx.player.Player;
+import org.jinx.savestate.ResourceManager;
+import org.jinx.savestate.SaveData;
 import org.jinx.wrapper.SafeScanner;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.*;
 import java.util.logging.Logger;
 
 import static org.jinx.utils.ConsoleColor.*;
 import static org.jinx.utils.ConsoleColor.WHITE_BOLD_BRIGHT;
 
-public class GameController {
+public class GameController implements Serializable {
 
     private final Logger LOGGER = Logger.getLogger(GameController.class.getName());
 
@@ -23,12 +22,17 @@ public class GameController {
 
     private final List<HighScore> highScoreList;
 
+    private SaveData data;
+
+    public static final long serialVersionUID = 42L;
+
     /**
      * Basic Constructor of the GameController class
      */
     public GameController() {
         pc = PlayerController.getPlayerControllerInstance();
         highScoreList = new ArrayList<>();
+        data = new SaveData();
     }
 
     /**
@@ -36,7 +40,7 @@ public class GameController {
      */
     public void startSequenz() {
 
-        System.out.println(BLUE_BOLD +"      _   ___   _   _  __  __");
+        System.out.println(BLUE_BOLD + "      _   ___   _   _  __  __");
         System.out.println("     | | |_ _| | \\ | | \\ \\/ /");
         System.out.println("  _  | |  | |  |  \\| |  \\  / ");
         System.out.println(" | |_| |  | |  | |\\  |  /  \\ ");
@@ -55,35 +59,35 @@ public class GameController {
     /**
      * prints endlogo and score
      */
-    public void endSequenz(){
+    public void endSequenz() {
 
         System.out.println(
-                        RED_BOLD_BRIGHT +"*%%%%     %%%%%(    %%%%% .%%%%  %%%%%%       %%%%\n" +
-                        GREEN_BOLD_BRIGHT +" %%%%*   %%%%%%%    %%%%  .%%%%  %%%%%%%%     %%%%\n" +
-                        YELLOW_BOLD_BRIGHT +"  %%%%  #%%% %%%%  %%%%#  .%%%%  %%%%%%%%%*   %%%%\n" +
-                        BLUE_BOLD_BRIGHT +"  %%%%/ %%%%  %%%. %%%%   .%%%%  %%%%%  %%%%  %%%%\n" +
-                        PINK_BOLD_BRIGHT +"   %%%%%%%%   %%%%%%%%    .%%%%  %%%%%   %%%%%%%%%\n" +
-                        CYAN_BOLD_BRIGHT +"   ,%%%%%%     %%%%%%%    .%%%%  %%%%%     %%%%%%%\n" +
-                        WHITE_BOLD_BRIGHT +"    %%%%%%     .%%%%%     .%%%%  %%%%%      %%%%%%");
+                RED_BOLD_BRIGHT + "*%%%%     %%%%%(    %%%%% .%%%%  %%%%%%       %%%%\n" +
+                        GREEN_BOLD_BRIGHT + " %%%%*   %%%%%%%    %%%%  .%%%%  %%%%%%%%     %%%%\n" +
+                        YELLOW_BOLD_BRIGHT + "  %%%%  #%%% %%%%  %%%%#  .%%%%  %%%%%%%%%*   %%%%\n" +
+                        BLUE_BOLD_BRIGHT + "  %%%%/ %%%%  %%%. %%%%   .%%%%  %%%%%  %%%%  %%%%\n" +
+                        PINK_BOLD_BRIGHT + "   %%%%%%%%   %%%%%%%%    .%%%%  %%%%%   %%%%%%%%%\n" +
+                        CYAN_BOLD_BRIGHT + "   ,%%%%%%     %%%%%%%    .%%%%  %%%%%     %%%%%%%\n" +
+                        WHITE_BOLD_BRIGHT + "    %%%%%%     .%%%%%     .%%%%  %%%%%      %%%%%%");
 
-        System.out.println("\n" + WHITE_BACKGROUND + "Spielende!"+RESET);
+        System.out.println("\n" + WHITE_BACKGROUND + "Spielende!" + RESET);
 
-        Map<String,Integer> winner = new HashMap<>();
+        Map<String, Integer> winner = new HashMap<>();
 
-        for(Player player : pc.getPlayers()){
+        for (Player player : pc.getPlayers()) {
             int total = 0;
-            for(NumberCard card :player.getCards()){
+            for (NumberCard card : player.getCards()) {
                 total += Integer.parseInt(card.getName());
             }
-            winner.put(player.getName(),total);
+            winner.put(player.getName(), total);
         }
 
         System.out.println(winner);
 
         int max = Collections.max(winner.values());
 
-        for(Map.Entry<String, Integer> entry : winner.entrySet()){
-            if(max == entry.getValue()){
+        for (Map.Entry<String, Integer> entry : winner.entrySet()) {
+            if (max == entry.getValue()) {
                 System.out.println("Gewinner ist: " + PINK_BOLD_BRIGHT + entry.getKey() + RESET);
             }
         }
@@ -93,7 +97,9 @@ public class GameController {
     /**
      * Method starts the game
      */
-    public void start() throws IllegalAccessException {
+    public void start() throws Exception {
+        SafeScanner scanner = new SafeScanner();
+
         // Load old Highscores
         getOldHighScores();
 
@@ -102,16 +108,37 @@ public class GameController {
 
         Game g1 = new Game();
 
-        pc.addPlayers();
 
-        System.out.println(WHITE_BOLD_BRIGHT);
-        // i is the current round
-        for (int i = 1; i < 4; i++) {
-            g1.play(i);
+        File saveState = new File("gamestate.save");
+
+        // if savestate exists
+        System.out.println(saveState.length() !=0 ? "Savestate laden?" : "");
+        if ((saveState.length() != 0) && scanner.nextYesNoAnswer()) {
+
+            // loads saved state
+            data = (SaveData) ResourceManager.load("gamestate.save");
+            g1.loadSavestate();
+            g1.loadState = true;
+
+            // starts round
+            for (int i = data.currentRound; i < 4; i++) {
+                g1.play(i);
+            }
+
+        }
+        else {
+            pc.addPlayers();
+            // initialize without savefile
+            g1.initializeDecks();
+            // starts round
+            for (int i = 1; i < 4; i++) {
+                g1.play(i);
+            }
         }
 
         endSequenz();
         writeHighScoreToFile();
+        clearSave();
 
         // clear everything from current round
         pc.getPlayers().clear();
@@ -119,9 +146,20 @@ public class GameController {
         System.out.println("Nochmal spielen?");
 
         // start a new game
-        SafeScanner scanner = new SafeScanner();
-        if(scanner.nextYesNoAnswer()){
+        if (scanner.nextYesNoAnswer()) {
             start();
+        }
+
+    }
+
+    /**
+     * clears savefile after match ends
+     */
+    private void clearSave() {
+        try {
+            new FileOutputStream("gamestate.save").close();
+        } catch (IOException e) {
+            System.out.println("File nicht vorhanden");
         }
 
     }
@@ -130,7 +168,6 @@ public class GameController {
      * Method reads all highscore data from Highscore.txt and adds it to highScoreList as Highscore Record
      */
     private void getOldHighScores() {
-
 
         try {
             BufferedReader reader = new BufferedReader(new FileReader("Highscore.txt"));

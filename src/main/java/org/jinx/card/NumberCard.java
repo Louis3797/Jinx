@@ -4,7 +4,7 @@ import org.jinx.utils.ConsoleColor;
 
 import java.util.List;
 
-public class NumberCard extends Card {
+public class NumberCard extends Card{
 
     private final CardColor color;
 

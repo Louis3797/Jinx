@@ -10,41 +10,91 @@ import org.jinx.field.Field;
 import org.jinx.player.AgentDifficulty;
 import org.jinx.player.AutonomousPlayer;
 import org.jinx.player.Player;
+import org.jinx.savestate.ResourceManager;
+import org.jinx.savestate.SaveData;
 import org.jinx.wrapper.SafeScanner;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.*;
 import java.util.logging.FileHandler;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
 
-public class Game {
+public class Game implements Serializable {
 
     private final PlayerController pc = PlayerController.getPlayerControllerInstance();
 
     private final Dice dice;
-    private final NumberCardStack numberCardsDeck;
-    private final LuckyCardStack luckyCardStack;
+    private NumberCardStack numberCardsDeck;
+    private LuckyCardStack luckyCardStack;
 
-    private final Field field = Field.getFieldInstance();
+    private Field field = Field.getFieldInstance();
 
     private final SafeScanner safeScanner;
+    public boolean loadState = false;
+    private SaveData data;
 
-    private Logger logger;
+    private transient Logger logger;
     FileHandler fh;
 
+    public static final long serialVersionUID = 42L;
+
     public Game() {
+
+        data = new SaveData();
+
         dice = new Dice();
-
-        numberCardsDeck = new NumberCardStack();
-
-        luckyCardStack = new LuckyCardStack();
-
 
         safeScanner = new SafeScanner();
 
         initLogger();
+
+    }
+
+    /**
+     * loads savestate of interrupted game
+     *
+     * @throws Exception file exception
+     */
+    public void loadSavestate() throws Exception {
+        data = (SaveData) ResourceManager.load("gamestate.save");
+
+        for(Player key : data.map.keySet()){
+            pc.getPlayers().add(key);
+        }
+
+        numberCardsDeck = data.deck;
+        luckyCardStack = data.luckyDeck;
+
+        while(pc.getCurrentPlayer() != data.currentPlayer){
+            pc.next();
+        }
+
+        for (int i = 0; i < field.getFieldSize(); i++) {
+            field.getField()[i] = data.field.getField()[i];
+        }
+    }
+
+    /**
+     * initializes decks not loaded from file
+     */
+    public void initializeDecks() {
+        luckyCardStack = new LuckyCardStack();
+
+        numberCardsDeck = new NumberCardStack();
+
+        data.deck = numberCardsDeck;
+        data.luckyDeck = luckyCardStack;
+
+        data.map = new HashMap<>();
+
+        for(Player player : pc.getPlayers()){
+            data.map.put(player,player.getCards());
+        }
+
+        ResourceManager.save(data, "gamestate.save");
     }
 
     /**
@@ -68,44 +118,59 @@ public class Game {
     /**
      * This method controls the gameflow for each round
      */
-    public void play(int currentRound) throws IllegalAccessException {
-        field.setField(numberCardsDeck);
-        logger.info("Field set\n");
+    public void play(int currentRound) throws Exception {
 
-        if (currentRound == 1) {
-            pc.next();  // initialize current player in PlayerController if it's the first round
+        data.currentRound = currentRound;
+        ResourceManager.save(data,"gamestate.save");
 
-
+        if(loadState){
+            loadState = false;
+            //loads from file
+            System.out.println("Runde " + currentRound);
         }
-
-        System.out.println("Runde " + currentRound);
-
-        // if we are not in round 1, then we can trade
-        if (currentRound >= 2 && !luckyCardStack.isEmpty()) {
-            for (int i = 0; i < pc.getPlayers().size(); i++) {
-
-                System.out.println("Spieler: " + pc.getCurrentPlayer().getName() + "\nKarte gegen Glückskarte eintauschen? [y,yes,ja | n,no,nein]");
+        else {
+            field.setField(numberCardsDeck);
 
 
-                if ((pc.getCurrentPlayer().isHuman() && safeScanner.nextYesNoAnswer()) || (!pc.getCurrentPlayer().isHuman() && (((AutonomousPlayer) pc.getCurrentPlayer()).considerPickLuckyCard()))) {
+            data.field = field;
+            ResourceManager.save(data, "gamestate.save");
 
-                    // These two lines are only here for cosmetic reasons
-                    // to bring the human player a better game experience
-                    // by pretending that the bot can also write to the console.
-                    if (!pc.getCurrentPlayer().isHuman()) System.out.println("yes");
+            logger.info("Field set\n");
 
-                    tradeForLucky();
-                    pc.getCurrentPlayer().printLuckyHand();
+            if (currentRound == 1) {
+                pc.next();  // initialize current player in PlayerController if it's the first round
 
-                } else {
-                    // These two lines are only here for cosmetic reasons
-                    // to bring the human player a better game experience
-                    // by pretending that the bot can also write to the console.
-                    if (!pc.getCurrentPlayer().isHuman()) System.out.println("no");
-                }
-                pc.next();
             }
 
+            System.out.println("Runde " + currentRound);
+
+            // if we are not in round 1, then we can trade
+            if (currentRound >= 2 && !luckyCardStack.isEmpty()) {
+                for (int i = 0; i < pc.getPlayers().size(); i++) {
+
+                    System.out.println("Spieler: " + pc.getCurrentPlayer().getName() + "\nKarte gegen Glückskarte eintauschen? [y,yes,ja | n,no,nein]");
+
+
+                    if ((pc.getCurrentPlayer().isHuman() && safeScanner.nextYesNoAnswer()) || (!pc.getCurrentPlayer().isHuman() && (((AutonomousPlayer) pc.getCurrentPlayer()).considerPickLuckyCard()))) {
+
+                        // These two lines are only here for cosmetic reasons
+                        // to bring the human player a better game experience
+                        // by pretending that the bot can also write to the console.
+                        if (!pc.getCurrentPlayer().isHuman()) System.out.println("yes");
+
+                        tradeForLucky();
+                        pc.getCurrentPlayer().printLuckyHand();
+
+                    } else {
+                        // These two lines are only here for cosmetic reasons
+                        // to bring the human player a better game experience
+                        // by pretending that the bot can also write to the console.
+                        if (!pc.getCurrentPlayer().isHuman()) System.out.println("no");
+                    }
+                    pc.next();
+                }
+
+            }
         }
 
         pickCardsPhase();
@@ -218,11 +283,6 @@ public class Game {
             System.out.println("---------------");
             // choose a card
             System.out.println("Wählen sie eine Karte aus: ");
-//            try {
-//                Thread.sleep(4000);
-//            } catch (InterruptedException e) {
-//                throw new RuntimeException(e);
-//            }
 
             if (currentPlayer.isHuman()) {
                 System.out.println("Wollen sie ein Tipp kriegen?");
@@ -255,12 +315,18 @@ public class Game {
             currentPlayer.getCards().add(card);
             logger.info(currentPlayer.getName() + " hat Karte: " + card.getName() + " " + card.getColor() + " gewaehlt\n");
 
+            // serializes player hand
+            data.map.put(pc.getCurrentPlayer(), pc.getCurrentPlayer().getCards());
 
             System.out.println("Spieler: " + currentPlayer.getName());
             currentPlayer.printHand();
             System.out.println("---------------");
             // remove card that the player chose from field
             field.removeChosenCard(card);
+
+            // serializes field
+            data.field = field;
+            ResourceManager.save(data, "gamestate.save");
 
             // switch to next player
             pc.next();
@@ -280,6 +346,8 @@ public class Game {
     private int throwDice() throws IllegalAccessException {
 
         Player currentPlayer = pc.getCurrentPlayer();
+        data.currentPlayer = currentPlayer;
+        ResourceManager.save(data,"gamestate.save");
 
         Stack<Integer> diceStack = new Stack<>();
 

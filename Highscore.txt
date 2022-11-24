@@ -1,7 +1,7 @@
-0,a
-0,b
-0,a
-0,b
-0,a
-18,bot1
-36,bot1
+0,n
+0,Jan
+1,Freddy
+3,a
+7,Freddy
+10,Kerim
+16,Jan
