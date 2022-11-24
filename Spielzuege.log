@@ -1,3 +1,33 @@
-Nov. 24, 2022 4:35:51 PM org.jinx.game.Game play
+Nov. 24, 2022 5:33:23 PM org.jinx.game.Game play
 INFO: Field set
+
+Nov. 24, 2022 5:33:48 PM org.jinx.game.Game throwDice
+INFO: n hat eine: 4 gewuerfelt
+
+Nov. 24, 2022 5:33:51 PM org.jinx.game.Game pickCardsPhase
+INFO: n hat Karte: 4 RED gewaehlt
+
+Nov. 24, 2022 5:33:52 PM org.jinx.game.Game throwDice
+INFO: a hat eine: 3 gewuerfelt
+
+Nov. 24, 2022 5:33:55 PM org.jinx.game.Game pickCardsPhase
+INFO: a hat Karte: 3 PINK gewaehlt
+
+Nov. 24, 2022 5:33:56 PM org.jinx.game.Game throwDice
+INFO: n hat eine: 6 gewuerfelt
+
+Nov. 24, 2022 5:33:59 PM org.jinx.game.Game pickCardsPhase
+INFO: n hat Karte: 6 BLACK gewaehlt
+
+Nov. 24, 2022 5:34:00 PM org.jinx.game.Game throwDice
+INFO: a hat eine: 4 gewuerfelt
+
+Nov. 24, 2022 5:34:03 PM org.jinx.game.Game pickCardsPhase
+INFO: a hat Karte: 4 WHITE gewaehlt
+
+Nov. 24, 2022 5:34:04 PM org.jinx.game.Game throwDice
+INFO: n hat eine: 2 gewuerfelt
+
+Nov. 24, 2022 5:34:05 PM org.jinx.game.Game pickCardsPhase
+INFO: Runde beendet
 

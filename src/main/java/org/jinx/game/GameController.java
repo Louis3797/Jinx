@@ -105,6 +105,10 @@ public class GameController implements Serializable {
         System.out.println("Savestate laden?");
         if (scanner.nextYesNoAnswer()){
             g1.loadSavestate();
+            g1.loadState = true;
+        }
+        else {
+            g1.initializeDecks();
         }
 
         System.out.println(WHITE_BOLD_BRIGHT);
@@ -132,7 +136,6 @@ public class GameController implements Serializable {
      * Method reads all highscore data from Highscore.txt and adds it to highScoreList as Highscore Record
      */
     private void getOldHighScores() {
-
 
         try {
             BufferedReader reader = new BufferedReader(new FileReader("Highscore.txt"));

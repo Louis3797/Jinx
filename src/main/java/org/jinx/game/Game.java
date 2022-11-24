@@ -28,23 +28,22 @@ public class Game implements Serializable {
 
     private final Dice dice;
     private NumberCardStack numberCardsDeck;
-    private final LuckyCardStack luckyCardStack;
+    private LuckyCardStack luckyCardStack;
 
-    private final Field field = Field.getFieldInstance();
+    private Field field = Field.getFieldInstance();
 
     private final SafeScanner safeScanner;
-
+    public boolean loadState = false;
+    private SaveData data;
 
     private transient Logger logger;
     FileHandler fh;
 
     public Game() throws Exception {
 
+        data = new SaveData();
+
         dice = new Dice();
-
-        luckyCardStack = new LuckyCardStack();
-
-        numberCardsDeck = new NumberCardStack();
 
         safeScanner = new SafeScanner();
 
@@ -52,9 +51,28 @@ public class Game implements Serializable {
 
     }
 
+    /**
+     * loads savestate of interrupted game
+     *
+     * @throws Exception file exception
+     */
     public void loadSavestate() throws Exception {
-        SaveData data = (SaveData) ResourceManager.load("gamestate.save");
+        data = (SaveData) ResourceManager.load("gamestate.save");
         numberCardsDeck = data.deck;
+        luckyCardStack = data.luckyDeck;
+        for (int i = 0; i < field.getFieldSize(); i++) {
+            field.getField()[i] = data.field.getField()[i];
+        }
+    }
+
+    public void initializeDecks() {
+        luckyCardStack = new LuckyCardStack();
+
+        numberCardsDeck = new NumberCardStack();
+
+        data.deck = numberCardsDeck;
+        data.luckyDeck = luckyCardStack;
+        ResourceManager.save(data, "gamestate.save");
     }
 
     /**
@@ -79,7 +97,14 @@ public class Game implements Serializable {
      * This method controls the gameflow for each round
      */
     public void play(int currentRound) throws Exception {
-        field.setField(numberCardsDeck);
+        if(loadState){
+            loadState = false;
+            //loads from file
+        }
+        else {
+            field.setField(numberCardsDeck);
+        }
+
         logger.info("Field set\n");
 
         if (currentRound == 1) {
@@ -271,6 +296,10 @@ public class Game implements Serializable {
             System.out.println("---------------");
             // remove card that the player chose from field
             field.removeChosenCard(card);
+
+            // serializes field
+            data.field = field;
+            ResourceManager.save(data, "gamestate.save");
 
             // switch to next player
             pc.next();
