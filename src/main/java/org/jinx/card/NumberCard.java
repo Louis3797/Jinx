@@ -2,10 +2,9 @@ package org.jinx.card;
 
 import org.jinx.utils.ConsoleColor;
 
-import java.io.Serializable;
 import java.util.List;
 
-public class NumberCard extends Card implements Serializable {
+public class NumberCard extends Card{
 
     private final CardColor color;
 

@@ -39,7 +39,9 @@ public class Game implements Serializable {
     private transient Logger logger;
     FileHandler fh;
 
-    public Game() throws Exception {
+    public static final long serialVersionUID = 42L;
+
+    public Game() {
 
         data = new SaveData();
 
@@ -58,8 +60,10 @@ public class Game implements Serializable {
      */
     public void loadSavestate() throws Exception {
         data = (SaveData) ResourceManager.load("gamestate.save");
+
         numberCardsDeck = data.deck;
         luckyCardStack = data.luckyDeck;
+
         for (int i = 0; i < field.getFieldSize(); i++) {
             field.getField()[i] = data.field.getField()[i];
         }
@@ -97,19 +101,27 @@ public class Game implements Serializable {
      * This method controls the gameflow for each round
      */
     public void play(int currentRound) throws Exception {
+
+
+        data.currentRound = currentRound;
+        ResourceManager.save(data,"gamestate.save");
+
         if(loadState){
             loadState = false;
+            pc.next();
             //loads from file
         }
         else {
             field.setField(numberCardsDeck);
         }
 
+        data.field = field;
+        ResourceManager.save(data, "gamestate.save");
+
         logger.info("Field set\n");
 
         if (currentRound == 1) {
             pc.next();  // initialize current player in PlayerController if it's the first round
-
 
         }
 

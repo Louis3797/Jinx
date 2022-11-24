@@ -7,7 +7,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 public class ResourceManager implements Serializable{
-
+    public static final long serialVersionUID = 42L;
     public static void save(Serializable data, String filename){
         try(ObjectOutputStream oos = new ObjectOutputStream(Files.newOutputStream(Paths.get(filename)))){
             oos.writeObject(data);

@@ -10,6 +10,7 @@ import java.util.List;
 
 public class Field implements Serializable{
 
+    public static final long serialVersionUID = 42L;
     /**
      * Instance for singleton
      */

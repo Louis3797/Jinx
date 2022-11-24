@@ -7,7 +7,7 @@ import org.jinx.field.Field;
 import java.io.Serializable;
 
 public class SaveData implements Serializable {
-
+    public static final long serialVersionUID = 42L;
     public NumberCardStack deck;
     public LuckyCardStack luckyDeck;
     public Field field;

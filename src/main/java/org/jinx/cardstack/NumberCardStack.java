@@ -16,6 +16,8 @@ public class NumberCardStack extends Stack<NumberCard> implements Serializable {
 
     private transient final Logger LOGGER = Logger.getLogger(NumberCardStack.class.getName());
 
+    public static final long serialVersionUID = 42L;
+
     public NumberCardStack() {
         generateDeck();
     }
