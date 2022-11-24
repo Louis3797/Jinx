@@ -17,5 +17,6 @@ public class SaveData implements Serializable {
     public Field field;
     public int currentRound;
     public Map<Player,List<NumberCard>> map;
+    public Player currentPlayer;
 
 }

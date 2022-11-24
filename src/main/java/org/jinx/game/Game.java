@@ -61,9 +61,18 @@ public class Game implements Serializable {
     public void loadSavestate() throws Exception {
         data = (SaveData) ResourceManager.load("gamestate.save");
 
+        for(Player key : data.map.keySet()){
+            pc.getPlayers().add(key);
+        }
+
         numberCardsDeck = data.deck;
         luckyCardStack = data.luckyDeck;
 
+        while(pc.getCurrentPlayer() != data.currentPlayer){
+            pc.next();
+        }
+
+        System.out.println("DATA:" + data.currentPlayer.getName());
         for (int i = 0; i < field.getFieldSize(); i++) {
             field.getField()[i] = data.field.getField()[i];
         }
@@ -79,6 +88,13 @@ public class Game implements Serializable {
 
         data.deck = numberCardsDeck;
         data.luckyDeck = luckyCardStack;
+
+        data.map = new HashMap<>();
+
+        for(Player player : pc.getPlayers()){
+            data.map.put(player,player.getCards());
+        }
+
         ResourceManager.save(data, "gamestate.save");
     }
 
@@ -105,13 +121,11 @@ public class Game implements Serializable {
      */
     public void play(int currentRound) throws Exception {
 
-
         data.currentRound = currentRound;
         ResourceManager.save(data,"gamestate.save");
 
         if(loadState){
             loadState = false;
-            pc.next();
             //loads from file
             System.out.println("Runde " + currentRound);
         }
@@ -302,6 +316,8 @@ public class Game implements Serializable {
             currentPlayer.getCards().add(card);
             logger.info(currentPlayer.getName() + " hat Karte: " + card.getName() + " " + card.getColor() + " gewaehlt\n");
 
+            // serializes player hand
+            data.map.put(pc.getCurrentPlayer(), pc.getCurrentPlayer().getCards());
 
             System.out.println("Spieler: " + currentPlayer.getName());
             currentPlayer.printHand();
@@ -331,6 +347,8 @@ public class Game implements Serializable {
     private int throwDice() throws IllegalAccessException {
 
         Player currentPlayer = pc.getCurrentPlayer();
+        data.currentPlayer = currentPlayer;
+        ResourceManager.save(data,"gamestate.save");
 
         Stack<Integer> diceStack = new Stack<>();
 

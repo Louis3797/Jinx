@@ -1,0 +1,45 @@
+Nov. 24, 2022 10:15:43 PM org.jinx.game.Game throwDice
+INFO: Kerim hat eine: 6 gewuerfelt
+
+Nov. 24, 2022 10:15:47 PM org.jinx.game.Game pickCardsPhase
+INFO: Kerim hat Karte: 6 GREEN gewaehlt
+
+Nov. 24, 2022 10:15:48 PM org.jinx.game.Game throwDice
+INFO: Freddy hat eine: 5 gewuerfelt
+
+Nov. 24, 2022 10:15:51 PM org.jinx.game.Game pickCardsPhase
+INFO: Freddy hat Karte: 5 RED gewaehlt
+
+Nov. 24, 2022 10:15:52 PM org.jinx.game.Game throwDice
+INFO: Jan hat eine: 5 gewuerfelt
+
+Nov. 24, 2022 10:15:54 PM org.jinx.game.Game pickCardsPhase
+INFO: Jan hat Karte: 5 CYAN gewaehlt
+
+Nov. 24, 2022 10:15:55 PM org.jinx.game.Game throwDice
+INFO: Kerim hat eine: 5 gewuerfelt
+
+Nov. 24, 2022 10:15:57 PM org.jinx.game.Game pickCardsPhase
+INFO: Kerim hat Karte: 5 YELLOW gewaehlt
+
+Nov. 24, 2022 10:15:58 PM org.jinx.game.Game throwDice
+INFO: Freddy hat eine: 3 gewuerfelt
+
+Nov. 24, 2022 10:16:01 PM org.jinx.game.Game pickCardsPhase
+INFO: Freddy hat Karte: 3 PINK gewaehlt
+
+Nov. 24, 2022 10:16:02 PM org.jinx.game.Game throwDice
+INFO: Jan hat eine: 1 gewuerfelt
+
+Nov. 24, 2022 10:16:05 PM org.jinx.game.Game pickCardsPhase
+INFO: Jan hat Karte: 1 BLUE gewaehlt
+
+Nov. 24, 2022 10:16:06 PM org.jinx.game.Game throwDice
+INFO: Kerim hat eine: 5 gewuerfelt
+
+Nov. 24, 2022 10:16:07 PM org.jinx.game.Game pickCardsPhase
+INFO: Runde beendet
+
+Nov. 24, 2022 10:16:10 PM org.jinx.game.Game discard
+INFO: Kerim hat: 1 GREEN weggeworfen
+

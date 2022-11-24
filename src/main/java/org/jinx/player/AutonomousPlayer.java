@@ -6,13 +6,14 @@ import org.jinx.field.Field;
 import org.jinx.game.PlayerController;
 import org.jinx.utils.Weight;
 
+import java.io.Serializable;
 import java.util.*;
 
 /**
  * The Autonomous Player Class represents a Player that can play the game on its own.
  * He can calculate his next move based on 3 difficulty levels
  */
-public class AutonomousPlayer extends Player {
+public class AutonomousPlayer extends Player implements Serializable {
 
     /**
      * Player Controller instance
