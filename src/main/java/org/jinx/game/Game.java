@@ -551,6 +551,9 @@ public class Game implements Serializable {
 
         LuckyCard pickedLuckyCard = luckyCardStack.pop();
 
+        data.luckyDeck = luckyCardStack;
+        ResourceManager.save(data,"gamestate.save");
+
         System.out.println("Sie haben die LuckyCard " + pickedLuckyCard.getName() + " gezogen");
         logger.info(pc.getCurrentPlayer().getName() + " hat: " + pickedLuckyCard.getName() + " gezogen\n");
 
