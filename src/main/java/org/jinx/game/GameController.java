@@ -111,7 +111,7 @@ public class GameController implements Serializable {
 
         File saveState = new File("gamestate.save");
 
-        System.out.println("Savestate laden?");
+        System.out.println(saveState.length() !=0 ? "Savestate laden?" : "");
         if ((saveState.length() != 0) && scanner.nextYesNoAnswer()) {
 
             // loads saved state

@@ -707,8 +707,7 @@ public class AutonomousPlayer extends Player implements Serializable {
                 return cardWeight.reason();
             }
         }
-
-        throw new IllegalArgumentException("Weight for Card does not exist!");
+        return "Weight for Card does not exist!";
     }
 
     public NumberCard givePlayerTip(Player player, List<NumberCard> availableCards) {
