@@ -110,49 +110,51 @@ public class Game implements Serializable {
             loadState = false;
             pc.next();
             //loads from file
+            System.out.println("Runde " + currentRound);
         }
         else {
             field.setField(numberCardsDeck);
-        }
-
-        data.field = field;
-        ResourceManager.save(data, "gamestate.save");
-
-        logger.info("Field set\n");
-
-        if (currentRound == 1) {
-            pc.next();  // initialize current player in PlayerController if it's the first round
-
-        }
-
-        System.out.println("Runde " + currentRound);
-
-        // if we are not in round 1, then we can trade
-        if (currentRound >= 2 && !luckyCardStack.isEmpty()) {
-            for (int i = 0; i < pc.getPlayers().size(); i++) {
-
-                System.out.println("Spieler: " + pc.getCurrentPlayer().getName() + "\nKarte gegen Glückskarte eintauschen? [y,yes,ja | n,no,nein]");
 
 
-                if ((pc.getCurrentPlayer().isHuman() && safeScanner.nextYesNoAnswer()) || (!pc.getCurrentPlayer().isHuman() && (((AutonomousPlayer) pc.getCurrentPlayer()).considerPickLuckyCard()))) {
+            data.field = field;
+            ResourceManager.save(data, "gamestate.save");
 
-                    // These two lines are only here for cosmetic reasons
-                    // to bring the human player a better game experience
-                    // by pretending that the bot can also write to the console.
-                    if (!pc.getCurrentPlayer().isHuman()) System.out.println("yes");
+            logger.info("Field set\n");
 
-                    tradeForLucky();
-                    pc.getCurrentPlayer().printLuckyHand();
+            if (currentRound == 1) {
+                pc.next();  // initialize current player in PlayerController if it's the first round
 
-                } else {
-                    // These two lines are only here for cosmetic reasons
-                    // to bring the human player a better game experience
-                    // by pretending that the bot can also write to the console.
-                    if (!pc.getCurrentPlayer().isHuman()) System.out.println("no");
-                }
-                pc.next();
             }
 
+            System.out.println("Runde " + currentRound);
+
+            // if we are not in round 1, then we can trade
+            if (currentRound >= 2 && !luckyCardStack.isEmpty()) {
+                for (int i = 0; i < pc.getPlayers().size(); i++) {
+
+                    System.out.println("Spieler: " + pc.getCurrentPlayer().getName() + "\nKarte gegen Glückskarte eintauschen? [y,yes,ja | n,no,nein]");
+
+
+                    if ((pc.getCurrentPlayer().isHuman() && safeScanner.nextYesNoAnswer()) || (!pc.getCurrentPlayer().isHuman() && (((AutonomousPlayer) pc.getCurrentPlayer()).considerPickLuckyCard()))) {
+
+                        // These two lines are only here for cosmetic reasons
+                        // to bring the human player a better game experience
+                        // by pretending that the bot can also write to the console.
+                        if (!pc.getCurrentPlayer().isHuman()) System.out.println("yes");
+
+                        tradeForLucky();
+                        pc.getCurrentPlayer().printLuckyHand();
+
+                    } else {
+                        // These two lines are only here for cosmetic reasons
+                        // to bring the human player a better game experience
+                        // by pretending that the bot can also write to the console.
+                        if (!pc.getCurrentPlayer().isHuman()) System.out.println("no");
+                    }
+                    pc.next();
+                }
+
+            }
         }
 
         pickCardsPhase();
