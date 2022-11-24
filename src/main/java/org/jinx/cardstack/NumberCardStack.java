@@ -4,6 +4,7 @@ import org.jinx.card.CardColor;
 import org.jinx.card.NumberCard;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Collections;
@@ -11,9 +12,9 @@ import java.util.List;
 import java.util.Stack;
 import java.util.logging.Logger;
 
-public class NumberCardStack extends Stack<NumberCard> {
+public class NumberCardStack extends Stack<NumberCard> implements Serializable {
 
-    private final Logger LOGGER = Logger.getLogger(NumberCardStack.class.getName());
+    private transient final Logger LOGGER = Logger.getLogger(NumberCardStack.class.getName());
 
     public NumberCardStack() {
         generateDeck();

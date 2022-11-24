@@ -10,41 +10,51 @@ import org.jinx.field.Field;
 import org.jinx.player.AgentDifficulty;
 import org.jinx.player.AutonomousPlayer;
 import org.jinx.player.Player;
+import org.jinx.savestate.ResourceManager;
+import org.jinx.savestate.SaveData;
 import org.jinx.wrapper.SafeScanner;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.*;
 import java.util.logging.FileHandler;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
 
-public class Game {
+public class Game implements Serializable {
 
     private final PlayerController pc = PlayerController.getPlayerControllerInstance();
 
     private final Dice dice;
-    private final NumberCardStack numberCardsDeck;
+    private NumberCardStack numberCardsDeck;
     private final LuckyCardStack luckyCardStack;
 
     private final Field field = Field.getFieldInstance();
 
     private final SafeScanner safeScanner;
 
-    private Logger logger;
+
+    private transient Logger logger;
     FileHandler fh;
 
-    public Game() {
-        dice = new Dice();
+    public Game() throws Exception {
 
-        numberCardsDeck = new NumberCardStack();
+        dice = new Dice();
 
         luckyCardStack = new LuckyCardStack();
 
+        numberCardsDeck = new NumberCardStack();
 
         safeScanner = new SafeScanner();
 
         initLogger();
+
+    }
+
+    public void loadSavestate() throws Exception {
+        SaveData data = (SaveData) ResourceManager.load("gamestate.save");
+        numberCardsDeck = data.deck;
     }
 
     /**
@@ -68,7 +78,7 @@ public class Game {
     /**
      * This method controls the gameflow for each round
      */
-    public void play(int currentRound) throws IllegalAccessException {
+    public void play(int currentRound) throws Exception {
         field.setField(numberCardsDeck);
         logger.info("Field set\n");
 

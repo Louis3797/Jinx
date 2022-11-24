@@ -1,6 +1,8 @@
 package org.jinx.card;
 
-public abstract class Card {
+import java.io.Serializable;
+
+public abstract class Card implements Serializable {
 
     private final String name;
 

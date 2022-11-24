@@ -5,17 +5,14 @@ import org.jinx.highscore.HighScore;
 import org.jinx.player.Player;
 import org.jinx.wrapper.SafeScanner;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.*;
 import java.util.logging.Logger;
 
 import static org.jinx.utils.ConsoleColor.*;
 import static org.jinx.utils.ConsoleColor.WHITE_BOLD_BRIGHT;
 
-public class GameController {
+public class GameController implements Serializable {
 
     private final Logger LOGGER = Logger.getLogger(GameController.class.getName());
 
@@ -93,7 +90,8 @@ public class GameController {
     /**
      * Method starts the game
      */
-    public void start() throws IllegalAccessException {
+    public void start() throws Exception {
+        SafeScanner scanner = new SafeScanner();
         // Load old Highscores
         getOldHighScores();
 
@@ -103,6 +101,11 @@ public class GameController {
         Game g1 = new Game();
 
         pc.addPlayers();
+
+        System.out.println("Savestate laden?");
+        if (scanner.nextYesNoAnswer()){
+            g1.loadSavestate();
+        }
 
         System.out.println(WHITE_BOLD_BRIGHT);
         // i is the current round
@@ -119,7 +122,6 @@ public class GameController {
         System.out.println("Nochmal spielen?");
 
         // start a new game
-        SafeScanner scanner = new SafeScanner();
         if(scanner.nextYesNoAnswer()){
             start();
         }
