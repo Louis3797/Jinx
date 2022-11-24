@@ -1,5 +1,6 @@
 package org.jinx.game;
 
+import org.jinx.Login.Login;
 import org.jinx.card.NumberCard;
 import org.jinx.highscore.HighScore;
 import org.jinx.player.Player;
@@ -93,6 +94,9 @@ public class GameController {
      * Method starts the game
      */
     public void start() throws IllegalAccessException {
+        Login login = new Login();
+        //login.regist2();
+        //login.loginSystem();
         // Load old Highscores
         getOldHighScores();
 
