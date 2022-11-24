@@ -110,20 +110,28 @@ public class GameController implements Serializable {
 
         pc.addPlayers();
 
-        System.out.println("Savestate laden?");
-        if (scanner.nextYesNoAnswer()) {
 
-            data = (SaveData) ResourceManager.load("gamestate.save");
-            g1.loadSavestate();
-            g1.loadState = true;
+        File saveState = new File("gamestate.save");
 
-            for (int i = data.currentRound; i < 4; i++) {
-                g1.play(i);
+        if ((saveState.length() != 0)) {
+            System.out.println("Savestate laden?");
+
+            if (scanner.nextYesNoAnswer()) {
+                // loads saved state
+                data = (SaveData) ResourceManager.load("gamestate.save");
+                g1.loadSavestate();
+                g1.loadState = true;
+
+                // starts round
+                for (int i = data.currentRound; i < 4; i++) {
+                    g1.play(i);
+                }
             }
         }
-
         else {
+            // initialize without savefile
             g1.initializeDecks();
+            // starts round
             for (int i = 1; i < 4; i++) {
                 g1.play(i);
             }
@@ -131,6 +139,7 @@ public class GameController implements Serializable {
 
         endSequenz();
         writeHighScoreToFile();
+        clearSave();
 
         // clear everything from current round
         pc.getPlayers().clear();
@@ -140,6 +149,18 @@ public class GameController implements Serializable {
         // start a new game
         if (scanner.nextYesNoAnswer()) {
             start();
+        }
+
+    }
+
+    /**
+     * clears savefile after match ends
+     */
+    private void clearSave(){
+        try {
+            new FileOutputStream("gamestate.save").close();
+        } catch (IOException e) {
+            System.out.println("File nicht vorhanden");
         }
 
     }

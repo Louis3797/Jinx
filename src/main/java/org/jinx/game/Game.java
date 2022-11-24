@@ -69,6 +69,9 @@ public class Game implements Serializable {
         }
     }
 
+    /**
+     * initializes decks not loaded from file
+     */
     public void initializeDecks() {
         luckyCardStack = new LuckyCardStack();
 
@@ -267,11 +270,6 @@ public class Game implements Serializable {
             System.out.println("---------------");
             // choose a card
             System.out.println("Wählen sie eine Karte aus: ");
-//            try {
-//                Thread.sleep(4000);
-//            } catch (InterruptedException e) {
-//                throw new RuntimeException(e);
-//            }
 
             if (currentPlayer.isHuman()) {
                 System.out.println("Wollen sie ein Tipp kriegen?");
