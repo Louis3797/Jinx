@@ -46,33 +46,6 @@ public class AutonomousPlayer extends Player implements Serializable {
     }
 
     /**
-     * Method finds the best card we can pick in the specified list of cards and the dice result
-     *
-     * @param cards List of number cards we can pick from
-     * @return Returns the best card the player can pick
-     */
-    public int getIndexOfBestCard(List<NumberCard> cards) {
-
-        if (cards.size() == 1) {
-            return 0;
-        }
-
-        int indexOfBestCard = 0;
-        int bestWeight = Integer.MIN_VALUE;
-
-        for (int i = 0; i < cards.size(); i++) {
-            for (Weight<NumberCard> cardWeight : numberCardWeightList) {
-                if (cards.get(i).equals(cardWeight.object()) && bestWeight < cardWeight.weight()) {
-                    indexOfBestCard = i;
-                    bestWeight = cardWeight.weight();
-                }
-            }
-        }
-
-        return indexOfBestCard;
-    }
-
-    /**
      * Updates the numberCardWeightList variable
      */
     public void updateWeightOfNumberCards() {
@@ -93,9 +66,9 @@ public class AutonomousPlayer extends Player implements Serializable {
 
         double avgPoints = calculateAveragePoints(Arrays.stream(field.getField()).toList());
 
-        Map<CardColor, Double> opponentCardColorPercentageMap = calculateCardColorPercentage(opponent.getCards());
+        Map<CardColor, Double> opponentCardColorPercentageMap = opponent.getNumberCardHand().getColorPercentage();
 
-        Map<CardColor, Double> playerCardColorPercentageMap = calculateCardColorPercentage(player.getCards());
+        Map<CardColor, Double> playerCardColorPercentageMap = player.getNumberCardHand().getColorPercentage();
 
 
         int numberOfCardsInField = 0;
@@ -129,7 +102,7 @@ public class AutonomousPlayer extends Player implements Serializable {
                 reason.append("-1 Gewicht, da die Nummer der Karte ist kleiner als der Durchschnitt ist\n");
             }
 
-            if (isCardColorInPlayerHand(player, color)) {
+            if (player.getNumberCardHand().containsColor(color)) {
                 ++weight;
                 reason.append("+1 Gewicht, da die Farbe der Karte in der Hand des Spielers vorkommt\n");
             } else {
@@ -144,7 +117,7 @@ public class AutonomousPlayer extends Player implements Serializable {
 
 
             // stored in extra variable, bc we need it twice
-            boolean isColorInOpponentHand = isCardColorInPlayerHand(opponent, color);
+            boolean isColorInOpponentHand = opponent.getNumberCardHand().containsColor(color);
 
             if (isColorInOpponentHand) {
                 --weight;
@@ -159,7 +132,7 @@ public class AutonomousPlayer extends Player implements Serializable {
                 reason.append("+1 Gewicht, da die Farbe der Karte weniger als 33% der Hand des gefährlichsten Spielers (").append(opponent.getName()).append(") ausmacht\n");
             }
 
-            int colorCount = countCardColor(Arrays.stream(field.getField()).toList(), color);
+            int colorCount = field.countCardColor(color);
 
 
             if (colorCount <= rareCardConstant) {
@@ -181,61 +154,6 @@ public class AutonomousPlayer extends Player implements Serializable {
     }
 
     /**
-     * Counts how much the card color occurs in the specified list
-     *
-     * @param cards List of NumberCards
-     * @param color Specified card color
-     * @return Returns how often the color occurs in the list
-     */
-    private int countCardColor(List<NumberCard> cards, CardColor color) {
-        int sum = 0;
-        for (NumberCard card : cards) {
-            if (card != null && card.getColor().equals(color)) ++sum;
-        }
-        return sum;
-    }
-
-    /**
-     * Checks if specified card color is in given players hand
-     *
-     * @param player Specified player
-     * @param color  Color of Card we want to check
-     * @return Returns true if card occurs in player hand, else false
-     */
-    private boolean isCardColorInPlayerHand(Player player, CardColor color) {
-        for (NumberCard card : player.getCards()) if (card.getColor().equals(color)) return true;
-        return false;
-    }
-
-    /**
-     * Calculates the percentage occurrence of the card colors in the specified list
-     *
-     * @param cards List of Numbercards
-     * @return Returns a Map with the CardColor as Key and the occurrence percentage as value of all card colors in the specified list
-     */
-    private Map<CardColor, Double> calculateCardColorPercentage(List<NumberCard> cards) {
-
-        Map<CardColor, Double> map = new HashMap<>();
-        int numberOfCards = 0;
-
-        for (NumberCard card : cards) {
-            if (card == null)
-                continue;
-            ++numberOfCards;
-            CardColor color = card.getColor();
-            map.put(color, map.getOrDefault(color, 0.0) + 1);
-
-        }
-
-        // this is needed because of the lambda expression
-        int finalNumberOfCards = numberOfCards;
-        map.replaceAll((c, v) -> (map.get(c) / finalNumberOfCards) * 100);
-
-        return map;
-    }
-
-
-    /**
      * Calculates the most dangerous opponent by weighting all opponents according to 3 criteria.
      * 1. Number of cards >= average number of cards = weight + 1
      * 2. Opponent has more than or 3 different suits of cards in hand = weight + 1
@@ -255,20 +173,21 @@ public class AutonomousPlayer extends Player implements Serializable {
 
                 int weight = 0;
 
-                int opponentCardAmount = opponent.getCards().size();
+                int opponentCardAmount = opponent.getNumberCardHand().size();
 
                 // check if opponent has more cards than the average player
                 if (opponentCardAmount >= averageCardAmountOfAllPlayers) ++weight;
                 else --weight;
 
-                int amountOfDifferentCards = calculateCardDiversity(opponent.getCards());
+                int amountOfDifferentCards = opponent.getNumberCardHand().getColorDiversity();
 
                 // check if opponent has more than 3 different cards in his hand
                 if (amountOfDifferentCards >= 3) ++weight;
                 else --weight;
 
                 // check if opponent has more points than the average
-                if (calculateAveragePoints(opponent.getCards()) >= calculateAveragePointsOfAllPlayers()) ++weight;
+                if (calculateAveragePoints(opponent.getNumberCardHand()) >= calculateAveragePointsOfAllPlayers())
+                    ++weight;
                 else --weight;
 
                 weightedOpponentList.add(new Weight<>(opponent, weight, ""));
@@ -281,19 +200,6 @@ public class AutonomousPlayer extends Player implements Serializable {
         return weightedOpponentList.get(0).object();
     }
 
-    /**
-     * Calculates how many card colors are contained in the given card list
-     *
-     * @param cards List of NumberCards
-     * @return Returns how many card colors are contained in the given card list
-     */
-    private int calculateCardDiversity(List<NumberCard> cards) {
-        Set<CardColor> set = new HashSet<>();
-
-        for (NumberCard card : cards) set.add(card.getColor());
-
-        return set.size();
-    }
 
     /**
      * Calculates the average amount of cards of all players in game
@@ -305,7 +211,7 @@ public class AutonomousPlayer extends Player implements Serializable {
         int sum = 0;
 
         for (Player player : playerController.getPlayers()) {
-            sum += player.getCards().size();
+            sum += player.getNumberCardHand().size();
         }
 
         return (double) sum / playerController.getPlayers().size();
@@ -322,11 +228,9 @@ public class AutonomousPlayer extends Player implements Serializable {
         int numberOfCards = 0;
 
         for (Player player : playerController.getPlayers()) {
-            numberOfCards += player.getCards().size();
+            numberOfCards += player.getNumberCardHand().size();
 
-            for (NumberCard card : player.getCards()) {
-                sumOfAllPoints += Integer.parseInt(card.getName());
-            }
+            sumOfAllPoints += player.getPoints();
         }
 
         return (double) sumOfAllPoints / numberOfCards;
@@ -354,6 +258,33 @@ public class AutonomousPlayer extends Player implements Serializable {
     }
 
     /**
+     * Method finds the best card we can pick in the specified list of cards and the dice result
+     *
+     * @param cards List of number cards we can pick from
+     * @return Returns the best card the player can pick
+     */
+    public int getIndexOfBestCard(List<NumberCard> cards) {
+
+        if (cards.size() == 1) {
+            return 0;
+        }
+
+        int indexOfBestCard = 0;
+        int bestWeight = Integer.MIN_VALUE;
+
+        for (int i = 0; i < cards.size(); i++) {
+            for (Weight<NumberCard> cardWeight : numberCardWeightList) {
+                if (cards.get(i).equals(cardWeight.object()) && bestWeight < cardWeight.weight()) {
+                    indexOfBestCard = i;
+                    bestWeight = cardWeight.weight();
+                }
+            }
+        }
+
+        return indexOfBestCard;
+    }
+
+    /**
      * Method is used for discarding a card after a round ends
      *
      * @return Returns the index of the baddest card in the hand of the player
@@ -366,7 +297,7 @@ public class AutonomousPlayer extends Player implements Serializable {
 
         Player mdo = calculateMostDangerousOpponent(this);
 
-        Map<CardColor, Double> map = calculateCardColorPercentage(mdo.getCards());
+        Map<CardColor, Double> map = mdo.getNumberCardHand().getColorPercentage();
 
         int index = 0;
         double highestPercentage = 0;
@@ -584,7 +515,7 @@ public class AutonomousPlayer extends Player implements Serializable {
      */
     public boolean considerPickLuckyCard() {
 
-        if (getCards().isEmpty() || getLuckyCards().size() > 3) {
+        if (getNumberCardHand().isEmpty() || getLuckyCardHand().size() > 3) {
             return false;
         }
 
@@ -592,7 +523,7 @@ public class AutonomousPlayer extends Player implements Serializable {
         // Difficulty == Easy and
         // (amount of number cards -1 >= avg amount of number cards)
         // -> true
-        if (difficulty == AgentDifficulty.EASY && getCards().size() - 1 >= calculateAverageCardAmountOfAllPlayers()) {
+        if (difficulty == AgentDifficulty.EASY && getNumberCardHand().size() - 1 >= calculateAverageCardAmountOfAllPlayers()) {
             return true;
         }
 
@@ -600,13 +531,13 @@ public class AutonomousPlayer extends Player implements Serializable {
         // and amount of number cards -1 >= avg amount of number cards
         // and point of player >= avg points
         // -> true
-        if (difficulty == AgentDifficulty.MEDIUM && getCards().size() - 1 >= calculateAverageCardAmountOfAllPlayers() && calculateAveragePoints(this.getCards()) >= calculateAveragePointsOfAllPlayers()) {
+        if (difficulty == AgentDifficulty.MEDIUM && getNumberCardHand().size() - 1 >= calculateAverageCardAmountOfAllPlayers() && calculateAveragePoints(this.getNumberCardHand()) >= calculateAveragePointsOfAllPlayers()) {
             return true;
         }
 
         if (difficulty == AgentDifficulty.HARD) {
-            if (getCards().size() - 1 >= calculateAverageCardAmountOfAllPlayers() && calculateAveragePoints(this.getCards()) >= calculateAveragePointsOfAllPlayers()) {
-                for (NumberCard cards : getCards()) {
+            if (getNumberCardHand().size() - 1 >= calculateAverageCardAmountOfAllPlayers() && calculateAveragePoints(this.getNumberCardHand()) >= calculateAveragePointsOfAllPlayers()) {
+                for (NumberCard cards : getNumberCardHand()) {
                     if (Integer.parseInt(cards.getName()) <= 3) return true;
                 }
             }
@@ -625,8 +556,8 @@ public class AutonomousPlayer extends Player implements Serializable {
         int lowestCardIndex = 0;
         int lowestCardNumber = Integer.MAX_VALUE;
 
-        for (int i = 0; i < getCards().size(); i++) {
-            int cardNumber = Integer.parseInt(getCards().get(i).getName());
+        for (int i = 0; i < getNumberCardHand().size(); i++) {
+            int cardNumber = Integer.parseInt(getNumberCardHand().get(i).getName());
             if (lowestCardNumber > cardNumber) {
                 lowestCardNumber = cardNumber;
                 lowestCardIndex = i;
@@ -646,15 +577,15 @@ public class AutonomousPlayer extends Player implements Serializable {
         // Easy condition
         if (this.difficulty == AgentDifficulty.EASY) {
             // return true if player has fewer cards than the average
-            return getCards().size() < calculateAverageCardAmountOfAllPlayers();
+            return getNumberCardHand().size() < calculateAverageCardAmountOfAllPlayers();
 
         } else if (this.difficulty == AgentDifficulty.MEDIUM) {
             // return true if player has fewer cards than the average and less than 3 colors on the hand
-            return getCards().size() < calculateAverageCardAmountOfAllPlayers() && calculateCardDiversity(getCards()) < 3;
+            return getNumberCardHand().size() < calculateAverageCardAmountOfAllPlayers() && getNumberCardHand().getColorDiversity() < 3;
 
         } else if (this.difficulty == AgentDifficulty.HARD) {
             // return true if player has fewer cards than the average and less than 3 colors on the hand or if there is a combination with only high weight cards
-            return getCards().size() < calculateAverageCardAmountOfAllPlayers() && calculateCardDiversity(getCards()) <= 3;
+            return getNumberCardHand().size() < calculateAverageCardAmountOfAllPlayers() && getNumberCardHand().getColorDiversity() <= 3;
         }
 
         return false;
