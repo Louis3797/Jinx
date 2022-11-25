@@ -15,6 +15,7 @@ import java.util.*;
  */
 public class AutonomousPlayer extends Player implements Serializable {
 
+    public static final long serialVersionUID = 42L;
     /**
      * Player Controller instance
      */

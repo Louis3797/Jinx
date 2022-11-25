@@ -4,6 +4,7 @@ import org.jinx.card.LuckyCard;
 import org.jinx.card.LuckyCardNames;
 
 public class LuckyCardHand extends CardHand<LuckyCard> {
+    public static final long serialVersionUID = 42L;
 
     /**
      * Method checks if the player has a lucky card with the same given name in his hand

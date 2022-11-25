@@ -76,7 +76,7 @@ public class GameController implements Serializable {
 
         for (Player player : pc.getPlayers()) {
             int total = 0;
-            for (NumberCard card : player.getCards()) {
+            for (NumberCard card : player.getNumberCardHand()) {
                 total += Integer.parseInt(card.getName());
             }
             winner.put(player.getName(), total);

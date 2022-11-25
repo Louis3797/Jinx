@@ -91,7 +91,7 @@ public class Game implements Serializable {
         data.map = new HashMap<>();
 
         for(Player player : pc.getPlayers()){
-            data.map.put(player,player.getCards());
+            data.map.put(player,player.getNumberCardHand());
         }
 
         ResourceManager.save(data, "gamestate.save");
@@ -159,7 +159,7 @@ public class Game implements Serializable {
                         if (!pc.getCurrentPlayer().isHuman()) System.out.println("yes");
 
                         tradeForLucky();
-                        pc.getCurrentPlayer().printLuckyHand();
+                        pc.getCurrentPlayer().getLuckyCardHand().print();
 
                     } else {
                         // These two lines are only here for cosmetic reasons
@@ -312,11 +312,11 @@ public class Game implements Serializable {
 
             // add card to hand
             NumberCard card = availableCards.get(wantedCardIndex);
-            currentPlayer.getCards().add(card);
+            currentPlayer.getNumberCardHand().add(card);
             logger.info(currentPlayer.getName() + " hat Karte: " + card.getName() + " " + card.getColor() + " gewaehlt\n");
 
             // serializes player hand
-            data.map.put(pc.getCurrentPlayer(), pc.getCurrentPlayer().getCards());
+            data.map.put(pc.getCurrentPlayer(), pc.getCurrentPlayer().getNumberCardHand());
 
             System.out.println("Spieler: " + currentPlayer.getName());
             currentPlayer.getNumberCardHand().print();
@@ -545,9 +545,9 @@ public class Game implements Serializable {
             System.out.println(index);
         }
 
-        logger.info(pc.getCurrentPlayer().getName() + " hat: " + pc.getCurrentPlayer().getCards().get(index).getName() + " "
-                + pc.getCurrentPlayer().getCards().get(index).getColor() + " gegen eine Luckycard getauscht \n");
-        pc.getCurrentPlayer().getCards().remove(index);
+        logger.info(pc.getCurrentPlayer().getName() + " hat: " + pc.getCurrentPlayer().getNumberCardHand().get(index).getName() + " "
+                + pc.getCurrentPlayer().getNumberCardHand().get(index).getColor() + " gegen eine Luckycard getauscht \n");
+        pc.getCurrentPlayer().getNumberCardHand().remove(index);
 
         LuckyCard pickedLuckyCard = luckyCardStack.pop();
 
@@ -642,7 +642,7 @@ public class Game implements Serializable {
             // by pretending that the bot can also write to the console.
             System.out.println(wantedCardIndex);
         }
-        pc.getCurrentPlayer().getCards().addAll(combinations.get(wantedCardIndex));
+        pc.getCurrentPlayer().getNumberCardHand().addAll(combinations.get(wantedCardIndex));
 
         for (NumberCard card : combinations.get(wantedCardIndex)) {
             logger.info(pc.getCurrentPlayer().getName() + " hat: " + card.getName() + " " + card.getColor() + " bekommen\n");
@@ -698,13 +698,13 @@ public class Game implements Serializable {
 
         if (pc.getCurrentPlayer().getLuckyCardHand().get(index).getName().equals(LuckyCardNames.LC123.name()) || pc.getCurrentPlayer().getLuckyCardHand().get(index).getName().equals(LuckyCardNames.LC456.name())) {
 
-            logger.info(pc.getCurrentPlayer().getName() + " hat: " + pc.getCurrentPlayer().getLuckyCards().get(index).getName() + " benutzt\n");
-            int diceValue = pc.getCurrentPlayer().getLuckyCards().get(index).effect();
+            logger.info(pc.getCurrentPlayer().getName() + " hat: " + pc.getCurrentPlayer().getLuckyCardHand().get(index).getName() + " benutzt\n");
+            int diceValue = pc.getCurrentPlayer().getLuckyCardHand().get(index).effect();
 
             logger.info("Neues Wuerfelergebnis ist: " + diceValue + "\n");
-            logger.info(pc.getCurrentPlayer().getLuckyCards().get(index).getName() + " wurde aus: " + pc.getCurrentPlayer().getName() + "s Hand entfernt\n");
+            logger.info(pc.getCurrentPlayer().getLuckyCardHand().get(index).getName() + " wurde aus: " + pc.getCurrentPlayer().getName() + "s Hand entfernt\n");
 
-            pc.getCurrentPlayer().getLuckyCards().remove(index);
+            pc.getCurrentPlayer().getLuckyCardHand().remove(index);
             return diceValue;
         } else {
             return use123or456();
@@ -718,7 +718,7 @@ public class Game implements Serializable {
      * @return dicevalue + 1
      */
     private int usePlus(int dice) throws IllegalAccessException {
-        pc.getCurrentPlayer().printLuckyHand();
+        pc.getCurrentPlayer().getLuckyCardHand().print();
 
         int index = 0;
 
@@ -736,10 +736,10 @@ public class Game implements Serializable {
             System.out.println("Welche Karte wollen sie verwenden: \n" + index);
         }
 
-        if (pc.getCurrentPlayer().getLuckyCards().get(index).getName().equals(LuckyCardNames.LCPlus1.name())) {
+        if (pc.getCurrentPlayer().getLuckyCardHand().get(index).getName().equals(LuckyCardNames.LCPlus1.name())) {
 
             logger.info(pc.getCurrentPlayer().getName() + " hat LCPlus1 benutzt\n");
-            int value = pc.getCurrentPlayer().getLuckyCards().get(index).effect() + dice;
+            int value = pc.getCurrentPlayer().getLuckyCardHand().get(index).effect() + dice;
 
             if (value > 6) {
                 value = 6;
@@ -776,10 +776,10 @@ public class Game implements Serializable {
             System.out.println("Welche Karte wollen sie verwenden: \n" + index);
         }
 
-        if (pc.getCurrentPlayer().getLuckyCards().get(index).getName().equals(LuckyCardNames.LCMinus1.name())) {
+        if (pc.getCurrentPlayer().getLuckyCardHand().get(index).getName().equals(LuckyCardNames.LCMinus1.name())) {
 
             logger.info(pc.getCurrentPlayer().getName() + " hat LCMinus1 benutzt\n");
-            int value = pc.getCurrentPlayer().getLuckyCards().get(index).effect() + dice;
+            int value = pc.getCurrentPlayer().getLuckyCardHand().get(index).effect() + dice;
 
             if (value < 1) {
                 value = 1;
@@ -815,9 +815,9 @@ public class Game implements Serializable {
             System.out.println("Welche Karte wollen sie verwenden: \n" + index);
         }
 
-        if (pc.getCurrentPlayer().getLuckyCards().get(index).getName().equals(LuckyCardNames.LCPlusDicethrow.name())) {
+        if (pc.getCurrentPlayer().getLuckyCardHand().get(index).getName().equals(LuckyCardNames.LCPlusDicethrow.name())) {
             logger.info(pc.getCurrentPlayer().getName() + " hat useReroll benutzt\n");
-            return pc.getCurrentPlayer().getLuckyCards().get(index).effect();
+            return pc.getCurrentPlayer().getLuckyCardHand().get(index).effect();
         }
         return useReroll();
     }
@@ -914,9 +914,9 @@ public class Game implements Serializable {
         }
 
         //remove the highest from current player that ended turn
-        logger.info(pc.getCurrentPlayer().getName() + " hat: " + pc.getCurrentPlayer().getCards().get(index).getName() + " " +
-                pc.getCurrentPlayer().getCards().get(index).getColor() + " weggeworfen\n");
-        pc.getCurrentPlayer().getCards().remove(highest.get(index));
+        logger.info(pc.getCurrentPlayer().getName() + " hat: " + pc.getCurrentPlayer().getNumberCardHand().get(index).getName() + " " +
+                pc.getCurrentPlayer().getNumberCardHand().get(index).getColor() + " weggeworfen\n");
+        pc.getCurrentPlayer().getNumberCardHand().remove(highest.get(index));
 
         System.out.println("NACH WEGWURF ----------------");
         pc.printPlayerHands();

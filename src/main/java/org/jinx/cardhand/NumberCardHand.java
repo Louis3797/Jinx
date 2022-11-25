@@ -7,6 +7,7 @@ import java.util.*;
 
 public class NumberCardHand extends CardHand<NumberCard> {
 
+    public static final long serialVersionUID = 42L;
     /**
      * Calculates how many card colors are contained in the given card list
      *
