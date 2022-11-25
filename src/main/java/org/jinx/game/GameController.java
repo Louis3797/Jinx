@@ -1,5 +1,6 @@
 package org.jinx.game;
 
+import org.jinx.Login.Login;
 import org.jinx.card.NumberCard;
 import org.jinx.highscore.HighScore;
 import org.jinx.player.Player;
@@ -12,7 +13,6 @@ import java.util.*;
 import java.util.logging.Logger;
 
 import static org.jinx.utils.ConsoleColor.*;
-import static org.jinx.utils.ConsoleColor.WHITE_BOLD_BRIGHT;
 
 public class GameController implements Serializable {
 
@@ -192,10 +192,7 @@ public class GameController implements Serializable {
         // Calculate new Scores of after game and add them to highscore list
         for (Player player : pc.getPlayers()) {
             if (!player.isUsedCheats()) {
-                int score = 0;
-                for (NumberCard card : player.getCards()) {
-                    score += Integer.parseInt(card.getName());
-                }
+                int score = player.getPoints();
                 highScoreList.add(new HighScore(player.getName(), score));
             }
         }
