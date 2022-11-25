@@ -66,8 +66,6 @@ public class Game {
                     // by pretending that the bot can also write to the console.
                     if (!pc.getCurrentPlayer().isHuman()) System.out.println("yes");
 
-                    tradeForLucky();
-                    pc.getCurrentPlayer().getLuckyCardHand().print();
 
                 } else {
                     // These two lines are only here for cosmetic reasons
@@ -441,7 +439,6 @@ public class Game {
             System.out.println(index);
         }
 
-        pc.getCurrentPlayer().getNumberCardHand().remove(index);
 
         LuckyCard pickedLuckyCard = luckyCardStack.pop();
 
@@ -584,9 +581,7 @@ public class Game {
 
         if (pc.getCurrentPlayer().getLuckyCardHand().get(index).getName().equals(LuckyCardNames.LC123.name()) || pc.getCurrentPlayer().getLuckyCardHand().get(index).getName().equals(LuckyCardNames.LC456.name())) {
 
-            int diceValue = pc.getCurrentPlayer().getLuckyCardHand().get(index).effect();
 
-            pc.getCurrentPlayer().getLuckyCardHand().remove(index);
 
             return diceValue;
         } else {
@@ -602,7 +597,6 @@ public class Game {
      */
     private int usePlus(int dice) throws IllegalAccessException {
 
-        pc.getCurrentPlayer().getLuckyCardHand().print();
 
         int index = 0;
 
@@ -620,8 +614,7 @@ public class Game {
             System.out.println("Welche Karte wollen sie verwenden: \n" + index);
         }
 
-        if (pc.getCurrentPlayer().getLuckyCardHand().get(index).getName().equals(LuckyCardNames.LCPlus1.name())) {
-            int value = pc.getCurrentPlayer().getLuckyCardHand().get(index).effect() + dice;
+
 
             if (value > 6) {
                 value = 6;
@@ -658,8 +651,10 @@ public class Game {
             System.out.println("Welche Karte wollen sie verwenden: \n" + index);
         }
 
-        if (pc.getCurrentPlayer().getLuckyCardHand().get(index).getName().equals(LuckyCardNames.LCMinus1.name())) {
-            int value = pc.getCurrentPlayer().getLuckyCardHand().get(index).effect() + dice;
+        if (pc.getCurrentPlayer().getLuckyCards().get(index).getName().equals(LuckyCardNames.LCMinus1.name())) {
+
+            logger.info(pc.getCurrentPlayer().getName() + " hat LCMinus1 benutzt\n");
+            int value = pc.getCurrentPlayer().getLuckyCards().get(index).effect() + dice;
 
             if (value < 1) {
                 value = 1;
@@ -695,9 +690,7 @@ public class Game {
             System.out.println("Welche Karte wollen sie verwenden: \n" + index);
         }
 
-        if (pc.getCurrentPlayer().getLuckyCardHand().get(index).getName().equals(LuckyCardNames.LCPlusDicethrow.name())) {
-            return pc.getCurrentPlayer().getLuckyCardHand().get(index).effect();
-        }
+
         return useReroll();
     }
 
@@ -793,7 +786,7 @@ public class Game {
         }
 
         //remove the highest from current player that ended turn
-        pc.getCurrentPlayer().getNumberCardHand().remove(highest.get(index));
+
 
         System.out.println("NACH WEGWURF ----------------");
         pc.printPlayerHands();

@@ -1,8 +1,7 @@
 package org.jinx.player;
 
 import org.jinx.card.NumberCard;
-import org.jinx.cardhand.LuckyCardHand;
-import org.jinx.cardhand.NumberCardHand;
+
 
 public class Player {
 

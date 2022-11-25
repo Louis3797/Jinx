@@ -20,7 +20,6 @@ import static org.jinx.utils.ConsoleColor.RESET;
  * PlayerController uses Singleton Pattern
  */
 public class PlayerController implements Serializable {
-    private final Logger LOGGER = Logger.getLogger(PlayerController.class.getName());
 
     /**
      * Instance for the Singleton pattern of the PlayerController

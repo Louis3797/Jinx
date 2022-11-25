@@ -72,9 +72,8 @@ public class GameController {
 
         for (Player player : pc.getPlayers()) {
             int total = 0;
-            for (NumberCard card : player.getNumberCardHand()) {
-                total += Integer.parseInt(card.getName());
-            }
+
+
             winner.put(player.getName(), total);
         }
 
@@ -94,9 +93,7 @@ public class GameController {
      * Method starts the game
      */
     public void start() throws IllegalAccessException {
-        Login login = new Login();
-        //login.regist2();
-        //login.loginSystem();
+
         // Load old Highscores
         getOldHighScores();
 
@@ -122,7 +119,7 @@ public class GameController {
         System.out.println("Nochmal spielen?");
 
         // start a new game
-        SafeScanner scanner = new SafeScanner();
+
         if (scanner.nextYesNoAnswer()) {
             start();
         }
