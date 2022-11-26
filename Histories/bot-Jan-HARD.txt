@@ -1,0 +1,5 @@
+Spieler: Jan
+Kartensumme: 38
+Datum: Sat Nov 26 20:17:04 CET 2022
+Mitspieler: bot-Kerim-EASY 
+

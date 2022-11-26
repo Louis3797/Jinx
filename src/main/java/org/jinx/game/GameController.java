@@ -3,6 +3,7 @@ package org.jinx.game;
 import org.jinx.Login.Login;
 import org.jinx.card.NumberCard;
 import org.jinx.highscore.HighScore;
+import org.jinx.player.AutonomousPlayer;
 import org.jinx.player.Player;
 import org.jinx.savestate.ResourceManager;
 import org.jinx.savestate.SaveData;
@@ -100,9 +101,6 @@ public class GameController implements Serializable {
     public void start() throws Exception {
         SafeScanner scanner = new SafeScanner();
 
-        pc.addPlayers();
-        writeHistories();
-
         // Load old Highscores
         getOldHighScores();
 
@@ -142,6 +140,7 @@ public class GameController implements Serializable {
         endSequenz();
         writeHighScoreToFile();
         clearSave();
+        writeHistories();
 
         // clear everything from current round
         pc.getPlayers().clear();
@@ -158,10 +157,17 @@ public class GameController implements Serializable {
     private void writeHistories(){
 
         Date date = new Date();
+        FileWriter file;
 
         for (Player player : pc.getPlayers()){
             try{
-                FileWriter file = new FileWriter("Histories/" + player.getName() + ".txt",true);
+                if (!player.isHuman()){
+                    file = new FileWriter("Histories/" + "bot-" +player.getName() + "-" +((AutonomousPlayer) player).getDifficulty() + ".txt",true);
+                }
+                else {
+                    file = new FileWriter("Histories/" + player.getName() + ".txt",true);
+                }
+
                 file.append("Spieler: ").append(player.getName()).append("\n");
                 file.append("Kartensumme: ").append(String.valueOf(player.getPoints())).append("\n");
                 file.append("Datum: " ).append(String.valueOf(date)).append("\n");
@@ -169,7 +175,16 @@ public class GameController implements Serializable {
 
                 for (Player player1 : pc.getPlayers()){
                     if (!player1.getName().equals(player.getName())){
-                        file.append(player1.getName()).append(" ");
+                        if(!player1.isHuman()){
+                            file.append("bot-").append(player1.getName())
+                                    .append("-")
+                                    .append(String.valueOf(((AutonomousPlayer) player1).getDifficulty()))
+                                    .append(" ");
+                        }
+                        else {
+                            file.append(player1.getName()).append(" ");
+                        }
+
                     }
                 }
 
