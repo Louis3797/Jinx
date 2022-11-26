@@ -10,7 +10,9 @@ import java.util.logging.Logger;
 import static org.jinx.utils.ConsoleColor.BLUE;
 import static org.jinx.utils.ConsoleColor.RESET;
 
-public class Login {
+public class Login implements Serializable{
+    public static final long serialVersionUID = 42L;
+
     private final SafeScanner safeScanner;
     private final List<String> loginlist;
 

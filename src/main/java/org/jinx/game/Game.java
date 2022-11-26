@@ -39,7 +39,6 @@ public class Game implements Serializable {
     private transient Logger logger;
     FileHandler fh;
 
-    public static final long serialVersionUID = 42L;
 
     public Game() {
 
