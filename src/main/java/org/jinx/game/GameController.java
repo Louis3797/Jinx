@@ -156,6 +156,9 @@ public class GameController implements Serializable {
 
     }
 
+    /**
+     * Writes Match-history for all players
+     */
     private void writeMatchHistory() {
         pc.addPlayers();
         Date date = new Date();
@@ -163,10 +166,12 @@ public class GameController implements Serializable {
         try {
             for (Player player : pc.getPlayers()){
 
+                // write player name and date to file
                 FileWriter fileWriter = new FileWriter("Histories/" + player.getName() + ".txt",true);
                 fileWriter.append(player.getName()).append("  -------------  ").append(String.valueOf(date)).append("\n");
                 fileWriter.append("Mitspieler: ");
 
+                // write names of fellow players to file
                 for(Player player1 : pc.getPlayers()){
                     if(!player1.getName().equals(player.getName())){
                         fileWriter.append(player1.getName()).append(" ");
