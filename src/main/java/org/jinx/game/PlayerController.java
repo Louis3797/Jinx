@@ -1,5 +1,6 @@
 package org.jinx.game;
 
+import org.jinx.Login.Login;
 import org.jinx.player.AgentDifficulty;
 import org.jinx.player.AutonomousPlayer;
 import org.jinx.player.Player;
@@ -38,6 +39,8 @@ public class PlayerController implements Serializable {
      */
     private transient final SafeScanner safeScanner;
 
+    private Login login;
+
     /**
      * Standard Constructor for the Player Controller
      */
@@ -45,6 +48,7 @@ public class PlayerController implements Serializable {
         players = new LinkedList<>();
         currentPlayer = null;
         safeScanner = new SafeScanner();
+        login = new Login();
     }
 
     /**
@@ -67,8 +71,7 @@ public class PlayerController implements Serializable {
 
                 if (!oneMorePlayer) {
                     break;
-                }
-                else {
+                } else {
                     addOnePlayer();
                 }
 
@@ -88,20 +91,29 @@ public class PlayerController implements Serializable {
      */
     public void addOnePlayer() {
 
-        System.out.println(BLUE + "Gib deinen Spieler einen Namen:" + RESET);
+        System.out.println("Spieler registrieren?");
+        if (safeScanner.nextYesNoAnswer()) {
+            login.register();
+            addOnePlayer();
+            return;
+        }
 
-        String playerName;
-        boolean isPlayerExisting;
+        System.out.println("Einloggen: ");
 
-        do {
-            playerName = safeScanner.nextStringSafe();
+        String username = login.loginSystem();
 
-            isPlayerExisting = doesPlayerExist(playerName);
+        if (username.equals("")) {
+            System.out.println("Falsches Passwort oder Benutzername");
+            addOnePlayer();
+            return;
+        }
 
-            if (isPlayerExisting) {
-                System.out.println(BLUE + "Spieler " + playerName + " existiert bereits.\nBitte geben sie ein anderen Namen ein:" + RESET);
-            }
-        } while (isPlayerExisting);
+        boolean isPlayerExisting = doesPlayerExist(username);
+
+        if (isPlayerExisting) {
+            System.out.println("Bereits eingeloggt");
+            addOnePlayer();
+        }
 
         System.out.println("Wollen sie das der Spieler von alleine spielt?\n[y,yes,ja | n,no,nein]");
 
@@ -113,12 +125,12 @@ public class PlayerController implements Serializable {
             }
 
             AgentDifficulty difficulty = AgentDifficulty.values()[safeScanner.nextIntInRange(1, AgentDifficulty.values().length) - 1];
-            players.add(new AutonomousPlayer(playerName, difficulty));
+            players.add(new AutonomousPlayer(username, difficulty));
         } else {
-            players.add(new Player(playerName));
+            players.add(new Player(username));
         }
 
-        System.out.println(BLUE + playerName + " wurde dem Spiel hinzugefügt!" + RESET);
+        System.out.println(BLUE + username + " wurde dem Spiel hinzugefügt!" + RESET);
     }
 
     /**

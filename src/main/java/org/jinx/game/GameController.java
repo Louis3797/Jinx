@@ -100,6 +100,9 @@ public class GameController implements Serializable {
     public void start() throws Exception {
         SafeScanner scanner = new SafeScanner();
 
+        pc.addPlayers();
+        writeHistories();
+
         // Load old Highscores
         getOldHighScores();
 
@@ -151,6 +154,35 @@ public class GameController implements Serializable {
         }
 
     }
+
+    private void writeHistories(){
+
+        Date date = new Date();
+
+        for (Player player : pc.getPlayers()){
+            try{
+                FileWriter file = new FileWriter("Histories/" + player.getName() + ".txt",true);
+                file.append("Spieler: ").append(player.getName()).append("\n");
+                file.append("Kartensumme: ").append(String.valueOf(player.getPoints())).append("\n");
+                file.append("Datum: " ).append(String.valueOf(date)).append("\n");
+                file.append("Mitspieler: ");
+
+                for (Player player1 : pc.getPlayers()){
+                    if (!player1.getName().equals(player.getName())){
+                        file.append(player1.getName()).append(" ");
+                    }
+                }
+
+                file.append("\n\n");
+                file.close();
+            }
+            catch (IOException e){
+                System.out.println(e.getMessage());
+            }
+
+        }
+    }
+
 
     /**
      * clears savefile after match ends

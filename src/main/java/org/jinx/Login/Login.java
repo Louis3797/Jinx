@@ -22,17 +22,21 @@ public class Login {
         loginlist = new ArrayList<>();
     }
 
-    public void regist2() {
+    public void register() {
+
         readLoginandPass();
         System.out.println(BLUE + "Benutzername:" + RESET);
         String playerName = safeScanner.nextStringSafe();
+
         if (doesUserExist(playerName)) {
             System.out.println(BLUE + "Benutzer " + playerName + " existiert bereits.\nBitte geben sie ein anderen Namen ein:" + RESET);
-            regist2();
-        } else {
+            register();
+        }
+        else {
             System.out.println(BLUE + "Passwort:" + RESET);
             String password = safeScanner.nextStringSafe();
             String enc = AES.encrypt(password, secretKey);
+
             try {
                 BufferedWriter login = new BufferedWriter(new FileWriter("login.txt", true));
                 login.write(playerName + "," + enc);
@@ -46,7 +50,8 @@ public class Login {
     }
 
 
-    public void loginSystem() {
+    public String loginSystem() {
+
         readLoginandPass();
         System.out.println(BLUE + "Benutzername:" + RESET);
         String userName = safeScanner.nextStringSafe();
@@ -54,12 +59,10 @@ public class Login {
         String pass = safeScanner.nextStringSafe();
 
         if (doesUserandPassExist(userName, pass)) {
-            System.out.println("logged");
-        } else {
-            System.out.println("Das hat leider nicht funktioniert. Versichere dich, " +
-                    "dass du die richtige Username und das richtige Passwort verwendest.");
+            return userName;
         }
 
+        return "";
     }
 
     private void readLoginandPass() {

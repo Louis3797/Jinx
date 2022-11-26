@@ -1,0 +1,10 @@
+Spieler: Jan
+Kartensumme: 0
+Datum: Sat Nov 26 19:58:47 CET 2022
+Mitspieler: Kerim 
+
+Spieler: Jan
+Kartensumme: 0
+Datum: Sat Nov 26 19:59:15 CET 2022
+Mitspieler: Kerim 
+
