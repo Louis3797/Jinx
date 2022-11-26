@@ -1,6 +1,7 @@
 package org.jinx.game;
 
 import org.jinx.card.NumberCard;
+import org.jinx.databanklogin.RegistCon;
 import org.jinx.highscore.HighScore;
 import org.jinx.player.Player;
 import org.jinx.wrapper.SafeScanner;
@@ -93,6 +94,9 @@ public class GameController {
      * Method starts the game
      */
     public void start() throws IllegalAccessException {
+
+        RegistCon registCon = new RegistCon();
+        registCon.loginSystem();
         // Load old Highscores
         getOldHighScores();
 
