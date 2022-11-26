@@ -1,0 +1,24 @@
+Nov. 26, 2022 3:18:33 AM org.jinx.game.Game throwDice
+INFO: Kerim hat eine: 2 gewuerfelt
+
+Nov. 26, 2022 3:18:36 AM org.jinx.game.Game pickCardsPhase
+INFO: Kerim hat Karte: 2 RED gewaehlt
+
+Nov. 26, 2022 3:18:36 AM org.jinx.game.Game throwDice
+INFO: Jan hat eine: 4 gewuerfelt
+
+Nov. 26, 2022 3:18:36 AM org.jinx.game.Game throwDice
+INFO: Jan hat nochmal wuerfeln ausgewaehlt
+
+Nov. 26, 2022 3:18:36 AM org.jinx.game.Game throwDice
+INFO: Jan hat eine: 2 gewuerfelt
+
+Nov. 26, 2022 3:18:36 AM org.jinx.game.Game useUndo
+INFO: Jan hat undo benutzt
+
+Nov. 26, 2022 3:18:36 AM org.jinx.game.Game useUndo
+INFO: Jan hat altes Wuerfelergebnis: 4
+
+Nov. 26, 2022 3:18:36 AM org.jinx.game.Game pickCardsPhase
+INFO: Jan hat Karte: 4 PINK gewaehlt
+

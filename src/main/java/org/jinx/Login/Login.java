@@ -13,12 +13,12 @@ import static org.jinx.utils.ConsoleColor.RESET;
 public class Login implements Serializable{
     public static final long serialVersionUID = 42L;
 
-    private final SafeScanner safeScanner;
+    private transient final SafeScanner safeScanner;
     private final List<String> loginlist;
 
     private final String secretKey = "secretKey";
 
-    private final Logger LOGGER = Logger.getLogger(Login.class.getName());
+    private transient final Logger LOGGER = Logger.getLogger(Login.class.getName());
 
     public Login() {
         safeScanner = new SafeScanner();
