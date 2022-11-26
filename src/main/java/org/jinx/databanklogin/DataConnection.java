@@ -6,6 +6,12 @@ import java.util.logging.Logger;
 
 public class DataConnection {
 
+
+    /**
+      Method to connect with database
+     *
+     * @return Connection
+     */
     public static Connection getConnection() {
 
         Connection connection = null;
@@ -17,6 +23,11 @@ public class DataConnection {
         return connection;
     }
 
+    /**
+     * Username validation method with database
+     * @param username
+     * @return checkUser
+     */
     public boolean checkUsername(String username) {
         PreparedStatement ps;
         ResultSet rs;
@@ -38,7 +49,13 @@ public class DataConnection {
         return checkUser;
     }
 
-    public boolean checkPassword(String username,String password) {
+    /**
+     * Username and Password validation method with database
+     * @param username
+     * @param password
+     * @return checkUser
+     */
+    public boolean checkUserandPassword(String username,String password) {
         PreparedStatement ps;
         ResultSet rs;
         boolean checkUser = false;

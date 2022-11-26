@@ -18,7 +18,9 @@ public class RegistCon {
         safeScanner = new SafeScanner();
     }
 
-
+    /**
+     * Method to register User in database
+     */
     public void regist2() {
         DataConnection dataConnection = new DataConnection();
 
@@ -44,6 +46,9 @@ public class RegistCon {
 
     }
 
+    /**
+     * Method to login in the System
+     */
     public void loginSystem() {
         System.out.println(BLUE + "Benutzername:" + RESET);
         String userName = safeScanner.nextStringSafe();
@@ -52,7 +57,7 @@ public class RegistCon {
         String pass = safeScanner.nextStringSafe();
 
         DataConnection dataConnection = new DataConnection();
-        if (dataConnection.checkPassword(userName, pass)) {
+        if (dataConnection.checkUserandPassword(userName, pass)) {
             System.out.println("logged");
         } else {
             System.out.println("Das hat leider nicht funktioniert. Versichere dich, " +
