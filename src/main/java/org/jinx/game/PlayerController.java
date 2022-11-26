@@ -1,5 +1,6 @@
 package org.jinx.game;
 
+import org.jinx.Login.Login;
 import org.jinx.player.AgentDifficulty;
 import org.jinx.player.AutonomousPlayer;
 import org.jinx.player.Player;
@@ -38,6 +39,8 @@ public class PlayerController implements Serializable {
      */
     private transient final SafeScanner safeScanner;
 
+    private Login login;
+
     /**
      * Standard Constructor for the Player Controller
      */
@@ -45,6 +48,7 @@ public class PlayerController implements Serializable {
         players = new LinkedList<>();
         currentPlayer = null;
         safeScanner = new SafeScanner();
+        login = new Login();
     }
 
     /**
@@ -88,6 +92,47 @@ public class PlayerController implements Serializable {
      */
     public void addOnePlayer() {
 
+        boolean isPlayerExisting;
+
+        System.out.println("Wollen sie einen Spieler registrieren?");
+        if (safeScanner.nextYesNoAnswer()){
+            login.register();
+            addOnePlayer();
+            return;
+        }
+
+        String playerName = login.loginSystem();
+
+        if (playerName.equals("")){
+            System.out.println("Name oder Passwort falsch");
+            addOnePlayer();
+            return;
+        }
+
+        isPlayerExisting = doesPlayerExist(playerName);
+
+        if (isPlayerExisting){
+            System.out.println("Bereits eingeloggt");
+            addOnePlayer();
+            return;
+        }
+
+        System.out.println("Wollen sie das der Spieler von alleine spielt?\n[y,yes,ja | n,no,nein]");
+
+        if (safeScanner.nextYesNoAnswer()) {
+
+            System.out.println("Welche Schwierigkeit wollen sie der KI geben?");
+            for (int i = 0; i < AgentDifficulty.values().length; i++) {
+                System.out.println(i + 1 + ": " + AgentDifficulty.values()[i].name());
+            }
+
+            AgentDifficulty difficulty = AgentDifficulty.values()[safeScanner.nextIntInRange(1, AgentDifficulty.values().length) - 1];
+            players.add(new AutonomousPlayer(playerName, difficulty));
+        } else {
+            players.add(new Player(playerName));
+        }
+
+/*
         System.out.println(BLUE + "Gib deinen Spieler einen Namen:" + RESET);
 
         String playerName;
@@ -119,7 +164,10 @@ public class PlayerController implements Serializable {
         }
 
         System.out.println(BLUE + playerName + " wurde dem Spiel hinzugefügt!" + RESET);
+        */
     }
+
+
 
     /**
      * Helper method that checks if Player with given name already exists
@@ -127,6 +175,7 @@ public class PlayerController implements Serializable {
      * @param name Name we want to check
      * @return true if yes else false
      */
+
     private boolean doesPlayerExist(String name) {
 
         for (Player player : players) {
@@ -136,6 +185,8 @@ public class PlayerController implements Serializable {
 
         return false;
     }
+
+
 
     /**
      * Use this method when you want to move on to the next player.
