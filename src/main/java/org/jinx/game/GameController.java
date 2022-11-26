@@ -9,6 +9,9 @@ import org.jinx.savestate.SaveData;
 import org.jinx.wrapper.SafeScanner;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 import java.util.logging.Logger;
 
@@ -100,6 +103,8 @@ public class GameController implements Serializable {
     public void start() throws Exception {
         SafeScanner scanner = new SafeScanner();
 
+        writeMatchHistory();
+
         // Load old Highscores
         getOldHighScores();
 
@@ -112,7 +117,7 @@ public class GameController implements Serializable {
         File saveState = new File("gamestate.save");
 
         // if savestate exists
-        System.out.println(saveState.length() !=0 ? "Savestate laden?" : "");
+        System.out.println(saveState.length() != 0 ? "Savestate laden?" : "");
         if ((saveState.length() != 0) && scanner.nextYesNoAnswer()) {
 
             // loads saved state
@@ -125,8 +130,7 @@ public class GameController implements Serializable {
                 g1.play(i);
             }
 
-        }
-        else {
+        } else {
             pc.addPlayers();
             // initialize without savefile
             g1.initializeDecks();
@@ -148,6 +152,35 @@ public class GameController implements Serializable {
         // start a new game
         if (scanner.nextYesNoAnswer()) {
             start();
+        }
+
+    }
+
+    private void writeMatchHistory() {
+        pc.addPlayers();
+        Date date = new Date();
+
+        try {
+            for (Player player : pc.getPlayers()){
+
+                FileWriter fileWriter = new FileWriter("Histories/" + player.getName() + ".txt",true);
+                fileWriter.append(player.getName()).append("  -------------  ").append(String.valueOf(date)).append("\n");
+                fileWriter.append("Mitspieler: ");
+
+                for(Player player1 : pc.getPlayers()){
+                    if(!player1.getName().equals(player.getName())){
+                        fileWriter.append(player1.getName()).append(" ");
+                    }
+                }
+
+                fileWriter.append("\n\n");
+                fileWriter.close();
+            }
+
+
+        }
+        catch (IOException ioException){
+            System.out.println(ioException.getMessage());
         }
 
     }
