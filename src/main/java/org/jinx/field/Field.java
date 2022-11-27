@@ -1,5 +1,6 @@
 package org.jinx.field;
 
+import org.jinx.card.CardColor;
 import org.jinx.card.NumberCard;
 import org.jinx.cardstack.NumberCardStack;
 import org.jinx.utils.ConsoleColor;
@@ -19,7 +20,7 @@ public class Field implements Serializable{
     /**
      * Size of the Field
      */
-    private final int FIELDSIZE = 16;
+    private final int FIELD_SIZE = 16;
 
     /**
      * Stores the Cards on the field
@@ -30,11 +31,7 @@ public class Field implements Serializable{
      * Standard Constructor
      */
     private Field() {
-        field = new NumberCard[FIELDSIZE];
-    }
-
-    public static Field getFieldInstance() {
-        return fieldInstance;
+        field = new NumberCard[FIELD_SIZE];
     }
 
     /**
@@ -42,7 +39,7 @@ public class Field implements Serializable{
      */
     public void setField(NumberCardStack deck) {
 
-        for (int i = 0; i < FIELDSIZE; i++) {
+        for (int i = 0; i < FIELD_SIZE; i++) {
             field[i] = deck.pop();
         }
     }
@@ -54,12 +51,26 @@ public class Field implements Serializable{
      */
     public void removeChosenCard(NumberCard card) {
 
-        for (int i = 0; i < FIELDSIZE; i++) {
+        for (int i = 0; i < FIELD_SIZE; i++) {
             if (field[i] != null && field[i].equals(card)) {
                 field[i] = null;
                 break;
             }
         }
+    }
+
+    /**
+     * Counts how much the card color occurs in the specified list
+     *
+     * @param color Specified card color
+     * @return Returns how often the color occurs in the list
+     */
+    public int countCardColor(CardColor color) {
+        int sum = 0;
+        for (NumberCard card : field) {
+            if (card != null && card.getColor().equals(color)) ++sum;
+        }
+        return sum;
     }
 
     /**
@@ -158,10 +169,36 @@ public class Field implements Serializable{
         }
     }
 
+    public static Field getFieldInstance() {
+        return fieldInstance;
+    }
+
     /* ---------- Getter and Setter Methods ---------- */
 
     public int getFieldSize() {
-        return FIELDSIZE;
+        return FIELD_SIZE;
+    }
+
+    /**
+     * method for logging the field into log file
+     * @return log-ready field
+     */
+    public String logField(){
+        StringBuilder fieldString = new StringBuilder();
+        for(int i = 0; i < FIELD_SIZE/4; i++){
+            for(int j = 0; j < FIELD_SIZE/4; j++){
+
+                if(field[i*4+j] == null){
+                    fieldString.append(" ".repeat(9));
+                }
+                else {
+                    fieldString.append(field[i * 4 + j].getName()).append(" ").append(field[i * 4 + j].getColor().name()).append(" ".repeat(7 - field[i * 4 + j].getColor().name().length()));
+                }
+
+            }
+            fieldString.append("\n");
+        }
+        return fieldString.toString();
     }
 
     public NumberCard[] getField() {

@@ -1,9 +1,11 @@
 package org.jinx.game;
 
+import org.jinx.databanklogin.RegistCon;
 import org.jinx.player.AgentDifficulty;
 import org.jinx.player.AutonomousPlayer;
 import org.jinx.player.Player;
 import org.jinx.wrapper.SafeScanner;
+import org.jinx.login.Login;
 
 import java.io.Serializable;
 import java.util.*;
@@ -38,6 +40,10 @@ public class PlayerController implements Serializable {
      */
     private transient final SafeScanner safeScanner;
 
+    private Login login;
+
+    private RegistCon loginData;
+
     /**
      * Standard Constructor for the Player Controller
      */
@@ -45,6 +51,8 @@ public class PlayerController implements Serializable {
         players = new LinkedList<>();
         currentPlayer = null;
         safeScanner = new SafeScanner();
+        login = new Login();
+        loginData = new RegistCon();
     }
 
     /**
@@ -67,8 +75,7 @@ public class PlayerController implements Serializable {
 
                 if (!oneMorePlayer) {
                     break;
-                }
-                else {
+                } else {
                     addOnePlayer();
                 }
 
@@ -88,20 +95,41 @@ public class PlayerController implements Serializable {
      */
     public void addOnePlayer() {
 
-        System.out.println(BLUE + "Gib deinen Spieler einen Namen:" + RESET);
+        System.out.println("Spieler registrieren?");
 
-        String playerName;
-        boolean isPlayerExisting;
-
-        do {
-            playerName = safeScanner.nextStringSafe();
-
-            isPlayerExisting = doesPlayerExist(playerName);
-
-            if (isPlayerExisting) {
-                System.out.println(BLUE + "Spieler " + playerName + " existiert bereits.\nBitte geben sie ein anderen Namen ein:" + RESET);
+        if (safeScanner.nextYesNoAnswer()) {
+            System.out.println("1: Textdatei\n2: Datenbank");
+            if (safeScanner.nextIntInRange(1, 2) == 1) {
+                login.register();
+            } else {
+                loginData.register();
             }
-        } while (isPlayerExisting);
+            addOnePlayer();
+            return;
+        }
+
+        System.out.println("Einloggen: ");
+
+        System.out.println("1: Textdatei\n2: Datenbank");
+        String username;
+        if (safeScanner.nextIntInRange(1, 2) == 1) {
+            username = login.loginSystem();
+        } else {
+            username = loginData.loginSystem();
+        }
+
+        if (username.equals("")) {
+            System.out.println("Falsches Passwort oder Benutzername");
+            addOnePlayer();
+            return;
+        }
+
+        boolean isPlayerExisting = doesPlayerExist(username);
+
+        if (isPlayerExisting) {
+            System.out.println("Bereits eingeloggt");
+            addOnePlayer();
+        }
 
         System.out.println("Wollen sie das der Spieler von alleine spielt?\n[y,yes,ja | n,no,nein]");
 
@@ -113,12 +141,12 @@ public class PlayerController implements Serializable {
             }
 
             AgentDifficulty difficulty = AgentDifficulty.values()[safeScanner.nextIntInRange(1, AgentDifficulty.values().length) - 1];
-            players.add(new AutonomousPlayer(playerName, difficulty));
+            players.add(new AutonomousPlayer(username, difficulty));
         } else {
-            players.add(new Player(playerName));
+            players.add(new Player(username));
         }
 
-        System.out.println(BLUE + playerName + " wurde dem Spiel hinzugefügt!" + RESET);
+        System.out.println(BLUE + username + " wurde dem Spiel hinzugefügt!" + RESET);
     }
 
     /**
@@ -191,7 +219,7 @@ public class PlayerController implements Serializable {
     public void printPlayerHands() {
         for (Player player : getPlayers()) {
             System.out.println("Aktuelle Hand von " + player.getName());
-            player.printHand();
+            player.getNumberCardHand().print();
             System.out.println();
         }
     }
