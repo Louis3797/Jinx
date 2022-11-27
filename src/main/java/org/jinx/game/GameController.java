@@ -119,7 +119,8 @@ public class GameController implements Serializable {
 
             while ((line = br.readLine()) != null) {
                 if (line.equals("-")) {
-                    paragraphs.add(lines);                    lines = new ArrayList<>();
+                    paragraphs.add(lines);
+                    lines = new ArrayList<>();
                 } else {
                     lines.add(line);
                 }
