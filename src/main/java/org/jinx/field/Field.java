@@ -184,22 +184,21 @@ public class Field implements Serializable{
      * @return log-ready field
      */
     public String logField(){
-        String fieldString = "";
+        StringBuilder fieldString = new StringBuilder();
         for(int i = 0; i < FIELD_SIZE/4; i++){
             for(int j = 0; j < FIELD_SIZE/4; j++){
 
                 if(field[i*4+j] == null){
-                    fieldString += " ".repeat(9);
+                    fieldString.append(" ".repeat(9));
                 }
                 else {
-                    fieldString += field[i*4+j].getName() + " " + field[i*4+j].getColor().name()
-                            +" ".repeat(7 - field[i*4+j].getColor().name().length());
+                    fieldString.append(field[i * 4 + j].getName()).append(" ").append(field[i * 4 + j].getColor().name()).append(" ".repeat(7 - field[i * 4 + j].getColor().name().length()));
                 }
 
             }
-            fieldString += "\n";
+            fieldString.append("\n");
         }
-        return fieldString;
+        return fieldString.toString();
     }
 
     public NumberCard[] getField() {
