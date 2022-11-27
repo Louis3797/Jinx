@@ -96,52 +96,6 @@ public class GameController implements Serializable {
 
     }
 
-    private void printDescHistory(Player player) {
-
-        SafeScanner scanner = new SafeScanner();
-
-        try {
-
-            BufferedReader br;
-
-            if (!player.isHuman()) {
-                br = new BufferedReader(new FileReader("Histories/" + "bot-" + player.getName() + "-" +
-                        ((AutonomousPlayer) player).getDifficulty() + ".txt"));
-
-            }
-            else {
-                br = new BufferedReader(new FileReader("Histories/" + player.getName() + ".txt"));
-            }
-
-            String line;
-            ArrayList<String> lines = new ArrayList<>();
-            ArrayList<ArrayList<String>> paragraphs = new ArrayList<>();
-
-            while ((line = br.readLine()) != null) {
-                if (line.equals("-")) {
-                    paragraphs.add(lines);
-                    lines = new ArrayList<>();
-                } else {
-                    lines.add(line);
-                }
-            }
-
-            System.out.println("Liste nach Punkten geordnet ausgeben?");
-            if (scanner.nextYesNoAnswer()){
-                paragraphs.sort(comparator);
-            }
-
-            for (ArrayList<String> list : paragraphs) {
-                System.out.println(WHITE_BOLD_BRIGHT + "" +list + RESET);
-            }
-
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-        }
-
-
-    }
-
     /**
      * Method starts the game
      */
@@ -192,12 +146,80 @@ public class GameController implements Serializable {
         // clear everything from current round
         pc.getPlayers().clear();
         highScoreList.clear();
+        replay();
         System.out.println("Nochmal spielen?");
 
         // start a new game
         if (scanner.nextYesNoAnswer()) {
             start();
         }
+
+    }
+
+    /**
+     * prints replay of last game
+     */
+    private void replay() {
+        try {
+            BufferedReader br = new BufferedReader(new FileReader("Spielzuege.log"));
+            String line;
+            while ((line = br.readLine()) != null) {
+
+                System.out.println(line);
+                Thread.sleep(500);
+            }
+        } catch (IOException | InterruptedException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    /**
+     * prints descending match-history of winner
+     *
+     * @param player winner
+     */
+    private void printDescHistory(Player player) {
+
+        SafeScanner scanner = new SafeScanner();
+
+        try {
+
+            BufferedReader br;
+
+            if (!player.isHuman()) {
+                br = new BufferedReader(new FileReader("Histories/" + "bot-" + player.getName() + "-" +
+                        ((AutonomousPlayer) player).getDifficulty() + ".txt"));
+
+            } else {
+                br = new BufferedReader(new FileReader("Histories/" + player.getName() + ".txt"));
+            }
+
+            String line;
+            ArrayList<String> lines = new ArrayList<>();
+            ArrayList<ArrayList<String>> paragraphs = new ArrayList<>();
+
+            while ((line = br.readLine()) != null) {
+                if (line.equals("-")) {
+                    paragraphs.add(lines);
+                    lines = new ArrayList<>();
+                } else {
+                    lines.add(line);
+                }
+            }
+
+            System.out.println("Liste nach Punkten geordnet ausgeben?");
+            if (scanner.nextYesNoAnswer()) {
+                paragraphs.sort(comparator);
+            }
+
+            for (ArrayList<String> list : paragraphs) {
+                System.out.println(WHITE_BOLD_BRIGHT + "" + list + RESET);
+            }
+
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+
 
     }
 

@@ -8,6 +8,7 @@ import org.jinx.cardstack.LuckyCardStack;
 import org.jinx.cardstack.NumberCardStack;
 import org.jinx.dice.Dice;
 import org.jinx.field.Field;
+import org.jinx.formatter.FileFormatter;
 import org.jinx.player.AgentDifficulty;
 import org.jinx.player.AutonomousPlayer;
 import org.jinx.player.Player;
@@ -108,8 +109,7 @@ public class Game implements Serializable {
             logger = Logger.getLogger(getClass().getName());
             fh = new FileHandler("Spielzuege.log");
             logger.addHandler(fh);
-            SimpleFormatter formatter = new SimpleFormatter();
-            fh.setFormatter(formatter);
+            fh.setFormatter(new FileFormatter());
             logger.setUseParentHandlers(false);
         } catch (IOException ignored) {
 
@@ -138,6 +138,7 @@ public class Game implements Serializable {
             ResourceManager.save(data, "gamestate.save");
 
             logger.info("Field set\n");
+            logger.info(field.logField());
 
             if (currentRound == 1) {
                 pc.next();  // initialize current player in PlayerController if it's the first round
@@ -383,7 +384,7 @@ public class Game implements Serializable {
         diceStack.push(dice.use());
 
         System.out.println("Du hast eine " + diceStack.peek() + " gewürfelt\nNochmal wuerfeln? [yes|no]");
-        logger.info(currentPlayer.getName() + " hat eine: " + diceStack.peek() + " gewuerfelt\n");
+        logger.info("\n" + currentPlayer.getName() + " hat eine: " + diceStack.peek() + " gewuerfelt\n");
 
         if ((currentPlayer.isHuman() && safeScanner.nextYesNoAnswer()) || (!currentPlayer.isHuman() && ((AutonomousPlayer) currentPlayer).considerRollDiceAgain(diceStack))) {
             logger.info(currentPlayer.getName() + " hat nochmal wuerfeln ausgewaehlt\n");
