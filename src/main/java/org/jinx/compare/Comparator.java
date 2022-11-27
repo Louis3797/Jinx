@@ -3,7 +3,10 @@ package org.jinx.compare;
 import java.util.ArrayList;
 
 public class Comparator {
-
+    /**
+     * Sorts list in descending order
+     * @return Sorted list
+     */
     public static java.util.Comparator<ArrayList<String>> comparator = (x, y) -> {
         for (int i = 0; i < Math.min(x.size(), y.size()); i++) {
             if (x.get(i) != y.get(i)) {

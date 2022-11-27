@@ -1,5 +1,6 @@
 package org.jinx.game;
 
+import org.jinx.databanklogin.RegistCon;
 import org.jinx.login.Login;
 import org.jinx.player.AgentDifficulty;
 import org.jinx.player.AutonomousPlayer;
@@ -41,6 +42,8 @@ public class PlayerController implements Serializable {
 
     private Login login;
 
+    private RegistCon loginData;
+
     /**
      * Standard Constructor for the Player Controller
      */
@@ -49,6 +52,7 @@ public class PlayerController implements Serializable {
         currentPlayer = null;
         safeScanner = new SafeScanner();
         login = new Login();
+        loginData = new RegistCon();
     }
 
     /**
@@ -92,15 +96,27 @@ public class PlayerController implements Serializable {
     public void addOnePlayer() {
 
         System.out.println("Spieler registrieren?");
+
         if (safeScanner.nextYesNoAnswer()) {
-            login.register();
+            System.out.println("1: Textdatei\n2: Datenbank");
+            if (safeScanner.nextIntInRange(1, 2) == 1) {
+                login.register();
+            } else {
+                loginData.register();
+            }
             addOnePlayer();
             return;
         }
 
         System.out.println("Einloggen: ");
 
-        String username = login.loginSystem();
+        System.out.println("1: Textdatei\n2: Datenbank");
+        String username;
+        if (safeScanner.nextIntInRange(1, 2) == 1) {
+            username = login.loginSystem();
+        } else {
+            username = loginData.loginSystem();
+        }
 
         if (username.equals("")) {
             System.out.println("Falsches Passwort oder Benutzername");

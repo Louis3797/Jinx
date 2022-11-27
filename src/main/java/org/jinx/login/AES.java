@@ -16,7 +16,7 @@ public class AES {
     private static byte[] key;
 
     /**
-     * setKey
+     * setKey for encryption
      * @param myKey
      */
     public static void setKey(final String myKey) {

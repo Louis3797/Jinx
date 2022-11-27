@@ -19,9 +19,9 @@ public class RegistCon {
     }
 
     /**
-     * Method to register User in database
+     * Method to register user in database
      */
-    public void regist2() {
+    public void register() {
         DataConnection dataConnection = new DataConnection();
 
         System.out.println(BLUE + "Benutzername:" + RESET);
@@ -29,7 +29,7 @@ public class RegistCon {
 
         if (dataConnection.checkUsername(playerName)) {
             System.out.println(BLUE + "Benutzer " + playerName + " existiert bereits.\nBitte geben sie ein anderen Namen ein:" + RESET);
-            regist2();
+            register();
         } else {
             System.out.println(BLUE + "Passwort:" + RESET);
             String passwort = safeScanner.nextStringSafe();
@@ -47,9 +47,9 @@ public class RegistCon {
     }
 
     /**
-     * Method to login in the System
+     * Method to login to the System
      */
-    public void loginSystem() {
+    public String loginSystem() {
         System.out.println(BLUE + "Benutzername:" + RESET);
         String userName = safeScanner.nextStringSafe();
 
@@ -58,12 +58,9 @@ public class RegistCon {
 
         DataConnection dataConnection = new DataConnection();
         if (dataConnection.checkUserandPassword(userName, pass)) {
-            System.out.println("logged");
-        } else {
-            System.out.println("Das hat leider nicht funktioniert. Versichere dich, " +
-                    "dass du die richtige Username und das richtige Passwort verwendest.");
-            loginSystem();
+            return userName;
         }
+        return "";
     }
 
 }
