@@ -146,7 +146,12 @@ public class GameController implements Serializable {
         // clear everything from current round
         pc.getPlayers().clear();
         highScoreList.clear();
-        replay();
+
+        System.out.println("Replay anschauen?");
+        if(scanner.nextYesNoAnswer()){
+            replay();
+        }
+
         System.out.println("Nochmal spielen?");
 
         // start a new game
