@@ -1,7 +1,6 @@
 package org.jinx.game;
 
 import org.jinx.card.NumberCard;
-import org.jinx.databanklogin.RegistCon;
 import org.jinx.highscore.HighScore;
 import org.jinx.player.AutonomousPlayer;
 import org.jinx.player.Player;

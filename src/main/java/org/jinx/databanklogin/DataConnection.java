@@ -25,8 +25,8 @@ public class DataConnection {
 
     /**
      * Username validation method with database
-     * @param username
-     * @return checkUser
+     * @param username username of player
+     * @return checkUser if user is in database
      */
     public boolean checkUsername(String username) {
         PreparedStatement ps;
@@ -51,9 +51,9 @@ public class DataConnection {
 
     /**
      * Username and Password validation method with database
-     * @param username
-     * @param password
-     * @return checkUser
+     * @param username username of player
+     * @param password password of player
+     * @return checkUser if next user is available
      */
     public boolean checkUserandPassword(String username,String password) {
         PreparedStatement ps;
