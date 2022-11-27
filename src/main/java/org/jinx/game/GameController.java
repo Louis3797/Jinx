@@ -95,6 +95,12 @@ public class GameController implements Serializable {
 
     }
 
+    private void printDescHistory(String winner){
+
+
+
+    }
+
     /**
      * Method starts the game
      */
@@ -168,7 +174,7 @@ public class GameController implements Serializable {
                     file = new FileWriter("Histories/" + player.getName() + ".txt",true);
                 }
 
-                file.append("Spieler: ").append(player.getName()).append("\n");
+                file.append("Spieler: ").append(player.isHuman() ? player.getName() : "bot-" + player.getName() + "-" + ((AutonomousPlayer) player).getDifficulty()).append("\n");
                 file.append("Kartensumme: ").append(String.valueOf(player.getPoints())).append("\n");
                 file.append("Datum: " ).append(String.valueOf(date)).append("\n");
                 file.append("Mitspieler: ");
