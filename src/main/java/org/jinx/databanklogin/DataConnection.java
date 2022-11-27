@@ -1,11 +1,13 @@
 package org.jinx.databanklogin;
 
+import java.io.Serializable;
 import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class DataConnection {
+public class DataConnection implements Serializable {
 
+    public static final long serialVersionUID = 42L;
 
     /**
       Method to connect with database

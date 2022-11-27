@@ -2,6 +2,8 @@ package org.jinx.databanklogin;
 
 
 import org.jinx.wrapper.SafeScanner;
+
+import java.io.Serializable;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -10,9 +12,11 @@ import java.util.logging.Logger;
 import static org.jinx.utils.ConsoleColor.BLUE;
 import static org.jinx.utils.ConsoleColor.RESET;
 
-public class RegistCon {
+public class RegistCon implements Serializable {
 
-    private final SafeScanner safeScanner;
+    public static final long serialVersionUID = 42L;
+
+    private transient final SafeScanner safeScanner;
 
     public RegistCon() {
         safeScanner = new SafeScanner();
