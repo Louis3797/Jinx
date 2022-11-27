@@ -137,6 +137,7 @@ public class GameController implements Serializable {
             }
         }
 
+        // writes and deletes relevant data to and from files
         writeHistories();
         endSequenz();
         writeHighScoreToFile();
@@ -147,6 +148,7 @@ public class GameController implements Serializable {
         pc.getPlayers().clear();
         highScoreList.clear();
 
+        // look at replay of last round
         System.out.println("Replay anschauen?");
         if(scanner.nextYesNoAnswer()){
             replay();
@@ -192,10 +194,12 @@ public class GameController implements Serializable {
             BufferedReader br;
 
             if (!player.isHuman()) {
+                // prints bot history
                 br = new BufferedReader(new FileReader("Histories/" + "bot-" + player.getName() + "-" +
                         ((AutonomousPlayer) player).getDifficulty() + ".txt"));
 
             } else {
+                // prints player history
                 br = new BufferedReader(new FileReader("Histories/" + player.getName() + ".txt"));
             }
 
@@ -203,6 +207,10 @@ public class GameController implements Serializable {
             ArrayList<String> lines = new ArrayList<>();
             ArrayList<ArrayList<String>> paragraphs = new ArrayList<>();
 
+            // reads lines and cuts off at "-"
+            // all info before that is stored in a string
+            // this string is added to a list which
+            // is added to a 2d list
             while ((line = br.readLine()) != null) {
                 if (line.equals("-")) {
                     paragraphs.add(lines);
@@ -213,10 +221,12 @@ public class GameController implements Serializable {
             }
 
             System.out.println("Liste nach Punkten geordnet ausgeben?");
+            // sorts list by points in desc order
             if (scanner.nextYesNoAnswer()) {
                 paragraphs.sort(comparator);
             }
 
+            // prints history of player
             for (ArrayList<String> list : paragraphs) {
                 System.out.println(WHITE_BOLD_BRIGHT + "" + list + RESET);
             }
@@ -228,6 +238,9 @@ public class GameController implements Serializable {
 
     }
 
+    /**
+     * writes matchhistory for all players including bots
+     */
     private void writeHistories() {
 
         Date date = new Date();
@@ -236,18 +249,22 @@ public class GameController implements Serializable {
         for (Player player : pc.getPlayers()) {
             try {
                 if (!player.isHuman()) {
+                    // history with bot name
                     file = new FileWriter("Histories/" + "bot-" + player.getName() + "-" +
                             ((AutonomousPlayer) player).getDifficulty() + ".txt", true);
                 } else {
+                    // history with player name
                     file = new FileWriter("Histories/" + player.getName() + ".txt", true);
                 }
 
+                // appends relevant game information
                 file.append("Spieler: ").append(player.isHuman() ? player.getName() : "bot-" + player.getName() + "-" +
                         ((AutonomousPlayer) player).getDifficulty()).append("\n");
                 file.append("Kartensumme: ").append(String.valueOf(player.getPoints())).append("\n");
                 file.append("Datum: ").append(String.valueOf(date)).append("\n");
                 file.append("Mitspieler: ");
 
+                // appends bot names
                 for (Player player1 : pc.getPlayers()) {
                     if (!player1.getName().equals(player.getName())) {
                         if (!player1.isHuman()) {
