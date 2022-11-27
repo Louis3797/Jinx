@@ -37,7 +37,7 @@ public class Game implements Serializable {
     private SaveData data;
 
     private transient Logger logger;
-    FileHandler fh;
+    private FileHandler fh;
 
     public static final long serialVersionUID = 42L;
 
@@ -109,7 +109,7 @@ public class Game implements Serializable {
             SimpleFormatter formatter = new SimpleFormatter();
             fh.setFormatter(formatter);
             logger.setUseParentHandlers(false);
-        } catch (IOException e) {
+        } catch (IOException ignored) {
 
         }
 
@@ -916,10 +916,14 @@ public class Game implements Serializable {
         //remove the highest from current player that ended turn
         logger.info(pc.getCurrentPlayer().getName() + " hat: " + pc.getCurrentPlayer().getNumberCardHand().get(index).getName() + " " +
                 pc.getCurrentPlayer().getNumberCardHand().get(index).getColor() + " weggeworfen\n");
-        pc.getCurrentPlayer().getNumberCardHand().remove(highest.get(index));
+        pc.getCurrentPlayer().getNumberCardHand().remove(index);
 
         System.out.println("NACH WEGWURF ----------------");
         pc.printPlayerHands();
+    }
+
+    public FileHandler getFh(){
+        return fh;
     }
 
 }

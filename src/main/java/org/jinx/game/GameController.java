@@ -1,6 +1,5 @@
 package org.jinx.game;
 
-import org.jinx.Login.Login;
 import org.jinx.card.NumberCard;
 import org.jinx.highscore.HighScore;
 import org.jinx.player.AutonomousPlayer;
@@ -13,6 +12,7 @@ import java.io.*;
 import java.util.*;
 import java.util.logging.Logger;
 
+import static org.jinx.compare.Comparator.comparator;
 import static org.jinx.utils.ConsoleColor.*;
 
 public class GameController implements Serializable {
@@ -73,30 +73,66 @@ public class GameController implements Serializable {
 
         System.out.println("\n" + WHITE_BACKGROUND + "Spielende!" + RESET);
 
-        Map<String, Integer> winner = new HashMap<>();
+        Map<Player, Integer> winner = new HashMap<>();
 
         for (Player player : pc.getPlayers()) {
             int total = 0;
             for (NumberCard card : player.getNumberCardHand()) {
                 total += Integer.parseInt(card.getName());
             }
-            winner.put(player.getName(), total);
+            winner.put(player, total);
         }
 
-        System.out.println(winner);
 
         int max = Collections.max(winner.values());
 
-        for (Map.Entry<String, Integer> entry : winner.entrySet()) {
+        for (Map.Entry<Player, Integer> entry : winner.entrySet()) {
             if (max == entry.getValue()) {
-                System.out.println("Gewinner ist: " + PINK_BOLD_BRIGHT + entry.getKey() + RESET);
+                System.out.println("Gewinner ist: " + PINK_BOLD_BRIGHT + entry.getKey().getName() + RESET);
+                printDescHistory(entry.getKey());
             }
         }
 
+
     }
 
-    private void printDescHistory(String winner){
+    private void printDescHistory(Player player) {
 
+        try {
+
+            BufferedReader br;
+
+            if (!player.isHuman()) {
+                br = new BufferedReader(new FileReader("Histories/" + "bot-" + player.getName() + "-" +
+                        ((AutonomousPlayer) player).getDifficulty() + ".txt"));
+
+            }
+            else {
+                br = new BufferedReader(new FileReader("Histories/" + player.getName() + ".txt"));
+            }
+
+            String line;
+            ArrayList<String> lines = new ArrayList<>();
+            ArrayList<ArrayList<String>> paragraphs = new ArrayList<>();
+
+            while ((line = br.readLine()) != null) {
+                if (line.equals("-")) {
+                    paragraphs.add(lines);
+                    lines = new ArrayList<>();
+                } else {
+                    lines.add(line);
+                }
+            }
+
+            paragraphs.sort(comparator);
+
+            for (ArrayList<String> list : paragraphs) {
+                System.out.println(WHITE_BOLD_BRIGHT + "" +list + RESET);
+            }
+
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
 
 
     }
@@ -119,7 +155,7 @@ public class GameController implements Serializable {
         File saveState = new File("gamestate.save");
 
         // if savestate exists
-        System.out.println(saveState.length() !=0 ? "Savestate laden?" : "");
+        System.out.println(saveState.length() != 0 ? "Savestate laden?" : "");
         if ((saveState.length() != 0) && scanner.nextYesNoAnswer()) {
 
             // loads saved state
@@ -132,8 +168,7 @@ public class GameController implements Serializable {
                 g1.play(i);
             }
 
-        }
-        else {
+        } else {
             pc.addPlayers();
             // initialize without savefile
             g1.initializeDecks();
@@ -143,10 +178,11 @@ public class GameController implements Serializable {
             }
         }
 
+        writeHistories();
         endSequenz();
         writeHighScoreToFile();
         clearSave();
-        writeHistories();
+        g1.getFh().close();
 
         // clear everything from current round
         pc.getPlayers().clear();
@@ -160,44 +196,44 @@ public class GameController implements Serializable {
 
     }
 
-    private void writeHistories(){
+    private void writeHistories() {
 
         Date date = new Date();
         FileWriter file;
 
-        for (Player player : pc.getPlayers()){
-            try{
-                if (!player.isHuman()){
-                    file = new FileWriter("Histories/" + "bot-" +player.getName() + "-" +((AutonomousPlayer) player).getDifficulty() + ".txt",true);
-                }
-                else {
-                    file = new FileWriter("Histories/" + player.getName() + ".txt",true);
+        for (Player player : pc.getPlayers()) {
+            try {
+                if (!player.isHuman()) {
+                    file = new FileWriter("Histories/" + "bot-" + player.getName() + "-" +
+                            ((AutonomousPlayer) player).getDifficulty() + ".txt", true);
+                } else {
+                    file = new FileWriter("Histories/" + player.getName() + ".txt", true);
                 }
 
-                file.append("Spieler: ").append(player.isHuman() ? player.getName() : "bot-" + player.getName() + "-" + ((AutonomousPlayer) player).getDifficulty()).append("\n");
+                file.append("Spieler: ").append(player.isHuman() ? player.getName() : "bot-" + player.getName() + "-" +
+                        ((AutonomousPlayer) player).getDifficulty()).append("\n");
                 file.append("Kartensumme: ").append(String.valueOf(player.getPoints())).append("\n");
-                file.append("Datum: " ).append(String.valueOf(date)).append("\n");
+                file.append("Datum: ").append(String.valueOf(date)).append("\n");
                 file.append("Mitspieler: ");
 
-                for (Player player1 : pc.getPlayers()){
-                    if (!player1.getName().equals(player.getName())){
-                        if(!player1.isHuman()){
+                for (Player player1 : pc.getPlayers()) {
+                    if (!player1.getName().equals(player.getName())) {
+                        if (!player1.isHuman()) {
                             file.append("bot-").append(player1.getName())
                                     .append("-")
                                     .append(String.valueOf(((AutonomousPlayer) player1).getDifficulty()))
                                     .append(" ");
-                        }
-                        else {
+                        } else {
                             file.append(player1.getName()).append(" ");
                         }
 
                     }
                 }
 
-                file.append("\n\n");
+                file.append("\n-\n");
+
                 file.close();
-            }
-            catch (IOException e){
+            } catch (IOException e) {
                 System.out.println(e.getMessage());
             }
 
