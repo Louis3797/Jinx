@@ -1,4 +1,4 @@
-package org.jinx.Login;
+package org.jinx.login;
 
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;

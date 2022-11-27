@@ -1,6 +1,6 @@
 package org.jinx.game;
 
-import org.jinx.Login.Login;
+import org.jinx.login.Login;
 import org.jinx.player.AgentDifficulty;
 import org.jinx.player.AutonomousPlayer;
 import org.jinx.player.Player;

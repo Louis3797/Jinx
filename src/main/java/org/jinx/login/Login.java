@@ -1,4 +1,4 @@
-package org.jinx.Login;
+package org.jinx.login;
 
 
 import org.jinx.wrapper.SafeScanner;
