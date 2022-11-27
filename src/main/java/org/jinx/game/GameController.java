@@ -1,6 +1,7 @@
 package org.jinx.game;
 
 import org.jinx.card.NumberCard;
+import org.jinx.databanklogin.RegistCon;
 import org.jinx.highscore.HighScore;
 import org.jinx.player.AutonomousPlayer;
 import org.jinx.player.Player;
@@ -145,11 +146,11 @@ public class GameController implements Serializable {
     /**
      * Method starts the game
      */
+
     public void start() throws Exception {
         SafeScanner scanner = new SafeScanner();
 
-        // Load old Highscores
-        getOldHighScores();
+
 
         // show startsequenz
         startSequenz();
