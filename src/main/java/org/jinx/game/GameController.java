@@ -98,6 +98,8 @@ public class GameController implements Serializable {
 
     private void printDescHistory(Player player) {
 
+        SafeScanner scanner = new SafeScanner();
+
         try {
 
             BufferedReader br;
@@ -117,14 +119,16 @@ public class GameController implements Serializable {
 
             while ((line = br.readLine()) != null) {
                 if (line.equals("-")) {
-                    paragraphs.add(lines);
-                    lines = new ArrayList<>();
+                    paragraphs.add(lines);                    lines = new ArrayList<>();
                 } else {
                     lines.add(line);
                 }
             }
 
-            paragraphs.sort(comparator);
+            System.out.println("Liste nach Punkten geordnet ausgeben?");
+            if (scanner.nextYesNoAnswer()){
+                paragraphs.sort(comparator);
+            }
 
             for (ArrayList<String> list : paragraphs) {
                 System.out.println(WHITE_BOLD_BRIGHT + "" +list + RESET);
