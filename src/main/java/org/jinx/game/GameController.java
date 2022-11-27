@@ -150,7 +150,7 @@ public class GameController implements Serializable {
     public void start() throws Exception {
         SafeScanner scanner = new SafeScanner();
 
-
+        getOldHighScores();
 
         // show startsequenz
         startSequenz();
