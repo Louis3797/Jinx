@@ -64,8 +64,6 @@ public class Login implements Serializable{
      * Method to login to System
      * @return if input is correct return username, if input is wrong return empty string
      */
-    public String loginSystem() {
-
 
     public String loginSystem() {
 

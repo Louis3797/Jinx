@@ -143,7 +143,7 @@ public class GameController implements Serializable {
 
         // writes and deletes relevant data to and from files
         //writeHistories();
-        //savehistory.savadata();
+        savehistory.savadata();
         endSequenz();
         writeHighScoreToFile();
         clearSave();

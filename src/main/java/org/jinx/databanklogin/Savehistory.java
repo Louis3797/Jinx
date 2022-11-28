@@ -24,7 +24,7 @@ public class Savehistory {
         Date date = new Date();
         try {
             PreparedStatement ps = DataConnection.getConnection().prepareStatement("INSERT INTO " +
-                    "`spielhistory`(`user`, `katensumme`,`datum`, `mitspieler` ) VALUES (?,?,?,?)");
+                    "`spielhistory`(`user`, `kartensumme`,`datum`, `mitspieler` ) VALUES (?,?,?,?)");
             for (Player player : pc.getPlayers()) {
                 ps.setString(1, player.getName());
                 ps.setInt(2, player.getPoints());
@@ -33,7 +33,7 @@ public class Savehistory {
                 for (Player player1 : pc.getPlayers()) {
 
                     if (!player1.getName().equals(player.getName())) {
-                        mates += player1.getName();
+                        mates += player1.getName() + " ";
                     }
                 }
                 ps.setString(4, mates);
