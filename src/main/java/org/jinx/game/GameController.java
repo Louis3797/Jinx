@@ -229,8 +229,7 @@ public class GameController implements Serializable {
 
             if (!player.isHuman()) {
                 // prints bot history
-                br = new BufferedReader(new FileReader("Histories/" + "bot-" + player.getName() + "-" +
-                        ((AutonomousPlayer) player).getDifficulty() + ".txt"));
+                br = new BufferedReader(new FileReader("Histories/" + ((AutonomousPlayer) player).getDifficulty() + ".txt"));
 
             } else {
                 // prints player history
@@ -283,8 +282,7 @@ public class GameController implements Serializable {
             try {
                 if (!player.isHuman()) {
                     // history with bot name
-                    file = new FileWriter("Histories/" + "bot-" + player.getName() + "-" +
-                            ((AutonomousPlayer) player).getDifficulty() + ".txt", true);
+                    file = new FileWriter("Histories/" + ((AutonomousPlayer) player).getDifficulty() + ".txt", true);
                 } else {
                     // history with player name
                     file = new FileWriter("Histories/" + player.getName() + ".txt", true);
