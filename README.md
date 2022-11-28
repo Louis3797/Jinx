@@ -330,7 +330,7 @@ Alle nennenswerten Änderungen an diesem Projekt werden hier dokumentiert.
 
 ### Added
 
--Spiel speichern
--Replay 
--DB und txt reg und login
--DB und txt spielverlauf
+- Spiel speichern
+- Replay 
+- DB und txt reg und login
+-  und txt spielverlauf
