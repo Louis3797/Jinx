@@ -1,6 +1,7 @@
 package org.jinx.game;
 
 import org.jinx.card.NumberCard;
+import org.jinx.databanklogin.Savehistory;
 import org.jinx.highscore.HighScore;
 import org.jinx.player.AutonomousPlayer;
 import org.jinx.player.Player;
@@ -19,6 +20,8 @@ public class GameController implements Serializable {
 
     private final Logger LOGGER = Logger.getLogger(GameController.class.getName());
 
+    private final Savehistory savehistory;
+
     private final PlayerController pc;
 
     private final List<HighScore> highScoreList;
@@ -34,6 +37,7 @@ public class GameController implements Serializable {
         pc = PlayerController.getPlayerControllerInstance();
         highScoreList = new ArrayList<>();
         data = new SaveData();
+        savehistory = new Savehistory();
     }
 
     /**
@@ -102,7 +106,6 @@ public class GameController implements Serializable {
 
     public void start() throws Exception {
         SafeScanner scanner = new SafeScanner();
-
         getOldHighScores();
 
         // show startsequenz
@@ -138,7 +141,8 @@ public class GameController implements Serializable {
         }
 
         // writes and deletes relevant data to and from files
-        writeHistories();
+        //writeHistories();
+        //savehistory.savadata();
         endSequenz();
         writeHighScoreToFile();
         clearSave();

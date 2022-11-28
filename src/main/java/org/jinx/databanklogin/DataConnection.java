@@ -46,7 +46,7 @@ public class DataConnection implements Serializable {
                 checkUser = true;
             }
         } catch (SQLException ex) {
-            Logger.getLogger(DataConnection.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DataConnection.class.getName()).log(Level.WARNING, ex.getMessage());
         }
         return checkUser;
     }
@@ -73,7 +73,7 @@ public class DataConnection implements Serializable {
                 checkUser = true;
             }
         } catch (SQLException ex) {
-            Logger.getLogger(DataConnection.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DataConnection.class.getName()).log(Level.WARNING, ex.getMessage());
         }
         return checkUser;
     }

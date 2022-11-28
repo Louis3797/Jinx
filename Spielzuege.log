@@ -1,0 +1,279 @@
+Field set
+4 RED    6 RED    3 GREEN  2 WHITE  
+5 YELLOW 1 YELLOW 5 GREEN  3 BLACK  
+3 BLUE   3 CYAN   4 WHITE  1 RED    
+6 YELLOW 6 WHITE  2 PINK   1 GREEN  
+
+Kerim hat eine: 4 gewuerfelt
+Kerim hat Karte: 4 RED gewaehlt
+
+         6 RED    3 GREEN  2 WHITE  
+5 YELLOW 1 YELLOW 5 GREEN  3 BLACK  
+3 BLUE   3 CYAN   4 WHITE  1 RED    
+6 YELLOW 6 WHITE  2 PINK   1 GREEN  
+
+Peter hat eine: 1 gewuerfelt
+Peter hat nochmal wuerfeln ausgewaehlt
+Peter hat eine: 5 gewuerfelt
+Peter hat Karte: 5 YELLOW gewaehlt
+
+         6 RED    3 GREEN  2 WHITE  
+         1 YELLOW 5 GREEN  3 BLACK  
+3 BLUE   3 CYAN   4 WHITE  1 RED    
+6 YELLOW 6 WHITE  2 PINK   1 GREEN  
+
+Kerim hat eine: 1 gewuerfelt
+Kerim hat Karte: 1 RED gewaehlt
+
+         6 RED    3 GREEN  2 WHITE  
+         1 YELLOW 5 GREEN  3 BLACK  
+3 BLUE   3 CYAN   4 WHITE           
+6 YELLOW 6 WHITE  2 PINK   1 GREEN  
+
+Peter hat eine: 1 gewuerfelt
+Peter hat Karte: 1 YELLOW gewaehlt
+
+         6 RED    3 GREEN  2 WHITE  
+                  5 GREEN  3 BLACK  
+3 BLUE   3 CYAN   4 WHITE           
+6 YELLOW 6 WHITE  2 PINK   1 GREEN  
+
+Kerim hat eine: 6 gewuerfelt
+Kerim hat Karte: 6 RED gewaehlt
+
+                  3 GREEN  2 WHITE  
+                  5 GREEN  3 BLACK  
+3 BLUE   3 CYAN   4 WHITE           
+6 YELLOW 6 WHITE  2 PINK   1 GREEN  
+
+Peter hat eine: 4 gewuerfelt
+Peter hat Karte: 4 WHITE gewaehlt
+
+                  3 GREEN  2 WHITE  
+                  5 GREEN  3 BLACK  
+3 BLUE   3 CYAN                     
+6 YELLOW 6 WHITE  2 PINK   1 GREEN  
+
+Kerim hat eine: 2 gewuerfelt
+Kerim hat Karte: 2 PINK gewaehlt
+
+                  3 GREEN  2 WHITE  
+                  5 GREEN  3 BLACK  
+3 BLUE   3 CYAN                     
+6 YELLOW 6 WHITE           1 GREEN  
+
+Peter hat eine: 6 gewuerfelt
+Peter hat Karte: 6 YELLOW gewaehlt
+
+                  3 GREEN  2 WHITE  
+                  5 GREEN  3 BLACK  
+3 BLUE   3 CYAN                     
+         6 WHITE           1 GREEN  
+
+Kerim hat eine: 2 gewuerfelt
+Kerim hat nochmal wuerfeln ausgewaehlt
+Kerim hat eine: 1 gewuerfelt
+Kerim hat undo benutzt
+Kerim hat altes Wuerfelergebnis: 2
+Kerim hat Karte: 2 WHITE gewaehlt
+
+                  3 GREEN           
+                  5 GREEN  3 BLACK  
+3 BLUE   3 CYAN                     
+         6 WHITE           1 GREEN  
+
+Peter hat eine: 4 gewuerfelt
+Peter hat nochmal wuerfeln ausgewaehlt
+Peter hat eine: 2 gewuerfelt
+Peter hat undo benutzt
+Peter hat altes Wuerfelergebnis: 4
+Runde beendet
+Peter hat: 5 YELLOW weggeworfen
+Field set
+1 WHITE  4 BLACK  6 BLACK  3 YELLOW 
+2 RED    2 BLACK  2 GREEN  3 RED    
+4 BLUE   5 CYAN   4 GREEN  3 PINK   
+2 CYAN   2 YELLOW 4 CYAN   6 CYAN   
+
+Peter hat eine: 1 gewuerfelt
+Peter hat nochmal wuerfeln ausgewaehlt
+Peter hat eine: 5 gewuerfelt
+Peter hat Karte: 5 CYAN gewaehlt
+
+1 WHITE  4 BLACK  6 BLACK  3 YELLOW 
+2 RED    2 BLACK  2 GREEN  3 RED    
+4 BLUE            4 GREEN  3 PINK   
+2 CYAN   2 YELLOW 4 CYAN   6 CYAN   
+
+Kerim hat eine: 4 gewuerfelt
+Kerim hat nochmal wuerfeln ausgewaehlt
+Kerim hat eine: 2 gewuerfelt
+Kerim hat Karte: 2 RED gewaehlt
+
+1 WHITE  4 BLACK  6 BLACK  3 YELLOW 
+         2 BLACK  2 GREEN  3 RED    
+4 BLUE            4 GREEN  3 PINK   
+2 CYAN   2 YELLOW 4 CYAN   6 CYAN   
+
+Peter hat eine: 3 gewuerfelt
+Peter hat Karte: 3 YELLOW gewaehlt
+
+1 WHITE  4 BLACK  6 BLACK           
+         2 BLACK  2 GREEN  3 RED    
+4 BLUE            4 GREEN  3 PINK   
+2 CYAN   2 YELLOW 4 CYAN   6 CYAN   
+
+Kerim hat eine: 5 gewuerfelt
+Kerim hat nochmal wuerfeln ausgewaehlt
+Kerim hat eine: 1 gewuerfelt
+Kerim hat Karte: 1 WHITE gewaehlt
+
+         4 BLACK  6 BLACK           
+         2 BLACK  2 GREEN  3 RED    
+4 BLUE            4 GREEN  3 PINK   
+2 CYAN   2 YELLOW 4 CYAN   6 CYAN   
+
+Peter hat eine: 3 gewuerfelt
+Peter hat nochmal wuerfeln ausgewaehlt
+Peter hat eine: 5 gewuerfelt
+Peter hat undo benutzt
+Peter hat altes Wuerfelergebnis: 3
+Peter hat Karte: 3 PINK gewaehlt
+
+         4 BLACK  6 BLACK           
+         2 BLACK  2 GREEN  3 RED    
+4 BLUE            4 GREEN           
+2 CYAN   2 YELLOW 4 CYAN   6 CYAN   
+
+Kerim hat eine: 1 gewuerfelt
+Kerim hat nochmal wuerfeln ausgewaehlt
+Kerim hat eine: 5 gewuerfelt
+Kerim hat undo benutzt
+Kerim hat altes Wuerfelergebnis: 1
+Runde beendet
+Kerim hat: 2 PINK weggeworfen
+Field set
+1 CYAN   4 YELLOW 5 BLUE   5 RED    
+1 PINK   6 BLUE   1 BLACK  4 PINK   
+5 BLACK  3 WHITE  2 BLUE   1 BLUE   
+6 PINK   6 GREEN  5 WHITE  5 PINK   
+
+Kerim hat eine: 1 gewuerfelt
+Kerim hat nochmal wuerfeln ausgewaehlt
+Kerim hat eine: 1 gewuerfelt
+Kerim hat Karte: 1 CYAN gewaehlt
+
+         4 YELLOW 5 BLUE   5 RED    
+1 PINK   6 BLUE   1 BLACK  4 PINK   
+5 BLACK  3 WHITE  2 BLUE   1 BLUE   
+6 PINK   6 GREEN  5 WHITE  5 PINK   
+
+Peter hat eine: 2 gewuerfelt
+Peter hat nochmal wuerfeln ausgewaehlt
+Peter hat eine: 1 gewuerfelt
+Peter hat Karte: 1 PINK gewaehlt
+
+         4 YELLOW 5 BLUE   5 RED    
+         6 BLUE   1 BLACK  4 PINK   
+5 BLACK  3 WHITE  2 BLUE   1 BLUE   
+6 PINK   6 GREEN  5 WHITE  5 PINK   
+
+Kerim hat eine: 2 gewuerfelt
+Kerim hat nochmal wuerfeln ausgewaehlt
+Kerim hat eine: 5 gewuerfelt
+Kerim hat Karte: 5 WHITE gewaehlt
+
+         4 YELLOW 5 BLUE   5 RED    
+         6 BLUE   1 BLACK  4 PINK   
+5 BLACK  3 WHITE  2 BLUE   1 BLUE   
+6 PINK   6 GREEN           5 PINK   
+
+Peter hat eine: 4 gewuerfelt
+Peter hat Karte: 4 PINK gewaehlt
+
+         4 YELLOW 5 BLUE   5 RED    
+         6 BLUE   1 BLACK           
+5 BLACK  3 WHITE  2 BLUE   1 BLUE   
+6 PINK   6 GREEN           5 PINK   
+
+Kerim hat eine: 5 gewuerfelt
+Kerim hat Karte: 5 RED gewaehlt
+
+         4 YELLOW 5 BLUE            
+         6 BLUE   1 BLACK           
+5 BLACK  3 WHITE  2 BLUE   1 BLUE   
+6 PINK   6 GREEN           5 PINK   
+
+Peter hat eine: 2 gewuerfelt
+Peter hat nochmal wuerfeln ausgewaehlt
+Peter hat eine: 6 gewuerfelt
+Peter hat Karte: 6 PINK gewaehlt
+
+         4 YELLOW 5 BLUE            
+         6 BLUE   1 BLACK           
+5 BLACK  3 WHITE  2 BLUE   1 BLUE   
+         6 GREEN           5 PINK   
+
+Kerim hat eine: 2 gewuerfelt
+Kerim hat nochmal wuerfeln ausgewaehlt
+Kerim hat eine: 4 gewuerfelt
+Kerim hat Karte: 4 YELLOW gewaehlt
+
+                  5 BLUE            
+         6 BLUE   1 BLACK           
+5 BLACK  3 WHITE  2 BLUE   1 BLUE   
+         6 GREEN           5 PINK   
+
+Peter hat eine: 5 gewuerfelt
+Peter hat Karte: 5 PINK gewaehlt
+
+                  5 BLUE            
+         6 BLUE   1 BLACK           
+5 BLACK  3 WHITE  2 BLUE   1 BLUE   
+         6 GREEN                    
+
+Kerim hat eine: 1 gewuerfelt
+Kerim hat nochmal wuerfeln ausgewaehlt
+Kerim hat eine: 3 gewuerfelt
+Kerim hat Karte: 3 WHITE gewaehlt
+
+                  5 BLUE            
+         6 BLUE   1 BLACK           
+5 BLACK           2 BLUE   1 BLUE   
+         6 GREEN                    
+
+Peter hat eine: 6 gewuerfelt
+Peter hat Karte: 6 GREEN gewaehlt
+
+                  5 BLUE            
+         6 BLUE   1 BLACK           
+5 BLACK           2 BLUE   1 BLUE   
+                                    
+
+Kerim hat eine: 5 gewuerfelt
+Kerim hat Karte: 5 BLUE gewaehlt
+
+                                    
+         6 BLUE   1 BLACK           
+5 BLACK           2 BLUE   1 BLUE   
+                                    
+
+Peter hat eine: 6 gewuerfelt
+Peter hat Karte: 6 BLUE gewaehlt
+
+                                    
+                  1 BLACK           
+5 BLACK           2 BLUE   1 BLUE   
+                                    
+
+Kerim hat eine: 2 gewuerfelt
+Kerim hat Karte: 2 BLUE gewaehlt
+
+                                    
+                  1 BLACK           
+5 BLACK                    1 BLUE   
+                                    
+
+Peter hat eine: 4 gewuerfelt
+Runde beendet
+Peter hat: 3 PINK weggeworfen

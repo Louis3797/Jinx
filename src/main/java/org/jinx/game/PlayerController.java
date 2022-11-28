@@ -96,7 +96,7 @@ public class PlayerController implements Serializable {
     public void addOnePlayer() {
 
         System.out.println("Spieler registrieren?");
-
+        
         if (safeScanner.nextYesNoAnswer()) {
             System.out.println("1: Textdatei\n2: Datenbank");
             if (safeScanner.nextIntInRange(1, 2) == 1) {
