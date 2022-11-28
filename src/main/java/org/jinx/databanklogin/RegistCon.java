@@ -61,6 +61,11 @@ public class RegistCon implements Serializable {
         String pass = safeScanner.nextStringSafe();
 
         DataConnection dataConnection = new DataConnection();
+
+        if(DataConnection.getConnection() == null){
+            return "Keine Verbindung moeglich";
+        }
+
         if (dataConnection.checkUserandPassword(userName, pass)) {
             return userName;
         }

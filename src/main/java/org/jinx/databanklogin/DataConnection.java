@@ -1,5 +1,7 @@
 package org.jinx.databanklogin;
 
+import org.jinx.game.PlayerController;
+
 import java.io.Serializable;
 import java.sql.*;
 import java.util.logging.Level;
@@ -9,18 +11,19 @@ public class DataConnection implements Serializable {
 
     public static final long serialVersionUID = 42L;
 
+    private static final PlayerController pc = PlayerController.getPlayerControllerInstance();
+
     /**
       Method to connect with database
      *
      * @return Connection
      */
     public static Connection getConnection() {
-
         Connection connection = null;
         try {
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/mysql_database", "root", "admin");
+            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/mysqll_database", "root", "admin");
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println("Verbindung zur Datenbank konnte nicht hergestellt werden\nTextdatei wird benutzt.");
         }
         return connection;
     }

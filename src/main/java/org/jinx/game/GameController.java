@@ -1,6 +1,7 @@
 package org.jinx.game;
 
 import org.jinx.card.NumberCard;
+import org.jinx.databanklogin.DataConnection;
 import org.jinx.databanklogin.Savehistory;
 import org.jinx.highscore.HighScore;
 import org.jinx.player.AutonomousPlayer;
@@ -140,6 +141,10 @@ public class GameController implements Serializable {
 
             System.out.println("[1] Textdatei\n[2] Datenbank");
             if(scanner.nextIntInRange(1,2) == 1){
+                pc.setTxtLoginRegister(true);
+            }
+
+            if(DataConnection.getConnection() == null){
                 pc.setTxtLoginRegister(true);
             }
 
