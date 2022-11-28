@@ -333,4 +333,4 @@ Alle nennenswerten Änderungen an diesem Projekt werden hier dokumentiert.
 - Spiel speichern
 - Replay 
 - DB und txt reg und login
--  und txt spielverlauf
+- DB und txt spielverlauf
