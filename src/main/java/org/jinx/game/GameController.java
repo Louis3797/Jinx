@@ -10,9 +10,6 @@ import org.jinx.savestate.SaveData;
 import org.jinx.wrapper.SafeScanner;
 
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.*;
 import java.util.logging.Logger;
 
@@ -172,232 +169,201 @@ public class GameController implements Serializable {
     }
 
     /**
-     * Writes Match-history for all players
+     * prints replay of last game
      */
-    private void writeMatchHistory() {
-        pc.addPlayers();
-        Date date = new Date();
+    private void replay() {
+        try {
+            BufferedReader br = new BufferedReader(new FileReader("Spielzuege.log"));
+            String line;
+            while ((line = br.readLine()) != null) {
+
+                System.out.println(line);
+                Thread.sleep(500);
+            }
+        } catch (IOException | InterruptedException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    /**
+     * prints descending match-history of winner
+     *
+     * @param player winner
+     */
+    private void printDescHistory(Player player) {
+
+        SafeScanner scanner = new SafeScanner();
 
         try {
-            for (Player player : pc.getPlayers()) {
 
-                // write player name and date to file
-                FileWriter fileWriter = new FileWriter("Histories/" + player.getName() + ".txt", true);
-                fileWriter.append(player.getName()).append("  -------------  ").append(String.valueOf(date)).append("\n");
-                fileWriter.append("Mitspieler: ");
+            BufferedReader br;
 
-                // write names of fellow players to file
+            if (!player.isHuman()) {
+                // prints bot history
+                br = new BufferedReader(new FileReader("Histories/" + "bot-" + player.getName() + "-" +
+                        ((AutonomousPlayer) player).getDifficulty() + ".txt"));
+
+            } else {
+                // prints player history
+                br = new BufferedReader(new FileReader("Histories/" + player.getName() + ".txt"));
+            }
+
+            String line;
+            ArrayList<String> lines = new ArrayList<>();
+            ArrayList<ArrayList<String>> paragraphs = new ArrayList<>();
+
+            // reads lines and cuts off at "-"
+            // all info before that is stored in a string
+            // this string is added to a list which
+            // is added to a 2d list
+            while ((line = br.readLine()) != null) {
+                if (line.equals("-")) {
+                    paragraphs.add(lines);
+                    lines = new ArrayList<>();
+                } else {
+                    lines.add(line);
+                }
+            }
+
+            System.out.println("Liste nach Punkten geordnet ausgeben?");
+            // sorts list by points in desc order
+            if (scanner.nextYesNoAnswer()) {
+                paragraphs.sort(comparator);
+            }
+
+            // prints history of player
+            for (ArrayList<String> list : paragraphs) {
+                System.out.println(WHITE_BOLD_BRIGHT + "" + list + RESET);
+            }
+
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+
+    }
+
+    /**
+     * writes matchhistory for all players including bots
+     */
+    private void writeHistories() {
+
+        Date date = new Date();
+        FileWriter file;
+
+        for (Player player : pc.getPlayers()) {
+            try {
+                if (!player.isHuman()) {
+                    // history with bot name
+                    file = new FileWriter("Histories/" + "bot-" + player.getName() + "-" +
+                            ((AutonomousPlayer) player).getDifficulty() + ".txt", true);
+                } else {
+                    // history with player name
+                    file = new FileWriter("Histories/" + player.getName() + ".txt", true);
+                }
+
+                // appends relevant game information
+                file.append("Spieler: ").append(player.isHuman() ? player.getName() : "bot-" + player.getName() + "-" +
+                        ((AutonomousPlayer) player).getDifficulty()).append("\n");
+                file.append("Kartensumme: ").append(String.valueOf(player.getPoints())).append("\n");
+                file.append("Datum: ").append(String.valueOf(date)).append("\n");
+                file.append("Mitspieler: ");
+
+                // appends bot names
                 for (Player player1 : pc.getPlayers()) {
                     if (!player1.getName().equals(player.getName())) {
-                        fileWriter.append(player1.getName()).append(" ");
-                    }
-                }
-
-                fileWriter.append("\n\n");
-                fileWriter.close();
-            }
-
-
-        } catch (IOException ioException) {
-            System.out.println(ioException.getMessage());
-        }
-
-        /**
-         * prints replay of last game
-         */
-        private void replay () {
-            try {
-                BufferedReader br = new BufferedReader(new FileReader("Spielzuege.log"));
-                String line;
-                while ((line = br.readLine()) != null) {
-
-                    System.out.println(line);
-                    Thread.sleep(500);
-                }
-            } catch (IOException | InterruptedException e) {
-                System.out.println(e.getMessage());
-            }
-        }
-
-        /**
-         * prints descending match-history of winner
-         *
-         * @param player winner
-         */
-        private void printDescHistory(Player player){
-
-            SafeScanner scanner = new SafeScanner();
-
-            try {
-
-                BufferedReader br;
-
-                if (!player.isHuman()) {
-                    // prints bot history
-                    br = new BufferedReader(new FileReader("Histories/" + "bot-" + player.getName() + "-" +
-                            ((AutonomousPlayer) player).getDifficulty() + ".txt"));
-
-                } else {
-                    // prints player history
-                    br = new BufferedReader(new FileReader("Histories/" + player.getName() + ".txt"));
-                }
-
-                String line;
-                ArrayList<String> lines = new ArrayList<>();
-                ArrayList<ArrayList<String>> paragraphs = new ArrayList<>();
-
-                // reads lines and cuts off at "-"
-                // all info before that is stored in a string
-                // this string is added to a list which
-                // is added to a 2d list
-                while ((line = br.readLine()) != null) {
-                    if (line.equals("-")) {
-                        paragraphs.add(lines);
-                        lines = new ArrayList<>();
-                    } else {
-                        lines.add(line);
-                    }
-                }
-
-                System.out.println("Liste nach Punkten geordnet ausgeben?");
-                // sorts list by points in desc order
-                if (scanner.nextYesNoAnswer()) {
-                    paragraphs.sort(comparator);
-                }
-
-                // prints history of player
-                for (ArrayList<String> list : paragraphs) {
-                    System.out.println(WHITE_BOLD_BRIGHT + "" + list + RESET);
-                }
-
-            } catch (IOException e) {
-                System.out.println(e.getMessage());
-            }
-
-        }
-
-        /**
-         * writes matchhistory for all players including bots
-         */
-        private void writeHistories () {
-
-            Date date = new Date();
-            FileWriter file;
-
-            for (Player player : pc.getPlayers()) {
-                try {
-                    if (!player.isHuman()) {
-                        // history with bot name
-                        file = new FileWriter("Histories/" + "bot-" + player.getName() + "-" +
-                                ((AutonomousPlayer) player).getDifficulty() + ".txt", true);
-                    } else {
-                        // history with player name
-                        file = new FileWriter("Histories/" + player.getName() + ".txt", true);
-                    }
-
-                    // appends relevant game information
-                    file.append("Spieler: ").append(player.isHuman() ? player.getName() : "bot-" + player.getName() + "-" +
-                            ((AutonomousPlayer) player).getDifficulty()).append("\n");
-                    file.append("Kartensumme: ").append(String.valueOf(player.getPoints())).append("\n");
-                    file.append("Datum: ").append(String.valueOf(date)).append("\n");
-                    file.append("Mitspieler: ");
-
-                    // appends bot names
-                    for (Player player1 : pc.getPlayers()) {
-                        if (!player1.getName().equals(player.getName())) {
-                            if (!player1.isHuman()) {
-                                file.append("bot-").append(player1.getName())
-                                        .append("-")
-                                        .append(String.valueOf(((AutonomousPlayer) player1).getDifficulty()))
-                                        .append(" ");
-                            } else {
-                                file.append(player1.getName()).append(" ");
-                            }
-
+                        if (!player1.isHuman()) {
+                            file.append("bot-").append(player1.getName())
+                                    .append("-")
+                                    .append(String.valueOf(((AutonomousPlayer) player1).getDifficulty()))
+                                    .append(" ");
+                        } else {
+                            file.append(player1.getName()).append(" ");
                         }
+
                     }
-
-                    file.append("\n-\n");
-
-                    file.close();
-                } catch (IOException e) {
-                    System.out.println(e.getMessage());
                 }
 
-            }
-        }
-
-
-        /**
-         * clears savefile after match ends
-         */
-        private void clearSave () {
-            try {
-                new FileOutputStream("gamestate.save").close();
-            } catch (IOException e) {
-                System.out.println("File nicht vorhanden");
-            }
-
-        }
-
-        /**
-         * Method reads all highscore data from Highscore.txt and adds it to highScoreList as Highscore Record
-         */
-        private void getOldHighScores () {
-
-            try {
-                BufferedReader reader = new BufferedReader(new FileReader("Highscore.txt"));
-                String line;
-
-                while ((line = reader.readLine()) != null) {
-                    String[] data = line.split(",");
-                    HighScore highScore = new HighScore(data[1], Integer.parseInt(data[0]));
-                    highScoreList.add(highScore);
-                }
-
-            } catch (IOException e) {
-                LOGGER.warning(e.getMessage());
-            }
-        }
-
-        /**
-         * Method writes Highscore of Player to highscore.txt file
-         */
-        private void writeHighScoreToFile () {
-
-            // Calculate new Scores of after game and add them to highscore list
-            for (Player player : pc.getPlayers()) {
-                if (!player.isUsedCheats()) {
-                    int score = player.getPoints();
-                    highScoreList.add(new HighScore(player.getName(), score));
-                }
-            }
-
-            // sort highscore list
-            highScoreList.sort(Comparator.comparingInt(HighScore::highscore));
-
-            try {
-                FileWriter file = new FileWriter("Highscore.txt");
-
-                for (HighScore highScore : highScoreList) {
-                    file.append(String.valueOf(highScore.highscore())).append(",").append(highScore.playerName()).append("\n");
-                }
+                file.append("\n-\n");
 
                 file.close();
             } catch (IOException e) {
-                LOGGER.warning(e.getMessage());
+                System.out.println(e.getMessage());
             }
-        }
 
-        /**
-         * Method prints highscore at start of game
-         */
-        private void printHighscore () {
-
-            System.out.println("---------- Highscores ----------");
-            for (HighScore highscore : highScoreList) {
-                System.out.println("\t\t" + highscore.playerName() + "\t\t\t   " + highscore.highscore());
-            }
-            System.out.println();
         }
     }
+
+
+    /**
+     * clears savefile after match ends
+     */
+    private void clearSave() {
+        try {
+            new FileOutputStream("gamestate.save").close();
+        } catch (IOException e) {
+            System.out.println("File nicht vorhanden");
+        }
+
+    }
+
+    /**
+     * Method reads all highscore data from Highscore.txt and adds it to highScoreList as Highscore Record
+     */
+    private void getOldHighScores() {
+
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader("Highscore.txt"));
+            String line;
+
+            while ((line = reader.readLine()) != null) {
+                String[] data = line.split(",");
+                HighScore highScore = new HighScore(data[1], Integer.parseInt(data[0]));
+                highScoreList.add(highScore);
+            }
+
+        } catch (IOException e) {
+            LOGGER.warning(e.getMessage());
+        }
+    }
+
+    /**
+     * Method writes Highscore of Player to highscore.txt file
+     */
+    private void writeHighScoreToFile() {
+
+        // Calculate new Scores of after game and add them to highscore list
+        for (Player player : pc.getPlayers()) {
+            if (!player.isUsedCheats()) {
+                int score = player.getPoints();
+                highScoreList.add(new HighScore(player.getName(), score));
+            }
+        }
+
+        // sort highscore list
+        highScoreList.sort(Comparator.comparingInt(HighScore::highscore));
+
+        try {
+            FileWriter file = new FileWriter("Highscore.txt");
+
+            for (HighScore highScore : highScoreList) {
+                file.append(String.valueOf(highScore.highscore())).append(",").append(highScore.playerName()).append("\n");
+            }
+
+            file.close();
+        } catch (IOException e) {
+            LOGGER.warning(e.getMessage());
+        }
+    }
+
+    /**
+     * Method prints highscore at start of game
+     */
+    private void printHighscore() {
+
+        System.out.println("---------- Highscores ----------");
+        for (HighScore highscore : highScoreList) {
+            System.out.println("\t\t" + highscore.playerName() + "\t\t\t   " + highscore.highscore());
+        }
+        System.out.println();
+    }
+}
