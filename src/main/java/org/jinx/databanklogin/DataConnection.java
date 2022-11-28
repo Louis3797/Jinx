@@ -21,7 +21,7 @@ public class DataConnection implements Serializable {
     public static Connection getConnection() {
         Connection connection = null;
         try {
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/mysqll_database", "root", "admin");
+            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/mysql_database", "root", "admin");
         } catch (Exception e) {
             System.out.println("Verbindung zur Datenbank konnte nicht hergestellt werden\nTextdatei wird benutzt.");
         }

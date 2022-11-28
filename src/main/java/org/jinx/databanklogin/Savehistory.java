@@ -1,6 +1,7 @@
 package org.jinx.databanklogin;
 
 import org.jinx.game.PlayerController;
+import org.jinx.player.AutonomousPlayer;
 import org.jinx.player.Player;
 import org.jinx.wrapper.SafeScanner;
 
@@ -22,21 +23,27 @@ public class Savehistory {
 
     public void writeHistoriesDatabase() {
         Date date = new Date();
+
         try {
             PreparedStatement ps = DataConnection.getConnection().prepareStatement("INSERT INTO " +
-                    "`spielhistory`(`user`, `kartensumme`,`datum`, `mitspieler` ) VALUES (?,?,?,?)");
+                    "`spielhistory`(`user`, `kartensumme`,`datum`, `mitspieler`, `bot` ) VALUES (?,?,?,?,?)");
+
             for (Player player : pc.getPlayers()) {
+
                 ps.setString(1, player.getName());
                 ps.setInt(2, player.getPoints());
                 ps.setString(3, String.valueOf(date));
-                String mates = "";
+                StringBuilder mates = new StringBuilder();
+
                 for (Player player1 : pc.getPlayers()) {
 
                     if (!player1.getName().equals(player.getName())) {
-                        mates += player1.getName() + " ";
+                        mates.append(player1.getName()).append(" ");
                     }
                 }
-                ps.setString(4, mates);
+
+                ps.setString(4, mates.toString());
+                ps.setString(5, player.isHuman() ? "no" : ((AutonomousPlayer) player).getDifficulty().toString());
                 ps.executeUpdate();
             }
         } catch (SQLException ex) {
