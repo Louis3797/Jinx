@@ -96,6 +96,9 @@ public class GameController implements Serializable {
                 if(pc.getTxtLoginRegister()){
                     printDescHistory(entry.getKey());
                 }
+                else {
+                    savehistory.printDescHistoryDatabase(entry.getKey().getName());
+                }
             }
         }
 
@@ -155,7 +158,7 @@ public class GameController implements Serializable {
             writeHistories();
         }
         else {
-            savehistory.savadata();
+            savehistory.writeHistoriesDatabase();
         }
 
         endSequenz();

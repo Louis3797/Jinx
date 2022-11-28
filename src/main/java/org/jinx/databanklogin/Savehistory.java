@@ -2,8 +2,11 @@ package org.jinx.databanklogin;
 
 import org.jinx.game.PlayerController;
 import org.jinx.player.Player;
+import org.jinx.wrapper.SafeScanner;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.Date;
 import java.util.logging.Level;
@@ -20,7 +23,7 @@ public class Savehistory {
         pc = PlayerController.getPlayerControllerInstance();
     }
 
-    public void savadata() {
+    public void writeHistoriesDatabase() {
         Date date = new Date();
         try {
             PreparedStatement ps = DataConnection.getConnection().prepareStatement("INSERT INTO " +
@@ -43,5 +46,46 @@ public class Savehistory {
             Logger.getLogger(DataConnection.class.getName()).log(Level.WARNING, ex.getMessage());
         }
 
+    }
+
+    /**
+     * prints matchhistory of winning player from database
+     *
+     * @param winner winning player
+     */
+    public void printDescHistoryDatabase(String winner) {
+
+        SafeScanner scanner = new SafeScanner();
+
+        try {
+            String query;
+
+            System.out.println("Geordnete Liste ausgeben?");
+            if (scanner.nextYesNoAnswer()) {
+                query = "SELECT * FROM spielhistory WHERE user = " + "'" + winner + "'" +
+                        " ORDER BY kartensumme DESC";
+            }
+            else {
+                query = "SELECT * FROM spielhistory WHERE user = " + "'" + winner + "'";
+            }
+
+            PreparedStatement ps = DataConnection.getConnection().prepareStatement(query);
+
+            ResultSet rs = ps.executeQuery();
+            ResultSetMetaData metaData = rs.getMetaData();
+            int columnCount = metaData.getColumnCount();
+
+            while (rs.next()) {
+                for (int columnIndex = 1; columnIndex <= columnCount; columnIndex++) {
+                    Object object = rs.getObject(columnIndex);
+                    System.out.printf("%s, ", object == null ? "NULL" : object.toString());
+                }
+                System.out.printf("%n");
+            }
+
+
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
     }
 }

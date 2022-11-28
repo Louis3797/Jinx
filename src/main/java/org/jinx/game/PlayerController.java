@@ -140,6 +140,8 @@ public class PlayerController implements Serializable {
 
         if (isPlayerExisting) {
             System.out.println("Bereits eingeloggt");
+            addOnePlayer();
+            return;
         }
 
         System.out.println("Wollen sie das der Spieler von alleine spielt?\n[y,yes,ja | n,no,nein]");
