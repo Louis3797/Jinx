@@ -5,8 +5,6 @@ import org.jinx.cardhand.LuckyCardHand;
 import org.jinx.cardhand.NumberCardHand;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Player implements Serializable {
 

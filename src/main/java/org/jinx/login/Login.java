@@ -2,15 +2,18 @@ package org.jinx.login;
 
 
 import org.jinx.wrapper.SafeScanner;
+
 import java.io.*;
 import java.util.*;
 import java.util.logging.Logger;
-import org.jinx.login.AES;
 
 import static org.jinx.utils.ConsoleColor.BLUE;
 import static org.jinx.utils.ConsoleColor.RESET;
 
 public class Login implements Serializable{
+
+    public static final long serialVersionUID = 42L;
+
     private transient final SafeScanner safeScanner;
     private final List<String> loginlist;
 
@@ -23,12 +26,15 @@ public class Login implements Serializable{
         loginlist = new ArrayList<>();
     }
 
+
     /**
      * Method to register player in tetxfile
      */
+
     public void register() {
 
         readLoginandPass();
+
         System.out.println(BLUE + "Benutzername:" + RESET);
         String playerName = safeScanner.nextStringSafe();
 
@@ -57,6 +63,7 @@ public class Login implements Serializable{
      * Method to login to System
      * @return if input is correct return username, if input is wrong return empty string
      */
+
     public String loginSystem() {
 
         readLoginandPass();
@@ -68,7 +75,6 @@ public class Login implements Serializable{
         if (doesUserandPassExist(userName, pass)) {
             return userName;
         }
-
         return "";
     }
 

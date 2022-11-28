@@ -1,6 +1,8 @@
 package org.jinx.game;
 
 import org.jinx.card.NumberCard;
+import org.jinx.databanklogin.DataConnection;
+import org.jinx.databanklogin.Savehistory;
 import org.jinx.highscore.HighScore;
 import org.jinx.player.AutonomousPlayer;
 import org.jinx.player.Player;
@@ -19,6 +21,8 @@ public class GameController implements Serializable {
 
     private final Logger LOGGER = Logger.getLogger(GameController.class.getName());
 
+    private final Savehistory savehistory;
+
     private final PlayerController pc;
 
     private final List<HighScore> highScoreList;
@@ -34,12 +38,13 @@ public class GameController implements Serializable {
         pc = PlayerController.getPlayerControllerInstance();
         highScoreList = new ArrayList<>();
         data = new SaveData();
+        savehistory = new Savehistory();
     }
 
     /**
      * prints gamelogo
      */
-    public void startSequenz() {
+    private void startSequenz() {
 
         System.out.println(BLUE_BOLD + "      _   ___   _   _  __  __");
         System.out.println("     | | |_ _| | \\ | | \\ \\/ /");
@@ -60,7 +65,7 @@ public class GameController implements Serializable {
     /**
      * prints endlogo and score
      */
-    public void endSequenz() {
+    private void endSequenz() {
 
         System.out.println(
                 RED_BOLD_BRIGHT + "*%%%%     %%%%%(    %%%%% .%%%%  %%%%%%       %%%%\n" +
@@ -89,7 +94,12 @@ public class GameController implements Serializable {
         for (Map.Entry<Player, Integer> entry : winner.entrySet()) {
             if (max == entry.getValue()) {
                 System.out.println("Gewinner ist: " + PINK_BOLD_BRIGHT + entry.getKey().getName() + RESET);
-                printDescHistory(entry.getKey());
+                if(pc.getTxtLoginRegister()){
+                    printDescHistory(entry.getKey());
+                }
+                else {
+                    savehistory.printDescHistoryDatabase(entry.getKey().getName());
+                }
             }
         }
 
@@ -122,12 +132,29 @@ public class GameController implements Serializable {
             g1.loadSavestate();
             g1.loadState = true;
 
+            pc.setTxtLoginRegister(data.txt);
+
             // starts round
             for (int i = data.currentRound; i < 4; i++) {
                 g1.play(i);
             }
 
         } else {
+
+            System.out.println("[1] Textdatei\n[2] Datenbank");
+            if(scanner.nextIntInRange(1,2) == 1){
+                pc.setTxtLoginRegister(true);
+            }
+
+            // checks database connection
+            if(DataConnection.getConnection() == null){
+                pc.setTxtLoginRegister(true);
+            }
+
+            // saves where to save data
+            data.txt = pc.getTxtLoginRegister();
+            ResourceManager.save(data,"gamestate.save");
+
             pc.addPlayers();
             // initialize without savefile
             g1.initializeDecks();
@@ -138,7 +165,14 @@ public class GameController implements Serializable {
         }
 
         // writes and deletes relevant data to and from files
-        writeHistories();
+
+        if(pc.getTxtLoginRegister()){
+            writeHistories();
+        }
+        else {
+            savehistory.writeHistoriesDatabase();
+        }
+
         endSequenz();
         writeHighScoreToFile();
         clearSave();
@@ -150,7 +184,7 @@ public class GameController implements Serializable {
 
         // look at replay of last round
         System.out.println("Replay anschauen?");
-        if(scanner.nextYesNoAnswer()){
+        if (scanner.nextYesNoAnswer()) {
             replay();
         }
 
@@ -234,7 +268,6 @@ public class GameController implements Serializable {
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
-
 
     }
 
