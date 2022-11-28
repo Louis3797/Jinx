@@ -2,12 +2,11 @@ package org.jinx.game;
 
 
 import org.jinx.databanklogin.RegistCon;
-
+import org.jinx.login.Login;
 import org.jinx.player.AgentDifficulty;
 import org.jinx.player.AutonomousPlayer;
 import org.jinx.player.Player;
 import org.jinx.wrapper.SafeScanner;
-import org.jinx.login.Login;
 
 import java.io.Serializable;
 import java.util.*;

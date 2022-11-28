@@ -12,9 +12,6 @@ import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import static org.jinx.utils.ConsoleColor.BLUE;
-import static org.jinx.utils.ConsoleColor.RESET;
-
 public class Savehistory {
 
     private final PlayerController pc;

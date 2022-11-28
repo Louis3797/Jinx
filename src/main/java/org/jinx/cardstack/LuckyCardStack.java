@@ -3,7 +3,6 @@ package org.jinx.cardstack;
 import org.jinx.card.*;
 
 import java.io.IOException;
-import java.io.Serial;
 import java.io.Serializable;
 import java.nio.file.Files;
 import java.nio.file.Path;

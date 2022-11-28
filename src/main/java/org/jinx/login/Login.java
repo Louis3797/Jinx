@@ -6,7 +6,6 @@ import org.jinx.wrapper.SafeScanner;
 import java.io.*;
 import java.util.*;
 import java.util.logging.Logger;
-import org.jinx.login.AES;
 
 import static org.jinx.utils.ConsoleColor.BLUE;
 import static org.jinx.utils.ConsoleColor.RESET;

@@ -1,6 +1,5 @@
 package org.jinx.game;
 
-import org.jinx.card.CardColor;
 import org.jinx.card.LuckyCard;
 import org.jinx.card.LuckyCardNames;
 import org.jinx.card.NumberCard;
@@ -14,7 +13,6 @@ import org.jinx.player.AutonomousPlayer;
 import org.jinx.player.Player;
 import org.jinx.savestate.ResourceManager;
 import org.jinx.savestate.SaveData;
-import org.jinx.utils.ConsoleColor;
 import org.jinx.wrapper.SafeScanner;
 
 import java.io.IOException;
@@ -22,7 +20,6 @@ import java.io.Serializable;
 import java.util.*;
 import java.util.logging.FileHandler;
 import java.util.logging.Logger;
-import java.util.logging.SimpleFormatter;
 
 
 public class Game implements Serializable {

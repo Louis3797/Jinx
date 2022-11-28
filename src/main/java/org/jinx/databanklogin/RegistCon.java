@@ -34,15 +34,19 @@ public class RegistCon implements Serializable {
         if (dataConnection.checkUsername(playerName)) {
             System.out.println(BLUE + "Benutzer " + playerName + " existiert bereits.\nBitte geben sie ein anderen Namen ein:" + RESET);
             register();
-        } else {
+
+        }
+        else {
             System.out.println(BLUE + "Passwort:" + RESET);
             String passwort = safeScanner.nextStringSafe();
+
             try {
                 PreparedStatement ps = DataConnection.getConnection().prepareStatement("INSERT INTO " +
                         "`user`(`username`, `pass`) VALUES (?,MD5(?))");
                 ps.setString(1, playerName);
                 ps.setString(2, passwort);
                 ps.executeUpdate();
+
             } catch (SQLException ex) {
                 Logger.getLogger(DataConnection.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -54,6 +58,7 @@ public class RegistCon implements Serializable {
      * Method to login to the System
      */
     public String loginSystem() {
+
         System.out.println(BLUE + "Benutzername:" + RESET);
         String userName = safeScanner.nextStringSafe();
 
