@@ -255,14 +255,25 @@ Datentyp für die Schwierigkeitsstufen der Spieler KI
 - Farbiger Output
 - Prüfung der Csv Dateien (NumberCards.csv und LuckyCards.csv)
 - 100% JavaDoc
+- Spiel wird gespeichert
+- Datenbank und .txt support
+- Match-history gespeichert
+- Spielzuege gespeicher
+- Replay des letzten Spiels
+- Nochmal spielen
 
 # Roadmap
 
-- [x]  Summen Glückskarte implementieren → LCSum
-- [x]  KI Spieler
-    - [x]  Soll Tipps geben können
-    - [x]  Begründung für Wahl der Karte
-- [x]  Farbige Kartenausgabe
+- [x]  Spiel speichern
+- [x]  Registrieren in .txt
+- [x]  Login per .txt
+- [x]  Registrieren in DB
+- [x]  Login per DB
+- [x]  Spielverlauf speichern
+- [x]  Spielverlauf anzeigen
+- [x]  Spielzuege loggen
+- [x]  Replay-Funktion
+
 
 # Changelog
 
@@ -315,3 +326,11 @@ Alle nennenswerten Änderungen an diesem Projekt werden hier dokumentiert.
     // Nachher
     LuckyCard lc = new LCSum()
     ```
+## Abgabe 3
+
+### Added
+
+-Spiel speichern
+-Replay 
+-DB und txt reg und login
+-DB und txt spielverlauf
