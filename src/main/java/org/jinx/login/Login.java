@@ -1,4 +1,4 @@
-package org.jinx.Login;
+package org.jinx.login;
 
 
 import org.jinx.wrapper.SafeScanner;
@@ -6,11 +6,13 @@ import org.jinx.wrapper.SafeScanner;
 import java.io.*;
 import java.util.*;
 import java.util.logging.Logger;
+import org.jinx.login.AES;
 
 import static org.jinx.utils.ConsoleColor.BLUE;
 import static org.jinx.utils.ConsoleColor.RESET;
 
 public class Login implements Serializable{
+
     public static final long serialVersionUID = 42L;
 
     private transient final SafeScanner safeScanner;
@@ -24,6 +26,11 @@ public class Login implements Serializable{
         safeScanner = new SafeScanner();
         loginlist = new ArrayList<>();
     }
+
+
+    /**
+     * Method to register player in tetxfile
+     */
 
     public void register() {
 
@@ -53,8 +60,15 @@ public class Login implements Serializable{
         }
     }
 
+    /**
+     * Method to login to System
+     * @return if input is correct return username, if input is wrong return empty string
+     */
+    public String loginSystem() {
+
 
     public String loginSystem() {
+
         readLoginandPass();
         System.out.println(BLUE + "Benutzername:" + RESET);
         String userName = safeScanner.nextStringSafe();
@@ -67,6 +81,9 @@ public class Login implements Serializable{
         return "";
     }
 
+    /**
+     * Method to read login and password from textfile
+     */
     private void readLoginandPass() {
         try {
             BufferedReader reader = new BufferedReader(new FileReader("Login.txt"));
@@ -83,7 +100,11 @@ public class Login implements Serializable{
         }
     }
 
-
+    /**
+     * convert arrayList to HashMap
+     * @param arrayList
+     * @return haspMap
+     */
     private HashMap<String, String> convertArrayListToHashMap(ArrayList<String> arrayList) {
         HashMap<String, String> hashMap = new HashMap<>();
         for (int i = 0; i < loginlist.size() - 1; i += 2) {
@@ -93,6 +114,11 @@ public class Login implements Serializable{
         return hashMap;
     }
 
+    /**
+     * Method to check user if he exists in textfile
+     * @param login username
+     * @return false if user doesn't exist
+     */
     private boolean doesUserExist(String login) {
         for (String user : loginlist) {
             if (user.equals(login))
@@ -101,7 +127,11 @@ public class Login implements Serializable{
         return false;
     }
 
-
+    /**
+     * Method to check user if he exists in textfile
+     * @param login username and password
+     * @return false if user and password doesn't exist in textfile, return true if user and password exist in textfile
+     */
     private boolean doesUserandPassExist(String login, String pass) {
         HashMap<String, String> loginMap = convertArrayListToHashMap((ArrayList<String>) loginlist);
         for (Map.Entry<String, String> entry : loginMap.entrySet()) {

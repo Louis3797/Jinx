@@ -668,6 +668,10 @@ public class AutonomousPlayer extends Player implements Serializable {
 
     }
 
+    public AgentDifficulty getDifficulty(){
+        return this.difficulty;
+    }
+
     @Override
     public boolean isHuman() {
         return false;

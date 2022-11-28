@@ -1,10 +1,13 @@
 package org.jinx.game;
 
-import org.jinx.Login.Login;
+
+import org.jinx.databanklogin.RegistCon;
+
 import org.jinx.player.AgentDifficulty;
 import org.jinx.player.AutonomousPlayer;
 import org.jinx.player.Player;
 import org.jinx.wrapper.SafeScanner;
+import org.jinx.login.Login;
 
 import java.io.Serializable;
 import java.util.*;
@@ -41,6 +44,9 @@ public class PlayerController implements Serializable {
 
     private Login login;
 
+    private RegistCon loginData;
+
+
     /**
      * Standard Constructor for the Player Controller
      */
@@ -49,6 +55,8 @@ public class PlayerController implements Serializable {
         currentPlayer = null;
         safeScanner = new SafeScanner();
         login = new Login();
+        loginData = new RegistCon();
+
     }
 
     /**
@@ -71,8 +79,7 @@ public class PlayerController implements Serializable {
 
                 if (!oneMorePlayer) {
                     break;
-                }
-                else {
+                } else {
                     addOnePlayer();
                 }
 
@@ -92,29 +99,41 @@ public class PlayerController implements Serializable {
      */
     public void addOnePlayer() {
 
-        boolean isPlayerExisting;
 
-        System.out.println("Wollen sie einen Spieler registrieren?");
-        if (safeScanner.nextYesNoAnswer()){
-            login.register();
+        System.out.println("Spieler registrieren?");
+        
+        if (safeScanner.nextYesNoAnswer()) {
+            System.out.println("1: Textdatei\n2: Datenbank");
+            if (safeScanner.nextIntInRange(1, 2) == 1) {
+                login.register();
+            } else {
+                loginData.register();
+            }
+
             addOnePlayer();
             return;
         }
 
-        String playerName = login.loginSystem();
+        System.out.println("Einloggen: ");
 
-        if (playerName.equals("")){
-            System.out.println("Name oder Passwort falsch");
+        System.out.println("1: Textdatei\n2: Datenbank");
+        String username;
+        if (safeScanner.nextIntInRange(1, 2) == 1) {
+            username = login.loginSystem();
+        } else {
+            username = loginData.loginSystem();
+        }
+
+        if (username.equals("")) {
+            System.out.println("Falsches Passwort oder Benutzername");
             addOnePlayer();
             return;
         }
 
-        isPlayerExisting = doesPlayerExist(playerName);
+        boolean isPlayerExisting = doesPlayerExist(username);
 
-        if (isPlayerExisting){
+        if (isPlayerExisting) {
             System.out.println("Bereits eingeloggt");
-            addOnePlayer();
-            return;
         }
 
         System.out.println("Wollen sie das der Spieler von alleine spielt?\n[y,yes,ja | n,no,nein]");
@@ -127,10 +146,12 @@ public class PlayerController implements Serializable {
             }
 
             AgentDifficulty difficulty = AgentDifficulty.values()[safeScanner.nextIntInRange(1, AgentDifficulty.values().length) - 1];
-            players.add(new AutonomousPlayer(playerName, difficulty));
+            players.add(new AutonomousPlayer(username, difficulty));
         } else {
-            players.add(new Player(playerName));
+            players.add(new Player(username));
         }
+        System.out.println(BLUE + username + " wurde dem Spiel hinzugefügt!" + RESET);
+
     }
 
 

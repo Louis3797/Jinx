@@ -1,5 +1,6 @@
 package org.jinx.game;
 
+import org.jinx.card.CardColor;
 import org.jinx.card.LuckyCard;
 import org.jinx.card.LuckyCardNames;
 import org.jinx.card.NumberCard;
@@ -7,11 +8,13 @@ import org.jinx.cardstack.LuckyCardStack;
 import org.jinx.cardstack.NumberCardStack;
 import org.jinx.dice.Dice;
 import org.jinx.field.Field;
+import org.jinx.formatter.FileFormatter;
 import org.jinx.player.AgentDifficulty;
 import org.jinx.player.AutonomousPlayer;
 import org.jinx.player.Player;
 import org.jinx.savestate.ResourceManager;
 import org.jinx.savestate.SaveData;
+import org.jinx.utils.ConsoleColor;
 import org.jinx.wrapper.SafeScanner;
 
 import java.io.IOException;
@@ -37,7 +40,7 @@ public class Game implements Serializable {
     private SaveData data;
 
     private transient Logger logger;
-    FileHandler fh;
+    private FileHandler fh;
 
 
     public Game() {
@@ -105,10 +108,9 @@ public class Game implements Serializable {
             logger = Logger.getLogger(getClass().getName());
             fh = new FileHandler("Spielzuege.log");
             logger.addHandler(fh);
-            SimpleFormatter formatter = new SimpleFormatter();
-            fh.setFormatter(formatter);
+            fh.setFormatter(new FileFormatter());
             logger.setUseParentHandlers(false);
-        } catch (IOException e) {
+        } catch (IOException ignored) {
 
         }
 
@@ -135,6 +137,7 @@ public class Game implements Serializable {
             ResourceManager.save(data, "gamestate.save");
 
             logger.info("Field set\n");
+            logger.info(field.logField());
 
             if (currentRound == 1) {
                 pc.next();  // initialize current player in PlayerController if it's the first round
@@ -327,6 +330,9 @@ public class Game implements Serializable {
             data.field = field;
             ResourceManager.save(data, "gamestate.save");
 
+
+            logger.info("\n" + field.logField());
+
             // switch to next player
             pc.next();
 
@@ -377,7 +383,7 @@ public class Game implements Serializable {
         diceStack.push(dice.use());
 
         System.out.println("Du hast eine " + diceStack.peek() + " gewürfelt\nNochmal wuerfeln? [yes|no]");
-        logger.info(currentPlayer.getName() + " hat eine: " + diceStack.peek() + " gewuerfelt\n");
+        logger.info("\n" + currentPlayer.getName() + " hat eine: " + diceStack.peek() + " gewuerfelt\n");
 
         if ((currentPlayer.isHuman() && safeScanner.nextYesNoAnswer()) || (!currentPlayer.isHuman() && ((AutonomousPlayer) currentPlayer).considerRollDiceAgain(diceStack))) {
             logger.info(currentPlayer.getName() + " hat nochmal wuerfeln ausgewaehlt\n");
@@ -915,10 +921,14 @@ public class Game implements Serializable {
         //remove the highest from current player that ended turn
         logger.info(pc.getCurrentPlayer().getName() + " hat: " + pc.getCurrentPlayer().getNumberCardHand().get(index).getName() + " " +
                 pc.getCurrentPlayer().getNumberCardHand().get(index).getColor() + " weggeworfen\n");
-        pc.getCurrentPlayer().getNumberCardHand().remove(highest.get(index));
+        pc.getCurrentPlayer().getNumberCardHand().remove(index);
 
         System.out.println("NACH WEGWURF ----------------");
         pc.printPlayerHands();
+    }
+
+    public FileHandler getFh(){
+        return fh;
     }
 
 }
