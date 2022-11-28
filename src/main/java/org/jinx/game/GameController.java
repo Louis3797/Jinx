@@ -43,7 +43,7 @@ public class GameController implements Serializable {
     /**
      * prints gamelogo
      */
-    public void startSequenz() {
+    private void startSequenz() {
 
         System.out.println(BLUE_BOLD + "      _   ___   _   _  __  __");
         System.out.println("     | | |_ _| | \\ | | \\ \\/ /");
@@ -64,7 +64,7 @@ public class GameController implements Serializable {
     /**
      * prints endlogo and score
      */
-    public void endSequenz() {
+    private void endSequenz() {
 
         System.out.println(
                 RED_BOLD_BRIGHT + "*%%%%     %%%%%(    %%%%% .%%%%  %%%%%%       %%%%\n" +
