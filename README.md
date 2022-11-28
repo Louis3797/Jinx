@@ -160,6 +160,18 @@ Kriterien zur Gewichtung des gefährlichsten Spielers
 
 SafeScanner ist ein Wrapper um den java.util.Scanner. Er stellt spezielle Methoden zur verfügung die Fehler abfangen und nur bestimmte Eingaben zulassen
 
+### CardHand
+
+CardHand dient als Struktur fuer die Numbercards und Luckycards, die der Spieler hat
+
+### LuckyCardHand
+
+Besteht aus den Luckycards, die der jeweilige Spieler hat
+
+### NumberCardHand
+
+Besteht aus den Numbercards, die der jeweilige Spieler hat
+
 ---
 
 ## Records
