@@ -93,7 +93,9 @@ public class GameController implements Serializable {
         for (Map.Entry<Player, Integer> entry : winner.entrySet()) {
             if (max == entry.getValue()) {
                 System.out.println("Gewinner ist: " + PINK_BOLD_BRIGHT + entry.getKey().getName() + RESET);
-                printDescHistory(entry.getKey());
+                if(pc.getTxtLoginRegister()){
+                    printDescHistory(entry.getKey());
+                }
             }
         }
 
@@ -132,6 +134,12 @@ public class GameController implements Serializable {
             }
 
         } else {
+
+            System.out.println("[1] Textdatei\n[2] Datenbank");
+            if(scanner.nextIntInRange(1,2) == 1){
+                pc.setTxtLoginRegister(true);
+            }
+
             pc.addPlayers();
             // initialize without savefile
             g1.initializeDecks();
@@ -142,8 +150,14 @@ public class GameController implements Serializable {
         }
 
         // writes and deletes relevant data to and from files
-        //writeHistories();
-        savehistory.savadata();
+
+        if(pc.getTxtLoginRegister()){
+            writeHistories();
+        }
+        else {
+            savehistory.savadata();
+        }
+
         endSequenz();
         writeHighScoreToFile();
         clearSave();

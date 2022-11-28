@@ -46,6 +46,8 @@ public class PlayerController implements Serializable {
 
     private RegistCon loginData;
 
+    private boolean txtLoginRegister;
+
 
     /**
      * Standard Constructor for the Player Controller
@@ -56,6 +58,7 @@ public class PlayerController implements Serializable {
         safeScanner = new SafeScanner();
         login = new Login();
         loginData = new RegistCon();
+        txtLoginRegister = false;
 
     }
 
@@ -103,10 +106,11 @@ public class PlayerController implements Serializable {
         System.out.println("Spieler registrieren?");
         
         if (safeScanner.nextYesNoAnswer()) {
-            System.out.println("1: Textdatei\n2: Datenbank");
-            if (safeScanner.nextIntInRange(1, 2) == 1) {
+
+            if(getTxtLoginRegister()){
                 login.register();
-            } else {
+            }
+            else {
                 loginData.register();
             }
 
@@ -114,13 +118,15 @@ public class PlayerController implements Serializable {
             return;
         }
 
+
         System.out.println("Einloggen: ");
 
-        System.out.println("1: Textdatei\n2: Datenbank");
         String username;
-        if (safeScanner.nextIntInRange(1, 2) == 1) {
+
+        if(getTxtLoginRegister()){
             username = login.loginSystem();
-        } else {
+        }
+        else {
             username = loginData.loginSystem();
         }
 
@@ -242,6 +248,14 @@ public class PlayerController implements Serializable {
 
     public Player getCurrentPlayer() {
         return currentPlayer;
+    }
+
+    public boolean getTxtLoginRegister(){
+        return this.txtLoginRegister;
+    }
+
+    public void setTxtLoginRegister(boolean loginRegister){
+        this.txtLoginRegister = loginRegister;
     }
 
 }
