@@ -132,6 +132,8 @@ public class GameController implements Serializable {
             g1.loadSavestate();
             g1.loadState = true;
 
+            pc.setTxtLoginRegister(data.txt);
+
             // starts round
             for (int i = data.currentRound; i < 4; i++) {
                 g1.play(i);
@@ -144,9 +146,14 @@ public class GameController implements Serializable {
                 pc.setTxtLoginRegister(true);
             }
 
+            // checks database connection
             if(DataConnection.getConnection() == null){
                 pc.setTxtLoginRegister(true);
             }
+
+            // saves where to save data
+            data.txt = pc.getTxtLoginRegister();
+            ResourceManager.save(data,"gamestate.save");
 
             pc.addPlayers();
             // initialize without savefile

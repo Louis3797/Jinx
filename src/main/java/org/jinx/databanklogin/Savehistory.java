@@ -21,6 +21,9 @@ public class Savehistory {
         pc = PlayerController.getPlayerControllerInstance();
     }
 
+    /**
+     * writes match-histories to database
+     */
     public void writeHistoriesDatabase() {
         Date date = new Date();
 
@@ -53,7 +56,7 @@ public class Savehistory {
     }
 
     /**
-     * prints matchhistory of winning player from database
+     * prints match-history of winning player from database
      *
      * @param winner winning player
      */
@@ -65,6 +68,7 @@ public class Savehistory {
             String query;
 
             System.out.println("Geordnete Liste ausgeben?");
+            // sql querys
             if (scanner.nextYesNoAnswer()) {
                 query = "SELECT * FROM spielhistory WHERE user = " + "'" + winner + "'" +
                         " ORDER BY kartensumme DESC";
@@ -79,6 +83,7 @@ public class Savehistory {
             ResultSetMetaData metaData = rs.getMetaData();
             int columnCount = metaData.getColumnCount();
 
+            // print database tables
             while (rs.next()) {
                 for (int columnIndex = 1; columnIndex <= columnCount; columnIndex++) {
                     Object object = rs.getObject(columnIndex);

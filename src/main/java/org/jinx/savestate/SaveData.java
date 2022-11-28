@@ -21,5 +21,6 @@ public class SaveData implements Serializable {
     public int currentRound;
     public Map<Player, NumberCardHand> map;
     public Player currentPlayer;
+    public boolean txt;
 
 }
