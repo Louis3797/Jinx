@@ -1,5 +1,7 @@
 package org.jinx.utils;
 
+import java.io.Serializable;
+
 /**
  * Generic weight for weighing objects
  *
@@ -8,7 +10,7 @@ package org.jinx.utils;
  * @param reason Reason for the weight
  * @param <T>    Generic Type
  */
-public record Weight<T>(T object, int weight, String reason) {
+public record Weight<T>(T object, int weight, String reason) implements Serializable {
 
     @Override
     public String toString() {

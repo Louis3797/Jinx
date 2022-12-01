@@ -6,14 +6,16 @@ import org.jinx.field.Field;
 import org.jinx.game.PlayerController;
 import org.jinx.utils.Weight;
 
+import java.io.Serializable;
 import java.util.*;
 
 /**
  * The Autonomous Player Class represents a Player that can play the game on its own.
  * He can calculate his next move based on 3 difficulty levels
  */
-public class AutonomousPlayer extends Player {
+public class AutonomousPlayer extends Player implements Serializable {
 
+    public static final long serialVersionUID = 42L;
     /**
      * Player Controller instance
      */
@@ -637,8 +639,7 @@ public class AutonomousPlayer extends Player {
                 return cardWeight.reason();
             }
         }
-
-        throw new IllegalArgumentException("Weight for Card does not exist!");
+        return "Weight for Card does not exist!";
     }
 
     public NumberCard givePlayerTip(Player player, List<NumberCard> availableCards) {
@@ -665,6 +666,10 @@ public class AutonomousPlayer extends Player {
         return availableCards.get(index);
 
 
+    }
+
+    public AgentDifficulty getDifficulty(){
+        return this.difficulty;
     }
 
     @Override

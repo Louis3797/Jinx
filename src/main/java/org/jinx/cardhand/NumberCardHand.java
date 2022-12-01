@@ -3,10 +3,14 @@ package org.jinx.cardhand;
 import org.jinx.card.CardColor;
 import org.jinx.card.NumberCard;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 public class NumberCardHand extends CardHand<NumberCard> {
 
+    public static final long serialVersionUID = 42L;
     /**
      * Calculates how many card colors are contained in the given card list
      *

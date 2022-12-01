@@ -13,6 +13,7 @@ import java.util.Arrays;
  */
 public abstract class CardHand<T extends Card> extends ArrayList<T> implements Serializable {
 
+    public static final long serialVersionUID = 42L;
     /**
      * Abstract print Method
      */

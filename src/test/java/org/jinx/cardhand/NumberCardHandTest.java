@@ -1,6 +1,7 @@
 package org.jinx.cardhand;
 
-import org.jinx.card.*;
+import org.jinx.card.CardColor;
+import org.jinx.card.NumberCard;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 

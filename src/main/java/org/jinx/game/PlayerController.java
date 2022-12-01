@@ -1,5 +1,8 @@
 package org.jinx.game;
 
+
+import org.jinx.databanklogin.RegistCon;
+import org.jinx.login.Login;
 import org.jinx.player.AgentDifficulty;
 import org.jinx.player.AutonomousPlayer;
 import org.jinx.player.Player;
@@ -20,7 +23,7 @@ import static org.jinx.utils.ConsoleColor.RESET;
  * PlayerController uses Singleton Pattern
  */
 public class PlayerController implements Serializable {
-    private final Logger LOGGER = Logger.getLogger(PlayerController.class.getName());
+    private transient final Logger LOGGER = Logger.getLogger(PlayerController.class.getName());
 
     /**
      * Instance for the Singleton pattern of the PlayerController
@@ -36,7 +39,14 @@ public class PlayerController implements Serializable {
     /**
      * Wrapper for the Scanner
      */
-    private final SafeScanner safeScanner;
+    private transient final SafeScanner safeScanner;
+
+    private Login login;
+
+    private RegistCon loginData;
+
+    private boolean txtLoginRegister;
+
 
     /**
      * Standard Constructor for the Player Controller
@@ -45,6 +55,10 @@ public class PlayerController implements Serializable {
         players = new LinkedList<>();
         currentPlayer = null;
         safeScanner = new SafeScanner();
+        login = new Login();
+        loginData = new RegistCon();
+        txtLoginRegister = false;
+
     }
 
     /**
@@ -67,8 +81,7 @@ public class PlayerController implements Serializable {
 
                 if (!oneMorePlayer) {
                     break;
-                }
-                else {
+                } else {
                     addOnePlayer();
                 }
 
@@ -88,20 +101,47 @@ public class PlayerController implements Serializable {
      */
     public void addOnePlayer() {
 
-        System.out.println(BLUE + "Gib deinen Spieler einen Namen:" + RESET);
 
-        String playerName;
-        boolean isPlayerExisting;
+        System.out.println("Spieler registrieren?");
+        
+        if (safeScanner.nextYesNoAnswer()) {
 
-        do {
-            playerName = safeScanner.nextStringSafe();
-
-            isPlayerExisting = doesPlayerExist(playerName);
-
-            if (isPlayerExisting) {
-                System.out.println(BLUE + "Spieler " + playerName + " existiert bereits.\nBitte geben sie ein anderen Namen ein:" + RESET);
+            if(getTxtLoginRegister()){
+                login.register();
             }
-        } while (isPlayerExisting);
+            else {
+                loginData.register();
+            }
+
+            addOnePlayer();
+            return;
+        }
+
+
+        System.out.println("Einloggen: ");
+
+        String username;
+
+        if(getTxtLoginRegister()){
+            username = login.loginSystem();
+        }
+        else {
+            username = loginData.loginSystem();
+        }
+
+        if (username.equals("")) {
+            System.out.println("Falsches Passwort oder Benutzername");
+            addOnePlayer();
+            return;
+        }
+
+        boolean isPlayerExisting = doesPlayerExist(username);
+
+        if (isPlayerExisting) {
+            System.out.println("Bereits eingeloggt");
+            addOnePlayer();
+            return;
+        }
 
         System.out.println("Wollen sie das der Spieler von alleine spielt?\n[y,yes,ja | n,no,nein]");
 
@@ -113,13 +153,15 @@ public class PlayerController implements Serializable {
             }
 
             AgentDifficulty difficulty = AgentDifficulty.values()[safeScanner.nextIntInRange(1, AgentDifficulty.values().length) - 1];
-            players.add(new AutonomousPlayer(playerName, difficulty));
+            players.add(new AutonomousPlayer(username, difficulty));
         } else {
-            players.add(new Player(playerName));
+            players.add(new Player(username));
         }
+        System.out.println(BLUE + username + " wurde dem Spiel hinzugefügt!" + RESET);
 
-        System.out.println(BLUE + playerName + " wurde dem Spiel hinzugefügt!" + RESET);
     }
+
+
 
     /**
      * Helper method that checks if Player with given name already exists
@@ -127,6 +169,7 @@ public class PlayerController implements Serializable {
      * @param name Name we want to check
      * @return true if yes else false
      */
+
     private boolean doesPlayerExist(String name) {
 
         for (Player player : players) {
@@ -136,6 +179,8 @@ public class PlayerController implements Serializable {
 
         return false;
     }
+
+
 
     /**
      * Use this method when you want to move on to the next player.
@@ -205,4 +250,13 @@ public class PlayerController implements Serializable {
     public Player getCurrentPlayer() {
         return currentPlayer;
     }
+
+    public boolean getTxtLoginRegister(){
+        return this.txtLoginRegister;
+    }
+
+    public void setTxtLoginRegister(boolean loginRegister){
+        this.txtLoginRegister = loginRegister;
+    }
+
 }

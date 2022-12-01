@@ -9,6 +9,9 @@
         + [LuckyCard](#luckycard)
         + [NumberCardStack](#numbercardstack)
         + [LuckyCardStack](#luckycardstack)
+        + [CardHand](#cardhand)
+        + [LuckyCardHand](#luckycardhand)
+        + [NumberCardHand](#numbercardhand)
         + [Dice](#dice)
         + [Field](#field)
         + [GameController](#gamecontroller)
@@ -17,6 +20,15 @@
         + [Player](#player)
         + [AutonomousPlayer](#autonomousplayer)
         + [SafeScanner](#safescanner)
+        + [Comparator](#comparator)
+        + [DataConnection](#dataconnection)
+        + [RegistCon](#registcon)
+        + [Savehistory](#savehistory)
+        + [AES](#aes)
+        + [Login](#login)
+        + [ResourceManager](#resourcemanager)
+        + [SaveData](#savedata)
+        + [FileFormatter](#fileformatter)
     * [Records](#records)
         + [Weight](#weight)
         + [HighScore](#highscore)
@@ -149,6 +161,55 @@ Kriterien zur Gewichtung des gefährlichsten Spielers
 
 SafeScanner ist ein Wrapper um den java.util.Scanner. Er stellt spezielle Methoden zur verfügung die Fehler abfangen und nur bestimmte Eingaben zulassen
 
+### CardHand
+
+CardHand dient als Struktur fuer die Numbercards und Luckycards, die der Spieler hat
+
+### LuckyCardHand
+
+Besteht aus den Luckycards, die der jeweilige Spieler hat
+
+### NumberCardHand
+
+Besteht aus den Numbercards, die der jeweilige Spieler hat
+
+### Comparator
+
+Der Comparator ist fuer die Sortierung der Match-History zustaendig
+
+### DataConnection
+
+Stellt die Verbindung zur Datenbank her und prueft, ob der Spieler, mit dem man sich anmelden moechte, registriert ist
+
+### RegistCon
+
+Der Spieler registriert sich hier in der Datenbank oder meldet sich im Spiel mit Daten aus der Datenbank an
+
+### Savehistory
+
+Schreibt die Match-histories von den Spielern in die Datenbank
+Gibt auch die geordnete und ungeordnete Liste der Match-histories aus
+
+### FileFormatter
+
+Formatter fuer den Logger der Spielzuege
+
+### AES
+
+Ist fuer die Verschluesselung der Passwoerter zustaendig
+
+### Login
+
+Ist fuer den Login ueber die Textdatei zustaendig
+
+### ResourceManager
+
+Mit dem Resourcemanager kann man relevante Spieldaten in eine .save-Datei schreiben und auch laden
+
+### SaveData
+
+Die Datenstruktur fuer die relevanten Spieldaten, die man speichern moechte
+
 ---
 
 ## Records
@@ -194,14 +255,25 @@ Datentyp für die Schwierigkeitsstufen der Spieler KI
 - Farbiger Output
 - Prüfung der Csv Dateien (NumberCards.csv und LuckyCards.csv)
 - 100% JavaDoc
+- Spiel wird gespeichert
+- Datenbank und .txt support
+- Match-history gespeichert
+- Spielzuege gespeicher
+- Replay des letzten Spiels
+- Nochmal spielen
 
 # Roadmap
 
-- [x]  Summen Glückskarte implementieren → LCSum
-- [x]  KI Spieler
-    - [x]  Soll Tipps geben können
-    - [x]  Begründung für Wahl der Karte
-- [x]  Farbige Kartenausgabe
+- [x]  Spiel speichern
+- [x]  Registrieren in .txt
+- [x]  Login per .txt
+- [x]  Registrieren in DB
+- [x]  Login per DB
+- [x]  Spielverlauf speichern
+- [x]  Spielverlauf anzeigen
+- [x]  Spielzuege loggen
+- [x]  Replay-Funktion
+
 
 # Changelog
 
@@ -254,3 +326,11 @@ Alle nennenswerten Änderungen an diesem Projekt werden hier dokumentiert.
     // Nachher
     LuckyCard lc = new LCSum()
     ```
+## Abgabe 3
+
+### Added
+
+- Spiel speichern
+- Replay 
+- DB und txt reg und login
+- DB und txt spielverlauf
