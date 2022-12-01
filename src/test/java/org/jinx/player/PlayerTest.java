@@ -1,9 +1,11 @@
 package org.jinx.player;
 
-import org.jinx.card.*;
+import org.jinx.card.CardColor;
+import org.jinx.card.NumberCard;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class PlayerTest {
 

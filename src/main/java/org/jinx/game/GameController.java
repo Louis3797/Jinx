@@ -1,26 +1,35 @@
 package org.jinx.game;
 
 import org.jinx.card.NumberCard;
+import org.jinx.databanklogin.DataConnection;
+import org.jinx.databanklogin.Savehistory;
 import org.jinx.highscore.HighScore;
+import org.jinx.player.AutonomousPlayer;
 import org.jinx.player.Player;
+import org.jinx.savestate.ResourceManager;
+import org.jinx.savestate.SaveData;
 import org.jinx.wrapper.SafeScanner;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.*;
 import java.util.logging.Logger;
 
+import static org.jinx.compare.Comparator.comparator;
 import static org.jinx.utils.ConsoleColor.*;
 
-public class GameController {
+public class GameController implements Serializable {
 
     private final Logger LOGGER = Logger.getLogger(GameController.class.getName());
+
+    private final Savehistory savehistory;
 
     private final PlayerController pc;
 
     private final List<HighScore> highScoreList;
+
+    private SaveData data;
+
+    public static final long serialVersionUID = 42L;
 
     /**
      * Basic Constructor of the GameController class
@@ -28,12 +37,14 @@ public class GameController {
     public GameController() {
         pc = PlayerController.getPlayerControllerInstance();
         highScoreList = new ArrayList<>();
+        data = new SaveData();
+        savehistory = new Savehistory();
     }
 
     /**
      * prints gamelogo
      */
-    public void startSequenz() {
+    private void startSequenz() {
 
         System.out.println(BLUE_BOLD + "      _   ___   _   _  __  __");
         System.out.println("     | | |_ _| | \\ | | \\ \\/ /");
@@ -54,7 +65,7 @@ public class GameController {
     /**
      * prints endlogo and score
      */
-    public void endSequenz() {
+    private void endSequenz() {
 
         System.out.println(
                 RED_BOLD_BRIGHT + "*%%%%     %%%%%(    %%%%% .%%%%  %%%%%%       %%%%\n" +
@@ -67,33 +78,41 @@ public class GameController {
 
         System.out.println("\n" + WHITE_BACKGROUND + "Spielende!" + RESET);
 
-        Map<String, Integer> winner = new HashMap<>();
+        Map<Player, Integer> winner = new HashMap<>();
 
         for (Player player : pc.getPlayers()) {
             int total = 0;
             for (NumberCard card : player.getNumberCardHand()) {
                 total += Integer.parseInt(card.getName());
             }
-            winner.put(player.getName(), total);
+            winner.put(player, total);
         }
 
-        System.out.println(winner);
 
         int max = Collections.max(winner.values());
 
-        for (Map.Entry<String, Integer> entry : winner.entrySet()) {
+        for (Map.Entry<Player, Integer> entry : winner.entrySet()) {
             if (max == entry.getValue()) {
-                System.out.println("Gewinner ist: " + PINK_BOLD_BRIGHT + entry.getKey() + RESET);
+                System.out.println("Gewinner ist: " + PINK_BOLD_BRIGHT + entry.getKey().getName() + RESET);
+                if(pc.getTxtLoginRegister()){
+                    printDescHistory(entry.getKey());
+                }
+                else {
+                    savehistory.printDescHistoryDatabase(entry.getKey().getName());
+                }
             }
         }
+
 
     }
 
     /**
      * Method starts the game
      */
-    public void start() throws IllegalAccessException {
-        // Load old Highscores
+
+    public void start() throws Exception {
+        SafeScanner scanner = new SafeScanner();
+
         getOldHighScores();
 
         // show startsequenz
@@ -101,26 +120,215 @@ public class GameController {
 
         Game g1 = new Game();
 
-        pc.addPlayers();
 
-        System.out.println(WHITE_BOLD_BRIGHT);
-        // i is the current round
-        for (int i = 1; i < 4; i++) {
-            g1.play(i);
+        File saveState = new File("gamestate.save");
+
+        // if savestate exists
+        System.out.println(saveState.length() != 0 ? "Savestate laden?" : "");
+        if ((saveState.length() != 0) && scanner.nextYesNoAnswer()) {
+
+            // loads saved state
+            data = (SaveData) ResourceManager.load("gamestate.save");
+            g1.loadSavestate();
+            g1.loadState = true;
+
+            pc.setTxtLoginRegister(data.txt);
+
+            // starts round
+            for (int i = data.currentRound; i < 4; i++) {
+                g1.play(i);
+            }
+
+        } else {
+
+            System.out.println("[1] Textdatei\n[2] Datenbank");
+            if(scanner.nextIntInRange(1,2) == 1){
+                pc.setTxtLoginRegister(true);
+            }
+
+            // checks database connection
+            if(DataConnection.getConnection() == null){
+                pc.setTxtLoginRegister(true);
+            }
+
+            // saves where to save data
+            data.txt = pc.getTxtLoginRegister();
+            ResourceManager.save(data,"gamestate.save");
+
+            pc.addPlayers();
+            // initialize without savefile
+            g1.initializeDecks();
+            // starts round
+            for (int i = 1; i < 4; i++) {
+                g1.play(i);
+            }
+        }
+
+        // writes and deletes relevant data to and from files
+
+        if(pc.getTxtLoginRegister()){
+            writeHistories();
+        }
+        else {
+            savehistory.writeHistoriesDatabase();
         }
 
         endSequenz();
         writeHighScoreToFile();
+        clearSave();
+        g1.getFh().close();
 
         // clear everything from current round
         pc.getPlayers().clear();
         highScoreList.clear();
+
+        // look at replay of last round
+        System.out.println("Replay anschauen?");
+        if (scanner.nextYesNoAnswer()) {
+            replay();
+        }
+
         System.out.println("Nochmal spielen?");
 
         // start a new game
-        SafeScanner scanner = new SafeScanner();
         if (scanner.nextYesNoAnswer()) {
             start();
+        }
+
+    }
+
+    /**
+     * prints replay of last game
+     */
+    private void replay() {
+        try {
+            BufferedReader br = new BufferedReader(new FileReader("Spielzuege.log"));
+            String line;
+            while ((line = br.readLine()) != null) {
+
+                System.out.println(line);
+                Thread.sleep(500);
+            }
+        } catch (IOException | InterruptedException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    /**
+     * prints descending match-history of winner
+     *
+     * @param player winner
+     */
+    private void printDescHistory(Player player) {
+
+        SafeScanner scanner = new SafeScanner();
+
+        try {
+
+            BufferedReader br;
+
+            if (!player.isHuman()) {
+                // prints bot history
+                br = new BufferedReader(new FileReader("Histories/" + ((AutonomousPlayer) player).getDifficulty() + ".txt"));
+
+            } else {
+                // prints player history
+                br = new BufferedReader(new FileReader("Histories/" + player.getName() + ".txt"));
+            }
+
+            String line;
+            ArrayList<String> lines = new ArrayList<>();
+            ArrayList<ArrayList<String>> paragraphs = new ArrayList<>();
+
+            // reads lines and cuts off at "-"
+            // all info before that is stored in a string
+            // this string is added to a list which
+            // is added to a 2d list
+            while ((line = br.readLine()) != null) {
+                if (line.equals("-")) {
+                    paragraphs.add(lines);
+                    lines = new ArrayList<>();
+                } else {
+                    lines.add(line);
+                }
+            }
+
+            System.out.println("Liste nach Punkten geordnet ausgeben?");
+            // sorts list by points in desc order
+            if (scanner.nextYesNoAnswer()) {
+                paragraphs.sort(comparator);
+            }
+
+            // prints history of player
+            for (ArrayList<String> list : paragraphs) {
+                System.out.println(WHITE_BOLD_BRIGHT + "" + list + RESET);
+            }
+
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+
+    }
+
+    /**
+     * writes matchhistory for all players including bots
+     */
+    private void writeHistories() {
+
+        Date date = new Date();
+        FileWriter file;
+
+        for (Player player : pc.getPlayers()) {
+            try {
+                if (!player.isHuman()) {
+                    // history with bot name
+                    file = new FileWriter("Histories/" + ((AutonomousPlayer) player).getDifficulty() + ".txt", true);
+                } else {
+                    // history with player name
+                    file = new FileWriter("Histories/" + player.getName() + ".txt", true);
+                }
+
+                // appends relevant game information
+                file.append("Spieler: ").append(player.isHuman() ? player.getName() : "bot-" + player.getName() + "-" +
+                        ((AutonomousPlayer) player).getDifficulty()).append("\n");
+                file.append("Kartensumme: ").append(String.valueOf(player.getPoints())).append("\n");
+                file.append("Datum: ").append(String.valueOf(date)).append("\n");
+                file.append("Mitspieler: ");
+
+                // appends bot names
+                for (Player player1 : pc.getPlayers()) {
+                    if (!player1.getName().equals(player.getName())) {
+                        if (!player1.isHuman()) {
+                            file.append("bot-").append(player1.getName())
+                                    .append("-")
+                                    .append(String.valueOf(((AutonomousPlayer) player1).getDifficulty()))
+                                    .append(" ");
+                        } else {
+                            file.append(player1.getName()).append(" ");
+                        }
+
+                    }
+                }
+
+                file.append("\n-\n");
+
+                file.close();
+            } catch (IOException e) {
+                System.out.println(e.getMessage());
+            }
+
+        }
+    }
+
+
+    /**
+     * clears savefile after match ends
+     */
+    private void clearSave() {
+        try {
+            new FileOutputStream("gamestate.save").close();
+        } catch (IOException e) {
+            System.out.println("File nicht vorhanden");
         }
 
     }

@@ -3,6 +3,7 @@ package org.jinx.cardstack;
 import org.jinx.card.*;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Collections;
@@ -10,9 +11,11 @@ import java.util.List;
 import java.util.Stack;
 import java.util.logging.Logger;
 
-public class LuckyCardStack extends Stack<LuckyCard> {
+public class LuckyCardStack extends Stack<LuckyCard> implements Serializable {
 
-    private final Logger LOGGER = Logger.getLogger(NumberCardStack.class.getName());
+    private transient final Logger LOGGER = Logger.getLogger(NumberCardStack.class.getName());
+
+    public static final long serialVersionUID = 42L;
 
     public LuckyCardStack() {
         generateDeck();
