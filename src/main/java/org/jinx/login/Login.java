@@ -1,6 +1,7 @@
 package org.jinx.login;
 
 
+import org.jinx.encryption.AES;
 import org.jinx.wrapper.SafeScanner;
 
 import java.io.*;

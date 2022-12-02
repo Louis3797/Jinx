@@ -1,4 +1,4 @@
-package org.jinx.login;
+package org.jinx.encryption;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
