@@ -13,11 +13,13 @@ import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class Savehistory {
+public class SaveHistory {
 
     private final PlayerController pc;
 
-    public Savehistory() {
+    private static final Logger logger = Logger.getLogger(SaveHistory.class.getName());
+
+    public SaveHistory() {
         pc = PlayerController.getPlayerControllerInstance();
     }
 
@@ -50,7 +52,7 @@ public class Savehistory {
                 ps.executeUpdate();
             }
         } catch (SQLException ex) {
-            Logger.getLogger(DataConnection.class.getName()).log(Level.WARNING, ex.getMessage());
+          logger.warning(ex.getMessage());
         }
 
     }
@@ -94,7 +96,7 @@ public class Savehistory {
 
 
         } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
+           logger.warning(ex.getMessage());
         }
     }
 }

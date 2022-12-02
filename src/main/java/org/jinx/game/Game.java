@@ -7,7 +7,7 @@ import org.jinx.cardstack.LuckyCardStack;
 import org.jinx.cardstack.NumberCardStack;
 import org.jinx.dice.Dice;
 import org.jinx.field.Field;
-import org.jinx.formatter.FileFormatter;
+import org.jinx.formatter.PlayMoveFileFormatter;
 import org.jinx.player.AgentDifficulty;
 import org.jinx.player.AutonomousPlayer;
 import org.jinx.player.Player;
@@ -105,7 +105,7 @@ public class Game implements Serializable {
             logger = Logger.getLogger(getClass().getName());
             fh = new FileHandler("Spielzuege.log");
             logger.addHandler(fh);
-            fh.setFormatter(new FileFormatter());
+            fh.setFormatter(new PlayMoveFileFormatter());
             logger.setUseParentHandlers(false);
         } catch (IOException ignored) {
 

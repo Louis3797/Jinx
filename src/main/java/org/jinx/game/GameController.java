@@ -2,7 +2,7 @@ package org.jinx.game;
 
 import org.jinx.card.NumberCard;
 import org.jinx.databanklogin.DataConnection;
-import org.jinx.databanklogin.Savehistory;
+import org.jinx.databanklogin.SaveHistory;
 import org.jinx.highscore.HighScore;
 import org.jinx.player.AutonomousPlayer;
 import org.jinx.player.Player;
@@ -14,14 +14,13 @@ import java.io.*;
 import java.util.*;
 import java.util.logging.Logger;
 
-import static org.jinx.compare.Comparator.comparator;
 import static org.jinx.utils.ConsoleColor.*;
 
 public class GameController implements Serializable {
 
     private final Logger LOGGER = Logger.getLogger(GameController.class.getName());
 
-    private final Savehistory savehistory;
+    private final SaveHistory savehistory;
 
     private final PlayerController pc;
 
@@ -38,7 +37,7 @@ public class GameController implements Serializable {
         pc = PlayerController.getPlayerControllerInstance();
         highScoreList = new ArrayList<>();
         data = new SaveData();
-        savehistory = new Savehistory();
+        savehistory = new SaveHistory();
     }
 
     /**
@@ -256,7 +255,16 @@ public class GameController implements Serializable {
             System.out.println("Liste nach Punkten geordnet ausgeben?");
             // sorts list by points in desc order
             if (scanner.nextYesNoAnswer()) {
-                paragraphs.sort(comparator);
+                paragraphs.sort((x, y) -> {
+                    for (int i = 0; i < Math.min(x.size(), y.size()); i++) {
+                        if (!Objects.equals(x.get(i), y.get(i))) {
+                            String[] data = x.get(1).split("Kartensumme: ");
+                            String[] dataY = y.get(1).split("Kartensumme: ");
+                            return Integer.parseInt(dataY[1]) - Integer.parseInt(data[1]);
+                        }
+                    }
+                    return Integer.compare(x.size(), y.size());
+                });
             }
 
             // prints history of player

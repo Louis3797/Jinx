@@ -1,7 +1,7 @@
 package org.jinx.game;
 
 
-import org.jinx.databanklogin.RegistCon;
+import org.jinx.databanklogin.Registration;
 import org.jinx.login.Login;
 import org.jinx.player.AgentDifficulty;
 import org.jinx.player.AutonomousPlayer;
@@ -43,7 +43,7 @@ public class PlayerController implements Serializable {
 
     private Login login;
 
-    private RegistCon loginData;
+    private Registration loginData;
 
     private boolean txtLoginRegister;
 
@@ -56,7 +56,7 @@ public class PlayerController implements Serializable {
         currentPlayer = null;
         safeScanner = new SafeScanner();
         login = new Login();
-        loginData = new RegistCon();
+        loginData = new Registration();
         txtLoginRegister = false;
 
     }

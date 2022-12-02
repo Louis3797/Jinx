@@ -6,19 +6,20 @@ import org.jinx.wrapper.SafeScanner;
 import java.io.Serializable;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import static org.jinx.utils.ConsoleColor.BLUE;
 import static org.jinx.utils.ConsoleColor.RESET;
 
-public class RegistCon implements Serializable {
+public class Registration implements Serializable {
 
     public static final long serialVersionUID = 42L;
 
+    private static final Logger logger = Logger.getLogger(Registration.class.getName());
+
     private transient final SafeScanner safeScanner;
 
-    public RegistCon() {
+    public Registration() {
         safeScanner = new SafeScanner();
     }
 
@@ -48,7 +49,7 @@ public class RegistCon implements Serializable {
                 ps.executeUpdate();
 
             } catch (SQLException ex) {
-                Logger.getLogger(DataConnection.class.getName()).log(Level.SEVERE, null, ex);
+                logger.warning(ex.getMessage());
             }
         }
 
