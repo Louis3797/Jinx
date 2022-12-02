@@ -4,17 +4,18 @@ import org.jinx.game.PlayerController;
 
 import java.io.Serializable;
 import java.sql.*;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class DataConnection implements Serializable {
 
     public static final long serialVersionUID = 42L;
 
+    private static final Logger logger = Logger.getLogger(DataConnection.class.getName());
+
     private static final PlayerController pc = PlayerController.getPlayerControllerInstance();
 
     /**
-      Method to connect with database
+     * Method to connect with database
      *
      * @return Connection
      */
@@ -22,7 +23,8 @@ public class DataConnection implements Serializable {
         Connection connection = null;
         try {
             connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/mysql_database", "root", "admin");
-        } catch (Exception e) {
+        } catch (SQLException e) {
+            logger.warning(e.getMessage());
             System.out.println("Verbindung zur Datenbank konnte nicht hergestellt werden\nTextdatei wird benutzt.");
         }
         return connection;
@@ -30,6 +32,7 @@ public class DataConnection implements Serializable {
 
     /**
      * Username validation method with database
+     *
      * @param username username of player
      * @return checkUser if user is in database
      */
@@ -49,18 +52,19 @@ public class DataConnection implements Serializable {
                 checkUser = true;
             }
         } catch (SQLException ex) {
-            Logger.getLogger(DataConnection.class.getName()).log(Level.WARNING, ex.getMessage());
+            logger.warning(ex.getMessage());
         }
         return checkUser;
     }
 
     /**
      * Username and Password validation method with database
+     *
      * @param username username of player
      * @param password password of player
      * @return checkUser if next user is available
      */
-    public boolean checkUserandPassword(String username,String password) {
+    public boolean checkUserandPassword(String username, String password) {
         PreparedStatement ps;
         ResultSet rs;
         boolean checkUser = false;
@@ -69,14 +73,14 @@ public class DataConnection implements Serializable {
         try {
             ps = DataConnection.getConnection().prepareStatement(query);
             ps.setString(1, username);
-            ps.setString(2,password);
+            ps.setString(2, password);
             rs = ps.executeQuery();
 
             if (rs.next()) {
                 checkUser = true;
             }
         } catch (SQLException ex) {
-            Logger.getLogger(DataConnection.class.getName()).log(Level.WARNING, ex.getMessage());
+            logger.warning(ex.getMessage());
         }
         return checkUser;
     }
