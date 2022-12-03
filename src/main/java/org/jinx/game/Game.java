@@ -24,13 +24,12 @@ import java.util.logging.Logger;
 
 public class Game implements Serializable {
 
-    private final PlayerController pc = PlayerController.getPlayerControllerInstance();
-
+    private final PlayerManager pc = PlayerManager.getPlayerControllerInstance();
     private final Dice dice;
     private NumberCardStack numberCardsDeck;
-    private LuckyCardStack luckyCardStack;
+    private LuckyCardStack luckyCardDeck;
 
-    private Field field = Field.getFieldInstance();
+    private final Field field = Field.getFieldInstance();
 
     private final SafeScanner safeScanner;
     public boolean loadState = false;
@@ -65,7 +64,7 @@ public class Game implements Serializable {
         }
 
         numberCardsDeck = data.deck;
-        luckyCardStack = data.luckyDeck;
+        luckyCardDeck = data.luckyDeck;
 
         while(pc.getCurrentPlayer() != data.currentPlayer){
             pc.next();
@@ -80,12 +79,12 @@ public class Game implements Serializable {
      * initializes decks not loaded from file
      */
     public void initializeDecks() {
-        luckyCardStack = new LuckyCardStack();
+        luckyCardDeck = new LuckyCardStack();
 
         numberCardsDeck = new NumberCardStack();
 
         data.deck = numberCardsDeck;
-        data.luckyDeck = luckyCardStack;
+        data.luckyDeck = luckyCardDeck;
 
         data.map = new HashMap<>();
 
@@ -144,7 +143,7 @@ public class Game implements Serializable {
             System.out.println("Runde " + currentRound);
 
             // if we are not in round 1, then we can trade
-            if (currentRound >= 2 && !luckyCardStack.isEmpty()) {
+            if (currentRound >= 2 && !luckyCardDeck.isEmpty()) {
                 for (int i = 0; i < pc.getPlayers().size(); i++) {
 
                     System.out.println("Spieler: " + pc.getCurrentPlayer().getName() + "\nKarte gegen Glückskarte eintauschen? [y,yes,ja | n,no,nein]");
@@ -551,9 +550,9 @@ public class Game implements Serializable {
                 + pc.getCurrentPlayer().getNumberCardHand().get(index).getColor() + " gegen eine Luckycard getauscht \n");
         pc.getCurrentPlayer().getNumberCardHand().remove(index);
 
-        LuckyCard pickedLuckyCard = luckyCardStack.pop();
+        LuckyCard pickedLuckyCard = luckyCardDeck.pop();
 
-        data.luckyDeck = luckyCardStack;
+        data.luckyDeck = luckyCardDeck;
         ResourceManager.save(data,"gamestate.save");
 
         System.out.println("Sie haben die LuckyCard " + pickedLuckyCard.getName() + " gezogen");
@@ -563,7 +562,7 @@ public class Game implements Serializable {
 
         pc.getCurrentPlayer().getLuckyCardHand().add(pickedLuckyCard);
 
-        if (!luckyCardStack.isEmpty()) {
+        if (!luckyCardDeck.isEmpty()) {
             System.out.println("Wollen sie noch eine Karte eintauschen?");
 
             if ((pc.getCurrentPlayer().isHuman() && safeScanner.nextYesNoAnswer()) || (!pc.getCurrentPlayer().isHuman() && ((AutonomousPlayer) pc.getCurrentPlayer()).considerPickLuckyCard())) {

@@ -11,33 +11,43 @@ import org.jinx.savestate.SaveData;
 import org.jinx.wrapper.SafeScanner;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
+import java.util.logging.FileHandler;
 import java.util.logging.Logger;
 
 import static org.jinx.utils.ConsoleColor.*;
 
 public class GameController implements Serializable {
 
-    private final Logger LOGGER = Logger.getLogger(GameController.class.getName());
+    public static final long serialVersionUID = 42L;
+    private static final Logger logger = Logger.getLogger(GameController.class.getName());
 
     private final SaveHistory savehistory;
 
-    private final PlayerController pc;
+    private final PlayerManager pc;
 
     private final List<HighScore> highScoreList;
 
     private SaveData data;
 
-    public static final long serialVersionUID = 42L;
-
     /**
      * Basic Constructor of the GameController class
      */
     public GameController() {
-        pc = PlayerController.getPlayerControllerInstance();
+        pc = PlayerManager.getPlayerControllerInstance();
         highScoreList = new ArrayList<>();
         data = new SaveData();
         savehistory = new SaveHistory();
+
+        try {
+            logger.addHandler(new FileHandler("logs.log"));
+        } catch (IOException e) {
+            logger.warning(e.getMessage());
+        }
+
     }
 
     /**
@@ -201,15 +211,13 @@ public class GameController implements Serializable {
      */
     private void replay() {
         try {
-            BufferedReader br = new BufferedReader(new FileReader("Spielzuege.log"));
-            String line;
-            while ((line = br.readLine()) != null) {
-
+            List<String> content = Files.readAllLines(Path.of("Spielzuege.log"));
+            for(String line : content) {
                 System.out.println(line);
                 Thread.sleep(500);
             }
         } catch (IOException | InterruptedException e) {
-            System.out.println(e.getMessage());
+            logger.warning(e.getMessage());
         }
     }
 
@@ -224,18 +232,18 @@ public class GameController implements Serializable {
 
         try {
 
-            BufferedReader br;
+            Path path;
 
             if (!player.isHuman()) {
                 // prints bot history
-                br = new BufferedReader(new FileReader("Histories/" + ((AutonomousPlayer) player).getDifficulty() + ".txt"));
+                path = Paths.get("Histories/" + ((AutonomousPlayer) player).getDifficulty() + ".txt");
 
             } else {
                 // prints player history
-                br = new BufferedReader(new FileReader("Histories/" + player.getName() + ".txt"));
+               path = Paths.get("Histories/" + player.getName() + ".txt");
             }
 
-            String line;
+            List<String> content = Files.readAllLines(path);
             ArrayList<String> lines = new ArrayList<>();
             ArrayList<ArrayList<String>> paragraphs = new ArrayList<>();
 
@@ -243,7 +251,7 @@ public class GameController implements Serializable {
             // all info before that is stored in a string
             // this string is added to a list which
             // is added to a 2d list
-            while ((line = br.readLine()) != null) {
+            for (String line: content){
                 if (line.equals("-")) {
                     paragraphs.add(lines);
                     lines = new ArrayList<>();
@@ -273,7 +281,7 @@ public class GameController implements Serializable {
             }
 
         } catch (IOException e) {
-            System.out.println(e.getMessage());
+            logger.warning(e.getMessage());
         }
 
     }
@@ -356,7 +364,7 @@ public class GameController implements Serializable {
             }
 
         } catch (IOException e) {
-            LOGGER.warning(e.getMessage());
+            logger.warning(e.getMessage());
         }
     }
 
@@ -385,7 +393,7 @@ public class GameController implements Serializable {
 
             file.close();
         } catch (IOException e) {
-            LOGGER.warning(e.getMessage());
+            logger.warning(e.getMessage());
         }
     }
 

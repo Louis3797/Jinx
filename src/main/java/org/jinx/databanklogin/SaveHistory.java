@@ -1,6 +1,6 @@
 package org.jinx.databanklogin;
 
-import org.jinx.game.PlayerController;
+import org.jinx.game.PlayerManager;
 import org.jinx.player.AutonomousPlayer;
 import org.jinx.player.Player;
 import org.jinx.wrapper.SafeScanner;
@@ -10,17 +10,16 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.Date;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class SaveHistory {
 
-    private final PlayerController pc;
+    private final PlayerManager pc;
 
     private static final Logger logger = Logger.getLogger(SaveHistory.class.getName());
 
     public SaveHistory() {
-        pc = PlayerController.getPlayerControllerInstance();
+        pc = PlayerManager.getPlayerControllerInstance();
     }
 
     /**

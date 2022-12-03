@@ -22,13 +22,13 @@ import static org.jinx.utils.ConsoleColor.RESET;
  * <p>
  * PlayerController uses Singleton Pattern
  */
-public class PlayerController implements Serializable {
-    private transient final Logger LOGGER = Logger.getLogger(PlayerController.class.getName());
+public class PlayerManager implements Serializable {
+    private transient final Logger LOGGER = Logger.getLogger(PlayerManager.class.getName());
 
     /**
      * Instance for the Singleton pattern of the PlayerController
      */
-    private static final PlayerController playerControllerInstance = new PlayerController();
+    private static final PlayerManager PLAYER_MANAGER_INSTANCE = new PlayerManager();
 
     private final Queue<Player> players;
     /**
@@ -51,7 +51,7 @@ public class PlayerController implements Serializable {
     /**
      * Standard Constructor for the Player Controller
      */
-    private PlayerController() {
+    private PlayerManager() {
         players = new LinkedList<>();
         currentPlayer = null;
         safeScanner = new SafeScanner();
@@ -226,8 +226,8 @@ public class PlayerController implements Serializable {
      *
      * @return object of a playerController
      */
-    public static PlayerController getPlayerControllerInstance() {
-        return playerControllerInstance;
+    public static PlayerManager getPlayerControllerInstance() {
+        return PLAYER_MANAGER_INSTANCE;
     }
 
     /**

@@ -20,7 +20,7 @@ public class Login implements Serializable{
 
     private final String secretKey = "secretKey";
 
-    private transient final Logger LOGGER = Logger.getLogger(Login.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(Login.class.getName());
 
     public Login() {
         safeScanner = new SafeScanner();

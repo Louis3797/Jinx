@@ -1,13 +1,17 @@
 package org.jinx.savestate;
 
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.logging.Logger;
 
 public class ResourceManager implements Serializable{
     public static final long serialVersionUID = 42L;
+
+    private static final Logger logger = Logger.getLogger(ResourceManager.class.getName());
 
     /**
      * Saves data in savefile
@@ -18,8 +22,8 @@ public class ResourceManager implements Serializable{
         try(ObjectOutputStream oos = new ObjectOutputStream(Files.newOutputStream(Paths.get(filename)))){
             oos.writeObject(data);
         }
-        catch (Exception e){
-
+     catch (IOException e) {
+          logger.warning(e.getMessage());
         }
     }
 

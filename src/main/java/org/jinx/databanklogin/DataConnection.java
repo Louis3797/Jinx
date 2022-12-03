@@ -1,7 +1,5 @@
 package org.jinx.databanklogin;
 
-import org.jinx.game.PlayerController;
-
 import java.io.Serializable;
 import java.sql.*;
 import java.util.logging.Logger;
@@ -11,8 +9,6 @@ public class DataConnection implements Serializable {
     public static final long serialVersionUID = 42L;
 
     private static final Logger logger = Logger.getLogger(DataConnection.class.getName());
-
-    private static final PlayerController pc = PlayerController.getPlayerControllerInstance();
 
     /**
      * Method to connect with database
