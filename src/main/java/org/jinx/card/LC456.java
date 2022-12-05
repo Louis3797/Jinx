@@ -13,7 +13,7 @@ public class LC456 extends LuckyCard {
     @Override
     public int effect() throws IllegalAccessException {
 
-        PlayerManager pc = PlayerManager.getPlayerControllerInstance();
+        PlayerManager pc = PlayerManager.getPlayerManagerInstance();
 
         System.out.println("Zahl von 4-6 eingeben");
 

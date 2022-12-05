@@ -19,7 +19,7 @@ public class AutonomousPlayer extends Player implements Serializable {
     /**
      * Player Controller instance
      */
-    private final PlayerManager playerManager = PlayerManager.getPlayerControllerInstance();
+    private final PlayerManager playerManager = PlayerManager.getPlayerManagerInstance();
 
     /**
      * Field instance

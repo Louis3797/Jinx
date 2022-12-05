@@ -24,7 +24,7 @@ import java.util.logging.Logger;
 
 public class Game implements Serializable {
 
-    private final PlayerManager pc = PlayerManager.getPlayerControllerInstance();
+    private final PlayerManager pc = PlayerManager.getPlayerManagerInstance();
     private final Dice dice;
     private NumberCardStack numberCardsDeck;
     private LuckyCardStack luckyCardDeck;

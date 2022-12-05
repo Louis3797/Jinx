@@ -19,7 +19,7 @@ public class SaveHistory {
     private static final Logger logger = Logger.getLogger(SaveHistory.class.getName());
 
     public SaveHistory() {
-        pc = PlayerManager.getPlayerControllerInstance();
+        pc = PlayerManager.getPlayerManagerInstance();
 
         try {
             logger.addHandler(new FileHandler("logs.log"));

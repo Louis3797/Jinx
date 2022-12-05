@@ -12,7 +12,7 @@ public class LC123 extends LuckyCard {
     @Override
     public int effect() throws IllegalAccessException {
 
-        PlayerManager pc = PlayerManager.getPlayerControllerInstance();
+        PlayerManager pc = PlayerManager.getPlayerManagerInstance();
 
         System.out.println("Zahl von 1-3 eingeben");
 

@@ -98,56 +98,15 @@ public class PlayerManager implements Serializable {
 
         if (safeScanner.nextYesNoAnswer()) {
 
-            boolean success = false;
-            do {
-
-                System.out.println("Gib den Namen deines Spielers an: ");
-                String username = safeScanner.nextStringSafe();
-
-                System.out.println("Gib das Password für dein Account an: ");
-                String password = safeScanner.nextStringSafe();
-
-                if (password.length() <= 1) {
-                    System.out.println("Dein Password ist zu kurz");
-                    continue;
-                }
-
-                success = loginManager.registerNewUser(username, password);
-
-                if (!success) {
-                    System.out.println("Der User existiert bereits");
-                }
-
-            } while (!success);
-
-            System.out.println("Sie haben sich erfolgreich registriert\n Loggen sie sich nun mit ihren neuen Spieler ein");
+            loginManager.displayRegistration();
 
             addOnePlayer();
             return;
         }
-
 
         System.out.println("Einloggen: ");
 
-        System.out.println(BLUE + "Benutzername:" + RESET);
-        String username = safeScanner.nextStringSafe();
-
-        System.out.println(BLUE + "Passwort:" + RESET);
-        String password = safeScanner.nextStringSafe();
-
-        if (loginManager.checkCredentials(username, password)) {
-            System.out.println("Falsches Passwort oder Benutzername");
-            addOnePlayer();
-            return;
-        }
-
-        boolean isPlayerExisting = doesPlayerExist(username);
-
-        if (isPlayerExisting) {
-            System.out.println("Bereits eingeloggt");
-            addOnePlayer();
-            return;
-        }
+        String username = loginManager.displayLogin();
 
         System.out.println("Wollen sie das der Spieler von alleine spielt?\n[y,yes,ja | n,no,nein]");
 
@@ -175,7 +134,7 @@ public class PlayerManager implements Serializable {
      * @return true if yes else false
      */
 
-    private boolean doesPlayerExist(String name) {
+    public boolean doesPlayerExist(String name) {
 
         for (Player player : players) {
             if (player.getName().equals(name))
@@ -230,7 +189,7 @@ public class PlayerManager implements Serializable {
      *
      * @return object of a playerController
      */
-    public static PlayerManager getPlayerControllerInstance() {
+    public static PlayerManager getPlayerManagerInstance() {
         return PLAYER_MANAGER_INSTANCE;
     }
 

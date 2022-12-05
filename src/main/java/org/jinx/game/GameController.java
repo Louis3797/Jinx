@@ -39,7 +39,7 @@ public class GameController implements Serializable {
      * Basic Constructor of the GameController class
      */
     public GameController() {
-        pc = PlayerManager.getPlayerControllerInstance();
+        pc = PlayerManager.getPlayerManagerInstance();
         highScoreList = new ArrayList<>();
         data = new SaveData();
         savehistory = new SaveHistory();

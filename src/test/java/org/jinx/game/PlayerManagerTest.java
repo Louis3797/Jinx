@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class PlayerManagerTest {
 
-    private PlayerManager playerManager = PlayerManager.getPlayerControllerInstance();
+    private PlayerManager playerManager = PlayerManager.getPlayerManagerInstance();
 
     @AfterEach
     void afterEach() {
@@ -25,7 +25,7 @@ class PlayerManagerTest {
      */
     @Test
     void testPlayerControllerInstance() {
-        assertEquals(PlayerManager.getPlayerControllerInstance(), PlayerManager.getPlayerControllerInstance());
+        assertEquals(PlayerManager.getPlayerManagerInstance(), PlayerManager.getPlayerManagerInstance());
     }
 
     /**
