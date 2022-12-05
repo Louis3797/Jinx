@@ -46,6 +46,8 @@ public class GameController implements Serializable {
 
         try {
             logger.addHandler(new FileHandler("logs.log"));
+
+            logger.setUseParentHandlers(false);
         } catch (IOException e) {
             logger.warning(e.getMessage());
         }
@@ -160,12 +162,17 @@ public class GameController implements Serializable {
             if (choice == 1) {
                 pc.setLoginManager(new FileLoginManager());
                 pc.setFileStorage(true);
-            }
+            } else {
 
-            // checks database connection
-            if (JDBCHelper.getConnection() == null) {
-                pc.setLoginManager(new DatabaseLoginManager());
-                pc.setFileStorage(false);
+                // checks database connection
+                if (JDBCHelper.getConnection() == null) {
+                    pc.setLoginManager(new DatabaseLoginManager());
+                    pc.setFileStorage(false);
+                } else {
+                    System.out.println("Fehler beim laden der Datenbank. Es wir eine Textdatei genutzt um ihre Daten zu speichern");
+                    pc.setLoginManager(new FileLoginManager());
+                    pc.setFileStorage(true);
+                }
             }
 
             // saves where to save data
