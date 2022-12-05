@@ -56,7 +56,7 @@ public class Game implements Serializable {
      *
      * @throws Exception file exception
      */
-    public void loadSavestate() throws Exception {
+    public void loadSaveState() throws Exception {
         data = (SaveData) ResourceManager.load("gamestate.save");
 
         for(Player key : data.map.keySet()){

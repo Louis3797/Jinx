@@ -1,8 +1,7 @@
 package org.jinx.game;
 
 
-import org.jinx.databanklogin.Registration;
-import org.jinx.login.Login;
+import org.jinx.login.ILoginManager;
 import org.jinx.player.AgentDifficulty;
 import org.jinx.player.AutonomousPlayer;
 import org.jinx.player.Player;
@@ -41,12 +40,9 @@ public class PlayerManager implements Serializable {
      */
     private transient final SafeScanner safeScanner;
 
-    private Login login;
+    private ILoginManager loginManager;
 
-    private Registration loginData;
-
-    private boolean txtLoginRegister;
-
+    private boolean fileStorage = false;
 
     /**
      * Standard Constructor for the Player Controller
@@ -55,10 +51,6 @@ public class PlayerManager implements Serializable {
         players = new LinkedList<>();
         currentPlayer = null;
         safeScanner = new SafeScanner();
-        login = new Login();
-        loginData = new Registration();
-        txtLoginRegister = false;
-
     }
 
     /**
@@ -102,16 +94,33 @@ public class PlayerManager implements Serializable {
     public void addOnePlayer() {
 
 
-        System.out.println("Spieler registrieren?");
-        
+        System.out.println("Neuen Spieler Account erstellen?\n [yes,y,ja | no,n,nein]");
+
         if (safeScanner.nextYesNoAnswer()) {
 
-            if(getTxtLoginRegister()){
-                login.register();
-            }
-            else {
-                loginData.register();
-            }
+            boolean success = false;
+            do {
+
+                System.out.println("Gib den Namen deines Spielers an: ");
+                String username = safeScanner.nextStringSafe();
+
+                System.out.println("Gib das Password für dein Account an: ");
+                String password = safeScanner.nextStringSafe();
+
+                if (password.length() <= 1) {
+                    System.out.println("Dein Password ist zu kurz");
+                    continue;
+                }
+
+                success = loginManager.registerNewUser(username, password);
+
+                if (!success) {
+                    System.out.println("Der User existiert bereits");
+                }
+
+            } while (!success);
+
+            System.out.println("Sie haben sich erfolgreich registriert\n Loggen sie sich nun mit ihren neuen Spieler ein");
 
             addOnePlayer();
             return;
@@ -120,16 +129,13 @@ public class PlayerManager implements Serializable {
 
         System.out.println("Einloggen: ");
 
-        String username;
+        System.out.println(BLUE + "Benutzername:" + RESET);
+        String username = safeScanner.nextStringSafe();
 
-        if(getTxtLoginRegister()){
-            username = login.loginSystem();
-        }
-        else {
-            username = loginData.loginSystem();
-        }
+        System.out.println(BLUE + "Passwort:" + RESET);
+        String password = safeScanner.nextStringSafe();
 
-        if (username.equals("")) {
+        if (loginManager.checkCredentials(username, password)) {
             System.out.println("Falsches Passwort oder Benutzername");
             addOnePlayer();
             return;
@@ -162,7 +168,6 @@ public class PlayerManager implements Serializable {
     }
 
 
-
     /**
      * Helper method that checks if Player with given name already exists
      *
@@ -179,7 +184,6 @@ public class PlayerManager implements Serializable {
 
         return false;
     }
-
 
 
     /**
@@ -251,12 +255,19 @@ public class PlayerManager implements Serializable {
         return currentPlayer;
     }
 
-    public boolean getTxtLoginRegister(){
-        return this.txtLoginRegister;
+    public ILoginManager getLoginManager() {
+        return loginManager;
     }
 
-    public void setTxtLoginRegister(boolean loginRegister){
-        this.txtLoginRegister = loginRegister;
+    public void setLoginManager(ILoginManager loginManager) {
+        this.loginManager = loginManager;
     }
 
+    public boolean isFileStorage() {
+        return fileStorage;
+    }
+
+    public void setFileStorage(boolean fileStorage) {
+        this.fileStorage = fileStorage;
+    }
 }

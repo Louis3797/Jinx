@@ -1,9 +1,11 @@
 package org.jinx.game;
 
 import org.jinx.card.NumberCard;
-import org.jinx.databanklogin.DataConnection;
-import org.jinx.databanklogin.SaveHistory;
+import org.jinx.database.JDBCHelper;
 import org.jinx.highscore.HighScore;
+import org.jinx.history.SaveHistory;
+import org.jinx.login.DatabaseLoginManager;
+import org.jinx.login.FileLoginManager;
 import org.jinx.player.AutonomousPlayer;
 import org.jinx.player.Player;
 import org.jinx.savestate.ResourceManager;
@@ -103,10 +105,9 @@ public class GameController implements Serializable {
         for (Map.Entry<Player, Integer> entry : winner.entrySet()) {
             if (max == entry.getValue()) {
                 System.out.println("Gewinner ist: " + PINK_BOLD_BRIGHT + entry.getKey().getName() + RESET);
-                if(pc.getTxtLoginRegister()){
+                if (pc.isFileStorage()) {
                     printDescHistory(entry.getKey());
-                }
-                else {
+                } else {
                     savehistory.printDescHistoryDatabase(entry.getKey().getName());
                 }
             }
@@ -138,10 +139,14 @@ public class GameController implements Serializable {
 
             // loads saved state
             data = (SaveData) ResourceManager.load("gamestate.save");
-            g1.loadSavestate();
+            g1.loadSaveState();
             g1.loadState = true;
 
-            pc.setTxtLoginRegister(data.txt);
+            if (data.txt) {
+                pc.setLoginManager(new FileLoginManager());
+            } else {
+                pc.setLoginManager(new DatabaseLoginManager());
+            }
 
             // starts round
             for (int i = data.currentRound; i < 4; i++) {
@@ -151,18 +156,21 @@ public class GameController implements Serializable {
         } else {
 
             System.out.println("[1] Textdatei\n[2] Datenbank");
-            if(scanner.nextIntInRange(1,2) == 1){
-                pc.setTxtLoginRegister(true);
+            int choice = scanner.nextIntInRange(1, 2);
+            if (choice == 1) {
+                pc.setLoginManager(new FileLoginManager());
+                pc.setFileStorage(true);
             }
 
             // checks database connection
-            if(DataConnection.getConnection() == null){
-                pc.setTxtLoginRegister(true);
+            if (JDBCHelper.getConnection() == null) {
+                pc.setLoginManager(new DatabaseLoginManager());
+                pc.setFileStorage(false);
             }
 
             // saves where to save data
-            data.txt = pc.getTxtLoginRegister();
-            ResourceManager.save(data,"gamestate.save");
+            data.txt = choice == 1;
+            ResourceManager.save(data, "gamestate.save");
 
             pc.addPlayers();
             // initialize without savefile
@@ -175,10 +183,9 @@ public class GameController implements Serializable {
 
         // writes and deletes relevant data to and from files
 
-        if(pc.getTxtLoginRegister()){
+        if (pc.isFileStorage()) {
             writeHistories();
-        }
-        else {
+        } else {
             savehistory.writeHistoriesDatabase();
         }
 
@@ -212,7 +219,7 @@ public class GameController implements Serializable {
     private void replay() {
         try {
             List<String> content = Files.readAllLines(Path.of("Spielzuege.log"));
-            for(String line : content) {
+            for (String line : content) {
                 System.out.println(line);
                 Thread.sleep(500);
             }
@@ -240,7 +247,7 @@ public class GameController implements Serializable {
 
             } else {
                 // prints player history
-               path = Paths.get("Histories/" + player.getName() + ".txt");
+                path = Paths.get("Histories/" + player.getName() + ".txt");
             }
 
             List<String> content = Files.readAllLines(path);
@@ -251,7 +258,7 @@ public class GameController implements Serializable {
             // all info before that is stored in a string
             // this string is added to a list which
             // is added to a 2d list
-            for (String line: content){
+            for (String line : content) {
                 if (line.equals("-")) {
                     paragraphs.add(lines);
                     lines = new ArrayList<>();

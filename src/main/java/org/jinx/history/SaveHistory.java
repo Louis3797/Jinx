@@ -1,15 +1,15 @@
-package org.jinx.databanklogin;
+package org.jinx.history;
 
+import org.jinx.database.JDBCHelper;
 import org.jinx.game.PlayerManager;
 import org.jinx.player.AutonomousPlayer;
 import org.jinx.player.Player;
 import org.jinx.wrapper.SafeScanner;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
+import java.io.IOException;
+import java.sql.*;
 import java.util.Date;
+import java.util.logging.FileHandler;
 import java.util.logging.Logger;
 
 public class SaveHistory {
@@ -20,6 +20,12 @@ public class SaveHistory {
 
     public SaveHistory() {
         pc = PlayerManager.getPlayerControllerInstance();
+
+        try {
+            logger.addHandler(new FileHandler("logs.log"));
+        } catch (IOException e) {
+            logger.warning(e.getMessage());
+        }
     }
 
     /**
@@ -28,8 +34,10 @@ public class SaveHistory {
     public void writeHistoriesDatabase() {
         Date date = new Date();
 
+        Connection con = JDBCHelper.getConnection();
+        PreparedStatement ps = null;
         try {
-            PreparedStatement ps = DataConnection.getConnection().prepareStatement("INSERT INTO " +
+            ps = con.prepareStatement("INSERT INTO " +
                     "`spielhistory`(`user`, `kartensumme`,`datum`, `mitspieler`, `bot` ) VALUES (?,?,?,?,?)");
 
             for (Player player : pc.getPlayers()) {
@@ -51,7 +59,10 @@ public class SaveHistory {
                 ps.executeUpdate();
             }
         } catch (SQLException ex) {
-          logger.warning(ex.getMessage());
+            logger.warning(ex.getMessage());
+        } finally {
+            JDBCHelper.closePreparedStatement(ps);
+            JDBCHelper.closeConnection(con);
         }
 
     }
@@ -65,6 +76,9 @@ public class SaveHistory {
 
         SafeScanner scanner = new SafeScanner();
 
+        Connection con = JDBCHelper.getConnection();
+        PreparedStatement ps = null;
+        ResultSet rs = null;
         try {
             String query;
 
@@ -73,14 +87,13 @@ public class SaveHistory {
             if (scanner.nextYesNoAnswer()) {
                 query = "SELECT * FROM spielhistory WHERE user = " + "'" + winner + "'" +
                         " ORDER BY kartensumme DESC";
-            }
-            else {
+            } else {
                 query = "SELECT * FROM spielhistory WHERE user = " + "'" + winner + "'";
             }
 
-            PreparedStatement ps = DataConnection.getConnection().prepareStatement(query);
+            ps = con.prepareStatement(query);
 
-            ResultSet rs = ps.executeQuery();
+            rs = ps.executeQuery();
             ResultSetMetaData metaData = rs.getMetaData();
             int columnCount = metaData.getColumnCount();
 
@@ -95,7 +108,11 @@ public class SaveHistory {
 
 
         } catch (SQLException ex) {
-           logger.warning(ex.getMessage());
+            logger.warning(ex.getMessage());
+        } finally {
+            JDBCHelper.closePreparedStatement(ps);
+            JDBCHelper.closeResultSet(rs);
+            JDBCHelper.closeConnection(con);
         }
     }
 }

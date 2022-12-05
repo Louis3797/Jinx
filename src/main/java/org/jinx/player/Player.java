@@ -4,9 +4,7 @@ import org.jinx.card.NumberCard;
 import org.jinx.cardhand.LuckyCardHand;
 import org.jinx.cardhand.NumberCardHand;
 
-import java.io.Serializable;
-
-public class Player implements Serializable {
+public class Player {
 
     public static final long serialVersionUID = 42L;
     /**
@@ -39,6 +37,7 @@ public class Player implements Serializable {
 
     /**
      * Calculates the points of every umber card in the hand of the player and returns the sum
+     *
      * @return Returns the sum off all number card points in our hand
      */
     public int getPoints() {
@@ -58,6 +57,7 @@ public class Player implements Serializable {
      *
      * @return Returns true everytime
      */
+
     public boolean isHuman() {
         return true;
     }
