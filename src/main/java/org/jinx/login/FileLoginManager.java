@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.logging.FileHandler;
 import java.util.logging.Logger;
 
-public class FileLoginManager implements ILoginManager{
+public class FileLoginManager implements ILoginManager {
 
     private static final Logger logger = Logger.getLogger(FileLoginManager.class.getName());
 
@@ -29,7 +29,7 @@ public class FileLoginManager implements ILoginManager{
             logger.addHandler(new FileHandler("logs.log"));
             logger.setUseParentHandlers(false);
         } catch (IOException e) {
-           logger.warning(e.getMessage());
+            logger.warning(e.getMessage());
         }
 
     }
@@ -39,14 +39,14 @@ public class FileLoginManager implements ILoginManager{
         try {
             List<String> credentials = Files.readAllLines(Path.of(loginFileName));
 
-            for(String c : credentials){
+            for (String c : credentials) {
                 String[] data = c.split(",");
 
-                    String decryptedPassword = AES.decrypt(data[1], secret);
+                String decryptedPassword = AES.decrypt(data[1], secret);
 
-                    if(username.equals(data[0]) && password.equals(decryptedPassword)){
-                        logger.info("Found user " + username);
-                        return true;
+                if (username.equals(data[0]) && password.equals(decryptedPassword)) {
+                    logger.info("Found user " + username);
+                    return true;
                 }
             }
         } catch (IOException e) {
@@ -60,7 +60,7 @@ public class FileLoginManager implements ILoginManager{
     @Override
     public boolean registerNewUser(String username, String password) {
 
-        if(doesUserExist(username)) {
+        if (doesUserExist(username)) {
             System.out.println("Der Spieler " + username + " existiert bereits schon.");
 
             logger.info("Der Spieler " + username + " existiert bereits schon.");
@@ -68,7 +68,7 @@ public class FileLoginManager implements ILoginManager{
         }
         String encryptedPassword = AES.encrypt(password, secret);
         try {
-            FileWriter file = new FileWriter(loginFileName);
+            FileWriter file = new FileWriter(loginFileName, true);
 
             file.append(username).append(",").append(encryptedPassword).append("\n");
 
@@ -87,10 +87,10 @@ public class FileLoginManager implements ILoginManager{
         try {
             List<String> credentials = Files.readAllLines(Path.of("Login.txt"));
 
-            for(String c : credentials){
+            for (String c : credentials) {
                 String playerUserName = c.split(",")[0];
 
-                if(username.equals(playerUserName)){
+                if (username.equals(playerUserName)) {
                     return true;
                 }
             }

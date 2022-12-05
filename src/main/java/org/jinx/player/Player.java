@@ -3,8 +3,13 @@ package org.jinx.player;
 import org.jinx.card.NumberCard;
 import org.jinx.cardhand.LuckyCardHand;
 import org.jinx.cardhand.NumberCardHand;
+import org.jinx.history.PlayerHistory;
 
-public class Player {
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
+public class Player implements Serializable {
 
     public static final long serialVersionUID = 42L;
     /**
@@ -24,6 +29,8 @@ public class Player {
 
     private final LuckyCardHand luckyCardHand;
 
+    private List<PlayerHistory> matchHistories;
+
     /**
      * Standard Constructor for the Player
      *
@@ -33,6 +40,7 @@ public class Player {
         this.name = name;
         this.numberCardHand = new NumberCardHand();
         this.luckyCardHand = new LuckyCardHand();
+        this.matchHistories = new ArrayList<>();
     }
 
     /**
@@ -81,5 +89,9 @@ public class Player {
 
     public LuckyCardHand getLuckyCardHand() {
         return luckyCardHand;
+    }
+
+    public List<PlayerHistory> getMatchHistories() {
+        return matchHistories;
     }
 }

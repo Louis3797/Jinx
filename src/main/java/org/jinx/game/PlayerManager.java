@@ -42,7 +42,7 @@ public class PlayerManager implements Serializable {
 
     private ILoginManager loginManager;
 
-    private boolean fileStorage = false;
+    private boolean useFileStorage = true;
 
     /**
      * Standard Constructor for the Player Controller
@@ -204,6 +204,17 @@ public class PlayerManager implements Serializable {
         }
     }
 
+    @Override
+    public String toString() {
+        return "PlayerManager{" +
+                "players=" + players +
+                ", currentPlayer=" + currentPlayer +
+                ", safeScanner=" + safeScanner +
+                ", loginManager=" + loginManager +
+                ", fileStorage=" + useFileStorage +
+                '}';
+    }
+
     /* ---------- Getter and Setter Methods ---------- */
 
     public Queue<Player> getPlayers() {
@@ -222,11 +233,11 @@ public class PlayerManager implements Serializable {
         this.loginManager = loginManager;
     }
 
-    public boolean isFileStorage() {
-        return fileStorage;
+    public boolean isUseFileStorage() {
+        return useFileStorage;
     }
 
-    public void setFileStorage(boolean fileStorage) {
-        this.fileStorage = fileStorage;
+    public void setUseFileStorage(boolean useFileStorage) {
+        this.useFileStorage = useFileStorage;
     }
 }

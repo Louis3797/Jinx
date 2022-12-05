@@ -11,8 +11,8 @@ import org.jinx.formatter.PlayMoveFileFormatter;
 import org.jinx.player.AgentDifficulty;
 import org.jinx.player.AutonomousPlayer;
 import org.jinx.player.Player;
+import org.jinx.savestate.GameState;
 import org.jinx.savestate.ResourceManager;
-import org.jinx.savestate.SaveData;
 import org.jinx.wrapper.SafeScanner;
 
 import java.io.IOException;
@@ -33,7 +33,7 @@ public class Game implements Serializable {
 
     private final SafeScanner safeScanner;
     public boolean loadState = false;
-    private SaveData data;
+    private GameState data;
 
     private transient Logger logger;
     private FileHandler fh;
@@ -41,7 +41,7 @@ public class Game implements Serializable {
 
     public Game() {
 
-        data = new SaveData();
+        data = new GameState();
 
         dice = new Dice();
 
@@ -57,22 +57,29 @@ public class Game implements Serializable {
      * @throws Exception file exception
      */
     public void loadSaveState() throws Exception {
-        data = (SaveData) ResourceManager.load("gamestate.save");
+        data = (GameState) ResourceManager.load("gamestate.save");
 
-        for(Player key : data.map.keySet()){
+        if (data == null) {
+            System.out.println("Es wurde kein alter Spielstand gefunden");
+            logger.warning("Failed to load old state of the game");
+            return;
+        }
+
+        for (Player key : data.player) {
             pc.getPlayers().add(key);
         }
 
         numberCardsDeck = data.deck;
         luckyCardDeck = data.luckyDeck;
 
-        while(pc.getCurrentPlayer() != data.currentPlayer){
+        while (pc.getCurrentPlayer() != data.currentPlayer) {
             pc.next();
         }
 
         for (int i = 0; i < field.getFieldSize(); i++) {
             field.getField()[i] = data.field.getField()[i];
         }
+
     }
 
     /**
@@ -86,11 +93,7 @@ public class Game implements Serializable {
         data.deck = numberCardsDeck;
         data.luckyDeck = luckyCardDeck;
 
-        data.map = new HashMap<>();
-
-        for(Player player : pc.getPlayers()){
-            data.map.put(player,player.getNumberCardHand());
-        }
+        data.player = pc.getPlayers().stream().toList();
 
         ResourceManager.save(data, "gamestate.save");
     }
@@ -118,14 +121,13 @@ public class Game implements Serializable {
     public void play(int currentRound) throws Exception {
 
         data.currentRound = currentRound;
-        ResourceManager.save(data,"gamestate.save");
+        ResourceManager.save(data, "gamestate.save");
 
-        if(loadState){
+        if (loadState) {
             loadState = false;
             //loads from file
             System.out.println("Runde " + currentRound);
-        }
-        else {
+        } else {
             field.setField(numberCardsDeck);
 
 
@@ -313,9 +315,6 @@ public class Game implements Serializable {
             currentPlayer.getNumberCardHand().add(card);
             logger.info(currentPlayer.getName() + " hat Karte: " + card.getName() + " " + card.getColor() + " gewaehlt\n");
 
-            // serializes player hand
-            data.map.put(pc.getCurrentPlayer(), pc.getCurrentPlayer().getNumberCardHand());
-
             System.out.println("Spieler: " + currentPlayer.getName());
             currentPlayer.getNumberCardHand().print();
             System.out.println("---------------");
@@ -348,7 +347,7 @@ public class Game implements Serializable {
 
         Player currentPlayer = pc.getCurrentPlayer();
         data.currentPlayer = currentPlayer;
-        ResourceManager.save(data,"gamestate.save");
+        ResourceManager.save(data, "gamestate.save");
 
         Stack<Integer> diceStack = new Stack<>();
 
@@ -553,7 +552,7 @@ public class Game implements Serializable {
         LuckyCard pickedLuckyCard = luckyCardDeck.pop();
 
         data.luckyDeck = luckyCardDeck;
-        ResourceManager.save(data,"gamestate.save");
+        ResourceManager.save(data, "gamestate.save");
 
         System.out.println("Sie haben die LuckyCard " + pickedLuckyCard.getName() + " gezogen");
         logger.info(pc.getCurrentPlayer().getName() + " hat: " + pickedLuckyCard.getName() + " gezogen\n");
@@ -923,7 +922,7 @@ public class Game implements Serializable {
         pc.printPlayerHands();
     }
 
-    public FileHandler getFh(){
+    public FileHandler getFh() {
         return fh;
     }
 

@@ -1,0 +1,309 @@
+Field set
+6 CYAN   5 YELLOW 3 CYAN   2 WHITE  
+6 PINK   5 RED    2 BLUE   4 CYAN   
+4 GREEN  5 GREEN  4 WHITE  6 WHITE  
+6 BLUE   2 GREEN  5 WHITE  4 YELLOW 
+
+Louis hat eine: 4 gewuerfelt
+Louis hat nochmal wuerfeln ausgewaehlt
+Louis hat eine: 1 gewuerfelt
+Louis hat undo benutzt
+Louis hat altes Wuerfelergebnis: 4
+Louis hat Karte: 4 CYAN gewaehlt
+
+6 CYAN   5 YELLOW 3 CYAN   2 WHITE  
+6 PINK   5 RED    2 BLUE            
+4 GREEN  5 GREEN  4 WHITE  6 WHITE  
+6 BLUE   2 GREEN  5 WHITE  4 YELLOW 
+
+Bob hat eine: 5 gewuerfelt
+Bob hat nochmal wuerfeln ausgewaehlt
+Bob hat eine: 2 gewuerfelt
+Bob hat undo benutzt
+Bob hat altes Wuerfelergebnis: 5
+Bob hat Karte: 5 YELLOW gewaehlt
+
+6 CYAN            3 CYAN   2 WHITE  
+6 PINK   5 RED    2 BLUE            
+4 GREEN  5 GREEN  4 WHITE  6 WHITE  
+6 BLUE   2 GREEN  5 WHITE  4 YELLOW 
+
+Louis hat eine: 6 gewuerfelt
+Louis hat Karte: 6 CYAN gewaehlt
+
+                  3 CYAN   2 WHITE  
+6 PINK   5 RED    2 BLUE            
+4 GREEN  5 GREEN  4 WHITE  6 WHITE  
+6 BLUE   2 GREEN  5 WHITE  4 YELLOW 
+
+Bob hat eine: 1 gewuerfelt
+Bob hat nochmal wuerfeln ausgewaehlt
+Bob hat eine: 3 gewuerfelt
+Bob hat Karte: 3 CYAN gewaehlt
+
+                           2 WHITE  
+6 PINK   5 RED    2 BLUE            
+4 GREEN  5 GREEN  4 WHITE  6 WHITE  
+6 BLUE   2 GREEN  5 WHITE  4 YELLOW 
+
+Louis hat eine: 4 gewuerfelt
+Louis hat nochmal wuerfeln ausgewaehlt
+Louis hat eine: 1 gewuerfelt
+Louis hat undo benutzt
+Louis hat altes Wuerfelergebnis: 4
+Louis hat Karte: 4 GREEN gewaehlt
+
+                           2 WHITE  
+6 PINK   5 RED    2 BLUE            
+         5 GREEN  4 WHITE  6 WHITE  
+6 BLUE   2 GREEN  5 WHITE  4 YELLOW 
+
+Bob hat eine: 6 gewuerfelt
+Bob hat nochmal wuerfeln ausgewaehlt
+Bob hat eine: 4 gewuerfelt
+Bob hat Karte: 4 YELLOW gewaehlt
+
+                           2 WHITE  
+6 PINK   5 RED    2 BLUE            
+         5 GREEN  4 WHITE  6 WHITE  
+6 BLUE   2 GREEN  5 WHITE           
+
+Louis hat eine: 3 gewuerfelt
+Louis hat nochmal wuerfeln ausgewaehlt
+Louis hat eine: 3 gewuerfelt
+Louis hat undo benutzt
+Louis hat altes Wuerfelergebnis: 3
+Runde beendet
+Louis hat: 4 CYAN weggeworfen
+Field set
+1 PINK   3 BLUE   4 PINK   5 BLUE   
+1 CYAN   6 YELLOW 6 RED    6 BLACK  
+1 RED    5 BLACK  4 BLACK  1 WHITE  
+3 RED    2 RED    2 CYAN   3 YELLOW 
+
+Louis hat eine: 2 gewuerfelt
+Louis hat nochmal wuerfeln ausgewaehlt
+Louis hat eine: 6 gewuerfelt
+Louis hat Karte: 6 RED gewaehlt
+
+1 PINK   3 BLUE   4 PINK   5 BLUE   
+1 CYAN   6 YELLOW          6 BLACK  
+1 RED    5 BLACK  4 BLACK  1 WHITE  
+3 RED    2 RED    2 CYAN   3 YELLOW 
+
+Bob hat eine: 5 gewuerfelt
+Bob hat nochmal wuerfeln ausgewaehlt
+Bob hat eine: 6 gewuerfelt
+Bob hat Karte: 6 YELLOW gewaehlt
+
+1 PINK   3 BLUE   4 PINK   5 BLUE   
+1 CYAN                     6 BLACK  
+1 RED    5 BLACK  4 BLACK  1 WHITE  
+3 RED    2 RED    2 CYAN   3 YELLOW 
+
+Louis hat eine: 5 gewuerfelt
+Louis hat nochmal wuerfeln ausgewaehlt
+Louis hat eine: 2 gewuerfelt
+Louis hat Karte: 2 RED gewaehlt
+
+1 PINK   3 BLUE   4 PINK   5 BLUE   
+1 CYAN                     6 BLACK  
+1 RED    5 BLACK  4 BLACK  1 WHITE  
+3 RED             2 CYAN   3 YELLOW 
+
+Bob hat eine: 5 gewuerfelt
+Bob hat nochmal wuerfeln ausgewaehlt
+Bob hat eine: 3 gewuerfelt
+Bob hat Karte: 3 YELLOW gewaehlt
+
+1 PINK   3 BLUE   4 PINK   5 BLUE   
+1 CYAN                     6 BLACK  
+1 RED    5 BLACK  4 BLACK  1 WHITE  
+3 RED             2 CYAN            
+
+Louis hat eine: 4 gewuerfelt
+Louis hat nochmal wuerfeln ausgewaehlt
+Louis hat eine: 5 gewuerfelt
+Louis hat undo benutzt
+Louis hat altes Wuerfelergebnis: 4
+Louis hat Karte: 4 PINK gewaehlt
+
+1 PINK   3 BLUE            5 BLUE   
+1 CYAN                     6 BLACK  
+1 RED    5 BLACK  4 BLACK  1 WHITE  
+3 RED             2 CYAN            
+
+Bob hat eine: 1 gewuerfelt
+Bob hat nochmal wuerfeln ausgewaehlt
+Bob hat eine: 4 gewuerfelt
+Bob hat undo benutzt
+Bob hat altes Wuerfelergebnis: 1
+Bob hat Karte: 1 CYAN gewaehlt
+
+1 PINK   3 BLUE            5 BLUE   
+                           6 BLACK  
+1 RED    5 BLACK  4 BLACK  1 WHITE  
+3 RED             2 CYAN            
+
+Louis hat eine: 6 gewuerfelt
+Louis hat nochmal wuerfeln ausgewaehlt
+Louis hat eine: 3 gewuerfelt
+Louis hat Karte: 3 RED gewaehlt
+
+1 PINK   3 BLUE            5 BLUE   
+                           6 BLACK  
+1 RED    5 BLACK  4 BLACK  1 WHITE  
+                  2 CYAN            
+
+Bob hat eine: 3 gewuerfelt
+Bob hat nochmal wuerfeln ausgewaehlt
+Bob hat eine: 4 gewuerfelt
+Bob hat undo benutzt
+Bob hat altes Wuerfelergebnis: 3
+Bob hat Karte: 3 BLUE gewaehlt
+
+1 PINK                     5 BLUE   
+                           6 BLACK  
+1 RED    5 BLACK  4 BLACK  1 WHITE  
+                  2 CYAN            
+
+Louis hat eine: 5 gewuerfelt
+Louis hat nochmal wuerfeln ausgewaehlt
+Louis hat eine: 2 gewuerfelt
+Louis hat undo benutzt
+Louis hat altes Wuerfelergebnis: 5
+Louis hat Karte: 5 BLUE gewaehlt
+
+1 PINK                              
+                           6 BLACK  
+1 RED    5 BLACK  4 BLACK  1 WHITE  
+                  2 CYAN            
+
+Bob hat eine: 3 gewuerfelt
+Bob hat nochmal wuerfeln ausgewaehlt
+Bob hat eine: 6 gewuerfelt
+Bob hat Karte: 6 BLACK gewaehlt
+
+1 PINK                              
+                                    
+1 RED    5 BLACK  4 BLACK  1 WHITE  
+                  2 CYAN            
+
+Louis hat eine: 3 gewuerfelt
+Louis hat nochmal wuerfeln ausgewaehlt
+Louis hat eine: 3 gewuerfelt
+Louis hat undo benutzt
+Louis hat altes Wuerfelergebnis: 3
+Runde beendet
+Louis hat: 5 BLUE weggeworfen
+Field set
+2 BLACK  1 GREEN  3 GREEN  5 PINK   
+1 BLACK  4 BLUE   3 PINK   1 YELLOW 
+6 GREEN  3 WHITE  3 BLACK  5 CYAN   
+4 RED    2 YELLOW 2 PINK   1 BLUE   
+Bob hat: 3 YELLOW gegen eine Luckycard getauscht 
+Bob hat: LCPlus1 gezogen
+Bob hat: 3 BLUE gegen eine Luckycard getauscht 
+Bob hat: LCPlus1 gezogen
+
+Louis hat eine: 3 gewuerfelt
+Louis hat Karte: 3 GREEN gewaehlt
+
+2 BLACK  1 GREEN           5 PINK   
+1 BLACK  4 BLUE   3 PINK   1 YELLOW 
+6 GREEN  3 WHITE  3 BLACK  5 CYAN   
+4 RED    2 YELLOW 2 PINK   1 BLUE   
+
+Bob hat eine: 4 gewuerfelt
+Bob hat nochmal wuerfeln ausgewaehlt
+Bob hat eine: 6 gewuerfelt
+Bob hat undo benutzt
+Bob hat altes Wuerfelergebnis: 4
+Bob hat Karte: 4 BLUE gewaehlt
+
+2 BLACK  1 GREEN           5 PINK   
+1 BLACK           3 PINK   1 YELLOW 
+6 GREEN  3 WHITE  3 BLACK  5 CYAN   
+4 RED    2 YELLOW 2 PINK   1 BLUE   
+
+Louis hat eine: 6 gewuerfelt
+Louis hat Karte: 6 GREEN gewaehlt
+
+2 BLACK  1 GREEN           5 PINK   
+1 BLACK           3 PINK   1 YELLOW 
+         3 WHITE  3 BLACK  5 CYAN   
+4 RED    2 YELLOW 2 PINK   1 BLUE   
+
+Bob hat eine: 2 gewuerfelt
+Bob hat Karte: 2 YELLOW gewaehlt
+
+2 BLACK  1 GREEN           5 PINK   
+1 BLACK           3 PINK   1 YELLOW 
+         3 WHITE  3 BLACK  5 CYAN   
+4 RED             2 PINK   1 BLUE   
+
+Louis hat eine: 1 gewuerfelt
+Louis hat Karte: 1 GREEN gewaehlt
+
+2 BLACK                    5 PINK   
+1 BLACK           3 PINK   1 YELLOW 
+         3 WHITE  3 BLACK  5 CYAN   
+4 RED             2 PINK   1 BLUE   
+
+Bob hat eine: 2 gewuerfelt
+Bob hat nochmal wuerfeln ausgewaehlt
+Bob hat eine: 1 gewuerfelt
+Bob hat Karte: 1 YELLOW gewaehlt
+
+2 BLACK                    5 PINK   
+1 BLACK           3 PINK            
+         3 WHITE  3 BLACK  5 CYAN   
+4 RED             2 PINK   1 BLUE   
+
+Louis hat eine: 2 gewuerfelt
+Louis hat nochmal wuerfeln ausgewaehlt
+Louis hat eine: 2 gewuerfelt
+Louis hat Karte: 2 BLACK gewaehlt
+
+                           5 PINK   
+1 BLACK           3 PINK            
+         3 WHITE  3 BLACK  5 CYAN   
+4 RED             2 PINK   1 BLUE   
+
+Bob hat eine: 4 gewuerfelt
+Bob hat nochmal wuerfeln ausgewaehlt
+Bob hat eine: 6 gewuerfelt
+Bob hat undo benutzt
+Bob hat altes Wuerfelergebnis: 4
+Bob hat Karte: 4 RED gewaehlt
+
+                           5 PINK   
+1 BLACK           3 PINK            
+         3 WHITE  3 BLACK  5 CYAN   
+                  2 PINK   1 BLUE   
+
+Louis hat eine: 3 gewuerfelt
+Louis hat Karte: 3 BLACK gewaehlt
+
+                           5 PINK   
+1 BLACK           3 PINK            
+         3 WHITE           5 CYAN   
+                  2 PINK   1 BLUE   
+
+Bob hat eine: 2 gewuerfelt
+Bob hat nochmal wuerfeln ausgewaehlt
+Bob hat eine: 5 gewuerfelt
+Bob hat Karte: 5 CYAN gewaehlt
+
+                           5 PINK   
+1 BLACK           3 PINK            
+         3 WHITE                    
+                  2 PINK   1 BLUE   
+
+Louis hat eine: 4 gewuerfelt
+Louis hat nochmal wuerfeln ausgewaehlt
+Louis hat eine: 6 gewuerfelt
+Louis hat undo benutzt
+Louis hat altes Wuerfelergebnis: 4
+Runde beendet
+Louis hat: 3 GREEN weggeworfen
