@@ -4,21 +4,9 @@ import java.sql.*;
 import java.util.logging.Logger;
 
 public class JDBCHelper {
-
-    private static Connection connection;
-
     private static final Logger logger = Logger.getLogger(JDBCHelper.class.getName());
 
     public JDBCHelper() {
-    }
-
-    static {
-        try {
-            Class.forName(DatabaseConstants.DRIVER_NAME);
-        } catch (ClassNotFoundException e) {
-            logger.warning("No Driver found");
-            logger.warning(e.getMessage());
-        }
     }
 
     /**
@@ -27,16 +15,14 @@ public class JDBCHelper {
      * @return Returns a Connection Object with connection with the database
      */
     public static Connection getConnection() {
-        if (connection == null) {
-            try {
-                connection = DriverManager.getConnection("jdbc:mysql://" +
-                                DatabaseConstants.NETWORK_NAME + ":" + DatabaseConstants.PORT + "/" + DatabaseConstants.DB_NAME,
-                        DatabaseConstants.USER, DatabaseConstants.PASSWORD);
-            } catch (SQLException e) {
-                logger.warning(e.getMessage());
-                System.out.println("Verbindung zur Datenbank konnte nicht hergestellt werden");
-            }
+        Connection connection = null;
+        try {
+            connection = DriverManager.getConnection(DatabaseConstants.URL, DatabaseConstants.USER, DatabaseConstants.PASSWORD);
+        } catch (SQLException e) {
+            logger.warning(e.getMessage());
+            System.out.println("Verbindung zur Datenbank konnte nicht hergestellt werden");
         }
+
         return connection;
     }
 
