@@ -8,9 +8,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.logging.Logger;
 
-public class ResourceManager implements Serializable {
-    public static final long serialVersionUID = 42L;
-
+public class ResourceManager {
     private static final Logger logger = Logger.getLogger(ResourceManager.class.getName());
 
     /**

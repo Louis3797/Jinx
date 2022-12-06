@@ -2,11 +2,11 @@ package org.jinx.game;
 
 import org.jinx.database.JDBCHelper;
 import org.jinx.highscore.HighScore;
-import org.jinx.history.PlayerHistory;
-import org.jinx.history.SaveHistory;
+import org.jinx.history.DatabaseHistoryManager;
+import org.jinx.history.FileHistoryManager;
+import org.jinx.history.IHistoryManager;
 import org.jinx.login.DatabaseLoginManager;
 import org.jinx.login.FileLoginManager;
-import org.jinx.player.AutonomousPlayer;
 import org.jinx.player.Player;
 import org.jinx.savestate.GameState;
 import org.jinx.savestate.ResourceManager;
@@ -15,8 +15,10 @@ import org.jinx.wrapper.SafeScanner;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Scanner;
 import java.util.logging.FileHandler;
 import java.util.logging.Logger;
 
@@ -27,7 +29,7 @@ public class GameController implements Serializable {
     public static final long serialVersionUID = 42L;
     private static final Logger logger = Logger.getLogger(GameController.class.getName());
 
-    private final SaveHistory savehistory;
+    private IHistoryManager historyManager;
 
     private final PlayerManager pc;
 
@@ -42,7 +44,6 @@ public class GameController implements Serializable {
         pc = PlayerManager.getPlayerManagerInstance();
         highScoreList = new ArrayList<>();
         data = new GameState();
-        savehistory = new SaveHistory();
 
         try {
             logger.addHandler(new FileHandler("logs.log"));
@@ -103,9 +104,9 @@ public class GameController implements Serializable {
             if (p.getPoints() == highestScore) {
                 System.out.println("Gewinner ist: " + PINK_BOLD_BRIGHT + p.getName() + RESET);
                 if (pc.isUseFileStorage()) {
-                    printDescHistory(p);
+                    p.printHistory();
                 } else {
-                    savehistory.printDescHistoryDatabase(p.getName());
+                    p.printHistory();
                 }
             }
         }
@@ -140,8 +141,10 @@ public class GameController implements Serializable {
 
             if (data.txt) {
                 pc.setLoginManager(new FileLoginManager());
+                historyManager = new FileHistoryManager();
             } else {
                 pc.setLoginManager(new DatabaseLoginManager());
+                historyManager = new DatabaseHistoryManager();
             }
 
             // starts round
@@ -159,16 +162,19 @@ public class GameController implements Serializable {
             if (choice == 1) {
                 pc.setLoginManager(new FileLoginManager());
                 pc.setUseFileStorage(true);
+                historyManager = new FileHistoryManager();
             } else {
 
                 // checks database connection
                 if (JDBCHelper.getConnection() != null) {
                     pc.setLoginManager(new DatabaseLoginManager());
                     pc.setUseFileStorage(false);
+                    historyManager = new DatabaseHistoryManager();
                 } else {
                     System.out.println("Fehler beim laden der Datenbank. Es wir eine Textdatei genutzt um ihre Daten zu speichern");
                     pc.setLoginManager(new FileLoginManager());
                     pc.setUseFileStorage(true);
+                    historyManager = new FileHistoryManager();
                 }
             }
 
@@ -186,12 +192,8 @@ public class GameController implements Serializable {
             }
         }
 
-        // writes and deletes relevant data to and from files
-        if (pc.isUseFileStorage()) {
-            writeHistories();
-        } else {
-            savehistory.writeHistoriesDatabase();
-        }
+        // safe history
+        historyManager.safeHistory();
 
         endSequenz();
         writeHighScoreToFile();
@@ -231,77 +233,6 @@ public class GameController implements Serializable {
             logger.warning(e.getMessage());
         }
     }
-
-    /**
-     * prints descending match-history of winner
-     *
-     * @param player winner
-     */
-    private void printDescHistory(Player player) {
-        SafeScanner safeScanner = new SafeScanner();
-
-        List<PlayerHistory> history = player.getMatchHistories();
-
-        System.out.println("Liste nach Punkten geordnet ausgeben?");
-        // sorts list by points in desc order
-        if (safeScanner.nextYesNoAnswer()) {
-            history.sort(Comparator.comparingInt(PlayerHistory::cardSum));
-        }
-
-        // prints history of player
-        for (PlayerHistory h : history) {
-            System.out.println(WHITE_BOLD_BRIGHT + "" + h.toString() + RESET);
-        }
-
-
-    }
-
-    /**
-     * writes matchhistory for all players including bots
-     */
-    private void writeHistories() {
-
-        Date date = new Date();
-        Path path;
-
-
-        for (Player player : pc.getPlayers()) {
-            try {
-                if (!player.isHuman()) {
-                    // history with bot name
-                    path = Paths.get("Histories/" + player.getName() + "-" + ((AutonomousPlayer) player).getDifficulty() + ".txt");
-                } else {
-                    // history with player name
-                    path = Paths.get("Histories/" + player.getName() + ".txt");
-                }
-
-
-                List<Player> opponents = new ArrayList<>();
-
-                for (Player p : pc.getPlayers()) {
-                    if (!p.equals(player)) {
-                        opponents.add(p);
-                    }
-                }
-
-                PlayerHistory histroy = new PlayerHistory(player.getName(), player.isUsedCheats(), player.getNumberCardHand(),
-                        player.getPoints(), player.getLuckyCardHand(), date, opponents);
-
-                player.getMatchHistories().add(histroy);
-
-                System.out.println(path);
-                ObjectOutputStream oos = new ObjectOutputStream(Files.newOutputStream(Paths.get(path.toUri())));
-
-                oos.writeObject(player.getMatchHistories());
-
-                oos.close();
-
-            } catch (IOException e) {
-                logger.warning(e.getMessage());
-            }
-        }
-    }
-
 
     /**
      * clears savefile after match ends

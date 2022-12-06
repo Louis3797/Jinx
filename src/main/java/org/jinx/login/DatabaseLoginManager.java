@@ -27,17 +27,17 @@ public class DatabaseLoginManager implements ILoginManager {
     }
 
     @Override
-    public boolean checkCredentials(String username, String password) {
+    public boolean checkCredentials(String username, String userPassword) {
 
         Connection con = JDBCHelper.getConnection();
         PreparedStatement preparedStatement = null;
         ResultSet rs = null;
-        String query = "SELECT * FROM `user` WHERE `username` =? and pass = md5(?)";
+        String query = "SELECT * FROM `user` WHERE `username` =? and password = md5(?)";
 
         try {
             preparedStatement = con.prepareStatement(query);
             preparedStatement.setString(1, username);
-            preparedStatement.setString(2, AES.encrypt(password, secret));
+            preparedStatement.setString(2, AES.encrypt(userPassword, secret));
             rs = preparedStatement.executeQuery();
 
             if (rs.next()) {
@@ -59,7 +59,7 @@ public class DatabaseLoginManager implements ILoginManager {
     }
 
     @Override
-    public boolean registerNewUser(String username, String password) {
+    public boolean registerNewUser(String username, String userPassword) {
 
 
         if (doesUserExist(username)) {
@@ -74,9 +74,9 @@ public class DatabaseLoginManager implements ILoginManager {
 
         try {
             preparedStatement = con.prepareStatement("INSERT INTO " +
-                    "`user`(`username`, `pass`) VALUES (?,MD5(?))");
+                    "`user`(`username`, `password`) VALUES (?,MD5(?))");
             preparedStatement.setString(1, username);
-            preparedStatement.setString(2, AES.encrypt(password, secret));
+            preparedStatement.setString(2, AES.encrypt(userPassword, secret));
             preparedStatement.executeUpdate();
             logger.info("User + " + username + " was successfully registered");
             return true;

@@ -4,10 +4,15 @@ import org.jinx.card.NumberCard;
 import org.jinx.cardhand.LuckyCardHand;
 import org.jinx.cardhand.NumberCardHand;
 import org.jinx.history.PlayerHistory;
+import org.jinx.wrapper.SafeScanner;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+
+import static org.jinx.utils.ConsoleColor.RESET;
+import static org.jinx.utils.ConsoleColor.WHITE_BOLD_BRIGHT;
 
 public class Player implements Serializable {
 
@@ -56,6 +61,23 @@ public class Player implements Serializable {
         }
 
         return sum;
+    }
+
+    public void printHistory() {
+        SafeScanner safeScanner = new SafeScanner();
+
+        List<PlayerHistory> history = getMatchHistories();
+
+        System.out.println("Liste nach Punkten geordnet ausgeben?");
+        // sorts list by points in desc order
+        if (safeScanner.nextYesNoAnswer()) {
+            history.sort(Comparator.comparingInt(PlayerHistory::cardSum));
+        }
+
+        // prints history of player
+        for (PlayerHistory h : history) {
+            System.out.println(WHITE_BOLD_BRIGHT + "" + h.toString() + RESET);
+        }
     }
 
     /**
