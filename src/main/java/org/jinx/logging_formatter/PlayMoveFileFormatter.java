@@ -1,4 +1,4 @@
-package org.jinx.formatter;
+package org.jinx.logging_formatter;
 
 import java.util.logging.LogRecord;
 import java.util.logging.SimpleFormatter;
