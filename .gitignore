@@ -43,11 +43,12 @@ bin/
 ### Mac OS ###
 .DS_Store
 
-### .log
-*.log
-*.log.*
-logs.log
-*.log.lck
+### .log ###
+**/*.log
+**/*.log.lck
 
-### Histories
+### Histories ###
 ./Histories/*
+
+### Gamestate ###
+gamestate.save
