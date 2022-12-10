@@ -2,28 +2,23 @@ package org.jinx.login;
 
 import org.jinx.database.JDBCHelper;
 import org.jinx.encryption.AES;
+import org.jinx.logging_file_handler.LogFileHandler;
 
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.logging.FileHandler;
 import java.util.logging.Logger;
 
 public class DatabaseLoginManager implements ILoginManager {
 
-    private static final Logger logger = Logger.getLogger(FileLoginManager.class.getName());
+    private static final Logger logger = Logger.getLogger(DatabaseLoginManager.class.getName());
 
     private final String secret = "secretKey";
 
     public DatabaseLoginManager() {
-        try {
-            logger.addHandler(new FileHandler("logs.log"));
-            logger.setUseParentHandlers(false);
-        } catch (IOException e) {
-            logger.warning(e.getMessage());
-        }
+        logger.addHandler(LogFileHandler.getInstance().getFileHandler());
+        logger.setUseParentHandlers(false);
     }
 
     @Override

@@ -1,6 +1,7 @@
 package org.jinx.game;
 
 
+import org.jinx.logging_file_handler.LogFileHandler;
 import org.jinx.login.ILoginManager;
 import org.jinx.player.AgentDifficulty;
 import org.jinx.player.AutonomousPlayer;
@@ -22,13 +23,16 @@ import static org.jinx.utils.ConsoleColor.RESET;
  * PlayerController uses Singleton Pattern
  */
 public class PlayerManager implements Serializable {
-    private transient final Logger LOGGER = Logger.getLogger(PlayerManager.class.getName());
+    private transient final Logger logger = Logger.getLogger(PlayerManager.class.getName());
 
     /**
      * Instance for the Singleton pattern of the PlayerController
      */
     private static final PlayerManager PLAYER_MANAGER_INSTANCE = new PlayerManager();
 
+    /**
+     * Stores players
+     */
     private final Queue<Player> players;
     /**
      * Stores which player is currently on the turn
@@ -40,8 +44,14 @@ public class PlayerManager implements Serializable {
      */
     private transient final SafeScanner safeScanner;
 
+    /**
+     * Stores which type of login we use (Database of File)
+     */
     private ILoginManager loginManager;
 
+    /**
+     * Stores if we use FileStorage or Database (Default = File)
+     */
     private boolean useFileStorage = true;
 
     /**
@@ -51,6 +61,11 @@ public class PlayerManager implements Serializable {
         players = new LinkedList<>();
         currentPlayer = null;
         safeScanner = new SafeScanner();
+
+        LogFileHandler logFileHandler = LogFileHandler.getInstance();
+        logger.addHandler(logFileHandler.getFileHandler());
+        logger.setUseParentHandlers(false);
+
     }
 
     /**
@@ -94,7 +109,7 @@ public class PlayerManager implements Serializable {
     public void addOnePlayer() {
 
 
-        System.out.println("Neuen Spieler Account erstellen?\n [yes,y,ja | no,n,nein]");
+        System.out.println("Wollen sie einen neuen Spieler Account erstellen?\n [yes,y,ja | no,n,nein]");
 
         if (safeScanner.nextYesNoAnswer()) {
 
@@ -114,7 +129,7 @@ public class PlayerManager implements Serializable {
 
             System.out.println("Welche Schwierigkeit wollen sie der KI geben?");
             for (int i = 0; i < AgentDifficulty.values().length; i++) {
-                System.out.println(i + 1 + ": " + AgentDifficulty.values()[i].name());
+                System.out.println((i + 1) + ": " + AgentDifficulty.values()[i].name());
             }
 
             AgentDifficulty difficulty = AgentDifficulty.values()[safeScanner.nextIntInRange(1, AgentDifficulty.values().length) - 1];
@@ -152,7 +167,7 @@ public class PlayerManager implements Serializable {
 
         // Check if queue is empty
         if (players.isEmpty()) {
-            LOGGER.warning("Queue is empty!");
+            logger.warning("Queue is empty!");
             return;
         }
 
@@ -170,7 +185,7 @@ public class PlayerManager implements Serializable {
 
         // check if players is empty
         if (players.isEmpty()) {
-            LOGGER.warning("Queue is empty");
+            logger.warning("Queue is empty");
             return;
         }
 
@@ -223,10 +238,6 @@ public class PlayerManager implements Serializable {
 
     public Player getCurrentPlayer() {
         return currentPlayer;
-    }
-
-    public ILoginManager getLoginManager() {
-        return loginManager;
     }
 
     public void setLoginManager(ILoginManager loginManager) {

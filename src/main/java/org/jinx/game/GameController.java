@@ -1,15 +1,16 @@
 package org.jinx.game;
 
 import org.jinx.database.JDBCHelper;
+import org.jinx.game_state.GameState;
+import org.jinx.game_state.ResourceManager;
 import org.jinx.highscore.HighScore;
 import org.jinx.history.DatabaseHistoryManager;
 import org.jinx.history.FileHistoryManager;
 import org.jinx.history.IHistoryManager;
+import org.jinx.logging_file_handler.LogFileHandler;
 import org.jinx.login.DatabaseLoginManager;
 import org.jinx.login.FileLoginManager;
 import org.jinx.player.Player;
-import org.jinx.savestate.GameState;
-import org.jinx.savestate.ResourceManager;
 import org.jinx.wrapper.SafeScanner;
 
 import java.io.*;
@@ -19,7 +20,6 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Scanner;
-import java.util.logging.FileHandler;
 import java.util.logging.Logger;
 
 import static org.jinx.utils.ConsoleColor.*;
@@ -28,8 +28,6 @@ public class GameController implements Serializable {
 
     public static final long serialVersionUID = 42L;
     private static final Logger logger = Logger.getLogger(GameController.class.getName());
-
-    private IHistoryManager historyManager;
 
     private final PlayerManager pc;
 
@@ -45,13 +43,9 @@ public class GameController implements Serializable {
         highScoreList = new ArrayList<>();
         data = new GameState();
 
-        try {
-            logger.addHandler(new FileHandler("logs.log"));
-
-            logger.setUseParentHandlers(false);
-        } catch (IOException e) {
-            logger.warning(e.getMessage());
-        }
+        LogFileHandler logFileHandler = LogFileHandler.getInstance();
+        logger.addHandler(logFileHandler.getFileHandler());
+        logger.setUseParentHandlers(false);
 
     }
 
@@ -130,7 +124,8 @@ public class GameController implements Serializable {
 
         data = (GameState) ResourceManager.load("gamestate.save");
         // if savestate exists
-        System.out.println(data != null ? "Savestate laden?" : "");
+        System.out.println(data != null ? "Alten Spielstand laden?" : "");
+        IHistoryManager historyManager;
         if ((data != null) && scanner.nextYesNoAnswer()) {
 
             // loads saved state
@@ -183,6 +178,10 @@ public class GameController implements Serializable {
 
 
             pc.addPlayers();
+
+            for (Player player : pc.getPlayers()) {
+                player.setMatchHistories(historyManager.getHistory(player));
+            }
             ResourceManager.save(data, "gamestate.save");
             // initialize without savefile
             game.initializeDecks();

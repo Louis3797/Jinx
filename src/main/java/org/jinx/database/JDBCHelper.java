@@ -1,5 +1,7 @@
 package org.jinx.database;
 
+import org.jinx.logging_file_handler.LogFileHandler;
+
 import java.sql.*;
 import java.util.logging.Logger;
 
@@ -7,6 +9,8 @@ public class JDBCHelper {
     private static final Logger logger = Logger.getLogger(JDBCHelper.class.getName());
 
     public JDBCHelper() {
+        logger.addHandler(LogFileHandler.getInstance().getFileHandler());
+        logger.setUseParentHandlers(false);
     }
 
     /**

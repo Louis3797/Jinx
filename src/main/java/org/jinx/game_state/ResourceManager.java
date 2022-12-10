@@ -1,4 +1,6 @@
-package org.jinx.savestate;
+package org.jinx.game_state;
+
+import org.jinx.logging_file_handler.LogFileHandler;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -10,6 +12,11 @@ import java.util.logging.Logger;
 
 public class ResourceManager {
     private static final Logger logger = Logger.getLogger(ResourceManager.class.getName());
+
+    static {
+        logger.addHandler(LogFileHandler.getInstance().getFileHandler());
+        logger.setUseParentHandlers(false);
+    }
 
     /**
      * Saves data in savefile
@@ -30,7 +37,6 @@ public class ResourceManager {
      *
      * @param filename Filename
      * @return Gamedata
-     * @throws Exception
      */
     public static Object load(String filename) {
         try {
