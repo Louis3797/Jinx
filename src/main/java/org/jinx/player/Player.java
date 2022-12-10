@@ -116,4 +116,8 @@ public class Player implements Serializable {
     public List<PlayerHistory> getMatchHistories() {
         return matchHistories;
     }
+
+    public void setMatchHistories(List<PlayerHistory> matchHistories) {
+        this.matchHistories = matchHistories;
+    }
 }
