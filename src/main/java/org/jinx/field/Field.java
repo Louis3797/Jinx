@@ -9,7 +9,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Field implements Serializable{
+public class Field implements Serializable {
 
     public static final long serialVersionUID = 42L;
     /**
@@ -169,6 +169,28 @@ public class Field implements Serializable{
         }
     }
 
+    /**
+     * method for logging the field into log file
+     *
+     * @return log-ready field
+     */
+    public String logField() {
+        StringBuilder fieldString = new StringBuilder();
+        for (int i = 0; i < FIELD_SIZE / 4; i++) {
+            for (int j = 0; j < FIELD_SIZE / 4; j++) {
+
+                if (field[i * 4 + j] == null) {
+                    fieldString.append(" ".repeat(9));
+                } else {
+                    fieldString.append(field[i * 4 + j].getName()).append(" ").append(field[i * 4 + j].getColor().name()).append(" ".repeat(7 - field[i * 4 + j].getColor().name().length()));
+                }
+
+            }
+            fieldString.append("\n");
+        }
+        return fieldString.toString();
+    }
+
     public static Field getFieldInstance() {
         return fieldInstance;
     }
@@ -179,27 +201,6 @@ public class Field implements Serializable{
         return FIELD_SIZE;
     }
 
-    /**
-     * method for logging the field into log file
-     * @return log-ready field
-     */
-    public String logField(){
-        StringBuilder fieldString = new StringBuilder();
-        for(int i = 0; i < FIELD_SIZE/4; i++){
-            for(int j = 0; j < FIELD_SIZE/4; j++){
-
-                if(field[i*4+j] == null){
-                    fieldString.append(" ".repeat(9));
-                }
-                else {
-                    fieldString.append(field[i * 4 + j].getName()).append(" ").append(field[i * 4 + j].getColor().name()).append(" ".repeat(7 - field[i * 4 + j].getColor().name().length()));
-                }
-
-            }
-            fieldString.append("\n");
-        }
-        return fieldString.toString();
-    }
 
     public NumberCard[] getField() {
         return field;

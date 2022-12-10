@@ -1,6 +1,6 @@
 package org.jinx.card;
 
-import org.jinx.game.PlayerController;
+import org.jinx.game.PlayerManager;
 import org.jinx.player.AutonomousPlayer;
 import org.jinx.wrapper.SafeScanner;
 
@@ -13,7 +13,7 @@ public class LC456 extends LuckyCard {
     @Override
     public int effect() throws IllegalAccessException {
 
-        PlayerController pc = PlayerController.getPlayerControllerInstance();
+        PlayerManager pc = PlayerManager.getPlayerManagerInstance();
 
         System.out.println("Zahl von 4-6 eingeben");
 

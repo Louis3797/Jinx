@@ -31,4 +31,10 @@ public abstract class LuckyCard extends Card {
         System.out.print("-------------------\t".repeat(cards.size()) + "\n");
     }
 
+    @Override
+    public String toString() {
+        return "LuckyCard{" +
+                "name=" + getName() +
+                '}';
+    }
 }

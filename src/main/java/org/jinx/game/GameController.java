@@ -1,44 +1,52 @@
 package org.jinx.game;
 
-import org.jinx.card.NumberCard;
-import org.jinx.databanklogin.DataConnection;
-import org.jinx.databanklogin.Savehistory;
+import org.jinx.database.JDBCHelper;
+import org.jinx.game_state.GameState;
+import org.jinx.game_state.ResourceManager;
 import org.jinx.highscore.HighScore;
-import org.jinx.player.AutonomousPlayer;
+import org.jinx.history.DatabaseHistoryManager;
+import org.jinx.history.FileHistoryManager;
+import org.jinx.history.IHistoryManager;
+import org.jinx.logging_file_handler.LogFileHandler;
+import org.jinx.login.DatabaseLoginManager;
+import org.jinx.login.FileLoginManager;
 import org.jinx.player.Player;
-import org.jinx.savestate.ResourceManager;
-import org.jinx.savestate.SaveData;
 import org.jinx.wrapper.SafeScanner;
 
 import java.io.*;
-import java.util.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Scanner;
 import java.util.logging.Logger;
 
-import static org.jinx.compare.Comparator.comparator;
 import static org.jinx.utils.ConsoleColor.*;
 
 public class GameController implements Serializable {
 
-    private final Logger LOGGER = Logger.getLogger(GameController.class.getName());
+    public static final long serialVersionUID = 42L;
+    private static final Logger logger = Logger.getLogger(GameController.class.getName());
 
-    private final Savehistory savehistory;
-
-    private final PlayerController pc;
+    private final PlayerManager pc;
 
     private final List<HighScore> highScoreList;
 
-    private SaveData data;
-
-    public static final long serialVersionUID = 42L;
+    private GameState data;
 
     /**
      * Basic Constructor of the GameController class
      */
     public GameController() {
-        pc = PlayerController.getPlayerControllerInstance();
+        pc = PlayerManager.getPlayerManagerInstance();
         highScoreList = new ArrayList<>();
-        data = new SaveData();
-        savehistory = new Savehistory();
+        data = new GameState();
+
+        LogFileHandler logFileHandler = LogFileHandler.getInstance();
+        logger.addHandler(logFileHandler.getFileHandler());
+        logger.setUseParentHandlers(false);
+
     }
 
     /**
@@ -78,27 +86,21 @@ public class GameController implements Serializable {
 
         System.out.println("\n" + WHITE_BACKGROUND + "Spielende!" + RESET);
 
-        Map<Player, Integer> winner = new HashMap<>();
+        int highestScore = Integer.MIN_VALUE;
 
-        for (Player player : pc.getPlayers()) {
-            int total = 0;
-            for (NumberCard card : player.getNumberCardHand()) {
-                total += Integer.parseInt(card.getName());
+        for (Player p : pc.getPlayers()) {
+            if (p.getPoints() >= highestScore) {
+                highestScore = p.getPoints();
             }
-            winner.put(player, total);
         }
 
-
-        int max = Collections.max(winner.values());
-
-        for (Map.Entry<Player, Integer> entry : winner.entrySet()) {
-            if (max == entry.getValue()) {
-                System.out.println("Gewinner ist: " + PINK_BOLD_BRIGHT + entry.getKey().getName() + RESET);
-                if(pc.getTxtLoginRegister()){
-                    printDescHistory(entry.getKey());
-                }
-                else {
-                    savehistory.printDescHistoryDatabase(entry.getKey().getName());
+        for (Player p : pc.getPlayers()) {
+            if (p.getPoints() == highestScore) {
+                System.out.println("Gewinner ist: " + PINK_BOLD_BRIGHT + p.getName() + RESET);
+                if (pc.isUseFileStorage()) {
+                    p.printHistory();
+                } else {
+                    p.printHistory();
                 }
             }
         }
@@ -118,65 +120,84 @@ public class GameController implements Serializable {
         // show startsequenz
         startSequenz();
 
-        Game g1 = new Game();
+        Game game = new Game();
 
-
-        File saveState = new File("gamestate.save");
-
+        data = (GameState) ResourceManager.load("gamestate.save");
         // if savestate exists
-        System.out.println(saveState.length() != 0 ? "Savestate laden?" : "");
-        if ((saveState.length() != 0) && scanner.nextYesNoAnswer()) {
+        System.out.println(data != null ? "Alten Spielstand laden?" : "");
+        IHistoryManager historyManager;
+        if ((data != null) && scanner.nextYesNoAnswer()) {
 
             // loads saved state
-            data = (SaveData) ResourceManager.load("gamestate.save");
-            g1.loadSavestate();
-            g1.loadState = true;
 
-            pc.setTxtLoginRegister(data.txt);
+
+            game.loadSaveState();
+            game.loadState = true;
+
+            if (data.txt) {
+                pc.setLoginManager(new FileLoginManager());
+                historyManager = new FileHistoryManager();
+            } else {
+                pc.setLoginManager(new DatabaseLoginManager());
+                historyManager = new DatabaseHistoryManager();
+            }
 
             // starts round
             for (int i = data.currentRound; i < 4; i++) {
-                g1.play(i);
+                game.play(i);
             }
+
 
         } else {
 
-            System.out.println("[1] Textdatei\n[2] Datenbank");
-            if(scanner.nextIntInRange(1,2) == 1){
-                pc.setTxtLoginRegister(true);
-            }
+            data = new GameState();
 
-            // checks database connection
-            if(DataConnection.getConnection() == null){
-                pc.setTxtLoginRegister(true);
+            System.out.println("[1] Textdatei\n[2] Datenbank");
+            int choice = scanner.nextIntInRange(1, 2);
+            if (choice == 1) {
+                pc.setLoginManager(new FileLoginManager());
+                pc.setUseFileStorage(true);
+                historyManager = new FileHistoryManager();
+            } else {
+
+                // checks database connection
+                if (JDBCHelper.getConnection() != null) {
+                    pc.setLoginManager(new DatabaseLoginManager());
+                    pc.setUseFileStorage(false);
+                    historyManager = new DatabaseHistoryManager();
+                } else {
+                    System.out.println("Fehler beim laden der Datenbank. Es wir eine Textdatei genutzt um ihre Daten zu speichern");
+                    pc.setLoginManager(new FileLoginManager());
+                    pc.setUseFileStorage(true);
+                    historyManager = new FileHistoryManager();
+                }
             }
 
             // saves where to save data
-            data.txt = pc.getTxtLoginRegister();
-            ResourceManager.save(data,"gamestate.save");
+            data.txt = pc.isUseFileStorage();
+
 
             pc.addPlayers();
+
+            for (Player player : pc.getPlayers()) {
+                player.setMatchHistories(historyManager.getHistory(player));
+            }
+            ResourceManager.save(data, "gamestate.save");
             // initialize without savefile
-            g1.initializeDecks();
+            game.initializeDecks();
             // starts round
             for (int i = 1; i < 4; i++) {
-                g1.play(i);
+                game.play(i);
             }
         }
 
-        // writes and deletes relevant data to and from files
-
-        if(pc.getTxtLoginRegister()){
-            writeHistories();
-        }
-        else {
-            savehistory.writeHistoriesDatabase();
-        }
+        // safe history
+        historyManager.safeHistory();
 
         endSequenz();
         writeHighScoreToFile();
         clearSave();
-        g1.getFh().close();
+        game.getFh().close();
 
         // clear everything from current round
         pc.getPlayers().clear();
@@ -202,124 +223,15 @@ public class GameController implements Serializable {
      */
     private void replay() {
         try {
-            BufferedReader br = new BufferedReader(new FileReader("Spielzuege.log"));
-            String line;
-            while ((line = br.readLine()) != null) {
-
+            List<String> content = Files.readAllLines(Path.of("Spielzuege.log"));
+            for (String line : content) {
                 System.out.println(line);
                 Thread.sleep(500);
             }
         } catch (IOException | InterruptedException e) {
-            System.out.println(e.getMessage());
+            logger.warning(e.getMessage());
         }
     }
-
-    /**
-     * prints descending match-history of winner
-     *
-     * @param player winner
-     */
-    private void printDescHistory(Player player) {
-
-        SafeScanner scanner = new SafeScanner();
-
-        try {
-
-            BufferedReader br;
-
-            if (!player.isHuman()) {
-                // prints bot history
-                br = new BufferedReader(new FileReader("Histories/" + ((AutonomousPlayer) player).getDifficulty() + ".txt"));
-
-            } else {
-                // prints player history
-                br = new BufferedReader(new FileReader("Histories/" + player.getName() + ".txt"));
-            }
-
-            String line;
-            ArrayList<String> lines = new ArrayList<>();
-            ArrayList<ArrayList<String>> paragraphs = new ArrayList<>();
-
-            // reads lines and cuts off at "-"
-            // all info before that is stored in a string
-            // this string is added to a list which
-            // is added to a 2d list
-            while ((line = br.readLine()) != null) {
-                if (line.equals("-")) {
-                    paragraphs.add(lines);
-                    lines = new ArrayList<>();
-                } else {
-                    lines.add(line);
-                }
-            }
-
-            System.out.println("Liste nach Punkten geordnet ausgeben?");
-            // sorts list by points in desc order
-            if (scanner.nextYesNoAnswer()) {
-                paragraphs.sort(comparator);
-            }
-
-            // prints history of player
-            for (ArrayList<String> list : paragraphs) {
-                System.out.println(WHITE_BOLD_BRIGHT + "" + list + RESET);
-            }
-
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-        }
-
-    }
-
-    /**
-     * writes matchhistory for all players including bots
-     */
-    private void writeHistories() {
-
-        Date date = new Date();
-        FileWriter file;
-
-        for (Player player : pc.getPlayers()) {
-            try {
-                if (!player.isHuman()) {
-                    // history with bot name
-                    file = new FileWriter("Histories/" + ((AutonomousPlayer) player).getDifficulty() + ".txt", true);
-                } else {
-                    // history with player name
-                    file = new FileWriter("Histories/" + player.getName() + ".txt", true);
-                }
-
-                // appends relevant game information
-                file.append("Spieler: ").append(player.isHuman() ? player.getName() : "bot-" + player.getName() + "-" +
-                        ((AutonomousPlayer) player).getDifficulty()).append("\n");
-                file.append("Kartensumme: ").append(String.valueOf(player.getPoints())).append("\n");
-                file.append("Datum: ").append(String.valueOf(date)).append("\n");
-                file.append("Mitspieler: ");
-
-                // appends bot names
-                for (Player player1 : pc.getPlayers()) {
-                    if (!player1.getName().equals(player.getName())) {
-                        if (!player1.isHuman()) {
-                            file.append("bot-").append(player1.getName())
-                                    .append("-")
-                                    .append(String.valueOf(((AutonomousPlayer) player1).getDifficulty()))
-                                    .append(" ");
-                        } else {
-                            file.append(player1.getName()).append(" ");
-                        }
-
-                    }
-                }
-
-                file.append("\n-\n");
-
-                file.close();
-            } catch (IOException e) {
-                System.out.println(e.getMessage());
-            }
-
-        }
-    }
-
 
     /**
      * clears savefile after match ends
@@ -348,7 +260,7 @@ public class GameController implements Serializable {
             }
 
         } catch (IOException e) {
-            LOGGER.warning(e.getMessage());
+            logger.warning(e.getMessage());
         }
     }
 
@@ -377,7 +289,7 @@ public class GameController implements Serializable {
 
             file.close();
         } catch (IOException e) {
-            LOGGER.warning(e.getMessage());
+            logger.warning(e.getMessage());
         }
     }
 

@@ -3,7 +3,7 @@ package org.jinx.player;
 import org.jinx.card.CardColor;
 import org.jinx.card.NumberCard;
 import org.jinx.field.Field;
-import org.jinx.game.PlayerController;
+import org.jinx.game.PlayerManager;
 import org.jinx.utils.Weight;
 
 import java.io.Serializable;
@@ -19,7 +19,7 @@ public class AutonomousPlayer extends Player implements Serializable {
     /**
      * Player Controller instance
      */
-    private final PlayerController playerController = PlayerController.getPlayerControllerInstance();
+    private final PlayerManager playerManager = PlayerManager.getPlayerManagerInstance();
 
     /**
      * Field instance
@@ -79,7 +79,7 @@ public class AutonomousPlayer extends Player implements Serializable {
         }
 
         // defines if a card color is rare in the field
-        int rareCardConstant = (int) Math.floor(Math.abs(((numberOfCardsInField / 4) - (playerController.getPlayers().size() - 2))));
+        int rareCardConstant = (int) Math.floor(Math.abs(((numberOfCardsInField / 4) - (playerManager.getPlayers().size() - 2))));
 
         for (NumberCard card : field.getField()) {
 
@@ -169,7 +169,7 @@ public class AutonomousPlayer extends Player implements Serializable {
 
         double averageCardAmountOfAllPlayers = calculateAverageCardAmountOfAllPlayers();
 
-        for (Player opponent : playerController.getPlayers()) {
+        for (Player opponent : playerManager.getPlayers()) {
             if (!opponent.equals(currentPlayer)) {
 
                 int weight = 0;
@@ -211,11 +211,11 @@ public class AutonomousPlayer extends Player implements Serializable {
 
         int sum = 0;
 
-        for (Player player : playerController.getPlayers()) {
+        for (Player player : playerManager.getPlayers()) {
             sum += player.getNumberCardHand().size();
         }
 
-        return (double) sum / playerController.getPlayers().size();
+        return (double) sum / playerManager.getPlayers().size();
     }
 
     /**
@@ -228,7 +228,7 @@ public class AutonomousPlayer extends Player implements Serializable {
         int sumOfAllPoints = 0;
         int numberOfCards = 0;
 
-        for (Player player : playerController.getPlayers()) {
+        for (Player player : playerManager.getPlayers()) {
             numberOfCards += player.getNumberCardHand().size();
 
             sumOfAllPoints += player.getPoints();
