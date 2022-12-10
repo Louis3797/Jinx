@@ -2,6 +2,7 @@ package org.jinx.history;
 
 import org.jinx.database.JDBCHelper;
 import org.jinx.game.PlayerManager;
+import org.jinx.logging_file_handler.LogFileHandler;
 import org.jinx.player.AutonomousPlayer;
 import org.jinx.player.Player;
 
@@ -21,11 +22,13 @@ import java.util.logging.Logger;
 
 public class DatabaseHistoryManager implements IHistoryManager {
 
-    private static final Logger logger = Logger.getLogger(FileHistoryManager.class.getName());
+    private static final Logger logger = Logger.getLogger(DatabaseHistoryManager.class.getName());
     private final PlayerManager playerManager = PlayerManager.getPlayerManagerInstance();
 
     public DatabaseHistoryManager() {
-
+        LogFileHandler logFileHandler = LogFileHandler.getInstance();
+        logger.addHandler(logFileHandler.getFileHandler());
+        logger.setUseParentHandlers(false);
     }
 
     @Override
@@ -39,41 +42,41 @@ public class DatabaseHistoryManager implements IHistoryManager {
         for (Player player : playerManager.getPlayers()) {
             List<Player> opponents = new ArrayList<>();
 
+            // create opponent list
             for (Player p : playerManager.getPlayers()) {
                 if (!p.equals(player)) {
                     opponents.add(p);
                 }
             }
 
-            PlayerHistory histroy = new PlayerHistory(player.getName(), player.isUsedCheats(), player.getNumberCardHand(),
+            // create history obj
+            PlayerHistory history = new PlayerHistory(player.getName(), player.isUsedCheats(), player.getNumberCardHand(),
                     player.getPoints(), player.getLuckyCardHand(), date, opponents);
 
-            player.getMatchHistories().add(histroy);
+            // safe history in db
             try {
 
-                ps = con.prepareStatement("INSERT INTO " + "`matchhistory` (`user`, `java_object`) VALUES (?,?) " +
-                        "ON DUPLICATE KEY UPDATE `java_object` = ?");
+                if (player.isHuman()) {
+                    ps = con.prepareStatement("Insert Into match_history (username, history_object) VALUES (?,?)");
+                    ps.setString(1, player.getName());
 
-
-                String playerName = player.getName();
-
-                if (!player.isHuman()) {
-                    playerName += "-" + ((AutonomousPlayer) player).getDifficulty().name();
+                    ps.setObject(2, history);
+                } else {
+                    ps = con.prepareStatement("Insert Into match_history (username, bot_difficulty, history_object) VALUES (?,?,?)");
+                    ps.setString(1, player.getName());
+                    ps.setString(2, ((AutonomousPlayer) player).getDifficulty().name());
+                    ps.setObject(3, history);
                 }
-
-                ps.setString(1, playerName);
-                ps.setObject(2, player.getMatchHistories());
-                ps.setObject(3, player.getMatchHistories());
-                ps.executeUpdate();
+                ps.execute();
 
 
             } catch (SQLException e) {
                 logger.log(Level.WARNING, e.getMessage(), e);
-            } finally {
-                JDBCHelper.closePreparedStatement(ps);
-                JDBCHelper.closeConnection(con);
             }
         }
+
+        JDBCHelper.closePreparedStatement(ps);
+        JDBCHelper.closeConnection(con);
     }
 
     @Override
@@ -84,35 +87,45 @@ public class DatabaseHistoryManager implements IHistoryManager {
         ResultSet rs = null;
         List<PlayerHistory> result = new ArrayList<>();
 
-        String playerName = player.getName();
-        if (!player.isHuman()) {
-            // history with bot name
-            playerName += "-" + ((AutonomousPlayer) player).getDifficulty().name();
-        }
         try {
 
-            ps = con.prepareStatement("SELECT `java_object` FROM spielhistory WHERE user = " + "`" + playerName + "`");
+            if (player.isHuman()) {
+                ps = con.prepareStatement("SELECT history_object FROM match_history WHERE username = ?" +
+                        " AND bot_difficulty = NULL");
+                ps.setString(1, player.getName());
+            } else {
+                ps = con.prepareStatement("SELECT history_object FROM match_history WHERE username = ?" +
+                        " AND bot_difficulty = ?");
+                ps.setString(1, player.getName());
+                ps.setString(2, ((AutonomousPlayer) player).getDifficulty().name());
+            }
 
             rs = ps.executeQuery();
-            rs.next();
 
-            System.out.println(Arrays.toString(rs.getBytes(1)));
-            // Object object = rs.getObject(1);
 
-            byte[] buf = rs.getBytes(1);
             ObjectInputStream objectIn = null;
-            if (buf != null)
-                objectIn = new ObjectInputStream(new ByteArrayInputStream(buf));
 
-            result = (List<PlayerHistory>) objectIn.readObject();
+            while (rs.next()) {
+                try {
+                    byte[] buf = rs.getBytes(1);
+                    if (buf != null) {
+                        objectIn = new ObjectInputStream(new ByteArrayInputStream(buf));
+                        PlayerHistory h = (PlayerHistory) objectIn.readObject();
+                        result.add(h);
+                    }
+                } catch (ClassCastException | IOException | ClassNotFoundException e) {
+                    logger.warning(e.getMessage());
+                }
+            }
 
-        } catch (IOException | ClassNotFoundException | SQLException e) {
+        } catch (SQLException e) {
             logger.log(Level.WARNING, e.getMessage(), e);
         } finally {
             JDBCHelper.closePreparedStatement(ps);
             JDBCHelper.closeResultSet(rs);
             JDBCHelper.closeConnection(con);
         }
+        System.out.println(Arrays.toString(result.toArray()));
         return result;
     }
 }
