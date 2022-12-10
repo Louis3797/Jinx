@@ -1,13 +1,13 @@
 package org.jinx.login;
 
 import org.jinx.encryption.AES;
+import org.jinx.logging_file_handler.LogFileHandler;
 
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
-import java.util.logging.FileHandler;
 import java.util.logging.Logger;
 
 public class FileLoginManager implements ILoginManager {
@@ -25,12 +25,8 @@ public class FileLoginManager implements ILoginManager {
     private final String secret = "secretKey";
 
     public FileLoginManager() {
-        try {
-            logger.addHandler(new FileHandler("logs.log"));
-            logger.setUseParentHandlers(false);
-        } catch (IOException e) {
-            logger.warning(e.getMessage());
-        }
+        logger.addHandler(LogFileHandler.getInstance().getFileHandler());
+        logger.setUseParentHandlers(false);
 
     }
 
