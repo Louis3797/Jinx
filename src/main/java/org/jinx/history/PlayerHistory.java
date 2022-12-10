@@ -8,6 +8,17 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * Record for the player history object
+ *
+ * @param name           Player name
+ * @param cheated        If players uses Cheats = true
+ * @param numberCardHand NumberCardHand of the Player
+ * @param cardSum        Sum of the NumberCardhand
+ * @param luckyCardHand  LuckyCardHand of Player
+ * @param date           Date of the game
+ * @param opponents      Opponents Infos
+ */
 public record PlayerHistory(String name, boolean cheated, NumberCardHand numberCardHand, int cardSum,
                             LuckyCardHand luckyCardHand, Date date,
                             List<Player> opponents) implements Serializable {
