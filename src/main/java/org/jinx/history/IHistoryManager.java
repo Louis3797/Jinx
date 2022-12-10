@@ -11,5 +11,11 @@ public interface IHistoryManager {
      */
     void safeHistory();
 
+    /**
+     * Loads Player Histories from data storage
+     *
+     * @param player Given Player
+     * @return Returns a List of all PlayerHistories Objects
+     */
     List<PlayerHistory> getHistory(Player player);
 }

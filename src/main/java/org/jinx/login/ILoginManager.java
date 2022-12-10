@@ -35,6 +35,10 @@ public interface ILoginManager extends Serializable {
      */
     boolean doesUserExist(String username);
 
+    /**
+     * Displays Login
+     * @return Returns the username of the user
+     */
     default String displayLogin() {
         SafeScanner safeScanner = new SafeScanner();
         PlayerManager playerManager = PlayerManager.getPlayerManagerInstance();
@@ -93,7 +97,7 @@ public interface ILoginManager extends Serializable {
             System.out.println(RED + "Ein Fehler ist aufgetreten, bitte versuchen sie es nochmal" + RESET);
             displayLogin();
         }
-        System.out.println(BLUE + "Sie haben sich erfolgreich registriert\n Loggen sie sich nun mit ihren neuen Spieler ein" + RESET);
+        System.out.println(BLUE + "Sie haben sich erfolgreich registriert\nLoggen sie sich nun mit ihren neuen Spieler ein" + RESET);
     }
 
 }
