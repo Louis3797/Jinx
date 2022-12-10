@@ -1,4 +1,4 @@
-package org.jinx.savestate;
+package org.jinx.game_state;
 
 import org.jinx.cardstack.LuckyCardStack;
 import org.jinx.cardstack.NumberCardStack;
