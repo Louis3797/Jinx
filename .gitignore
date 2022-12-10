@@ -45,4 +45,8 @@ bin/
 
 ### .log
 *.log
+logs.log
 *.log.lck
+
+### Histories
+./Histories/*
