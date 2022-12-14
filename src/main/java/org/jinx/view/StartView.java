@@ -67,6 +67,7 @@ public class StartView extends JPanel implements IStartView {
         startGameButton.setForeground(Color.black);
         startGameButton.setBackground(new Color(0x4b56d2));
         startGameButton.setBorder(new RoundedBorder(5));
+        startGameButton.addActionListener(e -> presenter.startGame());
         add(startGameButton);
         startGameButton.setBounds(480, 405, 140, startGameButton.getPreferredSize().height);
 
@@ -75,6 +76,7 @@ public class StartView extends JPanel implements IStartView {
         highscoreButton.setBackground(new Color(0x4b56d2));
         highscoreButton.setForeground(Color.black);
         highscoreButton.setBorder(new RoundedBorder(5));
+        highscoreButton.addActionListener(e -> presenter.showHighScoreView());
         add(highscoreButton);
         highscoreButton.setBounds(480, 450, 140, highscoreButton.getPreferredSize().height);
 
@@ -83,6 +85,7 @@ public class StartView extends JPanel implements IStartView {
         textfileRadioButton.setBackground(new Color(0xf1f1f1));
         textfileRadioButton.setForeground(Color.black);
         textfileRadioButton.setSelected(true);
+        textfileRadioButton.addActionListener(e -> presenter.setTextFileAsDataStorage());
         add(textfileRadioButton);
         textfileRadioButton.setBounds(420, 335, 105, textfileRadioButton.getPreferredSize().height);
 
@@ -90,6 +93,7 @@ public class StartView extends JPanel implements IStartView {
         databaseRadioButton.setText("Database");
         databaseRadioButton.setBackground(new Color(0xf1f1f1));
         databaseRadioButton.setForeground(Color.black);
+        databaseRadioButton.addActionListener(e -> presenter.setDBAsDataStorage());
         add(databaseRadioButton);
         databaseRadioButton.setBounds(600, 335, databaseRadioButton.getPreferredSize().width, databaseRadioButton.getPreferredSize().height);
 
