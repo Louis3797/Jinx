@@ -1,13 +1,14 @@
 package org.jinx.login;
 
 import org.jinx.game.PlayerManager;
+import org.jinx.model.IModel;
 import org.jinx.wrapper.SafeScanner;
 
 import java.io.Serializable;
 
 import static org.jinx.utils.ConsoleColor.*;
 
-public interface ILoginManager extends Serializable {
+public interface ILoginManager extends Serializable, IModel {
 
     /**
      * Checks credentials of given user in data storage

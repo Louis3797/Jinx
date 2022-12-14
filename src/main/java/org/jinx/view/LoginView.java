@@ -207,6 +207,8 @@ public class LoginView extends JPanel implements ILoginView {
     @Override
     public void updateStatusLabelSuccess() {
         status.setText("Sie haben sich erfolgreich eingeloggt.");
+        usernameField.setText("");
+        passwordField.setText("");
         status.setForeground(SwingColors.SuccesColor);
         status.setSize(status.getPreferredSize().width, status.getPreferredSize().height);
     }

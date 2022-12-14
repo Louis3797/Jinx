@@ -1,6 +1,9 @@
 package org.jinx.view;
 
+import org.jinx.game_state.GameState;
+import org.jinx.presenter.LoginPresenter;
 import org.jinx.presenter.StartPresenter;
+
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,6 +20,7 @@ public class MainView extends JFrame {
 
     public static final CardLayout cardLayout = new CardLayout();
     public static final JPanel mainPanel = new JPanel();
+    public static GameState gameState = new GameState();
 
     public MainView() throws HeadlessException {
         super.setTitle("Jinx");
@@ -29,10 +33,12 @@ public class MainView extends JFrame {
         mainPanel.setBackground(Color.BLUE);
         mainPanel.setVisible(true);
 
+
         StartView startView = new StartView();
-        StartPresenter startPresenter = new StartPresenter(startView, null);
+        StartPresenter startPresenter = new StartPresenter(startView, gameState);
 
         LoginView loginView = new LoginView();
+        LoginPresenter loginPresenter = new LoginPresenter(loginView, gameState);
 
         mainPanel.add(loginView, Views.Login.name());
 
