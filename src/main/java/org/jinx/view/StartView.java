@@ -1,14 +1,8 @@
-/*
- * Created by JFormDesigner on Wed Dec 14 12:41:27 CET 2022
- */
-
 package org.jinx.view;
 
-import java.awt.event.*;
-import javax.swing.border.*;
 import org.jinx.presenter.IPresenter;
 import org.jinx.presenter.IStartPresenter;
-import org.jinx.swing.RoundedBorder;
+import org.jinx.swing.SwingColors;
 
 import javax.swing.*;
 import java.awt.*;
@@ -57,33 +51,31 @@ public class StartView extends JPanel implements IStartView {
         title.setText("Jinx");
         title.setHorizontalAlignment(SwingConstants.CENTER);
         title.setBackground(Color.white);
-        title.setForeground(new Color(0x4b56d2));
+        title.setForeground(SwingColors.BlueColor);
         title.setFont(new Font("Arial", Font.BOLD, 80));
         add(title);
         title.setBounds(450, 170, 200, 80);
 
         //---- startGameButton ----
         startGameButton.setText("Start  Game");
-        startGameButton.setForeground(Color.black);
-        startGameButton.setBackground(new Color(0x4b56d2));
-        startGameButton.setBorder(new RoundedBorder(5));
+        startGameButton.setForeground(SwingColors.TextColor);
+        startGameButton.setBackground(SwingColors.BackGroundColor);
         startGameButton.addActionListener(e -> presenter.startGame());
         add(startGameButton);
         startGameButton.setBounds(480, 405, 140, startGameButton.getPreferredSize().height);
 
         //---- highscoreButton ----
         highscoreButton.setText("Show Highscores");
-        highscoreButton.setBackground(new Color(0x4b56d2));
-        highscoreButton.setForeground(Color.black);
-        highscoreButton.setBorder(new RoundedBorder(5));
+        highscoreButton.setBackground(SwingColors.BackGroundColor);
+        highscoreButton.setForeground(SwingColors.TextColor);
         highscoreButton.addActionListener(e -> presenter.showHighScoreView());
         add(highscoreButton);
         highscoreButton.setBounds(480, 450, 140, highscoreButton.getPreferredSize().height);
 
         //---- textfileRadioButton ----
         textfileRadioButton.setText("Textdatei");
-        textfileRadioButton.setBackground(new Color(0xf1f1f1));
-        textfileRadioButton.setForeground(Color.black);
+        textfileRadioButton.setBackground(SwingColors.BackGroundColor);
+        textfileRadioButton.setForeground(SwingColors.TextColor);
         textfileRadioButton.setSelected(true);
         textfileRadioButton.addActionListener(e -> presenter.setTextFileAsDataStorage());
         add(textfileRadioButton);
@@ -91,15 +83,15 @@ public class StartView extends JPanel implements IStartView {
 
         //---- databaseRadioButton ----
         databaseRadioButton.setText("Database");
-        databaseRadioButton.setBackground(new Color(0xf1f1f1));
-        databaseRadioButton.setForeground(Color.black);
+        databaseRadioButton.setBackground(SwingColors.BackGroundColor);
+        databaseRadioButton.setForeground(SwingColors.TextColor);
         databaseRadioButton.addActionListener(e -> presenter.setDBAsDataStorage());
         add(databaseRadioButton);
         databaseRadioButton.setBounds(600, 335, databaseRadioButton.getPreferredSize().width, databaseRadioButton.getPreferredSize().height);
 
         //---- radioButtonLabel ----
         radioButtonLabel.setText("Wo wollen sie ihre Daten speichern lassen?");
-        radioButtonLabel.setForeground(Color.black);
+        radioButtonLabel.setForeground(SwingColors.TextColor);
         add(radioButtonLabel);
         radioButtonLabel.setBounds(420, 300, radioButtonLabel.getPreferredSize().width, radioButtonLabel.getPreferredSize().height);
 
@@ -119,7 +111,7 @@ public class StartView extends JPanel implements IStartView {
         }
 
         //---- radioButtonGroup ----
-        var radioButtonGroup = new ButtonGroup();
+        ButtonGroup radioButtonGroup = new ButtonGroup();
         radioButtonGroup.add(textfileRadioButton);
         radioButtonGroup.add(databaseRadioButton);
         // JFormDesigner - End of component initialization  //GEN-END:initComponents  @formatter:on
