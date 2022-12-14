@@ -27,7 +27,7 @@ public class DatabaseLoginManager implements ILoginManager {
         Connection con = JDBCHelper.getConnection();
         PreparedStatement preparedStatement = null;
         ResultSet rs = null;
-        String query = "SELECT * FROM `user` WHERE `username` =? and password = md5(?)";
+        String query = "SELECT * FROM `user` WHERE `username` =? and password = ?";
 
         try {
             preparedStatement = con.prepareStatement(query);
