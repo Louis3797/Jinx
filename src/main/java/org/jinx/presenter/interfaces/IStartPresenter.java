@@ -1,6 +1,6 @@
-package org.jinx.presenter;
+package org.jinx.presenter.interfaces;
 
-import org.jinx.view.IStartView;
+import org.jinx.view.interfaces.IStartView;
 
 public interface IStartPresenter extends IPresenter<IStartPresenter, IStartView> {
 

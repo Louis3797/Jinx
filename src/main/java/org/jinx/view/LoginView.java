@@ -5,10 +5,11 @@
 package org.jinx.view;
 
 import org.jinx.player.AgentDifficulty;
-import org.jinx.presenter.ILoginPresenter;
-import org.jinx.presenter.IPresenter;
+import org.jinx.presenter.interfaces.ILoginPresenter;
+import org.jinx.presenter.interfaces.IPresenter;
 import org.jinx.swing.RoundedBorder;
 import org.jinx.swing.SwingColors;
+import org.jinx.view.interfaces.ILoginView;
 
 import javax.swing.*;
 import java.awt.*;

@@ -1,6 +1,6 @@
-package org.jinx.view;
+package org.jinx.view.interfaces;
 
-import org.jinx.presenter.IPresenter;
+import org.jinx.presenter.interfaces.IPresenter;
 
 /**
  * Standard Generic View Interface

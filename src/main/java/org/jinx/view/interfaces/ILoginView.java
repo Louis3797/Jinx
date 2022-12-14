@@ -1,6 +1,6 @@
-package org.jinx.view;
+package org.jinx.view.interfaces;
 
-import org.jinx.presenter.ILoginPresenter;
+import org.jinx.presenter.interfaces.ILoginPresenter;
 
 public interface ILoginView extends IView<ILoginPresenter, ILoginView> {
 
