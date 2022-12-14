@@ -62,6 +62,7 @@ public class LoginView extends JPanel implements ILoginView {
         loginButton = new JButton();
 
         //======== this ========
+        setBackground(SwingColors.BackGroundColor);
         setMaximumSize(new Dimension(550, 700));
         setMinimumSize(new Dimension(550, 700));
         setPreferredSize(new Dimension(550, 700));
