@@ -17,5 +17,5 @@ public interface IView<P extends IPresenter<P, V>, V extends IView<P, V>> {
      *
      * @param presenter Presenter that should communicate with the view
      */
-    void setPresenter(IPresenter<P, V> presenter);
+    void setPresenter(P presenter);
 }

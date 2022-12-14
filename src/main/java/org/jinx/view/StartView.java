@@ -119,7 +119,7 @@ public class StartView extends JPanel implements IStartView {
     }
 
     @Override
-    public void setPresenter(IPresenter<IStartPresenter, IStartView> presenter) {
-        this.presenter = (IStartPresenter) presenter;
+    public void setPresenter(IStartPresenter presenter) {
+        this.presenter = presenter;
     }
 }

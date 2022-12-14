@@ -40,6 +40,9 @@ public class LoginView extends JPanel implements ILoginView {
 
     private ILoginPresenter presenter;
 
+    /**
+     * Presenter for the View
+     */
     public LoginView() {
         initComponents();
     }
@@ -227,7 +230,7 @@ public class LoginView extends JPanel implements ILoginView {
     }
 
     @Override
-    public void setPresenter(IPresenter<ILoginPresenter, ILoginView> presenter) {
-        this.presenter = (ILoginPresenter) presenter;
+    public void setPresenter(ILoginPresenter presenter) {
+        this.presenter =  presenter;
     }
 }
