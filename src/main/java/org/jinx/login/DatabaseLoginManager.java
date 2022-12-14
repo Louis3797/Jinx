@@ -69,7 +69,7 @@ public class DatabaseLoginManager implements ILoginManager {
 
         try {
             preparedStatement = con.prepareStatement("INSERT INTO " +
-                    "`user`(`username`, `password`) VALUES (?,MD5(?))");
+                    "`user`(`username`, `password`) VALUES (?,?)");
             preparedStatement.setString(1, username);
             preparedStatement.setString(2, AES.encrypt(userPassword, secret));
             preparedStatement.executeUpdate();
