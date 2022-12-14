@@ -11,13 +11,13 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 
-class PlayerControllerTest {
+class PlayerManagerTest {
 
-    private PlayerController playerController = PlayerController.getPlayerControllerInstance();
+    private PlayerManager playerManager = PlayerManager.getPlayerManagerInstance();
 
     @AfterEach
     void afterEach() {
-        playerController.getPlayers().clear(); // clear players in Queue after each test
+        playerManager.getPlayers().clear(); // clear players in Queue after each test
     }
 
     /**
@@ -25,7 +25,7 @@ class PlayerControllerTest {
      */
     @Test
     void testPlayerControllerInstance() {
-        assertEquals(PlayerController.getPlayerControllerInstance(), PlayerController.getPlayerControllerInstance());
+        assertEquals(PlayerManager.getPlayerManagerInstance(), PlayerManager.getPlayerManagerInstance());
     }
 
     /**
@@ -33,11 +33,11 @@ class PlayerControllerTest {
      */
     @Test
     void testGetCurrentPlayerAfterNext() {
-        playerController.getPlayers().add(new Player("Bob"));
-        playerController.getPlayers().add(new Player("Bob2"));
+        playerManager.getPlayers().add(new Player("Bob"));
+        playerManager.getPlayers().add(new Player("Bob2"));
 
-        playerController.next();
-        assertNotNull(playerController.getCurrentPlayer());
+        playerManager.next();
+        assertNotNull(playerManager.getCurrentPlayer());
     }
 
     /**
@@ -47,13 +47,13 @@ class PlayerControllerTest {
     void testNext() {
         Player bob = new Player("Bob");
         Player bob2 = new Player("Bob2");
-        playerController.getPlayers().add(bob);
-        playerController.getPlayers().add(bob2);
+        playerManager.getPlayers().add(bob);
+        playerManager.getPlayers().add(bob2);
 
-        playerController.next(); // set currentPlayer from null to Bob
-        playerController.next(); // set currentPlayer from Bob to Bob2
+        playerManager.next(); // set currentPlayer from null to Bob
+        playerManager.next(); // set currentPlayer from Bob to Bob2
 
-        assertEquals(bob2, playerController.getCurrentPlayer());
+        assertEquals(bob2, playerManager.getCurrentPlayer());
     }
 
     /**
@@ -65,16 +65,16 @@ class PlayerControllerTest {
         Player bob2 = new Player("Bob2");
         Player bob3 = new Player("Bob3");
 
-        playerController.getPlayers().add(bob);
-        playerController.getPlayers().add(bob2);
-        playerController.getPlayers().add(bob3);
+        playerManager.getPlayers().add(bob);
+        playerManager.getPlayers().add(bob2);
+        playerManager.getPlayers().add(bob3);
 
 
-        List<Player> oldPlayerOrder = playerController.getPlayers().stream().toList();
+        List<Player> oldPlayerOrder = playerManager.getPlayers().stream().toList();
 
-        playerController.shufflePlayerOrder();
+        playerManager.shufflePlayerOrder();
 
-        List<Player> newPlayerOrder = playerController.getPlayers().stream().toList();
+        List<Player> newPlayerOrder = playerManager.getPlayers().stream().toList();
 
 
         assertNotEquals(oldPlayerOrder, newPlayerOrder);
@@ -93,13 +93,13 @@ class PlayerControllerTest {
         // Reflection to get private method doesPlayer exists
         Class[] parameters = new Class[1];
         parameters[0] = String.class;
-        Method method = playerController.getClass().getDeclaredMethod("doesPlayerExist", parameters);
+        Method method = playerManager.getClass().getDeclaredMethod("doesPlayerExist", parameters);
         method.setAccessible(true);
 
         Object[] medthodArgruments = new Object[1];
         medthodArgruments[0] = "Bob";
 
-        boolean result = (boolean) method.invoke(playerController, medthodArgruments);
+        boolean result = (boolean) method.invoke(playerManager, medthodArgruments);
         assertFalse(result);
     }
 
@@ -113,18 +113,18 @@ class PlayerControllerTest {
     @Test
     void testDoesPlayerExistsWithExistingPlayer() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
 
-        playerController.getPlayers().add(new Player("Bob"));
+        playerManager.getPlayers().add(new Player("Bob"));
 
         // Reflection to get private method doesPlayer exists
         Class[] parameters = new Class[1];
         parameters[0] = String.class;
-        Method method = playerController.getClass().getDeclaredMethod("doesPlayerExist", parameters);
+        Method method = playerManager.getClass().getDeclaredMethod("doesPlayerExist", parameters);
         method.setAccessible(true);
 
         Object[] methodArguments = new Object[1];
         methodArguments[0] = "Bob";
 
-        boolean result = (boolean) method.invoke(playerController, methodArguments);
+        boolean result = (boolean) method.invoke(playerManager, methodArguments);
         assertTrue(result);
     }
 
@@ -138,18 +138,18 @@ class PlayerControllerTest {
     @Test
     void testDoesPlayerExistsWithNoExistingPlayer() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
 
-        playerController.getPlayers().add(new Player("Bob"));
+        playerManager.getPlayers().add(new Player("Bob"));
 
         // Reflection to get private method doesPlayer exists
         Class[] parameters = new Class[1];
         parameters[0] = String.class;
-        Method method = playerController.getClass().getDeclaredMethod("doesPlayerExist", parameters);
+        Method method = playerManager.getClass().getDeclaredMethod("doesPlayerExist", parameters);
         method.setAccessible(true);
 
         Object[] methodArguments = new Object[1];
         methodArguments[0] = "Bob2";
 
-        boolean result = (boolean) method.invoke(playerController, methodArguments);
+        boolean result = (boolean) method.invoke(playerManager, methodArguments);
         assertFalse(result);
     }
 

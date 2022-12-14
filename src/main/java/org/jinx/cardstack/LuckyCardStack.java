@@ -1,6 +1,7 @@
 package org.jinx.cardstack;
 
 import org.jinx.card.*;
+import org.jinx.logging_file_handler.LogFileHandler;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -13,11 +14,13 @@ import java.util.logging.Logger;
 
 public class LuckyCardStack extends Stack<LuckyCard> implements Serializable {
 
-    private transient final Logger LOGGER = Logger.getLogger(NumberCardStack.class.getName());
+    private transient final Logger logger = Logger.getLogger(NumberCardStack.class.getName());
 
     public static final long serialVersionUID = 42L;
 
     public LuckyCardStack() {
+        logger.addHandler(LogFileHandler.getInstance().getFileHandler());
+        logger.setUseParentHandlers(false);
         generateDeck();
     }
 
@@ -50,7 +53,7 @@ public class LuckyCardStack extends Stack<LuckyCard> implements Serializable {
 
             // Check if there are to few Cards in the file
             if (lines.size() != 12) {
-                LOGGER.info("There are too few or too many cards in the file");
+                logger.info("There are too few or too many cards in the file");
                 generateStandardDeck();
                 return;
             }
@@ -72,7 +75,7 @@ public class LuckyCardStack extends Stack<LuckyCard> implements Serializable {
                     LuckyCard newCard = luckyFactory(LuckyCardNames.valueOf(cardName));
                     this.add(newCard);
                 } else {
-                    LOGGER.info("Card Color is not supported in enum CardColor.");
+                    logger.info("Card Color is not supported in enum CardColor.");
                     generateStandardDeck();
                     return;
                 }
@@ -81,7 +84,7 @@ public class LuckyCardStack extends Stack<LuckyCard> implements Serializable {
 
 
         } catch (IOException e) {
-            LOGGER.warning(e.getMessage());
+            logger.warning(e.getMessage());
             // Generate standard deck in error
             generateStandardDeck();
         }

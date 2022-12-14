@@ -1,8 +1,8 @@
 package org.jinx.game;
 
 
-import org.jinx.databanklogin.RegistCon;
-import org.jinx.login.Login;
+import org.jinx.logging_file_handler.LogFileHandler;
+import org.jinx.login.ILoginManager;
 import org.jinx.player.AgentDifficulty;
 import org.jinx.player.AutonomousPlayer;
 import org.jinx.player.Player;
@@ -22,14 +22,17 @@ import static org.jinx.utils.ConsoleColor.RESET;
  * <p>
  * PlayerController uses Singleton Pattern
  */
-public class PlayerController implements Serializable {
-    private transient final Logger LOGGER = Logger.getLogger(PlayerController.class.getName());
+public class PlayerManager implements Serializable {
+    private transient final Logger logger = Logger.getLogger(PlayerManager.class.getName());
 
     /**
      * Instance for the Singleton pattern of the PlayerController
      */
-    private static final PlayerController playerControllerInstance = new PlayerController();
+    private static final PlayerManager PLAYER_MANAGER_INSTANCE = new PlayerManager();
 
+    /**
+     * Stores players
+     */
     private final Queue<Player> players;
     /**
      * Stores which player is currently on the turn
@@ -41,23 +44,27 @@ public class PlayerController implements Serializable {
      */
     private transient final SafeScanner safeScanner;
 
-    private Login login;
+    /**
+     * Stores which type of login we use (Database of File)
+     */
+    private ILoginManager loginManager;
 
-    private RegistCon loginData;
-
-    private boolean txtLoginRegister;
-
+    /**
+     * Stores if we use FileStorage or Database (Default = File)
+     */
+    private boolean useFileStorage = true;
 
     /**
      * Standard Constructor for the Player Controller
      */
-    private PlayerController() {
+    private PlayerManager() {
         players = new LinkedList<>();
         currentPlayer = null;
         safeScanner = new SafeScanner();
-        login = new Login();
-        loginData = new RegistCon();
-        txtLoginRegister = false;
+
+        LogFileHandler logFileHandler = LogFileHandler.getInstance();
+        logger.addHandler(logFileHandler.getFileHandler());
+        logger.setUseParentHandlers(false);
 
     }
 
@@ -102,46 +109,19 @@ public class PlayerController implements Serializable {
     public void addOnePlayer() {
 
 
-        System.out.println("Spieler registrieren?");
-        
+        System.out.println("Wollen sie einen neuen Spieler Account erstellen?\n [yes,y,ja | no,n,nein]");
+
         if (safeScanner.nextYesNoAnswer()) {
 
-            if(getTxtLoginRegister()){
-                login.register();
-            }
-            else {
-                loginData.register();
-            }
+            loginManager.displayRegistration();
 
             addOnePlayer();
             return;
         }
-
 
         System.out.println("Einloggen: ");
 
-        String username;
-
-        if(getTxtLoginRegister()){
-            username = login.loginSystem();
-        }
-        else {
-            username = loginData.loginSystem();
-        }
-
-        if (username.equals("")) {
-            System.out.println("Falsches Passwort oder Benutzername");
-            addOnePlayer();
-            return;
-        }
-
-        boolean isPlayerExisting = doesPlayerExist(username);
-
-        if (isPlayerExisting) {
-            System.out.println("Bereits eingeloggt");
-            addOnePlayer();
-            return;
-        }
+        String username = loginManager.displayLogin();
 
         System.out.println("Wollen sie das der Spieler von alleine spielt?\n[y,yes,ja | n,no,nein]");
 
@@ -149,7 +129,7 @@ public class PlayerController implements Serializable {
 
             System.out.println("Welche Schwierigkeit wollen sie der KI geben?");
             for (int i = 0; i < AgentDifficulty.values().length; i++) {
-                System.out.println(i + 1 + ": " + AgentDifficulty.values()[i].name());
+                System.out.println((i + 1) + ": " + AgentDifficulty.values()[i].name());
             }
 
             AgentDifficulty difficulty = AgentDifficulty.values()[safeScanner.nextIntInRange(1, AgentDifficulty.values().length) - 1];
@@ -162,7 +142,6 @@ public class PlayerController implements Serializable {
     }
 
 
-
     /**
      * Helper method that checks if Player with given name already exists
      *
@@ -170,7 +149,7 @@ public class PlayerController implements Serializable {
      * @return true if yes else false
      */
 
-    private boolean doesPlayerExist(String name) {
+    public boolean doesPlayerExist(String name) {
 
         for (Player player : players) {
             if (player.getName().equals(name))
@@ -181,7 +160,6 @@ public class PlayerController implements Serializable {
     }
 
 
-
     /**
      * Use this method when you want to move on to the next player.
      */
@@ -189,7 +167,7 @@ public class PlayerController implements Serializable {
 
         // Check if queue is empty
         if (players.isEmpty()) {
-            LOGGER.warning("Queue is empty!");
+            logger.warning("Queue is empty!");
             return;
         }
 
@@ -207,7 +185,7 @@ public class PlayerController implements Serializable {
 
         // check if players is empty
         if (players.isEmpty()) {
-            LOGGER.warning("Queue is empty");
+            logger.warning("Queue is empty");
             return;
         }
 
@@ -226,8 +204,8 @@ public class PlayerController implements Serializable {
      *
      * @return object of a playerController
      */
-    public static PlayerController getPlayerControllerInstance() {
-        return playerControllerInstance;
+    public static PlayerManager getPlayerManagerInstance() {
+        return PLAYER_MANAGER_INSTANCE;
     }
 
     /**
@@ -241,6 +219,17 @@ public class PlayerController implements Serializable {
         }
     }
 
+    @Override
+    public String toString() {
+        return "PlayerManager{" +
+                "players=" + players +
+                ", currentPlayer=" + currentPlayer +
+                ", safeScanner=" + safeScanner +
+                ", loginManager=" + loginManager +
+                ", fileStorage=" + useFileStorage +
+                '}';
+    }
+
     /* ---------- Getter and Setter Methods ---------- */
 
     public Queue<Player> getPlayers() {
@@ -251,12 +240,15 @@ public class PlayerController implements Serializable {
         return currentPlayer;
     }
 
-    public boolean getTxtLoginRegister(){
-        return this.txtLoginRegister;
+    public void setLoginManager(ILoginManager loginManager) {
+        this.loginManager = loginManager;
     }
 
-    public void setTxtLoginRegister(boolean loginRegister){
-        this.txtLoginRegister = loginRegister;
+    public boolean isUseFileStorage() {
+        return useFileStorage;
     }
 
+    public void setUseFileStorage(boolean useFileStorage) {
+        this.useFileStorage = useFileStorage;
+    }
 }
