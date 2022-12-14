@@ -1,7 +1,7 @@
-package org.jinx.presenter;
+package org.jinx.presenter.interfaces;
 
 import org.jinx.model.IModel;
-import org.jinx.view.IView;
+import org.jinx.view.interfaces.IView;
 
 /**
  * Standard Generic Presenter Interface
