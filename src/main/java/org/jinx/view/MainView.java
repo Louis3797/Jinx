@@ -28,10 +28,9 @@ public class MainView extends JFrame {
         mainPanel.setVisible(true);
 
 
+        mainPanel.add(new StartView(), Views.Start.name());
 
-//        mainPanel.add(, "Login");
-
-        cardLayout.show(mainPanel, "Login");
+        cardLayout.show(mainPanel, Views.Start.name());
         add(mainPanel);
 
 
