@@ -1,6 +1,7 @@
 package org.jinx;
 
 import org.jinx.game.GameController;
+import org.jinx.view.LoginView;
 import org.jinx.view.MainView;
 
 import java.io.IOException;

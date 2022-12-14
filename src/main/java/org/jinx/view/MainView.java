@@ -1,5 +1,7 @@
 package org.jinx.view;
 
+import org.jinx.presenter.StartPresenter;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -14,7 +16,7 @@ public class MainView extends JFrame {
     public static final Dimension dimension = new Dimension(width, height);
 
     public static final CardLayout cardLayout = new CardLayout();
-    private static final JPanel mainPanel = new JPanel();
+    public static final JPanel mainPanel = new JPanel();
 
     public MainView() throws HeadlessException {
         super.setTitle("Jinx");
@@ -27,8 +29,16 @@ public class MainView extends JFrame {
         mainPanel.setBackground(Color.BLUE);
         mainPanel.setVisible(true);
 
+        StartView startView = new StartView();
+        StartPresenter startPresenter = new StartPresenter(startView, null);
 
-        mainPanel.add(new StartView(), Views.Start.name());
+        LoginView loginView = new LoginView();
+
+        mainPanel.add(loginView, Views.Login.name());
+
+        mainPanel.add(startView, Views.Start.name());
+
+
 
         cardLayout.show(mainPanel, Views.Start.name());
         add(mainPanel);
