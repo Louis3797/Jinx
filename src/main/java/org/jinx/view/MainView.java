@@ -23,6 +23,7 @@ public class MainView extends JFrame {
     public static final JPanel mainPanel = new JPanel();
     public static GameState gameState = new GameState();
 
+
     public MainView() throws HeadlessException {
         super.setTitle("Jinx");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -49,7 +50,6 @@ public class MainView extends JFrame {
         mainPanel.add(startView, Views.Start.name());
 
         mainPanel.add(registerView, Views.Register.name());
-
 
 
         cardLayout.show(mainPanel, Views.Start.name());
