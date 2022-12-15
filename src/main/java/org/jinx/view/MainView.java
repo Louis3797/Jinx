@@ -27,9 +27,9 @@ public class MainView extends JFrame {
         mainPanel.setBackground(Color.BLUE);
         mainPanel.setVisible(true);
 
+        GameView gameView = new GameView();
 
-        mainPanel.add(new StartView(), Views.Start.name());
-
+        mainPanel.add(gameView, Views.Start.name());
         cardLayout.show(mainPanel, Views.Start.name());
         add(mainPanel);
 

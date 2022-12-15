@@ -14,9 +14,8 @@ import java.util.List;
 import static org.jinx.utils.ConsoleColor.RESET;
 import static org.jinx.utils.ConsoleColor.WHITE_BOLD_BRIGHT;
 
-public class Player implements Serializable {
+public class Player implements IPlayer {
 
-    public static final long serialVersionUID = 42L;
     /**
      * Name of the player
      */
@@ -53,6 +52,7 @@ public class Player implements Serializable {
      *
      * @return Returns the sum off all number card points in our hand
      */
+    @Override
     public int getPoints() {
         int sum = 0;
         for (NumberCard card : numberCardHand) {
@@ -63,6 +63,7 @@ public class Player implements Serializable {
         return sum;
     }
 
+    @Override
     public void printHistory() {
         SafeScanner safeScanner = new SafeScanner();
 
@@ -88,35 +89,43 @@ public class Player implements Serializable {
      * @return Returns true everytime
      */
 
+    @Override
     public boolean isHuman() {
         return true;
     }
 
     /* ---------- Getter and Setter Methods ---------- */
+    @Override
     public String getName() {
         return name;
     }
 
+    @Override
     public boolean isUsedCheats() {
         return usedCheats;
     }
 
+    @Override
     public void setUsedCheats(boolean usedCheats) {
         this.usedCheats = usedCheats;
     }
 
+    @Override
     public NumberCardHand getNumberCardHand() {
         return numberCardHand;
     }
 
+    @Override
     public LuckyCardHand getLuckyCardHand() {
         return luckyCardHand;
     }
 
+    @Override
     public List<PlayerHistory> getMatchHistories() {
         return matchHistories;
     }
 
+    @Override
     public void setMatchHistories(List<PlayerHistory> matchHistories) {
         this.matchHistories = matchHistories;
     }

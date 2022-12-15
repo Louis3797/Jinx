@@ -18,6 +18,7 @@ public class GameState implements Serializable {
     public LuckyCardStack luckyDeck;
     public Field field;
     public int currentRound;
+
     public List<Player> player;
     public Player currentPlayer;
     public boolean txt;
