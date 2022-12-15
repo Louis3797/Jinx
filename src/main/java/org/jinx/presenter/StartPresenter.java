@@ -24,22 +24,22 @@ public class StartPresenter implements IStartPresenter {
 
     @Override
     public IStartView getView() {
-        return null;
+        return this.view;
     }
 
     @Override
     public void setView(IStartView view) {
-
+        this.view = view;
     }
 
     @Override
     public IModel getModel() {
-        return null;
+        return this.model;
     }
 
     @Override
     public void setModel(IModel model) {
-
+        this.model = model;
     }
 
     @Override

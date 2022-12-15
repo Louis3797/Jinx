@@ -19,28 +19,28 @@ public class RegisterPresenter implements IRegisterPresenter {
     }
 
     @Override
+    public void register(String username, String password) {
+
+    }
+
+    @Override
     public IRegisterView getView() {
-        return null;
+        return this.view;
     }
 
     @Override
     public void setView(IRegisterView view) {
-
+        this.view = view;
     }
 
     @Override
     public IModel getModel() {
-        return null;
+        return this.model;
     }
 
     @Override
     public void setModel(IModel model) {
-
-    }
-
-    @Override
-    public void register(String username, String password) {
-
+        this.model = model;
     }
 
     @Override

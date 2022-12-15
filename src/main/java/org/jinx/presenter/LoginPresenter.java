@@ -39,22 +39,22 @@ public class LoginPresenter implements ILoginPresenter {
 
     @Override
     public ILoginView getView() {
-        return null;
+        return this.view;
     }
 
     @Override
     public void setView(ILoginView view) {
-
+        this.view = view;
     }
 
 
     @Override
     public IModel getModel() {
-        return null;
+        return this.model;
     }
 
     @Override
     public void setModel(IModel model) {
-
+        this.model = model;
     }
 }
