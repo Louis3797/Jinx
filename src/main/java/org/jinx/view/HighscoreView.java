@@ -4,12 +4,17 @@
 
 package org.jinx.view;
 
+import org.jinx.highscore.HighScore;
+import org.jinx.highscore.HighScoreList;
 import org.jinx.presenter.interfaces.IHighscorePresenter;
 import org.jinx.presenter.interfaces.IRegisterPresenter;
 import org.jinx.swing.SwingColors;
 import org.jinx.view.interfaces.IHighscoreView;
 
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.List;
 import javax.swing.*;
 
 /**
@@ -48,6 +53,7 @@ public class HighscoreView extends JPanel implements IHighscoreView {
         title.setForeground(SwingColors.BlueColor);
         add(title);
         title.setBounds(465, 25, 175, 90);
+        highscorePane1.setFont(new Font("Arial",Font.PLAIN, 24));
         highscorePane1.setEditable(false);
 
         //======== scrollPane1 ========
@@ -82,16 +88,17 @@ public class HighscoreView extends JPanel implements IHighscoreView {
         // JFormDesigner - End of component initialization  //GEN-END:initComponents  @formatter:on
     }
 
+
+
     @Override
-    public void updateStatusTextAreaError() {
-        highscorePane1.setText("Textdatei nicht gefunden!");
-        highscorePane1.setForeground(SwingColors.ErrorColor);
-        highscorePane1.setSize(highscorePane1.getPreferredSize().width, highscorePane1.getPreferredSize().height);
+    public void updateHighscorelist(String highscore) {
+        highscorePane1.setText(highscore);
     }
 
 
     @Override
     public void setPresenter(IHighscorePresenter presenter) {
         this.presenter = presenter;
+        presenter.readHighscore();
     }
 }

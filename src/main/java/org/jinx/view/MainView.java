@@ -1,6 +1,7 @@
 package org.jinx.view;
 
 import org.jinx.game_state.GameState;
+import org.jinx.highscore.HighScoreList;
 import org.jinx.presenter.HighscorePresenter;
 import org.jinx.presenter.LoginPresenter;
 import org.jinx.presenter.RegisterPresenter;
@@ -24,10 +25,13 @@ public class MainView extends JFrame {
     public static final JPanel mainPanel = new JPanel();
     public static GameState gameState = new GameState();
 
+    private HighScoreList highScoreList = new HighScoreList();
+
     public MainView() throws HeadlessException {
         super.setTitle("Jinx");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(dimension);
+        setResizable(false);
 
         // main panel
         mainPanel.setSize(dimension);
@@ -46,7 +50,7 @@ public class MainView extends JFrame {
         RegisterPresenter registerPresenter = new RegisterPresenter(registerView, gameState);
 
         HighscoreView highscoreView = new HighscoreView();
-        HighscorePresenter highscorePresenter = new HighscorePresenter(highscoreView, null);
+        HighscorePresenter highscorePresenter = new HighscorePresenter(highscoreView, highScoreList);
 
 
 
