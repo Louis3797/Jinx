@@ -1,6 +1,7 @@
 package org.jinx.view;
 
 import org.jinx.game_state.GameState;
+import org.jinx.presenter.HighscorePresenter;
 import org.jinx.presenter.LoginPresenter;
 import org.jinx.presenter.RegisterPresenter;
 import org.jinx.presenter.StartPresenter;
@@ -45,12 +46,18 @@ public class MainView extends JFrame {
         RegisterView registerView = new RegisterView();
         RegisterPresenter registerPresenter = new RegisterPresenter(registerView, gameState);
 
+        HighscoreView highscoreView = new HighscoreView();
+        HighscorePresenter highscorePresenter = new HighscorePresenter(highscoreView, null);
+
+
+
         mainPanel.add(loginView, Views.Login.name());
 
         mainPanel.add(startView, Views.Start.name());
 
         mainPanel.add(registerView, Views.Register.name());
 
+        mainPanel.add(highscoreView, Views.HighScore.name());
 
         cardLayout.show(mainPanel, Views.Start.name());
         add(mainPanel);

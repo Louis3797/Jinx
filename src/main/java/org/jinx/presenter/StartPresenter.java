@@ -49,7 +49,7 @@ public class StartPresenter implements IStartPresenter {
 
     @Override
     public void showHighScoreView() {
-
+        MainView.cardLayout.show(MainView.mainPanel, Views.HighScore.name());
     }
 
     @Override
