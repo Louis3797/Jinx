@@ -4,6 +4,7 @@ import org.jinx.model.IModel;
 import org.jinx.player.AgentDifficulty;
 import org.jinx.presenter.interfaces.ILoginPresenter;
 import org.jinx.view.MainView;
+import org.jinx.view.Views;
 import org.jinx.view.interfaces.ILoginView;
 import org.jinx.view.interfaces.IView;
 
@@ -33,7 +34,7 @@ public class LoginPresenter implements ILoginPresenter {
 
     @Override
     public void showRegisterView() {
-
+        MainView.cardLayout.show(MainView.mainPanel, Views.Register.name());
     }
 
     @Override
@@ -42,9 +43,10 @@ public class LoginPresenter implements ILoginPresenter {
     }
 
     @Override
-    public void setView(IView<ILoginPresenter, ILoginView> view) {
+    public void setView(ILoginView view) {
 
     }
+
 
     @Override
     public IModel getModel() {

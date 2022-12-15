@@ -2,6 +2,7 @@ package org.jinx.view;
 
 import org.jinx.game_state.GameState;
 import org.jinx.presenter.LoginPresenter;
+import org.jinx.presenter.RegisterPresenter;
 import org.jinx.presenter.StartPresenter;
 
 
@@ -40,9 +41,14 @@ public class MainView extends JFrame {
         LoginView loginView = new LoginView();
         LoginPresenter loginPresenter = new LoginPresenter(loginView, gameState);
 
+        RegisterView registerView = new RegisterView();
+        RegisterPresenter registerPresenter = new RegisterPresenter(registerView, gameState);
+
         mainPanel.add(loginView, Views.Login.name());
 
         mainPanel.add(startView, Views.Start.name());
+
+        mainPanel.add(registerView, Views.Register.name());
 
 
 

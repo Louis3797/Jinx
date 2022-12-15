@@ -7,11 +7,9 @@ import org.jinx.login.DatabaseLoginManager;
 import org.jinx.login.FileLoginManager;
 import org.jinx.model.IModel;
 import org.jinx.presenter.interfaces.IStartPresenter;
-import org.jinx.view.LoginView;
 import org.jinx.view.MainView;
 import org.jinx.view.Views;
 import org.jinx.view.interfaces.IStartView;
-import org.jinx.view.interfaces.IView;
 
 public class StartPresenter implements IStartPresenter {
 
@@ -30,7 +28,7 @@ public class StartPresenter implements IStartPresenter {
     }
 
     @Override
-    public void setView(IView view) {
+    public void setView(IStartView view) {
 
     }
 
