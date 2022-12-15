@@ -6,7 +6,6 @@ package org.jinx.view;
 
 import org.jinx.player.AgentDifficulty;
 import org.jinx.presenter.interfaces.ILoginPresenter;
-import org.jinx.presenter.interfaces.IPresenter;
 import org.jinx.swing.RoundedBorder;
 import org.jinx.swing.SwingColors;
 import org.jinx.view.interfaces.ILoginView;
@@ -99,13 +98,13 @@ public class LoginView extends JPanel implements ILoginView {
         passwordField.setBackground(SwingColors.BackGroundColor);
         passwordField.setBorder(new RoundedBorder(5));
         add(passwordField);
-        passwordField.setBounds(50, 245, 285, passwordField.getPreferredSize().height);
+        passwordField.setBounds(55, 245, 285, passwordField.getPreferredSize().height);
 
         //---- usernameField ----
         usernameField.setBackground(SwingColors.BackGroundColor);
         usernameField.setBorder(new RoundedBorder(5));
         add(usernameField);
-        usernameField.setBounds(50, 180, 285, usernameField.getPreferredSize().height);
+        usernameField.setBounds(55, 180, 285, usernameField.getPreferredSize().height);
 
         //---- status ----
         status.setText("");
@@ -168,6 +167,7 @@ public class LoginView extends JPanel implements ILoginView {
 
         //---- loginButton ----
         loginButton.setText("Einloggen");
+        loginButton.setBackground(SwingColors.BackGroundColor);
         loginButton.setForeground(SwingColors.TextColor);
         loginButton.addActionListener(e -> {
             AgentDifficulty difficulty = null;
