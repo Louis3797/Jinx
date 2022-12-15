@@ -1,6 +1,8 @@
 package org.jinx.view.interfaces;
 
-public interface IGamehistoryView {
+import org.jinx.presenter.interfaces.IGamehistoryPresenter;
+
+public interface IGamehistoryView extends IView<IGamehistoryPresenter, IGamehistoryView> {
 
     /**
      * Inits view
