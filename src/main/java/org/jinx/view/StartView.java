@@ -42,7 +42,7 @@ public class StartView extends JPanel implements IStartView {
         radioButtonLabel = new JLabel();
 
         //======== this ========
-        setBackground(new Color(0xf1f1f1));
+        setBackground(SwingColors.BackGroundColor);
         setMinimumSize(new Dimension(1100, 700));
         setMaximumSize(new Dimension(1100, 700));
         setPreferredSize(new Dimension(1100, 700));
@@ -119,7 +119,7 @@ public class StartView extends JPanel implements IStartView {
     }
 
     @Override
-    public void setPresenter(IPresenter<IStartPresenter, IStartView> presenter) {
-        this.presenter = (IStartPresenter) presenter;
+    public void setPresenter(IStartPresenter presenter) {
+        this.presenter = presenter;
     }
 }
