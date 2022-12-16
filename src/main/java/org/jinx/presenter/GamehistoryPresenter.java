@@ -12,6 +12,7 @@ import org.jinx.view.Views;
 import org.jinx.view.interfaces.IGamehistoryView;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 
@@ -28,17 +29,16 @@ public class GamehistoryPresenter implements IGamehistoryPresenter {
         view.setPresenter(this);
     }
 
-    public void loadGamehistory(String username) {
+    public void loadGameHistory(String username) {
         for (Player player : playerManager.getPlayers()) {
 
             if (player.getName().equals(username)) {
 
-                StringBuilder allHistories = new StringBuilder();
+                ArrayList<PlayerHistory> histories = new ArrayList<>(MainView.gameState.getHistoryManager().getHistory(player));
 
-                for (PlayerHistory playerHistory : MainView.gameState.getHistoryManager().getHistory(player)) {
-                    allHistories.append(playerHistory.toString());
-                }
-                view.updateHistory(allHistories.toString());
+                histories.sort((o1, o2) -> o2.cardSum() - o1.cardSum());
+
+                view.updateHistory(histories.toString());
             }
         }
     }

@@ -40,11 +40,6 @@ public class PlayerManager implements Serializable,IPlayerManager {
     private Player currentPlayer;
 
     /**
-     * Stores playername for Gui
-     */
-    private String playerName;
-
-    /**
      * Wrapper for the Scanner
      */
     private transient final SafeScanner safeScanner;
@@ -245,14 +240,6 @@ public class PlayerManager implements Serializable,IPlayerManager {
 
     public Player getCurrentPlayer() {
         return currentPlayer;
-    }
-
-    public void setPlayerName(String playerName){
-        this.playerName = playerName;
-    }
-
-    public String getPlayerName(){
-        return this.playerName;
     }
 
     public void setLoginManager(ILoginManager loginManager) {

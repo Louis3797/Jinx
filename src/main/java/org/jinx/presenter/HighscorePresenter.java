@@ -24,7 +24,7 @@ public class HighscorePresenter implements IHighscorePresenter {
         ((HighScoreList) model).getOldHighScores();
         StringBuilder sb = new StringBuilder();
         for (HighScore highScore:  ((HighScoreList) model).getHighScoreList() ) {
-            sb.append(highScore.playerName()+"\t\t\t"+highScore.highscore()+"\n");
+            sb.append(highScore.playerName()).append("\t\t\t").append(highScore.highscore()).append("\n");
         }
         view.updateHighscorelist(sb.toString());
     }
