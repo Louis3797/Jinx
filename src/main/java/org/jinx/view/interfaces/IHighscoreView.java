@@ -1,6 +1,10 @@
 package org.jinx.view.interfaces;
 
+import org.jinx.highscore.HighScore;
+import org.jinx.highscore.HighScoreList;
 import org.jinx.presenter.interfaces.IHighscorePresenter;
+
+import java.util.List;
 
 public interface IHighscoreView extends IView<IHighscorePresenter,IHighscoreView> {
 
@@ -9,10 +13,12 @@ public interface IHighscoreView extends IView<IHighscorePresenter,IHighscoreView
      */
     void initComponents();
 
+
     /**
-     * Displays error message on highscore text area if this method is called
+     * Method to update Highscorelist
+     * @param highscore
      */
-    void updateStatusTextAreaError();
+    void updateHighscorelist(String highscore);
 
 
 }

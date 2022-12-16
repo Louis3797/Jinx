@@ -4,6 +4,8 @@
 
 package org.jinx.view;
 
+import org.jinx.presenter.interfaces.IGamehistoryPresenter;
+import org.jinx.presenter.interfaces.IHighscorePresenter;
 import org.jinx.swing.SwingColors;
 import org.jinx.view.interfaces.IGamehistoryView;
 
@@ -22,6 +24,8 @@ public class GamehistoryView extends JPanel implements IGamehistoryView {
     private JButton backButton;
     private JButton backtoscreen;
 
+    private IGamehistoryPresenter presenter;
+
     public GamehistoryView() {
         initComponents();
     }
@@ -35,6 +39,7 @@ public class GamehistoryView extends JPanel implements IGamehistoryView {
         nextButton = new JButton();
         backButton = new JButton();
         backtoscreen = new JButton();
+
 
         //======== this ========
         setBackground(SwingColors.BackGroundColor);
@@ -76,13 +81,14 @@ public class GamehistoryView extends JPanel implements IGamehistoryView {
         backtoscreen.setText("zur\u00fcck");
         backtoscreen.setBackground(SwingColors.BackGroundColor);
         backtoscreen.setForeground(SwingColors.TextColor);
+        backtoscreen.addActionListener(e -> presenter.showLoginView());
         add(backtoscreen);
         backtoscreen.setBounds(915, 50, 130, 55);
 
         {
             // compute preferred size
             Dimension preferredSize = new Dimension();
-            for(int i = 0; i < getComponentCount(); i++) {
+            for (int i = 0; i < getComponentCount(); i++) {
                 Rectangle bounds = getComponent(i).getBounds();
                 preferredSize.width = Math.max(bounds.x + bounds.width, preferredSize.width);
                 preferredSize.height = Math.max(bounds.y + bounds.height, preferredSize.height);
@@ -99,6 +105,11 @@ public class GamehistoryView extends JPanel implements IGamehistoryView {
     @Override
     public void updateStatusTextAreaError() {
 
+    }
+
+    @Override
+    public void setPresenter(IGamehistoryPresenter presenter) {
+        this.presenter = presenter;
     }
 
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables  @formatter:off

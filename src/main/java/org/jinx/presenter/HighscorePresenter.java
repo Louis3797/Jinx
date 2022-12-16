@@ -1,5 +1,7 @@
 package org.jinx.presenter;
 
+import org.jinx.highscore.HighScore;
+import org.jinx.highscore.HighScoreList;
 import org.jinx.model.IModel;
 import org.jinx.presenter.interfaces.IHighscorePresenter;
 import org.jinx.presenter.interfaces.ILoginPresenter;
@@ -7,6 +9,9 @@ import org.jinx.view.MainView;
 import org.jinx.view.StartView;
 import org.jinx.view.Views;
 import org.jinx.view.interfaces.IHighscoreView;
+
+import javax.swing.*;
+import javax.swing.text.PlainDocument;
 
 public class HighscorePresenter implements IHighscorePresenter {
     private IHighscoreView view;
@@ -16,6 +21,15 @@ public class HighscorePresenter implements IHighscorePresenter {
         this.view = view;
         this.model = model;
         view.setPresenter(this);
+    }
+
+    public void readHighscore(){
+        ((HighScoreList) model).getOldHighScores();
+        StringBuilder sb = new StringBuilder();
+        for (HighScore highScore:  ((HighScoreList) model).getHighScoreList() ) {
+            sb.append(highScore.playerName()+"\t\t\t"+highScore.highscore()+"\n");
+        }
+        view.updateHighscorelist(sb.toString());
     }
 
     @Override
@@ -42,4 +56,5 @@ public class HighscorePresenter implements IHighscorePresenter {
     public void setModel(IModel model) {
         this.model = model;
     }
+
 }
