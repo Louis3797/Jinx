@@ -94,7 +94,7 @@ public class PlayerManagerView extends JPanel implements IPlayerManagerView {
         add(playername4);
         playername4.setBounds(50, 340, 125, 60);
 
-        //---- histroyButton ----
+        //---- historyButton ----
         histroyButton.setText("Spielhistorie anzeigen ");
         histroyButton.setFont(new Font("Arial", Font.BOLD, 12));
         histroyButton.setBackground(SwingColors.BackGroundColor);
@@ -102,7 +102,7 @@ public class PlayerManagerView extends JPanel implements IPlayerManagerView {
         add(histroyButton);
         histroyButton.setBounds(280, 115, 200, 40);
 
-        //---- histroyButton2 ----
+        //---- historyButton2 ----
         histroyButton2.setText("Spielhistorie anzeigen ");
         histroyButton2.setFont(new Font("Arial", Font.BOLD, 12));
         histroyButton2.setBackground(SwingColors.BackGroundColor);
@@ -110,7 +110,7 @@ public class PlayerManagerView extends JPanel implements IPlayerManagerView {
         add(histroyButton2);
         histroyButton2.setBounds(280, 195, 200, 40);
 
-        //---- histroyButton3 ----
+        //---- historyButton3 ----
         histroyButton3.setText("Spielhistorie anzeigen ");
         histroyButton3.setFont(new Font("Arial", Font.BOLD, 12));
         histroyButton3.setBackground(SwingColors.BackGroundColor);
@@ -118,7 +118,7 @@ public class PlayerManagerView extends JPanel implements IPlayerManagerView {
         add(histroyButton3);
         histroyButton3.setBounds(280, 270, 200, 40);
 
-        //---- histroyButton4 ----
+        //---- historyButton4 ----
         histroyButton4.setText("Spielhistorie anzeigen ");
         histroyButton4.setFont(new Font("Arial", Font.BOLD, 12));
         histroyButton4.setBackground(SwingColors.BackGroundColor);
