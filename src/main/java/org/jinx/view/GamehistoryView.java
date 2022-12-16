@@ -4,6 +4,7 @@
 
 package org.jinx.view;
 
+import org.jinx.game.PlayerManager;
 import org.jinx.presenter.interfaces.IGamehistoryPresenter;
 import org.jinx.swing.SwingColors;
 import org.jinx.view.interfaces.IGamehistoryView;
@@ -62,20 +63,6 @@ public class GamehistoryView extends JPanel implements IGamehistoryView {
         add(scrollPane1);
         scrollPane1.setBounds(45, 170, 470, 385);
 
-        //---- next ----
-        nextButton.setText("n\u00e4chte Historie");
-        nextButton.setBackground(SwingColors.BackGroundColor);
-        nextButton.setForeground(SwingColors.TextColor);
-        add(nextButton);
-        nextButton.setBounds(385, 605, 130, 55);
-
-        //---- back ----
-        backButton.setText("letzte Historie");
-        backButton.setBackground(SwingColors.BackGroundColor);
-        backButton.setForeground(SwingColors.TextColor);
-        add(backButton);
-        backButton.setBounds(45, 605, 130, 55);
-
         //---- backtoscreen ----
         backtoscreen.setText("zur\u00fcck");
         backtoscreen.setBackground(SwingColors.BackGroundColor);
@@ -99,7 +86,6 @@ public class GamehistoryView extends JPanel implements IGamehistoryView {
             setPreferredSize(preferredSize);
         }
     }
-
 
     @Override
     public void setPresenter(IGamehistoryPresenter presenter) {

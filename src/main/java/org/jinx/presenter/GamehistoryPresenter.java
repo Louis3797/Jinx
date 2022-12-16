@@ -19,9 +19,14 @@ public class GamehistoryPresenter implements IGamehistoryPresenter {
         view.setPresenter(this);
     }
 
+
+    @Override
+    public void showLoginView() {
+        MainView.cardLayout.show(MainView.mainPanel, Views.Login.name());
+    }
+
     @Override
     public IGamehistoryView getView() {
-
         return this.view;
     }
 
@@ -40,8 +45,4 @@ public class GamehistoryPresenter implements IGamehistoryPresenter {
         this.model = model;
     }
 
-    @Override
-    public void showLoginView() {
-        MainView.cardLayout.show(MainView.mainPanel, Views.Login.name());
-    }
 }

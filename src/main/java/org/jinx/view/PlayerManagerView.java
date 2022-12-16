@@ -4,6 +4,7 @@
 
 package org.jinx.view;
 
+import org.jinx.game.PlayerManager;
 import org.jinx.presenter.interfaces.IPlayerManagerPresenter;
 import org.jinx.swing.SwingColors;
 import org.jinx.view.interfaces.IPlayerManagerView;
@@ -106,6 +107,7 @@ public class PlayerManagerView extends JPanel implements IPlayerManagerView {
         historyButton.setFont(new Font("Arial", Font.BOLD, 12));
         historyButton.setBackground(SwingColors.BackGroundColor);
         historyButton.setForeground(SwingColors.TextColor);
+        historyButton.addActionListener(e -> presenter.showHistoryView());
         add(historyButton);
         historyButton.setBounds(280, 120, 200, 40);
 

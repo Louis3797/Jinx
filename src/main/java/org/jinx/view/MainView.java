@@ -3,10 +3,7 @@ package org.jinx.view;
 import org.jinx.game.PlayerManager;
 import org.jinx.game_state.GameState;
 import org.jinx.highscore.HighScoreList;
-import org.jinx.presenter.HighscorePresenter;
-import org.jinx.presenter.LoginPresenter;
-import org.jinx.presenter.RegisterPresenter;
-import org.jinx.presenter.StartPresenter;
+import org.jinx.presenter.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -60,6 +57,10 @@ public class MainView extends JFrame {
         HighscoreView highscoreView = new HighscoreView();
         HighscorePresenter highscorePresenter = new HighscorePresenter(highscoreView, highScoreList);
 
+        GamehistoryView gamehistoryView = new GamehistoryView();
+        GamehistoryPresenter gamehistoryPresenter = new GamehistoryPresenter(gamehistoryView,null);
+
+        mainPanel.add(gamehistoryView, Views.History.name());
 
         mainPanel.add(loginView, Views.Login.name());
 

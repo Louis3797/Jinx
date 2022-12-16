@@ -1,5 +1,6 @@
 package org.jinx.presenter;
 
+import org.jinx.game.PlayerManager;
 import org.jinx.model.IModel;
 import org.jinx.presenter.interfaces.IPlayerManagerPresenter;
 import org.jinx.view.MainView;
@@ -18,6 +19,20 @@ public class PlayerManagerPresenter implements IPlayerManagerPresenter {
         view.setPresenter(this);
     }
 
+    @Override
+    public void shufflePlayer() {
+
+    }
+
+    @Override
+    public void showHistoryView(){
+        MainView.cardLayout.show(MainView.mainPanel, Views.History.name());
+    }
+
+    @Override
+    public void showGameView() {
+        MainView.cardLayout.show(MainView.mainPanel, Views.Game.name());
+    }
 
     @Override
     public IPlayerManagerView getView() {
@@ -39,18 +54,5 @@ public class PlayerManagerPresenter implements IPlayerManagerPresenter {
         this.model = model;
     }
 
-    @Override
-    public void updatePlayerList() {
 
-    }
-
-    @Override
-    public void shufflePlayer() {
-
-    }
-
-    @Override
-    public void showGameView() {
-        MainView.cardLayout.show(MainView.mainPanel, Views.Game.name());
-    }
 }
