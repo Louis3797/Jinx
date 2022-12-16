@@ -27,9 +27,12 @@ public class StartView extends JPanel implements IStartView {
      */
     private IStartPresenter presenter;
 
+
     public StartView() {
         initComponents();
     }
+
+    Image image = Toolkit.getDefaultToolkit().getImage("360_F_355607062_zYMS8jaz4SfoykpWz5oViRVKL32IabTP.jpg");
 
     @Override
     public void initComponents() {
@@ -116,6 +119,8 @@ public class StartView extends JPanel implements IStartView {
         radioButtonGroup.add(textfileRadioButton);
         radioButtonGroup.add(databaseRadioButton);
         // JFormDesigner - End of component initialization  //GEN-END:initComponents  @formatter:on
+
+
     }
 
     @Override

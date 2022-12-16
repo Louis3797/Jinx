@@ -6,7 +6,6 @@ import org.jinx.presenter.LoginPresenter;
 import org.jinx.presenter.RegisterPresenter;
 import org.jinx.presenter.StartPresenter;
 
-
 import javax.swing.*;
 import java.awt.*;
 
@@ -59,10 +58,12 @@ public class MainView extends JFrame {
 
         mainPanel.add(highscoreView, Views.HighScore.name());
 
+
         cardLayout.show(mainPanel, Views.Start.name());
         add(mainPanel);
 
 
         setVisible(true);
     }
+
 }
