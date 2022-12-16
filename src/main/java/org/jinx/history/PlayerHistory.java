@@ -26,7 +26,6 @@ public record PlayerHistory(String name, boolean cheated, NumberCardHand numberC
     @Override
     public String toString() {
 
-
         StringBuilder builder = new StringBuilder();
 
         for (Player opponent : opponents) {
