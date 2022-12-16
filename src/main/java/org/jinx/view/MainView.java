@@ -53,7 +53,7 @@ public class MainView extends JFrame {
         HighscoreView highscoreView = new HighscoreView();
         HighscorePresenter highscorePresenter = new HighscorePresenter(highscoreView, highScoreList);
 
-
+        mainPanel.add(gameView, Views.Game.name());
 
         mainPanel.add(loginView, Views.Login.name());
 
@@ -64,7 +64,7 @@ public class MainView extends JFrame {
         mainPanel.add(highscoreView, Views.HighScore.name());
 
 
-        cardLayout.show(mainPanel, Views.Start.name());
+        cardLayout.show(mainPanel, Views.Game.name());
         add(mainPanel);
 
 
