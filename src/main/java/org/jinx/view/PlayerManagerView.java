@@ -31,11 +31,12 @@ public class PlayerManagerView extends JPanel implements IPlayerManagerView {
     private IPlayerManagerPresenter presenter;
 
     private JLabel[] labels;
+    private JButton[] buttons;
 
     @Override
     public void paint(Graphics g) {
         super.paint(g);
-        g.drawLine(0,0,0,700);
+        g.drawLine(0, 0, 0, 700);
     }
 
     public PlayerManagerView() {
@@ -57,6 +58,7 @@ public class PlayerManagerView extends JPanel implements IPlayerManagerView {
         shuffleButton = new JButton();
 
         labels = new JLabel[]{playername1, playername2, playername3, playername4};
+        buttons = new JButton[]{historyButton, historyButton2, historyButton3, historyButton4};
 
         //======== this ========
         setBackground(SwingColors.BackGroundColor);
@@ -99,7 +101,7 @@ public class PlayerManagerView extends JPanel implements IPlayerManagerView {
         playername4.setBounds(50, 350, 125, 60);
 
         //---- historyButton ----
-        historyButton.setVisible(true);
+        historyButton.setVisible(false);
         historyButton.setText("Spielhistorie anzeigen ");
         historyButton.setFont(new Font("Arial", Font.BOLD, 12));
         historyButton.setBackground(SwingColors.BackGroundColor);
@@ -108,7 +110,7 @@ public class PlayerManagerView extends JPanel implements IPlayerManagerView {
         historyButton.setBounds(280, 120, 200, 40);
 
         //---- historyButton2 ----
-        historyButton2.setVisible(true);
+        historyButton2.setVisible(false);
         historyButton2.setText("Spielhistorie anzeigen ");
         historyButton2.setFont(new Font("Arial", Font.BOLD, 12));
         historyButton2.setBackground(SwingColors.BackGroundColor);
@@ -117,7 +119,7 @@ public class PlayerManagerView extends JPanel implements IPlayerManagerView {
         historyButton2.setBounds(280, 200, 200, 40);
 
         //---- historyButton3 ----
-        historyButton3.setVisible(true);
+        historyButton3.setVisible(false);
         historyButton3.setText("Spielhistorie anzeigen ");
         historyButton3.setFont(new Font("Arial", Font.BOLD, 12));
         historyButton3.setBackground(SwingColors.BackGroundColor);
@@ -126,7 +128,7 @@ public class PlayerManagerView extends JPanel implements IPlayerManagerView {
         historyButton3.setBounds(280, 280, 200, 40);
 
         //---- historyButton4 ----
-        historyButton4.setVisible(true);
+        historyButton4.setVisible(false);
         historyButton4.setText("Spielhistorie anzeigen ");
         historyButton4.setFont(new Font("Arial", Font.BOLD, 12));
         historyButton4.setBackground(SwingColors.BackGroundColor);
@@ -150,8 +152,8 @@ public class PlayerManagerView extends JPanel implements IPlayerManagerView {
         shuffleButton.setBackground(SwingColors.BackGroundColor);
         shuffleButton.setForeground(SwingColors.TextColor);
         add(shuffleButton);
-        shuffleButton.setBounds(35, 575, 120,30);
-       // shuffleButton.setBounds(35, 640, 105, 40);
+        shuffleButton.setBounds(35, 575, 120, 30);
+        // shuffleButton.setBounds(35, 640, 105, 40);
 
         {
             // compute preferred size
@@ -170,10 +172,11 @@ public class PlayerManagerView extends JPanel implements IPlayerManagerView {
 
     }
 
-    public void updateLabel(String playername){
-        for (JLabel label : labels){
-            if (label.getText().equals("")){
-                label.setText(playername);
+    public void updateLabel(String playername) {
+        for (int i = 0; i < labels.length; i++) {
+            if (labels[i].getText().equals("")) {
+                labels[i].setText(playername);
+                buttons[i].setVisible(true);
                 break;
             }
         }

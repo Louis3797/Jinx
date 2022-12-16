@@ -1,5 +1,6 @@
 package org.jinx.view.interfaces;
 
+import org.jinx.player.AgentDifficulty;
 import org.jinx.presenter.interfaces.ILoginPresenter;
 
 public interface ILoginView extends IView<ILoginPresenter, ILoginView> {
@@ -19,5 +20,9 @@ public interface ILoginView extends IView<ILoginPresenter, ILoginView> {
      */
     void updateStatusLabelErrorEmptyTextField();
 
-    void updatePlayerManagerView();
+    /**
+     * updates the playermanagerview labels and buttons
+     * @param difficulty difficulty of bot if player is bot
+     */
+    void updatePlayerManagerView(AgentDifficulty difficulty);
 }

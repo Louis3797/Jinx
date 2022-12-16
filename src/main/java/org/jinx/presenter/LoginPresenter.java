@@ -4,6 +4,7 @@ import org.jinx.game.IPlayerManager;
 import org.jinx.game.PlayerManager;
 import org.jinx.model.IModel;
 import org.jinx.player.AgentDifficulty;
+import org.jinx.player.AutonomousPlayer;
 import org.jinx.player.Player;
 import org.jinx.presenter.interfaces.ILoginPresenter;
 import org.jinx.view.MainView;
@@ -24,11 +25,16 @@ public class LoginPresenter implements ILoginPresenter {
     @Override
     public void login(String username, String password, AgentDifficulty difficulty) {
         if (MainView.gameState.getLoginManager().checkCredentials(username, password) && !model.doesPlayerExist(username)
-        && model.getPlayers().size() < 4) {
+                && model.getPlayers().size() < 4) {
 
             view.updateStatusLabelSuccess();
-            view.updatePlayerManagerView();
-            model.getPlayers().add(new Player(username));
+            view.updatePlayerManagerView(difficulty);
+            if (difficulty == null) {
+                model.getPlayers().add(new Player(username));
+            } else {
+                model.getPlayers().add(new AutonomousPlayer(username + " " + difficulty.name(), difficulty));
+            }
+
 
         } else if (username.equals("") || password.equals("")) {
             view.updateStatusLabelErrorEmptyTextField();
