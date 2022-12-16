@@ -1,8 +1,6 @@
 package org.jinx.presenter;
 
 import org.jinx.game.PlayerManager;
-import org.jinx.game_state.GameState;
-import org.jinx.history.IHistoryManager;
 import org.jinx.history.PlayerHistory;
 import org.jinx.model.IModel;
 import org.jinx.player.Player;
@@ -12,9 +10,6 @@ import org.jinx.view.Views;
 import org.jinx.view.interfaces.IGamehistoryView;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
 
 
 public class GamehistoryPresenter implements IGamehistoryPresenter {

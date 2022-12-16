@@ -4,9 +4,6 @@
 
 package org.jinx.view;
 
-import org.jinx.game.PlayerManager;
-import org.jinx.history.DatabaseHistoryManager;
-import org.jinx.history.IHistoryManager;
 import org.jinx.presenter.GamehistoryPresenter;
 import org.jinx.presenter.interfaces.IPlayerManagerPresenter;
 import org.jinx.swing.SwingColors;
