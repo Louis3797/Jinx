@@ -1,6 +1,5 @@
 package org.jinx.view;
 
-import org.jinx.presenter.interfaces.IPresenter;
 import org.jinx.presenter.interfaces.IStartPresenter;
 import org.jinx.swing.SwingColors;
 import org.jinx.view.interfaces.IStartView;

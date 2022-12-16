@@ -4,18 +4,12 @@
 
 package org.jinx.view;
 
-import org.jinx.highscore.HighScore;
-import org.jinx.highscore.HighScoreList;
 import org.jinx.presenter.interfaces.IHighscorePresenter;
-import org.jinx.presenter.interfaces.IRegisterPresenter;
 import org.jinx.swing.SwingColors;
 import org.jinx.view.interfaces.IHighscoreView;
 
-import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.util.List;
 import javax.swing.*;
+import java.awt.*;
 
 /**
  * @author unknown

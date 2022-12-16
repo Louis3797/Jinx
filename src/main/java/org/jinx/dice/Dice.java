@@ -1,7 +1,5 @@
 package org.jinx.dice;
 
-import org.jinx.model.IModel;
-
 /**
  * This Class is used to simulate a dice
  */

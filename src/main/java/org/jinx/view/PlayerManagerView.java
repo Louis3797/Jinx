@@ -8,8 +8,8 @@ import org.jinx.presenter.interfaces.IPlayerManagerPresenter;
 import org.jinx.swing.SwingColors;
 import org.jinx.view.interfaces.IPlayerManagerView;
 
-import java.awt.*;
 import javax.swing.*;
+import java.awt.*;
 
 
 /**

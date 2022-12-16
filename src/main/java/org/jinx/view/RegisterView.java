@@ -4,7 +4,6 @@
 
 package org.jinx.view;
 
-import org.jinx.player.AgentDifficulty;
 import org.jinx.presenter.interfaces.IRegisterPresenter;
 import org.jinx.swing.RoundedBorder;
 import org.jinx.swing.SwingColors;

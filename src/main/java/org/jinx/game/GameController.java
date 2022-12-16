@@ -14,11 +14,12 @@ import org.jinx.login.FileLoginManager;
 import org.jinx.player.Player;
 import org.jinx.wrapper.SafeScanner;
 
-import java.io.*;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.Serializable;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Scanner;
 import java.util.logging.Logger;

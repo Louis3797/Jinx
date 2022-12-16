@@ -1,6 +1,5 @@
 package org.jinx.presenter;
 
-import org.jinx.Main;
 import org.jinx.model.IModel;
 import org.jinx.presenter.interfaces.IPlayerManagerPresenter;
 import org.jinx.view.MainView;

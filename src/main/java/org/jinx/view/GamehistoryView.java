@@ -8,8 +8,8 @@ import org.jinx.presenter.interfaces.IGamehistoryPresenter;
 import org.jinx.swing.SwingColors;
 import org.jinx.view.interfaces.IGamehistoryView;
 
-import java.awt.*;
 import javax.swing.*;
+import java.awt.*;
 
 /**
  * @author unknown

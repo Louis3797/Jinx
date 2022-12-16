@@ -1,6 +1,5 @@
 package org.jinx;
 
-import org.jinx.game.GameController;
 import org.jinx.view.MainView;
 
 

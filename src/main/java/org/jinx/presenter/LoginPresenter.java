@@ -1,7 +1,6 @@
 package org.jinx.presenter;
 
 import org.jinx.game.IPlayerManager;
-import org.jinx.game.PlayerManager;
 import org.jinx.model.IModel;
 import org.jinx.player.AgentDifficulty;
 import org.jinx.player.AutonomousPlayer;

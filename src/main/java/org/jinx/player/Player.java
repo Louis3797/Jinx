@@ -6,7 +6,6 @@ import org.jinx.cardhand.NumberCardHand;
 import org.jinx.history.PlayerHistory;
 import org.jinx.wrapper.SafeScanner;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;

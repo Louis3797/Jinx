@@ -7,8 +7,8 @@ package org.jinx.view;
 import org.jinx.presenter.interfaces.IPlayerHandPresenter;
 import org.jinx.view.interfaces.IPlayerHandView;
 
-import java.awt.*;
 import javax.swing.*;
+import java.awt.*;
 
 /**
  * @author unknown

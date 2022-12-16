@@ -3,7 +3,10 @@ package org.jinx.view;
 import org.jinx.game.PlayerManager;
 import org.jinx.game_state.GameState;
 import org.jinx.highscore.HighScoreList;
-import org.jinx.presenter.*;
+import org.jinx.presenter.HighscorePresenter;
+import org.jinx.presenter.LoginPresenter;
+import org.jinx.presenter.RegisterPresenter;
+import org.jinx.presenter.StartPresenter;
 
 import javax.swing.*;
 import java.awt.*;
