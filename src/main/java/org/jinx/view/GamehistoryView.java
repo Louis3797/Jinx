@@ -19,8 +19,8 @@ public class GamehistoryView extends JPanel implements IGamehistoryView {
     private JLabel playername;
     private JScrollPane scrollPane1;
     private JTextPane gamehistory;
-    private JButton nextButton;
-    private JButton backButton;
+    private JButton sortBySum;
+    private JButton sortByDate;
     private JButton backtoscreen;
 
     private IGamehistoryPresenter presenter;
@@ -35,8 +35,8 @@ public class GamehistoryView extends JPanel implements IGamehistoryView {
         playername = new JLabel();
         scrollPane1 = new JScrollPane();
         gamehistory = new JTextPane();
-        nextButton = new JButton();
-        backButton = new JButton();
+        sortBySum = new JButton();
+        sortByDate = new JButton();
         backtoscreen = new JButton();
 
 
@@ -47,7 +47,7 @@ public class GamehistoryView extends JPanel implements IGamehistoryView {
         setMinimumSize(new Dimension(1100, 700));
         setLayout(null);
 
-        //---- Playername ----
+        //---- playername ----
         playername.setText("Playername");
         playername.setFont(new Font("Arial", Font.PLAIN, 30));
         playername.setBackground(SwingColors.BackGroundColor);
@@ -55,10 +55,12 @@ public class GamehistoryView extends JPanel implements IGamehistoryView {
         add(playername);
         playername.setBounds(60, 60, 275, 70);
         gamehistory.setEditable(false);
+
         //======== scrollPane1 ========
         {
             scrollPane1.setViewportView(gamehistory);
         }
+        gamehistory.setFont(new Font("Arial", Font.BOLD, 14));
         add(scrollPane1);
         scrollPane1.setBounds(45, 170, 470, 385);
 
@@ -69,6 +71,22 @@ public class GamehistoryView extends JPanel implements IGamehistoryView {
         backtoscreen.addActionListener(e -> presenter.showLoginView());
         add(backtoscreen);
         backtoscreen.setBounds(915, 50, 130, 55);
+
+        //---- sortBySum ----
+        sortBySum.setText("Nach Summe sortieren");
+        sortBySum.setBackground(SwingColors.BackGroundColor);
+        sortBySum.setForeground(SwingColors.TextColor);
+        sortBySum.addActionListener(e -> presenter.loadGameHistoryBySum(playername.getText()));
+        add(sortBySum);
+        sortBySum.setBounds(550,170,200,55);
+
+        //---- sortByDate ----
+        sortByDate.setText("Nach Datum sortieren");
+        sortByDate.setBackground(SwingColors.BackGroundColor);
+        sortByDate.setForeground(SwingColors.TextColor);
+        sortByDate.addActionListener(e -> presenter.loadGameHistoryByDate(playername.getText()));
+        add(sortByDate);
+        sortByDate.setBounds(550,240,200,55);
 
         {
             // compute preferred size
@@ -90,7 +108,7 @@ public class GamehistoryView extends JPanel implements IGamehistoryView {
     @Override
     public void updatePlayerLabel(String username){
         playername.setText(username);
-        presenter.loadGameHistory(username);
+        presenter.loadGameHistoryByDate(username);
     }
 
     @Override

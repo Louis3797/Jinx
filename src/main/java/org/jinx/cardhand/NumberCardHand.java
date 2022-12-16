@@ -78,4 +78,14 @@ public class NumberCardHand extends CardHand<NumberCard> {
     public void print() {
         NumberCard.printFormatedNumberCards(this);
     }
+
+    public String toString(){
+
+        StringBuilder numberCards = new StringBuilder();
+
+        for(NumberCard card : this){
+            numberCards.append(card.getName()).append(" -> ").append(card.getColor()).append("\n");
+        }
+        return numberCards.toString();
+    }
 }

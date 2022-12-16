@@ -8,5 +8,7 @@ public interface IGamehistoryPresenter extends IPresenter<IGamehistoryPresenter,
 
     void updatePlayerLabel(String username);
 
-    void loadGameHistory(String username);
+    void loadGameHistoryBySum(String username);
+
+    void loadGameHistoryByDate(String username);
 }

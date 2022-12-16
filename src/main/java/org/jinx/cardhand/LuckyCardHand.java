@@ -43,4 +43,14 @@ public class LuckyCardHand extends CardHand<LuckyCard> {
     public void print() {
         LuckyCard.printFormatedLuckyCards(this);
     }
+
+    public String toString(){
+        StringBuilder luckyCards = new StringBuilder();
+
+        for (LuckyCard luckyCard : this){
+            luckyCards.append(luckyCard.getName()).append("\n");
+        }
+
+        return luckyCards.toString();
+    }
 }
