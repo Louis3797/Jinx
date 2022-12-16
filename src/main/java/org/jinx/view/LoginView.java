@@ -5,6 +5,7 @@
 package org.jinx.view;
 
 import org.jinx.player.AgentDifficulty;
+import org.jinx.presenter.PlayerManagerPresenter;
 import org.jinx.presenter.interfaces.ILoginPresenter;
 import org.jinx.swing.RoundedBorder;
 import org.jinx.swing.SwingColors;
@@ -37,7 +38,11 @@ public class LoginView extends JPanel implements ILoginView {
     private JButton loginButton;
     // JFormDesigner - End of variables declaration  //GEN-END:variables  @formatter:on
 
+    private PlayerManagerView playerManagerView;
+
     private ILoginPresenter presenter;
+
+    private PlayerManagerPresenter playerManagerPresenter;
 
     /**
      * Presenter for the View
@@ -48,6 +53,10 @@ public class LoginView extends JPanel implements ILoginView {
 
     @Override
     public void initComponents() {
+
+        playerManagerView = new PlayerManagerView();
+        playerManagerPresenter = new PlayerManagerPresenter(playerManagerView,null);
+
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents  @formatter:off
         title = new JLabel();
         playerNameLabel = new JLabel();
@@ -69,6 +78,10 @@ public class LoginView extends JPanel implements ILoginView {
         setMinimumSize(new Dimension(550, 700));
         setPreferredSize(new Dimension(550, 700));
         setLayout(null);
+
+        //---- playermanager ----
+        add(playerManagerView);
+        playerManagerView.setBounds(550,0,550,700);
 
         //---- title ----
         title.setText("Login");
@@ -211,15 +224,13 @@ public class LoginView extends JPanel implements ILoginView {
     @Override
     public void updateStatusLabelSuccess() {
         status.setText("Sie haben sich erfolgreich eingeloggt.");
-        usernameField.setText("");
-        passwordField.setText("");
         status.setForeground(SwingColors.SuccesColor);
         status.setSize(status.getPreferredSize().width, status.getPreferredSize().height);
     }
 
     @Override
     public void updateStatusLabelError() {
-        status.setText("Fehler bei der Anmeldung Spielername oder Passwords stimmen nicht überein!");
+        status.setText("Fehler bei der Anmeldung");
         status.setForeground(SwingColors.ErrorColor);
         status.setSize(status.getPreferredSize().width, status.getPreferredSize().height);
     }
@@ -230,6 +241,14 @@ public class LoginView extends JPanel implements ILoginView {
         status.setForeground(SwingColors.ErrorColor);
         status.setSize(status.getPreferredSize().width, status.getPreferredSize().height);
     }
+
+    @Override
+    public void updatePlayerManagerView() {
+        playerManagerView.updateLabel(usernameField.getText());
+        usernameField.setText("");
+        passwordField.setText("");
+    }
+
 
     @Override
     public void setPresenter(ILoginPresenter presenter) {

@@ -30,6 +30,8 @@ public class PlayerManagerView extends JPanel implements IPlayerManagerView {
 
     private IPlayerManagerPresenter presenter;
 
+    private JLabel[] labels;
+
     @Override
     public void paint(Graphics g) {
         super.paint(g);
@@ -54,6 +56,8 @@ public class PlayerManagerView extends JPanel implements IPlayerManagerView {
         nextButton = new JButton();
         shuffleButton = new JButton();
 
+        labels = new JLabel[]{playername1, playername2, playername3, playername4};
+
         //======== this ========
         setBackground(SwingColors.BackGroundColor);
         setPreferredSize(new Dimension(550, 700));
@@ -62,7 +66,7 @@ public class PlayerManagerView extends JPanel implements IPlayerManagerView {
         setLayout(null);
 
         //---- Playername1 ----
-        playername1.setText("Name1");
+        playername1.setText("");
         playername1.setBackground(SwingColors.BackGroundColor);
         playername1.setForeground(SwingColors.BlueColor);
         playername1.setFont(new Font("Arial", Font.PLAIN, 18));
@@ -71,7 +75,7 @@ public class PlayerManagerView extends JPanel implements IPlayerManagerView {
         playername1.setBounds(50, 110, 125, 60);
 
         //---- Playername2 ----
-        playername2.setText("Name2");
+        playername2.setText("");
         playername2.setFont(new Font("Arial", Font.PLAIN, 18));
         playername2.setBackground(SwingColors.BackGroundColor);
         playername2.setForeground(SwingColors.BlueColor);
@@ -79,7 +83,7 @@ public class PlayerManagerView extends JPanel implements IPlayerManagerView {
         playername2.setBounds(50, 190, 125, 55);
 
         //---- Playername3 ----
-        playername3.setText("Name3");
+        playername3.setText("");
         playername3.setFont(new Font("Arial", Font.PLAIN, 18));
         playername3.setBackground(SwingColors.BackGroundColor);
         playername3.setForeground(SwingColors.BlueColor);
@@ -87,7 +91,7 @@ public class PlayerManagerView extends JPanel implements IPlayerManagerView {
         playername3.setBounds(50, 270, 125, 60);
 
         //---- Playername4 ----
-        playername4.setText("Name4");
+        playername4.setText("");
         playername4.setFont(new Font("Arial", Font.PLAIN, 18));
         playername4.setBackground(SwingColors.BackGroundColor);
         playername4.setForeground(SwingColors.BlueColor);
@@ -164,9 +168,15 @@ public class PlayerManagerView extends JPanel implements IPlayerManagerView {
             setPreferredSize(preferredSize);
         }
 
-        //---- bindings ----
+    }
 
-        // JFormDesigner - End of component initialization  //GEN-END:initComponents  @formatter:on
+    public void updateLabel(String playername){
+        for (JLabel label : labels){
+            if (label.getText().equals("")){
+                label.setText(playername);
+                break;
+            }
+        }
     }
 
     @Override

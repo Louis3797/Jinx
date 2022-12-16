@@ -1,5 +1,6 @@
 package org.jinx.view;
 
+import org.jinx.game.PlayerManager;
 import org.jinx.game_state.GameState;
 import org.jinx.highscore.HighScoreList;
 import org.jinx.presenter.*;
@@ -25,6 +26,7 @@ public class MainView extends JFrame {
 
 
     private HighScoreList highScoreList = new HighScoreList();
+    private PlayerManager playerManager;
 
 
     public MainView() throws HeadlessException {
@@ -33,16 +35,13 @@ public class MainView extends JFrame {
         setSize(dimension);
         setResizable(false);
 
+        playerManager = PlayerManager.getPlayerManagerInstance();
+
         // main panel
         mainPanel.setSize(dimension);
         mainPanel.setLayout(cardLayout);
         mainPanel.setBackground(Color.BLUE);
         mainPanel.setVisible(true);
-
-
-        loginAndPlayerPanel.setSize(dimension);
-        loginAndPlayerPanel.setLayout(new BoxLayout(loginAndPlayerPanel,BoxLayout.X_AXIS));
-        loginAndPlayerPanel.setBackground(Color.BLUE);
 
         GameView gameView = new GameView();
 
@@ -50,7 +49,7 @@ public class MainView extends JFrame {
         StartPresenter startPresenter = new StartPresenter(startView, gameState);
 
         LoginView loginView = new LoginView();
-        LoginPresenter loginPresenter = new LoginPresenter(loginView, gameState);
+        LoginPresenter loginPresenter = new LoginPresenter(loginView, playerManager);
 
         RegisterView registerView = new RegisterView();
         RegisterPresenter registerPresenter = new RegisterPresenter(registerView, gameState);
@@ -58,15 +57,8 @@ public class MainView extends JFrame {
         HighscoreView highscoreView = new HighscoreView();
         HighscorePresenter highscorePresenter = new HighscorePresenter(highscoreView, highScoreList);
 
-        PlayerManagerView playerManagerView = new PlayerManagerView();
-        PlayerManagerPresenter playerManagerPresenter = new PlayerManagerPresenter(playerManagerView,null);
 
-
-
-        loginAndPlayerPanel.add(loginView);
-        loginAndPlayerPanel.add(playerManagerView);
-
-        mainPanel.add(loginAndPlayerPanel, Views.Login.name());
+        mainPanel.add(loginView, Views.Login.name());
 
         mainPanel.add(startView, Views.Start.name());
 
@@ -79,7 +71,6 @@ public class MainView extends JFrame {
         cardLayout.show(mainPanel, Views.Start.name());
 
         add(mainPanel);
-
 
         setVisible(true);
     }

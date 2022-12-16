@@ -18,4 +18,6 @@ public interface ILoginView extends IView<ILoginPresenter, ILoginView> {
      * Displays error message on status label if this method is called
      */
     void updateStatusLabelErrorEmptyTextField();
+
+    void updatePlayerManagerView();
 }
