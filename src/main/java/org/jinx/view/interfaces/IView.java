@@ -13,6 +13,11 @@ import org.jinx.presenter.interfaces.IPresenter;
 public interface IView<P extends IPresenter<P, V>, V extends IView<P, V>> {
 
     /**
+     * Inits view
+     */
+    void initComponents();
+
+    /**
      * Sets Presenter in View
      *
      * @param presenter Presenter that should communicate with the view

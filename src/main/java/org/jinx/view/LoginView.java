@@ -97,14 +97,12 @@ public class LoginView extends JPanel implements ILoginView {
         //---- passwordField ----
         passwordField.setBorder(new RoundedBorder(5));
         passwordField.setBackground(SwingColors.BackGroundColor);
-        passwordField.setBorder(new RoundedBorder(5));
         add(passwordField);
         passwordField.setBounds(55, 245, 285, passwordField.getPreferredSize().height);
 
         //---- usernameField ----
         usernameField.setBorder(new RoundedBorder(5));
         usernameField.setBackground(SwingColors.BackGroundColor);
-        usernameField.setBorder(new RoundedBorder(5));
         add(usernameField);
         usernameField.setBounds(55, 180, 285, usernameField.getPreferredSize().height);
 

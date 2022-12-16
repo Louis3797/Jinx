@@ -6,16 +6,14 @@ import org.jinx.field.Field;
 import org.jinx.game.PlayerManager;
 import org.jinx.utils.Weight;
 
-import java.io.Serializable;
 import java.util.*;
 
 /**
  * The Autonomous Player Class represents a Player that can play the game on its own.
  * He can calculate his next move based on 3 difficulty levels
  */
-public class AutonomousPlayer extends Player implements Serializable {
+public class AutonomousPlayer extends Player {
 
-    public static final long serialVersionUID = 42L;
     /**
      * Player Controller instance
      */
@@ -668,7 +666,7 @@ public class AutonomousPlayer extends Player implements Serializable {
 
     }
 
-    public AgentDifficulty getDifficulty(){
+    public AgentDifficulty getDifficulty() {
         return this.difficulty;
     }
 

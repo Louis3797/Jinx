@@ -40,6 +40,7 @@ public class MainView extends JFrame {
         mainPanel.setBackground(Color.BLUE);
         mainPanel.setVisible(true);
 
+        GameView gameView = new GameView();
 
         StartView startView = new StartView();
         StartPresenter startPresenter = new StartPresenter(startView, gameState);
@@ -64,7 +65,8 @@ public class MainView extends JFrame {
         mainPanel.add(highscoreView, Views.HighScore.name());
 
 
-        cardLayout.show(mainPanel, Views.Game.name());
+        cardLayout.show(mainPanel, Views.Start.name());
+
         add(mainPanel);
 
 

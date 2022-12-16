@@ -9,4 +9,5 @@ public class SwingColors {
     public static final Color TextColor = new Color(24, 24, 24);
     public static final Color SuccesColor = new Color(104, 185, 132);
     public static final Color ErrorColor = new Color(221, 83, 83);
+
 }
