@@ -30,6 +30,12 @@ public class PlayerManagerView extends JPanel implements IPlayerManagerView {
 
     private IPlayerManagerPresenter presenter;
 
+    @Override
+    public void paint(Graphics g) {
+        super.paint(g);
+        g.drawLine(0,0,0,700);
+    }
+
     public PlayerManagerView() {
         initComponents();
     }

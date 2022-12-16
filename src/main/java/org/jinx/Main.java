@@ -9,6 +9,5 @@ public class Main {
         new MainView();
         //GameController gc = new GameController();
         //gc.start();
-
     }
 }
