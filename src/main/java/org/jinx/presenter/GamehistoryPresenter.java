@@ -19,7 +19,9 @@ public class GamehistoryPresenter implements IGamehistoryPresenter {
         view.setPresenter(this);
     }
 
-
+    public void updatePlayerLabel(String username){
+        view.updatePlayerLabel(username);
+    }
     @Override
     public void showLoginView() {
         MainView.cardLayout.show(MainView.mainPanel, Views.Login.name());

@@ -57,10 +57,9 @@ public class MainView extends JFrame {
         HighscoreView highscoreView = new HighscoreView();
         HighscorePresenter highscorePresenter = new HighscorePresenter(highscoreView, highScoreList);
 
-        GamehistoryView gamehistoryView = new GamehistoryView();
-        GamehistoryPresenter gamehistoryPresenter = new GamehistoryPresenter(gamehistoryView,null);
 
-        mainPanel.add(gamehistoryView, Views.History.name());
+
+
 
         mainPanel.add(loginView, Views.Login.name());
 

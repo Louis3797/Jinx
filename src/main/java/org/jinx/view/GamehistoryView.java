@@ -4,7 +4,6 @@
 
 package org.jinx.view;
 
-import org.jinx.game.PlayerManager;
 import org.jinx.presenter.interfaces.IGamehistoryPresenter;
 import org.jinx.swing.SwingColors;
 import org.jinx.view.interfaces.IGamehistoryView;
@@ -17,7 +16,7 @@ import java.awt.*;
  */
 public class GamehistoryView extends JPanel implements IGamehistoryView {
 
-    private JLabel Playername;
+    private JLabel playername;
     private JScrollPane scrollPane1;
     private JTextPane gamehistory;
     private JButton nextButton;
@@ -33,7 +32,7 @@ public class GamehistoryView extends JPanel implements IGamehistoryView {
     @Override
     public void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents  @formatter:off
-        Playername = new JLabel();
+        playername = new JLabel();
         scrollPane1 = new JScrollPane();
         gamehistory = new JTextPane();
         nextButton = new JButton();
@@ -49,12 +48,12 @@ public class GamehistoryView extends JPanel implements IGamehistoryView {
         setLayout(null);
 
         //---- Playername ----
-        Playername.setText("Playername");
-        Playername.setFont(new Font("Arial", Font.PLAIN, 30));
-        Playername.setBackground(SwingColors.BackGroundColor);
-        Playername.setForeground(SwingColors.BlueColor);
-        add(Playername);
-        Playername.setBounds(60, 60, 275, 70);
+        playername.setText("Playername");
+        playername.setFont(new Font("Arial", Font.PLAIN, 30));
+        playername.setBackground(SwingColors.BackGroundColor);
+        playername.setForeground(SwingColors.BlueColor);
+        add(playername);
+        playername.setBounds(60, 60, 275, 70);
         gamehistory.setEditable(false);
         //======== scrollPane1 ========
         {
@@ -86,10 +85,14 @@ public class GamehistoryView extends JPanel implements IGamehistoryView {
             setPreferredSize(preferredSize);
         }
     }
-
+    @Override
+    public void updatePlayerLabel(String username){
+        playername.setText(username);
+    }
     @Override
     public void setPresenter(IGamehistoryPresenter presenter) {
         this.presenter = presenter;
     }
+
 
 }

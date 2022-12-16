@@ -221,6 +221,8 @@ public class LoginView extends JPanel implements ILoginView {
         // JFormDesigner - End of component initialization  //GEN-END:initComponents  @formatter:on
     }
 
+
+
     @Override
     public void updateStatusLabelSuccess() {
         status.setText("Sie haben sich erfolgreich eingeloggt.");

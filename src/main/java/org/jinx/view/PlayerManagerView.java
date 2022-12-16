@@ -5,6 +5,7 @@
 package org.jinx.view;
 
 import org.jinx.game.PlayerManager;
+import org.jinx.presenter.GamehistoryPresenter;
 import org.jinx.presenter.interfaces.IPlayerManagerPresenter;
 import org.jinx.swing.SwingColors;
 import org.jinx.view.interfaces.IPlayerManagerView;
@@ -18,6 +19,7 @@ import java.awt.*;
  */
 public class PlayerManagerView extends JPanel implements IPlayerManagerView {
 
+
     private JLabel playername1;
     private JLabel playername2;
     private JLabel playername3;
@@ -29,6 +31,8 @@ public class PlayerManagerView extends JPanel implements IPlayerManagerView {
     private JButton nextButton;
     private JButton shuffleButton;
 
+    private GamehistoryView gamehistoryView;
+    private GamehistoryPresenter gamehistoryPresenter;
     private IPlayerManagerPresenter presenter;
 
     private JLabel[] labels;
@@ -46,6 +50,11 @@ public class PlayerManagerView extends JPanel implements IPlayerManagerView {
 
     @Override
     public void initComponents() {
+
+        gamehistoryView = new GamehistoryView();
+        gamehistoryPresenter = new GamehistoryPresenter(gamehistoryView, null);
+        MainView.mainPanel.add(gamehistoryView, Views.History.name());
+
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents  @formatter:off
         playername1 = new JLabel();
         playername2 = new JLabel();
@@ -107,7 +116,10 @@ public class PlayerManagerView extends JPanel implements IPlayerManagerView {
         historyButton.setFont(new Font("Arial", Font.BOLD, 12));
         historyButton.setBackground(SwingColors.BackGroundColor);
         historyButton.setForeground(SwingColors.TextColor);
-        historyButton.addActionListener(e -> presenter.showHistoryView());
+        historyButton.addActionListener(e -> {
+            presenter.updatePlayerLabel(playername1.getText());
+            presenter.showHistoryView();
+        });
         add(historyButton);
         historyButton.setBounds(280, 120, 200, 40);
 
@@ -117,6 +129,10 @@ public class PlayerManagerView extends JPanel implements IPlayerManagerView {
         historyButton2.setFont(new Font("Arial", Font.BOLD, 12));
         historyButton2.setBackground(SwingColors.BackGroundColor);
         historyButton2.setForeground(SwingColors.TextColor);
+        historyButton2.addActionListener(e -> {
+            presenter.updatePlayerLabel(playername2.getText());
+            presenter.showHistoryView();
+        });
         add(historyButton2);
         historyButton2.setBounds(280, 200, 200, 40);
 
@@ -126,6 +142,10 @@ public class PlayerManagerView extends JPanel implements IPlayerManagerView {
         historyButton3.setFont(new Font("Arial", Font.BOLD, 12));
         historyButton3.setBackground(SwingColors.BackGroundColor);
         historyButton3.setForeground(SwingColors.TextColor);
+        historyButton3.addActionListener(e -> {
+            presenter.updatePlayerLabel(playername3.getText());
+            presenter.showHistoryView();
+        });
         add(historyButton3);
         historyButton3.setBounds(280, 280, 200, 40);
 
@@ -135,6 +155,10 @@ public class PlayerManagerView extends JPanel implements IPlayerManagerView {
         historyButton4.setFont(new Font("Arial", Font.BOLD, 12));
         historyButton4.setBackground(SwingColors.BackGroundColor);
         historyButton4.setForeground(SwingColors.TextColor);
+        historyButton4.addActionListener(e -> {
+            presenter.updatePlayerLabel(playername4.getText());
+            presenter.showHistoryView();
+        });
         add(historyButton4);
         historyButton4.setBounds(280, 360, 200, 40);
 
@@ -172,6 +196,11 @@ public class PlayerManagerView extends JPanel implements IPlayerManagerView {
             setPreferredSize(preferredSize);
         }
 
+    }
+
+    @Override
+    public void updateHistoryView(String username) {
+        gamehistoryPresenter.updatePlayerLabel(username);
     }
 
     @Override

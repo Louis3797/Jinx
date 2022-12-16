@@ -23,6 +23,9 @@ public class PlayerManagerPresenter implements IPlayerManagerPresenter {
     public void shufflePlayer() {
 
     }
+    public void updatePlayerLabel(String username){
+        view.updateHistoryView(username);
+    }
 
     @Override
     public void showHistoryView(){

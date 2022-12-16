@@ -9,4 +9,6 @@ public interface IGamehistoryView extends IView<IGamehistoryPresenter, IGamehist
      */
     void initComponents();
 
+     void updatePlayerLabel(String username);
+
 }

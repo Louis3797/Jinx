@@ -11,4 +11,6 @@ public interface IPlayerManagerPresenter extends IPresenter<IPlayerManagerPresen
 
     void showHistoryView();
 
+    void updatePlayerLabel(String username);
+
 }

@@ -17,6 +17,7 @@ public interface IView<P extends IPresenter<P, V>, V extends IView<P, V>> {
      */
     void initComponents();
 
+
     /**
      * Sets Presenter in View
      *

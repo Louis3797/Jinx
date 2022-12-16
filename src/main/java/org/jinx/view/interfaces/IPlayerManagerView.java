@@ -15,4 +15,5 @@ public interface IPlayerManagerView extends IView<IPlayerManagerPresenter, IPlay
      */
     void updateLabel(String username);
 
+    void updateHistoryView(String username);
 }
