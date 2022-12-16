@@ -10,8 +10,7 @@ import org.jinx.view.StartView;
 import org.jinx.view.Views;
 import org.jinx.view.interfaces.IHighscoreView;
 
-import javax.swing.*;
-import javax.swing.text.PlainDocument;
+
 
 public class HighscorePresenter implements IHighscorePresenter {
     private IHighscoreView view;

@@ -2,10 +2,7 @@ package org.jinx.view;
 
 import org.jinx.game_state.GameState;
 import org.jinx.highscore.HighScoreList;
-import org.jinx.presenter.HighscorePresenter;
-import org.jinx.presenter.LoginPresenter;
-import org.jinx.presenter.RegisterPresenter;
-import org.jinx.presenter.StartPresenter;
+import org.jinx.presenter.*;
 
 
 import javax.swing.*;
@@ -23,6 +20,8 @@ public class MainView extends JFrame {
 
     public static final CardLayout cardLayout = new CardLayout();
     public static final JPanel mainPanel = new JPanel();
+
+    public static final JPanel loginAndPlayerPanel = new JPanel();
     public static GameState gameState = new GameState();
 
     private HighScoreList highScoreList = new HighScoreList();
@@ -39,6 +38,10 @@ public class MainView extends JFrame {
         mainPanel.setBackground(Color.BLUE);
         mainPanel.setVisible(true);
 
+        loginAndPlayerPanel.setSize(dimension);
+        loginAndPlayerPanel.setLayout(new BoxLayout(loginAndPlayerPanel,BoxLayout.X_AXIS));
+        loginAndPlayerPanel.setBackground(Color.BLUE);
+
 
         StartView startView = new StartView();
         StartPresenter startPresenter = new StartPresenter(startView, gameState);
@@ -52,9 +55,14 @@ public class MainView extends JFrame {
         HighscoreView highscoreView = new HighscoreView();
         HighscorePresenter highscorePresenter = new HighscorePresenter(highscoreView, highScoreList);
 
+        PlayerManagerView playerManagerView = new PlayerManagerView();
+        PlayerManagerPresenter playerManagerPresenter = new PlayerManagerPresenter(playerManagerView,null);
 
 
-        mainPanel.add(loginView, Views.Login.name());
+        loginAndPlayerPanel.add(loginView);
+        loginAndPlayerPanel.add(playerManagerView);
+
+        mainPanel.add(loginAndPlayerPanel, Views.Login.name());
 
         mainPanel.add(startView, Views.Start.name());
 

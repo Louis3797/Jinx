@@ -182,7 +182,7 @@ public class LoginView extends JPanel implements ILoginView {
             presenter.login(usernameField.getText(), String.valueOf(passwordField.getPassword()), difficulty);
         });
         add(loginButton);
-        loginButton.setBounds(390, 575, loginButton.getPreferredSize().width, loginButton.getPreferredSize().height);
+        loginButton.setBounds(390, 575, loginButton.getPreferredSize().width, 30);
 
         {
             // compute preferred size
