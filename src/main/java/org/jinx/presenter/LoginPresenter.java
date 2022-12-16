@@ -24,11 +24,13 @@ public class LoginPresenter implements ILoginPresenter {
 
     @Override
     public void login(String username, String password, AgentDifficulty difficulty) {
+
         if (MainView.gameState.getLoginManager().checkCredentials(username, password) && !model.doesPlayerExist(username)
                 && model.getPlayers().size() < 4) {
 
             view.updateStatusLabelSuccess();
             view.updatePlayerManagerView(difficulty);
+
             if (difficulty == null) {
                 model.getPlayers().add(new Player(username));
             } else {

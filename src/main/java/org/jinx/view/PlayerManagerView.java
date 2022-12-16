@@ -172,6 +172,7 @@ public class PlayerManagerView extends JPanel implements IPlayerManagerView {
 
     }
 
+    @Override
     public void updateLabel(String playername) {
         for (int i = 0; i < labels.length; i++) {
             if (labels[i].getText().equals("")) {

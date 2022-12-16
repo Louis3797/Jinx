@@ -5,7 +5,6 @@
 package org.jinx.view;
 
 import org.jinx.presenter.interfaces.IGamehistoryPresenter;
-import org.jinx.presenter.interfaces.IHighscorePresenter;
 import org.jinx.swing.SwingColors;
 import org.jinx.view.interfaces.IGamehistoryView;
 
@@ -99,20 +98,12 @@ public class GamehistoryView extends JPanel implements IGamehistoryView {
             setMinimumSize(preferredSize);
             setPreferredSize(preferredSize);
         }
-        // JFormDesigner - End of component initialization  //GEN-END:initComponents  @formatter:on
     }
 
-    @Override
-    public void updateStatusTextAreaError() {
-
-    }
 
     @Override
     public void setPresenter(IGamehistoryPresenter presenter) {
         this.presenter = presenter;
     }
 
-    // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables  @formatter:off
-
-    // JFormDesigner - End of variables declaration  //GEN-END:variables  @formatter:on
 }

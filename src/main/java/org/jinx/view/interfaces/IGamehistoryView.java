@@ -9,9 +9,4 @@ public interface IGamehistoryView extends IView<IGamehistoryPresenter, IGamehist
      */
     void initComponents();
 
-    /**
-     * Displays error message on highscore text area if this method is called
-     */
-    void updateStatusTextAreaError();
-
 }
