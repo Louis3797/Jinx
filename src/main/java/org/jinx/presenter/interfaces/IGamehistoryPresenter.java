@@ -11,18 +11,21 @@ public interface IGamehistoryPresenter extends IPresenter<IGamehistoryPresenter,
 
     /**
      * updates player label with logged in playername
+     *
      * @param username playername
      */
     void updatePlayerLabel(String username);
 
     /**
      * sorts gamehistory by sum
+     *
      * @param username name of chosen user
      */
     void loadGameHistoryBySum(String username);
 
     /**
      * sorts gamehistory by date
+     *
      * @param username name of chosen user
      */
     void loadGameHistoryByDate(String username);

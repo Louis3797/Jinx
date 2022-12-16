@@ -12,6 +12,7 @@ public interface IHighscoreView extends IView<IHighscorePresenter,IHighscoreView
 
     /**
      * Method to update Highscorelist
+     *
      * @param highscore
      */
     void updateHighscorelist(String highscore);

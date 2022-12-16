@@ -11,9 +11,15 @@ public interface IPlayerManagerView extends IView<IPlayerManagerPresenter, IPlay
 
     /**
      * updates jlabel with username
+     *
      * @param username name of user
      */
     void updateLabel(String username);
 
+    /**
+     * updates the history view with current playername
+     *
+     * @param username of current player
+     */
     void updateHistoryView(String username);
 }
