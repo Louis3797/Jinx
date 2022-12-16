@@ -33,7 +33,7 @@ public class LoginPresenter implements ILoginPresenter {
             if (difficulty == null) {
                 model.getPlayers().add(new Player(username));
             } else {
-                model.getPlayers().add(new AutonomousPlayer(username + " " + difficulty.name(), difficulty));
+                model.getPlayers().add(new AutonomousPlayer(username, difficulty));
             }
 
 

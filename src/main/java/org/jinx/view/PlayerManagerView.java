@@ -5,6 +5,8 @@
 package org.jinx.view;
 
 import org.jinx.game.PlayerManager;
+import org.jinx.history.DatabaseHistoryManager;
+import org.jinx.history.IHistoryManager;
 import org.jinx.presenter.GamehistoryPresenter;
 import org.jinx.presenter.interfaces.IPlayerManagerPresenter;
 import org.jinx.swing.SwingColors;
@@ -52,7 +54,7 @@ public class PlayerManagerView extends JPanel implements IPlayerManagerView {
     public void initComponents() {
 
         gamehistoryView = new GamehistoryView();
-        gamehistoryPresenter = new GamehistoryPresenter(gamehistoryView, null);
+        gamehistoryPresenter = new GamehistoryPresenter(gamehistoryView, MainView.gameState.getHistoryManager());
         MainView.mainPanel.add(gamehistoryView, Views.History.name());
 
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents  @formatter:off
@@ -84,7 +86,7 @@ public class PlayerManagerView extends JPanel implements IPlayerManagerView {
         playername1.setFont(new Font("Arial", Font.PLAIN, 18));
 
         add(playername1);
-        playername1.setBounds(50, 110, 125, 60);
+        playername1.setBounds(50, 110, 150, 60);
 
         //---- Playername2 ----
         playername2.setText("");
@@ -92,7 +94,7 @@ public class PlayerManagerView extends JPanel implements IPlayerManagerView {
         playername2.setBackground(SwingColors.BackGroundColor);
         playername2.setForeground(SwingColors.BlueColor);
         add(playername2);
-        playername2.setBounds(50, 190, 125, 55);
+        playername2.setBounds(50, 190, 150, 55);
 
         //---- Playername3 ----
         playername3.setText("");
@@ -100,7 +102,7 @@ public class PlayerManagerView extends JPanel implements IPlayerManagerView {
         playername3.setBackground(SwingColors.BackGroundColor);
         playername3.setForeground(SwingColors.BlueColor);
         add(playername3);
-        playername3.setBounds(50, 270, 125, 60);
+        playername3.setBounds(50, 270, 150, 60);
 
         //---- Playername4 ----
         playername4.setText("");
@@ -108,7 +110,7 @@ public class PlayerManagerView extends JPanel implements IPlayerManagerView {
         playername4.setBackground(SwingColors.BackGroundColor);
         playername4.setForeground(SwingColors.BlueColor);
         add(playername4);
-        playername4.setBounds(50, 350, 125, 60);
+        playername4.setBounds(50, 350, 150, 60);
 
         //---- historyButton ----
         historyButton.setVisible(false);

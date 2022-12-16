@@ -4,12 +4,15 @@
 
 package org.jinx.view;
 
+import org.jinx.history.PlayerHistory;
 import org.jinx.presenter.interfaces.IGamehistoryPresenter;
 import org.jinx.swing.SwingColors;
 import org.jinx.view.interfaces.IGamehistoryView;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author unknown
@@ -85,10 +88,22 @@ public class GamehistoryView extends JPanel implements IGamehistoryView {
             setPreferredSize(preferredSize);
         }
     }
+
+
     @Override
     public void updatePlayerLabel(String username){
         playername.setText(username);
+        presenter.loadGamehistory(username);
     }
+
+    @Override
+    public void updateHistory(String histories) {
+
+
+
+        gamehistory.setText(histories);
+    }
+
     @Override
     public void setPresenter(IGamehistoryPresenter presenter) {
         this.presenter = presenter;

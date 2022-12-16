@@ -246,7 +246,7 @@ public class LoginView extends JPanel implements ILoginView {
 
     @Override
     public void updatePlayerManagerView(AgentDifficulty difficulty) {
-        playerManagerView.updateLabel(difficulty == null ? usernameField.getText() : usernameField.getText() + " " + difficulty.name());
+        playerManagerView.updateLabel(usernameField.getText());
         usernameField.setText("");
         passwordField.setText("");
     }
