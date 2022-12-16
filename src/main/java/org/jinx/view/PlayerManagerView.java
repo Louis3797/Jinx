@@ -21,10 +21,10 @@ public class PlayerManagerView extends JPanel implements IPlayerManagerView {
     private JLabel playername2;
     private JLabel playername3;
     private JLabel playername4;
-    private JButton histroyButton;
-    private JButton histroyButton2;
-    private JButton histroyButton3;
-    private JButton histroyButton4;
+    private JButton historyButton;
+    private JButton historyButton2;
+    private JButton historyButton3;
+    private JButton historyButton4;
     private JButton nextButton;
     private JButton shuffleButton;
 
@@ -47,10 +47,10 @@ public class PlayerManagerView extends JPanel implements IPlayerManagerView {
         playername2 = new JLabel();
         playername3 = new JLabel();
         playername4 = new JLabel();
-        histroyButton = new JButton();
-        histroyButton2 = new JButton();
-        histroyButton3 = new JButton();
-        histroyButton4 = new JButton();
+        historyButton = new JButton();
+        historyButton2 = new JButton();
+        historyButton3 = new JButton();
+        historyButton4 = new JButton();
         nextButton = new JButton();
         shuffleButton = new JButton();
 
@@ -76,7 +76,7 @@ public class PlayerManagerView extends JPanel implements IPlayerManagerView {
         playername2.setBackground(SwingColors.BackGroundColor);
         playername2.setForeground(SwingColors.BlueColor);
         add(playername2);
-        playername2.setBounds(50, 270, 125, 55);
+        playername2.setBounds(50, 190, 125, 55);
 
         //---- Playername3 ----
         playername3.setText("Name3");
@@ -84,7 +84,7 @@ public class PlayerManagerView extends JPanel implements IPlayerManagerView {
         playername3.setBackground(SwingColors.BackGroundColor);
         playername3.setForeground(SwingColors.BlueColor);
         add(playername3);
-        playername3.setBounds(50, 190, 125, 60);
+        playername3.setBounds(50, 270, 125, 60);
 
         //---- Playername4 ----
         playername4.setText("Name4");
@@ -92,39 +92,43 @@ public class PlayerManagerView extends JPanel implements IPlayerManagerView {
         playername4.setBackground(SwingColors.BackGroundColor);
         playername4.setForeground(SwingColors.BlueColor);
         add(playername4);
-        playername4.setBounds(50, 340, 125, 60);
+        playername4.setBounds(50, 350, 125, 60);
 
         //---- historyButton ----
-        histroyButton.setText("Spielhistorie anzeigen ");
-        histroyButton.setFont(new Font("Arial", Font.BOLD, 12));
-        histroyButton.setBackground(SwingColors.BackGroundColor);
-        histroyButton.setForeground(SwingColors.TextColor);
-        add(histroyButton);
-        histroyButton.setBounds(280, 115, 200, 40);
+        historyButton.setVisible(true);
+        historyButton.setText("Spielhistorie anzeigen ");
+        historyButton.setFont(new Font("Arial", Font.BOLD, 12));
+        historyButton.setBackground(SwingColors.BackGroundColor);
+        historyButton.setForeground(SwingColors.TextColor);
+        add(historyButton);
+        historyButton.setBounds(280, 120, 200, 40);
 
         //---- historyButton2 ----
-        histroyButton2.setText("Spielhistorie anzeigen ");
-        histroyButton2.setFont(new Font("Arial", Font.BOLD, 12));
-        histroyButton2.setBackground(SwingColors.BackGroundColor);
-        histroyButton2.setForeground(SwingColors.TextColor);
-        add(histroyButton2);
-        histroyButton2.setBounds(280, 195, 200, 40);
+        historyButton2.setVisible(true);
+        historyButton2.setText("Spielhistorie anzeigen ");
+        historyButton2.setFont(new Font("Arial", Font.BOLD, 12));
+        historyButton2.setBackground(SwingColors.BackGroundColor);
+        historyButton2.setForeground(SwingColors.TextColor);
+        add(historyButton2);
+        historyButton2.setBounds(280, 200, 200, 40);
 
         //---- historyButton3 ----
-        histroyButton3.setText("Spielhistorie anzeigen ");
-        histroyButton3.setFont(new Font("Arial", Font.BOLD, 12));
-        histroyButton3.setBackground(SwingColors.BackGroundColor);
-        histroyButton3.setForeground(SwingColors.TextColor);
-        add(histroyButton3);
-        histroyButton3.setBounds(280, 270, 200, 40);
+        historyButton3.setVisible(true);
+        historyButton3.setText("Spielhistorie anzeigen ");
+        historyButton3.setFont(new Font("Arial", Font.BOLD, 12));
+        historyButton3.setBackground(SwingColors.BackGroundColor);
+        historyButton3.setForeground(SwingColors.TextColor);
+        add(historyButton3);
+        historyButton3.setBounds(280, 280, 200, 40);
 
         //---- historyButton4 ----
-        histroyButton4.setText("Spielhistorie anzeigen ");
-        histroyButton4.setFont(new Font("Arial", Font.BOLD, 12));
-        histroyButton4.setBackground(SwingColors.BackGroundColor);
-        histroyButton4.setForeground(SwingColors.TextColor);
-        add(histroyButton4);
-        histroyButton4.setBounds(280, 345, 200, 40);
+        historyButton4.setVisible(true);
+        historyButton4.setText("Spielhistorie anzeigen ");
+        historyButton4.setFont(new Font("Arial", Font.BOLD, 12));
+        historyButton4.setBackground(SwingColors.BackGroundColor);
+        historyButton4.setForeground(SwingColors.TextColor);
+        add(historyButton4);
+        historyButton4.setBounds(280, 360, 200, 40);
 
         //---- nextButton ----
         nextButton.setText("Weiter");
