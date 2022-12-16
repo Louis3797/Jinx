@@ -25,6 +25,14 @@ public class GamehistoryView extends JPanel implements IGamehistoryView {
 
     private IGamehistoryPresenter presenter;
 
+    @Override
+    public void paint(Graphics g) {
+        super.paint(g);
+        g.setColor(SwingColors.LightBlueColor);
+        g.fillRect(850,0,30,700);
+        g.fillRect(0,600,1100,30);
+    }
+
     public GamehistoryView() {
         initComponents();
     }

@@ -31,7 +31,6 @@ public class StartView extends JPanel implements IStartView {
         initComponents();
     }
 
-    Image image = Toolkit.getDefaultToolkit().getImage("360_F_355607062_zYMS8jaz4SfoykpWz5oViRVKL32IabTP.jpg");
 
     @Override
     public void initComponents() {
