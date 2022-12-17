@@ -203,10 +203,10 @@ public class PlayerManagerView extends JPanel implements IPlayerManagerView {
     }
 
     @Override
-    public void updateLabel(String playername) {
+    public void updateLabel(String playerName) {
         for (int i = 0; i < labels.length; i++) {
             if (labels[i].getText().equals("")) {
-                labels[i].setText(playername);
+                labels[i].setText(playerName);
                 buttons[i].setVisible(true);
                 break;
             }
@@ -218,4 +218,7 @@ public class PlayerManagerView extends JPanel implements IPlayerManagerView {
         this.presenter = presenter;
     }
 
+    public JLabel[] getLabels() {
+        return labels;
+    }
 }

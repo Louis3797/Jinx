@@ -245,7 +245,7 @@ public class LoginView extends JPanel implements ILoginView {
     }
 
     @Override
-    public void updatePlayerManagerView(AgentDifficulty difficulty) {
+    public void updatePlayerManagerView() {
         playerManagerView.updateLabel(usernameField.getText());
         usernameField.setText("");
         passwordField.setText("");
@@ -255,5 +255,17 @@ public class LoginView extends JPanel implements ILoginView {
     @Override
     public void setPresenter(ILoginPresenter presenter) {
         this.presenter =  presenter;
+    }
+
+    public JLabel getStatus() {
+        return status;
+    }
+
+    public PlayerManagerView getPlayerManagerView() {
+        return playerManagerView;
+    }
+
+    public void setUsernameField(String userName) {
+        this.usernameField.setText(userName);
     }
 }

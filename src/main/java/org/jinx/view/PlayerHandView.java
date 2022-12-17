@@ -5,6 +5,7 @@
 package org.jinx.view;
 
 import org.jinx.presenter.interfaces.IPlayerHandPresenter;
+import org.jinx.swing.SwingColors;
 import org.jinx.view.interfaces.IPlayerHandView;
 
 import javax.swing.*;
@@ -54,8 +55,10 @@ public class PlayerHandView extends JPanel implements IPlayerHandView {
 
         //---- switchHandsButton ----
         switchHandsButton.setText("LuckyCards");
+        switchHandsButton.setBackground(SwingColors.BackGroundColor);
+        switchHandsButton.setForeground(SwingColors.TextColor);
         add(switchHandsButton);
-        switchHandsButton.setBounds(425, 15, 145, 30);
+        switchHandsButton.setBounds(410, 15, 145, 30);
 
         //---- cardsPanel ----
 

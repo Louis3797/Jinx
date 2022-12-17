@@ -28,7 +28,7 @@ public class LoginPresenter implements ILoginPresenter {
                 && model.getPlayers().size() < 4) {
 
             view.updateStatusLabelSuccess();
-            view.updatePlayerManagerView(difficulty);
+            view.updatePlayerManagerView();
 
             if (difficulty == null) {
                 model.getPlayers().add(new Player(username));

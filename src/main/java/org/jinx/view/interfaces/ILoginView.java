@@ -25,5 +25,5 @@ public interface ILoginView extends IView<ILoginPresenter, ILoginView> {
      *
      * @param difficulty difficulty of bot if player is bot
      */
-    void updatePlayerManagerView(AgentDifficulty difficulty);
+    void updatePlayerManagerView();
 }
