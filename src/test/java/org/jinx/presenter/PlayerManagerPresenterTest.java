@@ -17,17 +17,10 @@ public class PlayerManagerPresenterTest {
 
     String password = "123";
 
-    static PlayerManager playerManager;
-    static LoginView loginView;
-    static LoginPresenter loginPresenter;
+    PlayerManager playerManager = PlayerManager.getPlayerManagerInstance();
 
-
-    @BeforeAll
-    static void setup(){
-        playerManager = PlayerManager.getPlayerManagerInstance();
-        loginView = new LoginView();
-        loginPresenter = new LoginPresenter(loginView, playerManager);
-    }
+    LoginView loginView = new LoginView();
+    LoginPresenter loginPresenter = new LoginPresenter(loginView, playerManager);
 
     @AfterEach
     void clearPlayers(){
