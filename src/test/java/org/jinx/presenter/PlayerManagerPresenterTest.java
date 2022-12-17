@@ -4,6 +4,7 @@ import org.jinx.game.PlayerManager;
 import org.jinx.view.LoginView;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -22,7 +23,7 @@ public class PlayerManagerPresenterTest {
     LoginView loginView = new LoginView();
     LoginPresenter loginPresenter = new LoginPresenter(loginView, playerManager);
 
-    @AfterEach
+    @BeforeEach
     void clearPlayers(){
         playerManager.getPlayers().clear();
     }

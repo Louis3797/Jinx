@@ -36,6 +36,7 @@ public class LoginPresenterTest {
     void setup() {
         loginView = new LoginView();
         loginPresenter = new LoginPresenter(loginView, playerManager);
+        playerManager.getPlayers().clear();
     }
 
     @Test
