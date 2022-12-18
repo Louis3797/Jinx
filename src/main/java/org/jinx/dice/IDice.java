@@ -13,7 +13,15 @@ public interface IDice extends IModel {
         return (int) (Math.random() * 6) + 1;
     }
 
+    /**
+     * uses the dice
+     * @return
+     */
     int use();
 
+    /**
+     * gets current dice position
+     * @return dice value
+     */
     int getCurrentDicePosition();
 }
