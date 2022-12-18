@@ -258,7 +258,31 @@ Prüft erst, ob der Name in der .txt Datei existiert.
 
 ### Views
 
-Oberklasse für alle Views der GUI
+Oberklasse für alle Views der GUI. Views sind die Fenster, die angezeigt werden
+- DiceView
+   - Zeigt den Würfel auf der GUI an
+- FieldView
+   - Zeigt das Kartenfeld auf der GUI an
+- GamehistoryView
+   - Zeigt die Spielhistorie des jeweiligen Spielers an
+- GameView
+   - Container View für Würfel, Feld, Spieler und Spielerhände
+- HighscoreView
+   - Zeigt die Highscores aller Spieler
+- LoginView
+   - Login Fenster der GUI
+- MainView
+   - Container für alle Views als CardLayout
+- NumberCardView
+   - View für die einzelnen Karten
+- PlayerHandView
+   - Zeigt das Feld für die Spielerhand
+- PlayerManagerView
+   - Zeigt alle eingeloggten Spieler
+- RegisterView
+   - Fenster für die Registrierung der Spieler
+- StartView
+   - Hauptmenü in dem man die Speichermethode auswählen kann
 
 ### RoundedBorder
 
