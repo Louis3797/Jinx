@@ -1,3 +1,4 @@
+!!! Das GUI-Benutzerhandbuch befindet sich in assets/Gui_Guide !!!
 # Jinx Dokumentation
 - [Table of Contents](#table-of-contents)
 - [Codebase](#codebase)
