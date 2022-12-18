@@ -89,10 +89,13 @@ public class HighscoreView extends JPanel implements IHighscoreView {
         highscorePane1.setText(highscore);
     }
 
-
     @Override
     public void setPresenter(IHighscorePresenter presenter) {
         this.presenter = presenter;
         presenter.readHighscore();
+    }
+
+    public JTextPane getHighscorePane1() {
+        return highscorePane1;
     }
 }

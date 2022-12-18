@@ -24,11 +24,10 @@ public class MainView extends JFrame {
     public static final CardLayout cardLayout = new CardLayout();
     public static final JPanel mainPanel = new JPanel();
 
-    public static final JPanel loginAndPlayerPanel = new JPanel();
     public static GameState gameState = new GameState();
 
 
-    private HighScoreList highScoreList = new HighScoreList();
+    private HighScoreList highScoreList;
     private PlayerManager playerManager;
 
 
@@ -38,6 +37,7 @@ public class MainView extends JFrame {
         setSize(dimension);
         setResizable(false);
 
+        highScoreList = new HighScoreList();
         playerManager = PlayerManager.getPlayerManagerInstance();
 
         // main panel

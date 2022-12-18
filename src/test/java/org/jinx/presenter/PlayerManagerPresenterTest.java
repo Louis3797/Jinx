@@ -2,8 +2,6 @@ package org.jinx.presenter;
 
 import org.jinx.game.PlayerManager;
 import org.jinx.view.LoginView;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -27,6 +25,7 @@ public class PlayerManagerPresenterTest {
     void clearPlayers(){
         playerManager.getPlayers().clear();
     }
+
 
     @Test
     void testUpdatePlayerLabelOne() {
@@ -76,6 +75,14 @@ public class PlayerManagerPresenterTest {
         loginPresenter.login(username4, password, null);
 
         assertEquals(username4, loginView.getPlayerManagerView().getLabels()[3].getText());
+    }
+
+    @Test
+    void testUpdatePlayerLabelOneFailedLogin() {
+        loginView.setUsernameField(username1);
+        loginPresenter.login(username1, password+"gnd", null);
+
+        assertEquals("", loginView.getPlayerManagerView().getLabels()[0].getText());
     }
 
 
