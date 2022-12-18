@@ -1,6 +1,6 @@
-package org.jinx.view;
+package org.jinx.view.interfaces;
 
-import org.jinx.presenter.IPresenter;
+import org.jinx.presenter.interfaces.IPresenter;
 
 /**
  * Standard Generic View Interface
@@ -13,9 +13,15 @@ import org.jinx.presenter.IPresenter;
 public interface IView<P extends IPresenter<P, V>, V extends IView<P, V>> {
 
     /**
+     * Inits view
+     */
+    void initComponents();
+
+
+    /**
      * Sets Presenter in View
      *
      * @param presenter Presenter that should communicate with the view
      */
-    void setPresenter(IPresenter<P, V> presenter);
+    void setPresenter(P presenter);
 }

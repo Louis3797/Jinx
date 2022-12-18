@@ -4,6 +4,7 @@ import org.jinx.database.JDBCHelper;
 import org.jinx.game_state.GameState;
 import org.jinx.game_state.ResourceManager;
 import org.jinx.highscore.HighScore;
+import org.jinx.highscore.HighScoreList;
 import org.jinx.history.DatabaseHistoryManager;
 import org.jinx.history.FileHistoryManager;
 import org.jinx.history.IHistoryManager;
@@ -13,11 +14,12 @@ import org.jinx.login.FileLoginManager;
 import org.jinx.player.Player;
 import org.jinx.wrapper.SafeScanner;
 
-import java.io.*;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.Serializable;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Scanner;
 import java.util.logging.Logger;
@@ -35,6 +37,8 @@ public class GameController implements Serializable {
 
     private GameState data;
 
+    private HighScoreList highScore;
+
     /**
      * Basic Constructor of the GameController class
      */
@@ -42,7 +46,7 @@ public class GameController implements Serializable {
         pc = PlayerManager.getPlayerManagerInstance();
         highScoreList = new ArrayList<>();
         data = new GameState();
-
+        highScore = new HighScoreList();
         LogFileHandler logFileHandler = LogFileHandler.getInstance();
         logger.addHandler(logFileHandler.getFileHandler());
         logger.setUseParentHandlers(false);
@@ -61,7 +65,7 @@ public class GameController implements Serializable {
         System.out.println("  \\___/  |___| |_| \\_| /_/\\_\\" + RESET);
         System.out.println("\n");
 
-        printHighscore();
+        highScore.printHighscore();
 
         System.out.println("Press any Key to play");
 
@@ -115,7 +119,7 @@ public class GameController implements Serializable {
     public void start() throws Exception {
         SafeScanner scanner = new SafeScanner();
 
-        getOldHighScores();
+        highScore.getOldHighScores();
 
         // show startsequenz
         startSequenz();
@@ -195,7 +199,7 @@ public class GameController implements Serializable {
         historyManager.safeHistory();
 
         endSequenz();
-        writeHighScoreToFile();
+        highScore.writeHighScoreToFile();
         clearSave();
         game.getFh().close();
 
@@ -245,63 +249,4 @@ public class GameController implements Serializable {
 
     }
 
-    /**
-     * Method reads all highscore data from Highscore.txt and adds it to highScoreList as Highscore Record
-     */
-    private void getOldHighScores() {
-        try {
-            BufferedReader reader = new BufferedReader(new FileReader("Highscore.txt"));
-            String line;
-
-            while ((line = reader.readLine()) != null) {
-                String[] data = line.split(",");
-                HighScore highScore = new HighScore(data[1], Integer.parseInt(data[0]));
-                highScoreList.add(highScore);
-            }
-
-        } catch (IOException e) {
-            logger.warning(e.getMessage());
-        }
-    }
-
-    /**
-     * Method writes Highscore of Player to highscore.txt file
-     */
-    private void writeHighScoreToFile() {
-
-        // Calculate new Scores of after game and add them to highscore list
-        for (Player player : pc.getPlayers()) {
-            if (!player.isUsedCheats()) {
-                int score = player.getPoints();
-                highScoreList.add(new HighScore(player.getName(), score));
-            }
-        }
-
-        // sort highscore list
-        highScoreList.sort(Comparator.comparingInt(HighScore::highscore));
-
-        try {
-            FileWriter file = new FileWriter("Highscore.txt");
-
-            for (HighScore highScore : highScoreList) {
-                file.append(String.valueOf(highScore.highscore())).append(",").append(highScore.playerName()).append("\n");
-            }
-
-            file.close();
-        } catch (IOException e) {
-            logger.warning(e.getMessage());
-        }
-    }
-
-    /**
-     * Method prints highscore at start of game
-     */
-    private void printHighscore() {
-
-        System.out.println("---------- Highscores ----------");
-        for (HighScore highscore : highScoreList) {
-            System.out.println("\t\t" + highscore.playerName() + "\t\t\t   " + highscore.highscore());
-        }
-        System.out.println();
-    }
 }

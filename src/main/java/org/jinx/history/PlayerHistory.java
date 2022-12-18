@@ -26,24 +26,23 @@ public record PlayerHistory(String name, boolean cheated, NumberCardHand numberC
     @Override
     public String toString() {
 
-
         StringBuilder builder = new StringBuilder();
 
         for (Player opponent : opponents) {
             builder.append("-----\n").append("Spieler: ").append(opponent.getName()).append("\n").
                     append("Hat Cheats benutzt: ").append((opponent.isUsedCheats() ? "ja" : "nein")).append("\n").
                     append(opponent.getNumberCardHand().toString()).
-                    append("\nKartenSumme: ").append(opponent.getPoints()).append("\n").append(opponent.getLuckyCardHand().toString()).append("\n-----\n");
+                    append("\nKartenSumme: ").append(opponent.getPoints()).append("\n").append(opponent.getLuckyCardHand().toString()).append("-----\n").
+                    append("+-".repeat(25));
         }
 
-        return "----------\n" +
+        return "\n----------\n" +
                 date + "\nSpieler: " +
                 name + "\nHat Cheats benutzt:" +
-                (cheated ? "ja" : "nein") + "\n" +
+                (cheated ? "ja" : "nein") + "\n\n" +
                 numberCardHand.toString() + "\nKartensumme: " +
                 cardSum + "\n" +
                 luckyCardHand.toString() + "\nGegenspieler Infos: \n" +
-                builder +
-                "----------";
+                builder;
     }
 }

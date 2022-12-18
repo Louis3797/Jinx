@@ -22,7 +22,7 @@ import static org.jinx.utils.ConsoleColor.RESET;
  * <p>
  * PlayerController uses Singleton Pattern
  */
-public class PlayerManager implements Serializable {
+public class PlayerManager implements Serializable,IPlayerManager {
     private transient final Logger logger = Logger.getLogger(PlayerManager.class.getName());
 
     /**
@@ -149,6 +149,7 @@ public class PlayerManager implements Serializable {
      * @return true if yes else false
      */
 
+    @Override
     public boolean doesPlayerExist(String name) {
 
         for (Player player : players) {
@@ -232,6 +233,7 @@ public class PlayerManager implements Serializable {
 
     /* ---------- Getter and Setter Methods ---------- */
 
+    @Override
     public Queue<Player> getPlayers() {
         return players;
     }

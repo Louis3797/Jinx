@@ -7,12 +7,12 @@ import org.jinx.cardstack.LuckyCardStack;
 import org.jinx.cardstack.NumberCardStack;
 import org.jinx.dice.Dice;
 import org.jinx.field.Field;
+import org.jinx.game_state.GameState;
+import org.jinx.game_state.ResourceManager;
 import org.jinx.logging_formatter.PlayMoveFileFormatter;
 import org.jinx.player.AgentDifficulty;
 import org.jinx.player.AutonomousPlayer;
 import org.jinx.player.Player;
-import org.jinx.game_state.GameState;
-import org.jinx.game_state.ResourceManager;
 import org.jinx.wrapper.SafeScanner;
 
 import java.io.IOException;

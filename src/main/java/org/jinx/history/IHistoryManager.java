@@ -1,10 +1,11 @@
 package org.jinx.history;
 
+import org.jinx.model.IModel;
 import org.jinx.player.Player;
 
 import java.util.List;
 
-public interface IHistoryManager {
+public interface IHistoryManager extends IModel {
 
     /**
      * Safes player match History in data store

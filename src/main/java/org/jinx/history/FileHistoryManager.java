@@ -66,10 +66,10 @@ public class FileHistoryManager implements IHistoryManager {
                 }
             }
 
-            PlayerHistory histroy = new PlayerHistory(player.getName(), player.isUsedCheats(), player.getNumberCardHand(),
+            PlayerHistory history = new PlayerHistory(player.getName(), player.isUsedCheats(), player.getNumberCardHand(),
                     player.getPoints(), player.getLuckyCardHand(), date, opponents);
 
-            player.getMatchHistories().add(histroy);
+            player.getMatchHistories().add(history);
 
             ResourceManager.save((Serializable) player.getMatchHistories(), fileName);
 

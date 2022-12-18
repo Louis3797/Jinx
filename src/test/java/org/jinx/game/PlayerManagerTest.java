@@ -76,6 +76,11 @@ class PlayerManagerTest {
 
         List<Player> newPlayerOrder = playerManager.getPlayers().stream().toList();
 
+        while(oldPlayerOrder.equals(newPlayerOrder)){
+            oldPlayerOrder = playerManager.getPlayers().stream().toList();
+            playerManager.shufflePlayerOrder();
+            newPlayerOrder = playerManager.getPlayers().stream().toList();
+        }
 
         assertNotEquals(oldPlayerOrder, newPlayerOrder);
     }
