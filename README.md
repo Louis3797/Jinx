@@ -16,22 +16,35 @@
         + [Field](#field)
         + [GameController](#gamecontroller)
         + [Game](#game)
-        + [PlayerController](#playercontroller)
+        + [PlayerManager](#playermanager)
         + [Player](#player)
         + [AutonomousPlayer](#autonomousplayer)
         + [SafeScanner](#safescanner)
-        + [Comparator](#comparator)
-        + [DataConnection](#dataconnection)
-        + [RegistCon](#registcon)
-        + [Savehistory](#savehistory)
         + [AES](#aes)
-        + [Login](#login)
         + [ResourceManager](#resourcemanager)
-        + [SaveData](#savedata)
-        + [FileFormatter](#fileformatter)
+        + [GameState](#gamestate)
+        + [DatabaseConstants](#databaseconstants)
+        + [JDBCHelper](#jdbchelper)
+        + [HighScoreList](#highscorelist)
+        + [DatabaseHistoryManager](#databasehistorymanager)
+        + [FileHistoryManager](#filehistorymanager)
+        + [LogFileHandler](#logfilehandler)
+        + [LogFileFormatter](#logfileformatter)
+        + [PlayMoveFileFormatter](#playmovefileformatter)
+        + [DatabaseLoginManager](#databaseloginmanager)
+        + [FileLoginManager](#fileloginmanager)
+        + [Presenter](#presenter)
+        + [Views](#views)
+        + [RoundedBorder](#roundedborder)
+        + [SwingColors](#swingcolors)
+    * [Interfaces](#interfaces)
+        + [IPlayerManager](#iplayermanager)
+        + [IHistoryNanager](#ihistorymanager)
+        + [IModel](#imodel)
     * [Records](#records)
         + [Weight](#weight)
         + [HighScore](#highscore)
+        + [PlayerHistory](#playerhistory)
     * [Enums](#enums)
         + [LuckyCardNames](#luckycardnames)
         + [CardColor](#cardcolor)
@@ -112,7 +125,7 @@ Der GameController steuert das Spiel und managt die Runden, sowie auch die [High
 
 Game ist das Herz unseres Spiels hier werden die unterschiedlichen Phasen des Spiels abgebildet.
 
-### PlayerController
+### PlayerManager
 
 Der PlayerController registriert, speichert und verwaltet die Spieler im Spiel. Er kontrolliert auch welcher Spieler gerade am Zug ist
 
@@ -173,27 +186,6 @@ Besteht aus den Luckycards, die der jeweilige Spieler hat
 
 Besteht aus den Numbercards, die der jeweilige Spieler hat
 
-### Comparator
-
-Der Comparator ist fuer die Sortierung der Match-History zustaendig
-
-### DataConnection
-
-Stellt die Verbindung zur Datenbank her und prueft, ob der Spieler, mit dem man sich anmelden moechte, registriert ist
-
-### RegistCon
-
-Der Spieler registriert sich hier in der Datenbank oder meldet sich im Spiel mit Daten aus der Datenbank an
-
-### Savehistory
-
-Schreibt die Match-histories von den Spielern in die Datenbank
-Gibt auch die geordnete und ungeordnete Liste der Match-histories aus
-
-### FileFormatter
-
-Formatter fuer den Logger der Spielzuege
-
 ### AES
 
 Ist fuer die Verschluesselung der Passwoerter zustaendig
@@ -206,11 +198,75 @@ Ist fuer den Login ueber die Textdatei zustaendig
 
 Mit dem Resourcemanager kann man relevante Spieldaten in eine .save-Datei schreiben und auch laden
 
-### SaveData
+### Gamestate
 
-Die Datenstruktur fuer die relevanten Spieldaten, die man speichern moechte
+Datenstruktur für das Speichern des aktuellen Spielstands
 
----
+### DatabaseConstants
+
+Alle relevanten Konstanten für eine Datenbankverbindung werden hier aufgelistet
+
+### JDBCHelper
+
+Stellt eine Verbindung zur Datenbank her und kann sie auch schließen
+Zudem schließt es auch die Statements und ResultSets
+
+### HighScoreList
+
+Lädt die Highscores aus einer .txt Datei und kann auch in diese .txt Datei schreiben
+Dazu kann es die Highscore-Liste auch auf der Konsole ausgeben
+
+### DatabaseHistoryManager
+
+Speichert die Spielhistorien der Spieler in der Datenbank und kann sie dort auch wieder
+aus der Datenbank laden
+
+### FileHistoryManager
+
+Speichert die Spielhistorien der Spieler in einer .txt Datei und kann sie dort auch wieder
+aus der .txt Datei laden
+
+### LogFileHandler
+
+Initiiert den FileHandler eines Loggers, damit der Logger in eine .txt Datei schreibt
+
+### LogFileFormatter
+
+Formatiert die Ausgabe der Logger in einer .txt Datei
+
+### PlayMoveFileFormatter
+
+Formatiert die Ausgabe der Logger auf der Konsole
+
+### DatabaseLoginManager
+
+Kümmert sich um das Einloggen in der Datenbank
+Prüft zuvor ob der User mit dem Passwort in der Datenbank existiert und gibt "true" zurück, wenn
+dies der Fall ist.
+Ist auch für das Registrieren in der Datenbank zuständig.
+Prüft erst, ob der Name in der Datenbank existiert.
+
+### FileLoginManager
+
+Kümmert sich um das Einloggen in einer .txt Datei
+Prüft zuvor ob der User mit dem Passwort in der txt Datei existiert und gibt "true" zurück, wenn
+dies der Fall ist.
+Ist auch für das Registrieren in der .txt Datei zuständig.
+Prüft erst, ob der Name in der .txt Datei existiert.
+
+### Presenter
+
+### Views
+
+Oberklasse für alle Views der GUI
+
+### RoundedBorder
+
+Durch das Nutzen dieser Klasse werden die Ecken von Textfeldern in der GUI gerundet
+
+### SwingColors
+
+In dieser Klassen werden verschiedene Farben für die Gui in Variablen gespeichert
 
 ## Records
 
