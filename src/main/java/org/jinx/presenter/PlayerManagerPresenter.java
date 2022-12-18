@@ -1,5 +1,6 @@
 package org.jinx.presenter;
 
+import org.jinx.game.PlayerManager;
 import org.jinx.model.IModel;
 import org.jinx.presenter.interfaces.IPlayerManagerPresenter;
 import org.jinx.view.MainView;
@@ -33,7 +34,9 @@ public class PlayerManagerPresenter implements IPlayerManagerPresenter {
 
     @Override
     public void showGameView() {
-        MainView.cardLayout.show(MainView.mainPanel, Views.Game.name());
+        if(((PlayerManager) model).getPlayers().size() >= 2){
+            MainView.cardLayout.show(MainView.mainPanel, Views.Game.name());
+        }
     }
 
     @Override

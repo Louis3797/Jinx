@@ -7,6 +7,7 @@ package org.jinx.view;
 import org.jinx.cardstack.NumberCardStack;
 import org.jinx.dice.Dice;
 import org.jinx.presenter.DicePresenter;
+import org.jinx.presenter.FieldPresenter;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,20 +18,27 @@ import java.awt.*;
 public class GameView extends JPanel {
 
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables  @formatter:off
-    private FieldView field;
+    private FieldView fieldView;
+    private FieldPresenter fieldPresenter;
     private JLabel playerNameLabel4;
     private JLabel playerNameLabel2;
     private JLabel playerNameLabel3;
-    private DiceView diceView;
-    // JFormDesigner - End of variables declaration  //GEN-END:variables  @formatter:on
-    public GameView() {
 
+    // JFormDesigner - End of variables declaration  //GEN-END:variables  @formatter:on
+
+    private DiceView diceView;
+
+    private Dice dice;
+    public GameView() {
         initComponents();
     }
 
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents  @formatter:off
-        field = new FieldView();
+        dice = new Dice();
+        fieldView = new FieldView();
+        fieldPresenter = new FieldPresenter(fieldView, dice);
+
         playerNameLabel4 = new JLabel();
         playerNameLabel2 = new JLabel();
         playerNameLabel3 = new JLabel();
@@ -38,7 +46,7 @@ public class GameView extends JPanel {
         PlayerHandView playerHandView = new PlayerHandView();
 
         diceView = new DiceView();
-        DicePresenter dicePresenter = new DicePresenter(diceView, new Dice());
+        DicePresenter dicePresenter = new DicePresenter(diceView, dice);
 
         //======== this ========
         setMaximumSize(new Dimension(1100, 700));
@@ -47,10 +55,10 @@ public class GameView extends JPanel {
         setLayout(null);
 
         //---- field -----
-        add(field);
-        field.setBounds(new Rectangle(new Point(422, 100), field.getPreferredSize()));
-        field.fillField(new NumberCardStack());
-        field.updateField();
+        add(fieldView);
+        fieldView.setBounds(new Rectangle(new Point(422, 100), fieldView.getPreferredSize()));
+        fieldView.fillField(new NumberCardStack());
+        fieldView.updateField();
 
         //---- playerNameLabel4 ----
         playerNameLabel4.setText("Bob");
@@ -96,6 +104,5 @@ public class GameView extends JPanel {
         }
         // JFormDesigner - End of component initialization  //GEN-END:initComponents  @formatter:on
     }
-
 
 }

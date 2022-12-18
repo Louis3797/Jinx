@@ -4,6 +4,7 @@
 
 package org.jinx.view;
 
+import org.jinx.game.PlayerManager;
 import org.jinx.player.AgentDifficulty;
 import org.jinx.presenter.PlayerManagerPresenter;
 import org.jinx.presenter.interfaces.ILoginPresenter;
@@ -44,6 +45,8 @@ public class LoginView extends JPanel implements ILoginView {
 
     private PlayerManagerPresenter playerManagerPresenter;
 
+    private PlayerManager playerManager;
+
     /**
      * Presenter for the View
      */
@@ -53,9 +56,10 @@ public class LoginView extends JPanel implements ILoginView {
 
     @Override
     public void initComponents() {
+        playerManager = PlayerManager.getPlayerManagerInstance();
 
         playerManagerView = new PlayerManagerView();
-        playerManagerPresenter = new PlayerManagerPresenter(playerManagerView,null);
+        playerManagerPresenter = new PlayerManagerPresenter(playerManagerView,playerManager);
 
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents  @formatter:off
         title = new JLabel();

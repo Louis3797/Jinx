@@ -6,8 +6,12 @@ package org.jinx.view;
 
 import org.jinx.card.NumberCard;
 import org.jinx.cardstack.NumberCardStack;
-import org.jinx.swing.NumberCardView;
+import org.jinx.dice.IDice;
+import org.jinx.presenter.interfaces.IDicePresenter;
+import org.jinx.presenter.interfaces.IFieldPresenter;
+import org.jinx.presenter.interfaces.IGamehistoryPresenter;
 import org.jinx.swing.SwingColors;
+import org.jinx.view.interfaces.IFieldView;
 
 import javax.swing.*;
 import java.awt.*;
@@ -19,19 +23,20 @@ import java.util.List;
 /**
  * @author unknown
  */
-public class FieldView extends JPanel {
+public class FieldView extends JPanel implements IFieldView {
+
+    private IFieldPresenter presenter;
 
     private List<NumberCard> cards;
     private List<NumberCardView> cardViews;
 
     public FieldView() {
-
         this.cards = new ArrayList<>();
         this.cardViews = new ArrayList<>();
         initComponents();
     }
 
-    private void initComponents() {
+    public void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents  @formatter:off
 
         //======== this ========
@@ -41,6 +46,11 @@ public class FieldView extends JPanel {
         setBackground(SwingColors.BackGroundColor);
         setLayout(new GridLayout(4, 4, 5, 5));
         // JFormDesigner - End of component initialization  //GEN-END:initComponents  @formatter:on
+    }
+
+    @Override
+    public void setPresenter(IFieldPresenter presenter) {
+        this.presenter = presenter;
     }
 
     void fillField(NumberCardStack cards) {
@@ -58,7 +68,10 @@ public class FieldView extends JPanel {
             cardView.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
-                    e.getComponent().setVisible(false);
+                    int dice = ((IDice) presenter.getModel()).getCurrentDicePosition();
+                    if(Integer.parseInt(cardView.getNumber()) == dice){
+                        e.getComponent().setVisible(false);
+                    }
                 }
             });
 
@@ -67,4 +80,5 @@ public class FieldView extends JPanel {
         }
 
     }
+
 }

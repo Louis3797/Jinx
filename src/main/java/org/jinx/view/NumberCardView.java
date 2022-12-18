@@ -2,7 +2,7 @@
  * Created by JFormDesigner on Wed Dec 14 21:51:12 CET 2022
  */
 
-package org.jinx.swing;
+package org.jinx.view;
 
 import org.jinx.card.CardColor;
 
@@ -74,5 +74,9 @@ public class NumberCardView extends JPanel {
             setPreferredSize(preferredSize);
         }
         // JFormDesigner - End of component initialization  //GEN-END:initComponents  @formatter:on
+    }
+
+    public String getNumber() {
+        return number;
     }
 }

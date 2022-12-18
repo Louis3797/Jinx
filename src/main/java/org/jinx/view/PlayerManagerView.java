@@ -226,7 +226,4 @@ public class PlayerManagerView extends JPanel implements IPlayerManagerView {
         return gamehistoryView;
     }
 
-    public GamehistoryPresenter getGamehistoryPresenter() {
-        return gamehistoryPresenter;
-    }
 }
