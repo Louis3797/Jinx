@@ -4,6 +4,7 @@
 
 package org.jinx.view;
 
+import org.jinx.card.CardColor;
 import org.jinx.card.NumberCard;
 import org.jinx.cardstack.NumberCardStack;
 import org.jinx.dice.IDice;
@@ -74,7 +75,6 @@ public class FieldView extends JPanel implements IFieldView {
                     }
                 }
             });
-
             // add to view
             this.add(cardView);
         }

@@ -6,6 +6,7 @@ package org.jinx.view;
 
 import org.jinx.cardstack.NumberCardStack;
 import org.jinx.dice.Dice;
+import org.jinx.game.PlayerManager;
 import org.jinx.presenter.DicePresenter;
 import org.jinx.presenter.FieldPresenter;
 

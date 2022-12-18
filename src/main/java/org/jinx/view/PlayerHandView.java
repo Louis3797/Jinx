@@ -88,4 +88,5 @@ public class PlayerHandView extends JPanel implements IPlayerHandView {
     public void setPresenter(IPlayerHandPresenter presenter) {
         this.presenter = presenter;
     }
+
 }
