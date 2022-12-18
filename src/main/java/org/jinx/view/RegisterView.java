@@ -165,7 +165,7 @@ public class RegisterView extends JPanel implements IRegisterView {
 
     @Override
     public void updateStatusLabelErrorEmptyTextField() {
-        status.setText("Bitte fühlen sie die Textfelder aus");
+        status.setText("Bitte füllen sie die Textfelder aus");
         status.setForeground(SwingColors.ErrorColor);
         status.setSize(status.getPreferredSize().width, status.getPreferredSize().height);
     }
@@ -174,4 +174,9 @@ public class RegisterView extends JPanel implements IRegisterView {
     public void setPresenter(IRegisterPresenter presenter) {
         this.presenter = presenter;
     }
+
+    public JLabel getStatus() {
+        return status;
+    }
+
 }

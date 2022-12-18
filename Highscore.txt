@@ -1,4 +1,0 @@
-0,Jan
-3,Kerim
-7,Kerim
-42,Jan

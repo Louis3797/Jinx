@@ -20,11 +20,14 @@ public class RegisterPresenter implements IRegisterPresenter {
 
     @Override
     public void register(String username, String password) {
+
+        if(username.equals("") || password.equals("")){
+            view.updateStatusLabelErrorEmptyTextField();
+            return;
+        }
+
         if(MainView.gameState.getLoginManager().registerNewUser(username,password)){
             view.updateStatusLabelSuccess();
-        }
-        else if(username.equals("") || password.equals("")){
-            view.updateStatusLabelErrorEmptyTextField();
         }
         else {
             view.updateStatusLabelError();
