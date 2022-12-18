@@ -76,4 +76,7 @@ public class NumberCardView extends JPanel {
         // JFormDesigner - End of component initialization  //GEN-END:initComponents  @formatter:on
     }
 
+    public String getNumber() {
+        return number;
+    }
 }
