@@ -18,7 +18,7 @@ import java.awt.event.MouseEvent;
  */
 public class DiceView extends JPanel implements IDiceView {
 
-    private int currentDicePosition = 6;
+    private int currentDicePosition = 0;
 
     private IDicePresenter presenter;
 
@@ -67,8 +67,8 @@ public class DiceView extends JPanel implements IDiceView {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        if (currentDicePosition < 1 || currentDicePosition > 6) {
-            throw new IllegalArgumentException("DisplayedNumber must be in range from 1 to 6");
+        if (currentDicePosition < 0 || currentDicePosition > 6) {
+            throw new IllegalArgumentException("DisplayedNumber must be in range from 0 to 6");
         }
 
         g.setColor(Color.BLACK);
@@ -115,6 +115,10 @@ public class DiceView extends JPanel implements IDiceView {
     @Override
     public void setPresenter(IDicePresenter presenter) {
         this.presenter = presenter;
+    }
+
+    public int getCurrentDicePosition() {
+        return currentDicePosition;
     }
 }
 
