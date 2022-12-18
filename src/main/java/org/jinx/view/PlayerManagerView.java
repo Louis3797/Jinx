@@ -177,8 +177,7 @@ public class PlayerManagerView extends JPanel implements IPlayerManagerView {
         shuffleButton.setBackground(SwingColors.BackGroundColor);
         shuffleButton.setForeground(SwingColors.TextColor);
         add(shuffleButton);
-        shuffleButton.setBounds(35, 575, 120, 30);
-        // shuffleButton.setBounds(35, 640, 105, 40);
+        shuffleButton.setBounds(35, 575, 140, 30);
 
         {
             // compute preferred size

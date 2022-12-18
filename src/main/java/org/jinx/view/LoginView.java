@@ -39,6 +39,7 @@ public class LoginView extends JPanel implements ILoginView {
     private JButton loginButton;
     // JFormDesigner - End of variables declaration  //GEN-END:variables  @formatter:on
 
+
     private PlayerManagerView playerManagerView;
 
     private ILoginPresenter presenter;
@@ -76,6 +77,9 @@ public class LoginView extends JPanel implements ILoginView {
         registerLabel = new JLabel();
         loginButton = new JButton();
 
+        int radioButtonWidth = difficultyNoRadioButton.getPreferredSize().width + 100;
+        int radioButtonHeight = difficultyNoRadioButton.getPreferredSize().height;
+
         //======== this ========
         setBackground(SwingColors.BackGroundColor);
         setMaximumSize(new Dimension(550, 700));
@@ -101,7 +105,7 @@ public class LoginView extends JPanel implements ILoginView {
         playerNameLabel.setBackground(SwingColors.BackGroundColor);
         playerNameLabel.setForeground(SwingColors.TextColor);
         add(playerNameLabel);
-        playerNameLabel.setBounds(new Rectangle(new Point(55, 155), playerNameLabel.getPreferredSize()));
+        playerNameLabel.setBounds(55,155, (int) (playerNameLabel.getPreferredSize().getWidth()+10), (int) playerNameLabel.getPreferredSize().getHeight());
 
         //---- passwordLabel ----
         passwordLabel.setText("Passwort");
@@ -137,7 +141,7 @@ public class LoginView extends JPanel implements ILoginView {
         difficultyLabel.setBackground(SwingColors.BackGroundColor);
         difficultyLabel.setForeground(SwingColors.TextColor);
         add(difficultyLabel);
-        difficultyLabel.setBounds(new Rectangle(new Point(55, 340), difficultyLabel.getPreferredSize()));
+        difficultyLabel.setBounds(55, 340, difficultyLabel.getPreferredSize().width+10, difficultyLabel.getPreferredSize().height);
 
         //---- difficultyNoRadioButton ----
         difficultyNoRadioButton.setText("Nein");
@@ -145,28 +149,28 @@ public class LoginView extends JPanel implements ILoginView {
         difficultyNoRadioButton.setForeground(SwingColors.TextColor);
         difficultyNoRadioButton.setSelected(true);
         add(difficultyNoRadioButton);
-        difficultyNoRadioButton.setBounds(new Rectangle(new Point(55, 375), difficultyNoRadioButton.getPreferredSize()));
+        difficultyNoRadioButton.setBounds(55,375,radioButtonWidth, radioButtonHeight);
 
         //---- difficultyEasyRadioButton ----
         difficultyEasyRadioButton.setText("Easy");
         difficultyEasyRadioButton.setBackground(SwingColors.BackGroundColor);
         difficultyEasyRadioButton.setForeground(SwingColors.TextColor);
         add(difficultyEasyRadioButton);
-        difficultyEasyRadioButton.setBounds(new Rectangle(new Point(55, 410), difficultyEasyRadioButton.getPreferredSize()));
+        difficultyEasyRadioButton.setBounds(55, 410, radioButtonWidth, radioButtonHeight);
 
         //---- difficultyMediumRadioButton ----
         difficultyMediumRadioButton.setText("Medium");
         difficultyMediumRadioButton.setBackground(SwingColors.BackGroundColor);
         difficultyMediumRadioButton.setForeground(SwingColors.TextColor);
         add(difficultyMediumRadioButton);
-        difficultyMediumRadioButton.setBounds(new Rectangle(new Point(55, 445), difficultyMediumRadioButton.getPreferredSize()));
+        difficultyMediumRadioButton.setBounds(55, 445, radioButtonWidth, radioButtonHeight);
 
         //---- difficultyHardRadioButton ----
         difficultyHardRadioButton.setText("Hard");
         difficultyHardRadioButton.setBackground(SwingColors.BackGroundColor);
         difficultyHardRadioButton.setForeground(SwingColors.TextColor);
         add(difficultyHardRadioButton);
-        difficultyHardRadioButton.setBounds(new Rectangle(new Point(55, 480), difficultyHardRadioButton.getPreferredSize()));
+        difficultyHardRadioButton.setBounds(55, 480, radioButtonWidth, radioButtonHeight);
 
         //---- registerLabel ----
         registerLabel.setText("Neuen Account erstellen?");
@@ -180,7 +184,7 @@ public class LoginView extends JPanel implements ILoginView {
             }
         });
         add(registerLabel);
-        registerLabel.setBounds(new Rectangle(new Point(55, 580), registerLabel.getPreferredSize()));
+        registerLabel.setBounds(55, 580, 200,15);
 
         //---- loginButton ----
         loginButton.setText("Einloggen");
@@ -199,7 +203,7 @@ public class LoginView extends JPanel implements ILoginView {
             presenter.login(usernameField.getText(), String.valueOf(passwordField.getPassword()), difficulty);
         });
         add(loginButton);
-        loginButton.setBounds(390, 575, loginButton.getPreferredSize().width, 30);
+        loginButton.setBounds(390, 575, loginButton.getPreferredSize().width+20, 30);
 
         {
             // compute preferred size

@@ -95,12 +95,12 @@ public class StartView extends JPanel implements IStartView {
         radioButtonLabel.setText("Wo wollen sie ihre Daten speichern lassen?");
         radioButtonLabel.setForeground(SwingColors.TextColor);
         add(radioButtonLabel);
-        radioButtonLabel.setBounds(420, 300, radioButtonLabel.getPreferredSize().width, radioButtonLabel.getPreferredSize().height);
+        radioButtonLabel.setBounds(420, 300, radioButtonLabel.getPreferredSize().width + 10, radioButtonLabel.getPreferredSize().height);
 
         {
             // compute preferred size
             Dimension preferredSize = new Dimension();
-            for(int i = 0; i < getComponentCount(); i++) {
+            for (int i = 0; i < getComponentCount(); i++) {
                 Rectangle bounds = getComponent(i).getBounds();
                 preferredSize.width = Math.max(bounds.x + bounds.width, preferredSize.width);
                 preferredSize.height = Math.max(bounds.y + bounds.height, preferredSize.height);

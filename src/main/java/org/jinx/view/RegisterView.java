@@ -39,8 +39,8 @@ public class RegisterView extends JPanel implements IRegisterView {
     public void paint(Graphics g) {
         super.paint(g);
         g.setColor(SwingColors.LightBlueColor);
-        g.fillRect(850,0,30,700);
-        g.fillRect(0,600,1100,30);
+        g.fillRect(850, 0, 30, 700);
+        g.fillRect(0, 600, 1100, 30);
     }
 
     public RegisterView() {
@@ -72,7 +72,7 @@ public class RegisterView extends JPanel implements IRegisterView {
         title.setBackground(SwingColors.BackGroundColor);
         title.setForeground(SwingColors.BlueColor);
         add(title);
-        title.setBounds(new Rectangle(new Point(50, 45), title.getPreferredSize()));
+        title.setBounds(50, 45, title.getPreferredSize().width + 10, title.getPreferredSize().height);
 
         //---- usernameLabel ----
         playerNameLabel.setText("Spielername");
@@ -80,7 +80,7 @@ public class RegisterView extends JPanel implements IRegisterView {
         playerNameLabel.setBackground(SwingColors.BackGroundColor);
         playerNameLabel.setForeground(SwingColors.TextColor);
         add(playerNameLabel);
-        playerNameLabel.setBounds(new Rectangle(new Point(55, 155), playerNameLabel.getPreferredSize()));
+        playerNameLabel.setBounds(55, 155, playerNameLabel.getPreferredSize().width + 10, playerNameLabel.getPreferredSize().height);
 
         //---- usernameField ----
         usernameField.setBackground(SwingColors.BackGroundColor);
@@ -130,12 +130,12 @@ public class RegisterView extends JPanel implements IRegisterView {
         registerButton.setForeground(SwingColors.TextColor);
         registerButton.addActionListener(e -> presenter.register(usernameField.getText(), passwordField.getText()));
         add(registerButton);
-        registerButton.setBounds(new Rectangle(new Point(260, 350), registerButton.getPreferredSize()));
+        registerButton.setBounds(260, 350, registerButton.getPreferredSize().width + 10, registerButton.getPreferredSize().height+10);
 
         {
             // compute preferred size
             Dimension preferredSize = new Dimension();
-            for(int i = 0; i < getComponentCount(); i++) {
+            for (int i = 0; i < getComponentCount(); i++) {
                 Rectangle bounds = getComponent(i).getBounds();
                 preferredSize.width = Math.max(bounds.x + bounds.width, preferredSize.width);
                 preferredSize.height = Math.max(bounds.y + bounds.height, preferredSize.height);
