@@ -176,6 +176,7 @@ public class PlayerManagerView extends JPanel implements IPlayerManagerView {
         shuffleButton.setFont(new Font("Arial", Font.BOLD, 12));
         shuffleButton.setBackground(SwingColors.BackGroundColor);
         shuffleButton.setForeground(SwingColors.TextColor);
+        shuffleButton.addActionListener(e -> presenter.shufflePlayer());
         add(shuffleButton);
         shuffleButton.setBounds(35, 575, 140, 30);
 

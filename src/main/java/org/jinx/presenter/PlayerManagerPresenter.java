@@ -11,9 +11,11 @@ public class PlayerManagerPresenter implements IPlayerManagerPresenter {
 
     private IPlayerManagerView view;
     private IModel model;
+    private PlayerManager playerManager;
 
 
     public PlayerManagerPresenter(IPlayerManagerView view, IModel model) {
+        playerManager = PlayerManager.getPlayerManagerInstance();
         this.view = view;
         this.model = model;
         view.setPresenter(this);
@@ -21,7 +23,7 @@ public class PlayerManagerPresenter implements IPlayerManagerPresenter {
 
     @Override
     public void shufflePlayer() {
-
+        playerManager.shufflePlayerOrder();
     }
     public void updatePlayerLabel(String username){
         view.updateHistoryView(username);
