@@ -40,6 +40,7 @@
     * [Interfaces](#interfaces)
         + [IPlayerManager](#iplayermanager)
         + [IHistoryNanager](#ihistorymanager)
+        + [ILoginManager](#iloginmanager)
         + [IModel](#imodel)
     * [Records](#records)
         + [Weight](#weight)
@@ -256,6 +257,25 @@ Prüft erst, ob der Name in der .txt Datei existiert.
 
 ### Presenter
 
+Die Presenter kümmern sich um die Logik und updaten die Views
+Jeder Presenter bekommt eine View und ein Model als Paramater
+- DicePresenter
+   - hat Dice als Model
+- FieldPresenter
+   - hat Dice als Model
+- GamehistoryPresenter
+   - hat HistoryManager als Model
+- HighscorePresenter
+   - hat HighScoreList als Model
+- LoginPresenter
+   - hat PlayerManager als Model
+- PlayerHandPresenter
+- PlayerManagerPresenter
+- RegisterPresenter
+   - hat Gamestate als Model
+- StartPresenter
+   - hat GameState als Model
+
 ### Views
 
 Oberklasse für alle Views der GUI. Views sind die Fenster, die angezeigt werden
@@ -291,6 +311,30 @@ Durch das Nutzen dieser Klasse werden die Ecken von Textfeldern in der GUI gerun
 ### SwingColors
 
 In dieser Klassen werden verschiedene Farben für die Gui in Variablen gespeichert
+
+## Interfaces
+
+### IPlayerManager
+
+PlayerManager implementiert IPlayerManager
+Hier sind die Methoden für die Queue und ob der Spieler schon existiert deklariert
+
+### IHistoryManager
+
+DatabaseHistoryManager und FileHistoryManager implementieren IHistoryManager
+Hier sind die Methoden für das Speichern und Lesen der Spielhistorie deklariert.
+
+### ILoginManager
+
+DatabaseLoginManager und FileLoginManager implementieren ILoginManager
+Hier sind die Methoden für das Checken der User-Daten, das Registrieren eines neuen Users,
+die Ausgabe des Logins und die Ausgabe der Registrierung deklariert
+
+### IModel
+
+Alle Model des MVP-Patterns implementieren IModel
+
+---
 
 ## Records
 
