@@ -32,9 +32,13 @@ public class GamehistoryPresenter implements IGamehistoryPresenter {
 
                 ArrayList<PlayerHistory> histories = new ArrayList<>(MainView.gameState.getHistoryManager().getHistory(player));
 
-                histories.sort((o1, o2) -> o2.cardSum() - o1.cardSum());
+                if (histories.size() == 0) {
+                    view.updateHistory("");
+                } else {
+                    histories.sort((o1, o2) -> o2.cardSum() - o1.cardSum());
 
-                view.updateHistory(histories.toString());
+                    view.updateHistory(histories.toString());
+                }
             }
         }
     }
@@ -45,8 +49,12 @@ public class GamehistoryPresenter implements IGamehistoryPresenter {
             if (player.getName().equals(username)) {
 
                 ArrayList<PlayerHistory> histories = new ArrayList<>(MainView.gameState.getHistoryManager().getHistory(player));
+                if (histories.size() == 0) {
+                    view.updateHistory("");
+                } else {
+                    view.updateHistory(histories.toString());
+                }
 
-                view.updateHistory(histories.toString());
             }
         }
     }
