@@ -59,6 +59,12 @@
     * [Abgabe 2](#abgabe-2)
         + [Added](#added-1)
         + [Changed](#changed)
+    * [Abgabe 3](#abgabe-3)
+        + [Added](#added-2)
+        + [Changed](#changed-1)
+    * [Abgabe 4](#abgabe-4)
+        + [Added](#added-3)
+        + [Changed](#changed-2)
 # Codebase
 
 ## UML-Diagramm
@@ -382,21 +388,21 @@ Datentyp für die Schwierigkeitsstufen der Spieler KI
 - Spiel wird gespeichert
 - Datenbank und .txt support
 - Match-history gespeichert
-- Spielzuege gespeicher
+- Spielzuege gespeichert
 - Replay des letzten Spiels
 - Nochmal spielen
+- Gui
 
 # Roadmap
 
-- [x]  Spiel speichern
-- [x]  Registrieren in .txt
-- [x]  Login per .txt
-- [x]  Registrieren in DB
-- [x]  Login per DB
-- [x]  Spielverlauf speichern
-- [x]  Spielverlauf anzeigen
-- [x]  Spielzuege loggen
-- [x]  Replay-Funktion
+- [x]  Gui Startscreen
+- [x]  Gui Login und Registrierung
+- [x]  Gui Highscores
+- [x]  Gui Playermanager
+- [x]  Gui Spielhistorie
+- [x]  Gui Kartenfeld
+- [x]  Gui Würfel
+- [ ]  Gui Spielelogik
 
 
 # Changelog
@@ -458,3 +464,12 @@ Alle nennenswerten Änderungen an diesem Projekt werden hier dokumentiert.
 - Replay 
 - DB und txt reg und login
 - DB und txt spielverlauf
+
+
+## Abgabe 4
+
+### Added
+Gui User-Funktionen wie z.B. einloggen, registrieren usw.
+
+### Changed
+Refactoring von Großteil des Codes
