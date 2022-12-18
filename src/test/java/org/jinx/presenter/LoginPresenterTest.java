@@ -20,6 +20,9 @@ public class LoginPresenterTest {
     LoginView loginView;
     LoginPresenter loginPresenter;
 
+    /**
+     * sets up necessary variables
+     */
     @BeforeAll
     static void regUser(){
         playerName = "Jan";
@@ -32,6 +35,9 @@ public class LoginPresenterTest {
         playerManager = PlayerManager.getPlayerManagerInstance();
     }
 
+    /**
+     * sets up necessary classes and clears all players
+     */
     @BeforeEach
     void setup() {
         loginView = new LoginView();
@@ -39,36 +45,54 @@ public class LoginPresenterTest {
         playerManager.getPlayers().clear();
     }
 
+    /**
+     * test label if login is successful
+     */
     @Test
     void testStatusLabelSuccess() {
         loginPresenter.login(playerName, password, null);
         assertEquals("Sie haben sich erfolgreich eingeloggt.", loginView.getStatus().getText());
     }
 
+    /**
+     * tests label if name is non existent
+     */
     @Test
     void testStatusLabelErrorName() {
         loginPresenter.login(playerName + "fndj", password, null);
         assertEquals("Fehler bei der Anmeldung", loginView.getStatus().getText());
     }
 
+    /**
+     * tests label if password is wrong
+     */
     @Test
     void testStatusLabelErrorPassword() {
         loginPresenter.login(playerName, password + "fbnkd", null);
         assertEquals("Fehler bei der Anmeldung", loginView.getStatus().getText());
     }
 
+    /**
+     * tests label if name is empty
+     */
     @Test
     void testStatusLabelErrorEmptyTextFieldName() {
         loginPresenter.login("", password, null);
         assertEquals("Bitte geben sie ihre Spielerdaten an um sich anzumelden!", loginView.getStatus().getText());
     }
 
+    /**
+     * tests label if password is empty
+     */
     @Test
     void testStatusLabelErrorEmptyTextFieldPassword() {
         loginPresenter.login(playerName, "", null);
         assertEquals("Bitte geben sie ihre Spielerdaten an um sich anzumelden!", loginView.getStatus().getText());
     }
 
+    /**
+     * tests label if name and password are empty
+     */
     @Test
     void testStatusLabelErrorEmptyTextFieldNameAndPassword() {
         loginPresenter.login("", "", null);

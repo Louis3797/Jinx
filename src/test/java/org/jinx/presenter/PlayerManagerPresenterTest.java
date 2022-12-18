@@ -9,6 +9,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class PlayerManagerPresenterTest {
 
+    //sets up necessary variables and classes
     String username1 = "Jan";
     String username2 = "Kerim";
     String username3 = "Louis";
@@ -21,12 +22,19 @@ public class PlayerManagerPresenterTest {
     LoginView loginView = new LoginView();
     LoginPresenter loginPresenter = new LoginPresenter(loginView, playerManager);
 
+    /**
+     * clears all players before every test
+     */
     @BeforeEach
     void clearPlayers(){
         playerManager.getPlayers().clear();
     }
 
 
+    /**
+     * tests the first label if login
+     * is successful
+     */
     @Test
     void testUpdatePlayerLabelOne() {
         loginView.setUsernameField(username1);
@@ -35,6 +43,11 @@ public class PlayerManagerPresenterTest {
         assertEquals(username1, loginView.getPlayerManagerView().getLabels()[0].getText());
     }
 
+
+    /**
+     * tests the second label if login
+     * is successful
+     */
     @Test
     void testUpdatePlayerLabelTwo() {
         loginView.setUsernameField(username1);
@@ -46,6 +59,11 @@ public class PlayerManagerPresenterTest {
         assertEquals(username2, loginView.getPlayerManagerView().getLabels()[1].getText());
     }
 
+
+    /**
+     * tests the third label if login
+     * is successful
+     */
     @Test
     void testUpdatePlayerLabelThree() {
         loginView.setUsernameField(username1);
@@ -60,6 +78,11 @@ public class PlayerManagerPresenterTest {
         assertEquals(username3, loginView.getPlayerManagerView().getLabels()[2].getText());
     }
 
+
+    /**
+     * tests the fourth label if login
+     * is successful
+     */
     @Test
     void testUpdatePlayerLabelFour() {
         loginView.setUsernameField(username1);
@@ -77,6 +100,10 @@ public class PlayerManagerPresenterTest {
         assertEquals(username4, loginView.getPlayerManagerView().getLabels()[3].getText());
     }
 
+    /**
+     * tests label if login is
+     * unsuccessful
+     */
     @Test
     void testUpdatePlayerLabelOneFailedLogin() {
         loginView.setUsernameField(username1);

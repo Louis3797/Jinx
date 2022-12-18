@@ -13,6 +13,9 @@ public class DicePresenterTest {
     DiceView diceView;
     DicePresenter dicePresenter;
 
+    /**
+     * sets up necessary classes
+     */
     @BeforeEach
     void setup(){
         dice = new Dice();
@@ -20,11 +23,17 @@ public class DicePresenterTest {
         dicePresenter = new DicePresenter(diceView,dice);
     }
 
+    /**
+     * tests the set dicePosition of not updated dice
+     */
     @Test
     void testNotUpdatedDice(){
         assertEquals(0,diceView.getCurrentDicePosition());
     }
 
+    /**
+     * tests if dicePosition >= 1 & <= 6 of updated dice
+     */
     @Test
     void testUpdatedDice(){
         boolean updatedDice = false;

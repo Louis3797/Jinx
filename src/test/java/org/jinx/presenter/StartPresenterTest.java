@@ -14,6 +14,9 @@ public class StartPresenterTest {
     StartPresenter startPresenter;
 
 
+    /**
+     * sets up necessary classes
+     */
     @BeforeEach
     void setup(){
         gameState = new GameState();
@@ -22,6 +25,9 @@ public class StartPresenterTest {
     }
 
 
+    /**
+     * tests if loginManager and historyManager is set to DB
+     */
     @Test
     void testDbManager(){
         startPresenter.setDBAsDataStorage();
@@ -29,6 +35,9 @@ public class StartPresenterTest {
         assertEquals("DatabaseHistoryManager", gameState.getHistoryManager().getClass().getSimpleName());
     }
 
+    /**
+     * tests if loginManager and historyManager is set to File
+     */
     @Test
     void testFileManager(){
         startPresenter.setTextFileAsDataStorage();

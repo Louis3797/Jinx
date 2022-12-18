@@ -17,6 +17,9 @@ public class HighscorePresenterTest {
     HighscoreView highscoreView;
     HighscorePresenter highscorePresenter;
 
+    /**
+     * sets up necessary classes
+     */
     @BeforeEach
     void setup() {
         highScoreList = new HighScoreList();
@@ -24,6 +27,11 @@ public class HighscorePresenterTest {
         highscorePresenter = new HighscorePresenter(highscoreView, highScoreList);
     }
 
+    /**
+     * tests the textpane of highscoreView
+     * if .txt != null then test if textpane != null
+     * @throws IOException fileException
+     */
     @Test
     void testReadHighscore() throws IOException {
         BufferedReader reader = new BufferedReader(new FileReader("Highscore.txt"));
