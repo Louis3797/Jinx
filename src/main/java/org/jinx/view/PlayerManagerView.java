@@ -221,4 +221,12 @@ public class PlayerManagerView extends JPanel implements IPlayerManagerView {
     public JLabel[] getLabels() {
         return labels;
     }
+
+    public GamehistoryView getGamehistoryView() {
+        return gamehistoryView;
+    }
+
+    public GamehistoryPresenter getGamehistoryPresenter() {
+        return gamehistoryPresenter;
+    }
 }
