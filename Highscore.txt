@@ -1,4 +1,7 @@
+0,n
 0,Jan
-3,Kerim
-7,Kerim
-42,Jan
+1,Freddy
+3,a
+7,Freddy
+10,Kerim
+16,Jan
