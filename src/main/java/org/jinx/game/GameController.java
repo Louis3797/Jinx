@@ -127,14 +127,13 @@ public class GameController implements Serializable {
         Game game = new Game();
 
         data = (GameState) ResourceManager.load("gamestate.save");
-        System.out.println(data.toString());
+
         // if savestate exists
         System.out.println(data != null ? "Alten Spielstand laden?" : "");
         IHistoryManager historyManager;
         if ((data != null) && scanner.nextYesNoAnswer()) {
 
             // loads saved state
-
 
             game.loadSaveState();
             game.loadState = true;
