@@ -433,9 +433,9 @@ public class Game implements Serializable {
             }
         }
 
-        if (diceStack.size() > 1) {
-            useUndo(diceStack);
-        }
+//        if (diceStack.size() > 1) {
+//            useUndo(diceStack);
+//        }
 
 
         if (pc.getCurrentPlayer().getLuckyCardHand().has(LuckyCardNames.LCPlus1)) {
@@ -453,10 +453,10 @@ public class Game implements Serializable {
                 if (!currentPlayer.isHuman()) System.out.println("no");
             }
         }
-
-        if (diceStack.size() > 1) {
-            useUndo(diceStack);
-        }
+//
+//        if (diceStack.size() > 1) {
+//            useUndo(diceStack);
+//        }
 
         if (pc.getCurrentPlayer().getLuckyCardHand().has(LuckyCardNames.LCMinus1)) {
             System.out.println("Glückskarte Minus 1 benutzen?");
@@ -497,18 +497,20 @@ public class Game implements Serializable {
                 diceStack.pop();
                 System.out.println("Ihr Würfelergebnis ist nun " + diceStack.peek());
                 logger.info(pc.getCurrentPlayer().getName() + " hat altes Wuerfelergebnis: " + diceStack.peek() + "\n");
-                System.out.println("Nochmal undo nutzen ?");
-                if (!(pc.getCurrentPlayer().isHuman() && safeScanner.nextYesNoAnswer()) || !(!pc.getCurrentPlayer().isHuman() && ((AutonomousPlayer) pc.getCurrentPlayer()).considerUseOfUndo(diceStack))) {
+                if(diceStack.size()>1){
+                    System.out.println("Nochmal undo nutzen ?");
+                    if (!(pc.getCurrentPlayer().isHuman() && safeScanner.nextYesNoAnswer()) || (!pc.getCurrentPlayer().isHuman() && ((AutonomousPlayer) pc.getCurrentPlayer()).considerUseOfUndo(diceStack))) {
+                        // These two lines are only here for cosmetic reasons
+                        // to bring the human player a better game experience
+                        // by pretending that the bot can also write to the console.
+                        if (!pc.getCurrentPlayer().isHuman()) System.out.println("no");
+                        break;
+                    }
                     // These two lines are only here for cosmetic reasons
                     // to bring the human player a better game experience
                     // by pretending that the bot can also write to the console.
-                    if (!pc.getCurrentPlayer().isHuman()) System.out.println("no");
-                    break;
+                    if (!pc.getCurrentPlayer().isHuman()) System.out.println("yes");
                 }
-                // These two lines are only here for cosmetic reasons
-                // to bring the human player a better game experience
-                // by pretending that the bot can also write to the console.
-                if (!pc.getCurrentPlayer().isHuman()) System.out.println("yes");
             }
         } else {
             // These two lines are only here for cosmetic reasons
