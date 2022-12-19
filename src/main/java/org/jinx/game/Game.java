@@ -129,7 +129,6 @@ public class Game implements Serializable {
         } else {
             field.setField(numberCardsDeck);
 
-
             data.field = field;
             ResourceManager.save(data, "gamestate.save");
 
