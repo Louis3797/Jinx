@@ -3,9 +3,10 @@ package org.jinx.history;
 import org.jinx.model.IModel;
 import org.jinx.player.Player;
 
+import java.io.Serializable;
 import java.util.List;
 
-public interface IHistoryManager extends IModel {
+public interface IHistoryManager extends IModel, Serializable {
 
     /**
      * Safes player match History in data store

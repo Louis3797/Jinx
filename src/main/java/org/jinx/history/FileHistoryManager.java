@@ -16,8 +16,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
 
-public class FileHistoryManager implements IHistoryManager {
+public class FileHistoryManager implements Serializable, IHistoryManager {
 
+    public static final long serialVersionUID = 42L;
     private static final Logger logger = Logger.getLogger(FileHistoryManager.class.getName());
     private final PlayerManager playerManager = PlayerManager.getPlayerManagerInstance();
 
