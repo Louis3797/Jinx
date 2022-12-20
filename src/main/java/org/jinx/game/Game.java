@@ -916,7 +916,7 @@ public class Game implements Serializable {
         //remove the highest from current player that ended turn
         logger.info(pc.getCurrentPlayer().getName() + " hat: " + pc.getCurrentPlayer().getNumberCardHand().get(index).getName() + " " +
                 pc.getCurrentPlayer().getNumberCardHand().get(index).getColor() + " weggeworfen\n");
-        pc.getCurrentPlayer().getNumberCardHand().remove(index);
+        pc.getCurrentPlayer().getNumberCardHand().remove(highest.get(index));
 
         System.out.println("NACH WEGWURF ----------------");
         pc.printPlayerHands();
